@@ -5,7 +5,8 @@ This repository was created with the intent of presenting users with the interna
 
 This project is in GML and *should* work on all available exports.
 
-*NOTE: As of this moment the test framework is being fully integrated on our pipeline and ran only on Windows for both VM and YYC.*
+> INFORMATION
+> As of this moment the test framework is being fully integrated on our pipeline and ran only on Windows for both VM and YYC.
 
 ---
 
