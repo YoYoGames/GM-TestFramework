@@ -6,7 +6,7 @@ This repository was created with the intent of presenting users with the interna
 This project is in GML and *should* work on all available exports.
 
 > **Note**
-> As of this moment the test framework is being fully integrated on our pipeline and ran only on Windows for both VM and YYC.
+> Running it from the command line, using `frameworkLauncher.py`, will only work for Enterprise users and will require extra configuration (see below)
 
 ---
 
@@ -89,9 +89,7 @@ function MyTestSuite() : TestSuite() constructor {
 
 ### Asynchronous Tests
 
-Asynchronous tests offer better control over the test's lifespan and are executed with the help of a mediator objTestAsync object (or an object inheriting from it).
-
-Mediator TestAsync objects act as glue between the test and the object events and should inherit objTestAsync. The default objTestAsync object handles the following events:
+Asynchronous tests offer better control over the test's lifespan and are executed with the help of a mediator objTestAsync object (or an object inheriting from it). These mediator objects act as glue between the test and the object events and should inherit `objTestAsync`. The default `objTestAsync` object handles the following events:
 
 - ev_create
 - ev_step
@@ -137,5 +135,10 @@ function MyTestSuite() : TestSuite() constructor {
 
 ## Contributions
 
-To contribute to the project, please follow the standard Git workflow: fork the repository, make your changes, and submit a pull request. Be sure to test your changes thoroughly and provide clear documentation or comments as necessary. We welcome any improvements or additions that make the framework more powerful and versatile for users.
+We welcome and appreciate contributions to the project, which can be made in two key areas:
 
+* **Framework Modules**: You can contribute by improving or adding to the framework modules themselves, making them more powerful, versatile, and user-friendly.
+
+* **Unit Tests**: Enhance the existing collection of unit tests by contributing new tests that cover different aspects of the GameMaker engine and ensure the reliability of the framework.
+
+To contribute, please follow the standard Git workflow: fork the repository, make your changes, and submit a pull request. Be sure to test your changes thoroughly and provide clear documentation or comments as necessary. Your contributions will help make the framework more robust and valuable for the GameMaker community.
