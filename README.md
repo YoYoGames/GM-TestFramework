@@ -25,7 +25,7 @@ To utilize the project within the IDE, simply select the desired platform and pr
 
 To run the launcher from the command line, you need to have Python and Node.js installed. Then, follow these steps:
 
-1. Set an environment variable named GM_API_KEY with the value set to your API key.
+1. Set an environment variable named `GM_ACCESS_KEY` with the value set to your [Access Key](https://gamemaker.io/account/access_keys).
 2. Run the setup.bat script, which will install all Python and Node.js dependencies.
 3. Run `python frameworkLauncher.py` script with the following arguments:
     * `-p` followed by a space separated list of platforms to run tests on \[allows: windows mac linux android ios tvos html5\]
