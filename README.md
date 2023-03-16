@@ -19,6 +19,7 @@ To create your own TestSuite using the framework, follow these steps:
 function MyTestSuite() : TestSuite() constructor {
 }
 ```
+</br>
 
 2. After creating the TestSuite, you need to register it. Inside the **Create Event** of `objRunner`, add your TestSuite:
 
@@ -36,6 +37,7 @@ testFramework.addSuite(MyTestSuite); // This is our test suite.
 
 // ###########################################################
 ```
+</br>
 
 3. With the TestSuite registered, you can now start creating unit tests.
 
