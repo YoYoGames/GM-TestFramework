@@ -15,14 +15,14 @@ To create your own TestSuite using the framework, follow these steps:
 
 1. Create a new constructor function that inherits TestSuite, as shown in the example below:
 
-```gml
+```js
 function MyTestSuite() : TestSuite() constructor {
 }
 ```
 
 2. After creating the TestSuite, you need to register it. Inside the **Create Event** of `objRunner`, add your TestSuite:
 
-```gml
+```js
 // ################# TEST SUITE REGISTRATION #################
 
 // Register test suites here...
@@ -48,7 +48,7 @@ Synchronous tests are simple tests that can exist in two forms:
 
 Here's an example of how to create Facts and Theories using the TestFramework in GameMaker:
 
-```gml
+```js
 
 function MyTestSuite() : TestSuite() constructor {
 
@@ -100,7 +100,7 @@ Asynchronous tests offer better control over the test's lifespan and are execute
 
 Below is an example of how to create a TestAsync using the TestFramework in GameMaker:
 
-```gml
+```js
 
 function MyTestSuite() : TestSuite() constructor {
 
