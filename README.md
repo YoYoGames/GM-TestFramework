@@ -47,8 +47,8 @@ testFramework.addSuite(MyTestSuite); // This is our test suite.
 
 Synchronous tests are simple tests that can exist in two forms:
 
-* Facts: These are regular synchronous tests executed with a single function call.
-* Theories: These are data-driven synchronous tests expanded into multiple Facts at runtime.
+* **Facts**: These are regular synchronous tests executed with a single function call.
+* **Theories**: These are data-driven synchronous tests expanded into multiple Facts at runtime.
 
 Here's an example of how to create Facts and Theories using the TestFramework in GameMaker:
 
