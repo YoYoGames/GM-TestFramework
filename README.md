@@ -5,7 +5,7 @@ This repository was created with the intent of presenting users with the interna
 
 This project is in GML and *should* work on all available exports.
 
-> INFORMATION
+> **Note**
 > As of this moment the test framework is being fully integrated on our pipeline and ran only on Windows for both VM and YYC.
 
 ---
@@ -97,7 +97,8 @@ Mediator TestAsync objects act as glue between the test and the object events an
 - ev_step
 - ev_cleanup
 
-NOTE: _If you require more events, create your own `objTestAsync<SubName>` object with the respective handlers (refer to existing `objTestAsyncSaveLoad` and `objTestAsyncNetworking`, stored inside `Modules/TestModule/Objects`)._
+> **Note**
+> If you require more events, create your own `objTestAsync<SubName>` object with the respective handlers (refer to existing `objTestAsyncSaveLoad` and `objTestAsyncNetworking`, stored inside `Modules/TestModule/Objects`).
 
 Below is an example of how to create a TestAsync using the TestFramework in GameMaker:
 
