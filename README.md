@@ -3,12 +3,32 @@ Repository for GameMaker's Test Framework
 
 This repository was created with the intent of presenting users with the internal test framework and also provide a way for the community to contribute with their own unit tests for detecting bugs.
 
+</br>
+
+## Usage
+
 This project is in GML and *should* work on all available exports.
 
-> **Note**
-> Running it from the command line, using `frameworkLauncher.py`, will only work for Enterprise users and will require extra configuration (see below)
+### From the IDE
+
+To utilize the project within the IDE, simply select the desired platform and press the 'Run' button.
 
 </br>
+
+> **Note**
+> When running the project from the IDE, there are limitations on tests that require external servers to function. These servers are initilaized and managed by the command line launcher, and you'll need to initialize them manually when running the project within the IDE.
+
+</br>
+
+### From the Command Line
+
+</br>
+
+> **Important**
+> Command line execution is available exclusively for Enterprise users and requires additional configuration.
+
+</br>
+
 
 ## Adding TestsSuites and Tests
 To create your own TestSuite using the framework, follow these steps:
@@ -101,8 +121,12 @@ Asynchronous tests offer better control over the test's lifespan and are execute
 - ev_step
 - ev_cleanup
 
+</br>
+
 > **Note**
 > If you require more events, create your own `objTestAsync<SubName>` object with the respective handlers (refer to existing `objTestAsyncSaveLoad` and `objTestAsyncNetworking`, stored inside `Modules/TestModule/Objects`).
+
+</br>
 
 Below is an example of how to create a TestAsync using the TestFramework in GameMaker:
 
