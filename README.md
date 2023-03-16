@@ -112,7 +112,7 @@ function MyTestSuite() : TestSuite() constructor {
 
   // ...
   
-  // This defines an asynchronous unit test (the test will end as soon as function ends)
+  // This defines an asynchronous unit test (the test will only end when 'test_end()' is explicitly called)
   // NOTES:
   //    * Async tests need to be ended manually by calling the test_end([_forcedResult]) function
   //    * The test result is automatically determined by the existance of failed assertions
