@@ -39,6 +39,8 @@ testFramework.addSuite(MyTestSuite); // This is our test suite.
 
 3. With the TestSuite registered, you can now start creating unit tests.
 
+</br>
+
 ### Synchronous Tests
 
 Synchronous tests are simple tests that can exist in two forms:
@@ -86,6 +88,8 @@ function MyTestSuite() : TestSuite() constructor {
 }
 
 ```
+
+</br>
 
 ### Asynchronous Tests
 
