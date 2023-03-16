@@ -8,9 +8,9 @@ This project is in GML and *should* work on all available exports.
 > **Note**
 > Running it from the command line, using `frameworkLauncher.py`, will only work for Enterprise users and will require extra configuration (see below)
 
----
+</br>
 
-## Usage
+## Adding TestsSuites and Tests
 To create your own TestSuite using the framework, follow these steps:
 
 1. Create a new constructor function that inherits TestSuite, as shown in the example below:
