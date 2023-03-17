@@ -29,7 +29,7 @@ To run the launcher from the command line, you need to have Python and Node.js i
 2. Run `python framework_launcher.py` script with the following arguments:
     * `-k` followed by GameMaker's [Access Key](https://gamemaker.io/account/access_keys) (Enterprise Tier required)
     * `-u` followed by the path to your GameMaker's user folder (ensure you have all platform specific properties setup)
-    * `-p` followed by a space separated list of platforms to run tests on \[allows: windows mac linux android ios tvos html5\]
+    * `-p` followed by a space separated list of platforms \[allows: windows mac linux android ios tvos html5\]
     * `-r` followed by a space separated list of runners \[allows: vm yyc\]
     * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
     * `-v` followed by the version of the runtime to be tested (defaults to latest)
