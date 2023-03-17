@@ -27,7 +27,7 @@ To run the launcher from the command line, you need to have Python and Node.js i
 
 1. Run the `setup.bat` script, which will install all Python and Node.js dependencies.
 2. Run `python framework_launcher.py` script with the following arguments:
-    * `-k` followed by GameMaker's [Access Key](https://gamemaker.io/account/access_keys) (Enterprise account required)
+    * `-k` followed by GameMaker's [Access Key](https://gamemaker.io/account/access_keys) (Enterprise license required)
     * `-u` followed by the path to your GameMaker's user folder (ensure platform specific properties are properly set up)
     * `-p` followed by a space separated list of platforms \[allows: windows mac linux android ios tvos html5\]
     * `-r` followed by a space separated list of runners \[allows: vm yyc\]
