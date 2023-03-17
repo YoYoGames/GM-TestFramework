@@ -33,7 +33,7 @@ To run the launcher from the command line, you need to have Python and Node.js i
     * `-r` followed by a space separated list of runners \[allows: vm yyc\]
     * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
     * `-v` followed by the version of the runtime to be tested (defaults to latest)
-    * `-h5r` followed by the path to the HTML5 scripts folder (to test a runner other than the builtin runtime one)
+    * `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
 
 </br>
 
