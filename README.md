@@ -21,7 +21,7 @@ To utilize the project within the IDE, simply select the desired platform and pr
 ### From the Command Line
 
 > **Warning**
-> The command line framework launcher tool is only compatible with Windows OS and is available exclusively for Enterprise users. You'll need to obtain an access key from the [following link](https://gamemaker.io/account/access_keys).
+> The command line framework launcher tool is only compatible with Windows OS and is available exclusively for Enterprise users. You'll need to obtain an **Access Key** from the [following link](https://gamemaker.io/account/access_keys).
 
 To run the launcher from the command line, you need to have Python and Node.js installed. Then, follow these steps:
 
