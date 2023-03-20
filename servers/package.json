@@ -1,0 +1,23 @@
+{
+  "name": "servers",
+  "version": "1.0.0",
+  "description": "An HTTP and WS server that will be used for data colletion and Unit Testing GameMaker",
+  "main": "servers.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GameMaker",
+  "license": "ISC",
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "ip": "^1.1.8",
+    "path": "^0.12.7",
+    "query-string": "^8.1.0",
+    "ws": "^8.12.0"
+  }
+}
