@@ -27,13 +27,14 @@ To run the launcher from the command line, you need to have Python and Node.js i
 
 1. Run the `setup.bat` script, which will install all Python and Node.js dependencies.
 2. Run `python framework_launcher.py` script with the following arguments:
-    * `-k` followed by your **Access Key**
-    * `-u` followed by the path to your GameMaker's user folder (this will use both `devices.json` and `local_settings.json`)
-    * `-p` followed by a space separated list of platforms \[allows: windows mac linux android ios tvos html5\]
-    * `-r` followed by a space separated list of runners \[allows: vm yyc\]
-    * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
-    * `-v` followed by the version of the runtime to be tested (defaults to latest)
-    * `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
+   * `-cf` followed by the path to the configuration file (example file provided in the repository root)
+   * `-ak` followed by your **Access Key**
+   * `-uf` followed by the path to your GameMaker's user folder (this will use both `devices.json` and `local_settings.json`)
+   * `-p` followed by a space separated list of platforms \[allows: windows mac linux android ios tvos html5\]
+   * `-r` followed by a space separated list of runners \[allows: vm yyc\]
+   * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
+   * `-rv` followed by the version of the runtime to be tested (defaults to latest)
+   * `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
 
 </br>
 
@@ -85,37 +86,37 @@ Here's an example of how to create Facts and Theories using the TestFramework in
 
 function MyTestSuite() : TestSuite() constructor {
 
-  // Notes:
-  //    * The test result is automatically determined by the existence of failed assertions
-  //    * A test can be forcibly ended using the test_end([_forcedResult]) function
-  //    * When force ending a test, you can pass it a custom TestResult value (which will overwrite the automatic value)
+   // Notes:
+   //    * The test result is automatically determined by the existence of failed assertions
+   //    * A test can be forcibly ended using the test_end([_forcedResult]) function
+   //    * When force ending a test, you can pass it a custom TestResult value (which will overwrite the automatic value)
 
-  // This defines a synchronous unit test (the test will end as soon as the function ends)
-  // Synchronous tests in the TestFramework are called 'Facts'
-  addFact("a fact test description (unique name is recommended)", function() {
+   // This defines a synchronous unit test (the test will end as soon as the function ends)
+   // Synchronous tests in the TestFramework are called 'Facts'
+   addFact("a fact test description (unique name is recommended)", function() {
 
-    // This is your test code!
-    assert_equals(5, 5, "Two equal number literals should be equal!") // This assert will pass
+      // This is your test code!
+      assert_equals(5, 5, "Two equal number literals should be equal!") // This assert will pass
 
-  });
-  
-  // This defines a synchronous data-driven unit test (the test will end as soon as the function ends)
-  // Data-driven synchronous tests in the TestFramework are called 'Theories'
-  // Theories allow for creating manageable multiple input tests
-  addTheory("a theory test description (unique name is recommended)", 
-    [
+   });
+
+   // This defines a synchronous data-driven unit test (the test will end as soon as the function ends)
+   // Data-driven synchronous tests in the TestFramework are called 'Theories'
+   // Theories allow for creating manageable multiple input tests
+   addTheory("a theory test description (unique name is recommended)", 
+   [
       [ 1, 1, 2 ], // These will be the values of the first input
       [ 2, 2, 4 ], // These will be the values of the second input
       [ 3, 3, 6 ], // These will be the values of the third input
       [ 4, 4, 8 ], // There will be the values of the fourth input
-    ],
-    function(_arg1, _arg2, _result) {
+   ],
+   function(_arg1, _arg2, _result) {
 
       // This is your test code!
       assert_equals(_arg1 + _arg2, _result, "The sum failed") // This assert will pass for all inputs
 
       // NOTE: For each failed assert in a 'Theory', the input parameters will be included as part of the failed assertion data.
-  });
+   });
 }
 
 ```
@@ -143,30 +144,30 @@ Below is an example of how to create a TestAsync using the TestFramework in Game
 
 function MyTestSuite() : TestSuite() constructor {
 
-  // ...
+   // ...
   
-  // This defines an asynchronous unit test (the test will only end when 'test_end()' is explicitly called)
-  // NOTES:
-  //    * Async tests need to be ended manually by calling the test_end([_forcedResult]) function
-  //    * The test result is automatically determined by the existance of failed assertions
-  //    * When ending a test you can pass it a custom TestResult value (will overwrite the automatic value)
-  //    * The test 'addTestAsync' function requires a mediator object (ex.: objTestAsync)
-  //    * The test 'addTestAsync' function requires a struct of event-function pairs.
-  addTestAsync("an async test description (unique name is recommended)", objTestAsync, {
-  
-    ev_create: function() {
-      oldRoom = room;
-      room_goto(rm_test1);
-    },
+   // This defines an asynchronous unit test (the test will only end when 'test_end()' is explicitly called)
+   // NOTES:
+   //    * Async tests need to be ended manually by calling the test_end([_forcedResult]) function
+   //    * The test result is automatically determined by the existance of failed assertions
+   //    * When ending a test you can pass it a custom TestResult value (will overwrite the automatic value)
+   //    * The test 'addTestAsync' function requires a mediator object (ex.: objTestAsync)
+   //    * The test 'addTestAsync' function requires a struct of event-function pairs.
+   addTestAsync("an async test description (unique name is recommended)", objTestAsync, {
 
-    ev_step: function() {
-      assert_equals(room, rm_test1, "The room should have changed");
-      test_end(); // This will end the test, destroy the test instance and automatically call 'ev_cleanup' function.
-    },
-    
-    ev_cleanup: function() {
-      room_goto(oldRoom);
-    }
+      ev_create: function() {
+         oldRoom = room;
+         room_goto(rm_test1);
+      },
+
+      ev_step: function() {
+         assert_equals(room, rm_test1, "The room should have changed");
+         test_end(); // This will end the test, destroy the test instance and automatically call 'ev_cleanup' function.
+      },
+
+      ev_cleanup: function() {
+         room_goto(oldRoom);
+      }
   
   });
   
@@ -178,7 +179,50 @@ function MyTestSuite() : TestSuite() constructor {
 
 ## Test and TestSuite options
 
-TODO
+To apply specific options to a test, test suite, or the entire framework run, it is necessary to provide the relevant configuration during the creation of each entity.
+
+When configuring options for a test, the configuration should be provided during its creation. On the other hand, for test suites, the configuration must be provided within the constructor body of the given test suite.
+
+Examples of these configurations are shown below:
+
+```js
+
+function MyTestSuite() : TestSuite() constructor {
+
+   addFact("a fact test description (unique name is recommended)", function() {
+
+      // This is your test code!
+      assert_equals(5, 5, "Two equal number literals should be equal!") // This assert will pass
+
+   }, {
+
+      // NOTES:
+      //    * These options will be applied to the current test.
+      //    * These options will overwrite any of the defaults being applied.
+      //    * The 'test_filter' expects a predicate function that will filter execution (there are are already some 'platform_*' functions to help on that)
+      //    * The 'test_timeout_millis' is used mostly for async tests and will terminate the test after the given amount of time with an 'expired' result
+      test_filter: platform_desktop,
+      test_timeout_millis: 1000,
+   });
+
+
+   // NOTES
+   //    * These options will be applied to the current suite.
+   //    * These options will overwrite any of the defaults being applied.
+   //    * The 'suite_filter' expects a predicate function that will filter execution (there are are already some 'platform_*' functions to help on that)
+   //    * The 'suite_timeout_millis' will terminate the suite after the given amount of time with an 'expired' result
+   //    * The 'suite_bail_on_fail' will bail out of suite execution upon the first failed test
+   //    * The 'suite_delay_seconds' will allow for a time gap between tests inside the test suite.
+   config({
+      suite_filter: platform_desktop
+      suite_timeout_millis: 1000,
+      suite_bail_on_fail: true,
+      suite_delay_seconds: 0.100
+   })
+
+}
+
+```
 
 
 </br>
