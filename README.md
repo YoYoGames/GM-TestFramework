@@ -214,7 +214,7 @@ function MyTestSuite() : TestSuite() constructor {
    //    * The 'suite_bail_on_fail' will bail out of suite execution upon the first failed test
    //    * The 'suite_delay_seconds' will allow for a time gap between tests inside the test suite.
    config({
-      suite_filter: platform_desktop
+      suite_filter: platform_desktop,
       suite_timeout_millis: 1000,
       suite_bail_on_fail: true,
       suite_delay_seconds: 0.100
