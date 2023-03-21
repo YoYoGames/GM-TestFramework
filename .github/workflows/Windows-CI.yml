@@ -1,12 +1,12 @@
-name: CI
+name: Windows-CI
 
 on:
   pull_request:
     
 jobs:
  
-  CI:
-    name: "CI"
+  Windows-CI:
+    name: "Windows-CI"
     runs-on: Windows
     steps:
       - name: Check out the GM-TestFramework repo
