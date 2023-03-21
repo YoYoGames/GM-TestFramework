@@ -17,12 +17,18 @@ jobs:
         working-directory: GM-TF
         shell: cmd
       - run: python framework_launcher.py -cf ${{ secrets.WINDOWS_CONFIG_FOLDER }}
-        working-directory: GM-TF      
-      - uses: slackapi/slack-github-action@v1.23.0
-        id: slack
+        working-directory: GM-TF    
+      - name: Upload to slack step
+        uses: adrey/slack-file-upload-action@master
         with:
-         channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-         payload-file-path: ".\\GM-TF\\workspace\\summary.json"
-         slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"         
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}        
+          token: ${{ secrets.SLACK_TOKEN }}
+          path: ".\\GM-TF\\workspace\\summary.json"
+          channel: random          
+      # - uses: slackapi/slack-github-action@v1.23.0
+      #   id: slack
+      #   with:
+      #    channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+      #    payload-file-path: ".\\GM-TF\\workspace\\summary.json"
+      #    slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"         
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}        
