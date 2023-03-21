@@ -17,4 +17,4 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python3 framework_launcher.py -cf ${{ secrets.Android_Config_Folder }}
+      - run: python framework_launcher.py -cf ${{ secrets.Android_Config_Folder }}
