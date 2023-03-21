@@ -27,7 +27,28 @@ To run the launcher from the command line, you need to have Python and Node.js i
 
 1. Run the `setup.bat` script, which will install all Python and Node.js dependencies.
 2. Run `python framework_launcher.py` script with the following arguments:
-   * `-cf` followed by the path to the configuration file (example file provided in the repository root)
+   * `-cf` followed by the path to the configuration file. With the following format:
+
+```json
+{
+    "Launcher.accessKey": null,
+    "Launcher.userFolder": null,
+    "Launcher.runtimeVersion": null,
+
+    "Launcher.runners": [ "vm" ],
+    "Launcher.platforms": [ "windows" ],
+    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss",
+    "Launcher.project": "projects\\xUnit\\xUnit.yyp",
+
+    "Launcher.html5Runner": null,
+
+    "Logger.level": 10,
+    
+    "HttpPublisher.port": 8080,
+    "HttpPublisher.endpoint": "tests"
+}
+```
+
    * `-ak` followed by your **Access Key**
    * `-uf` followed by the path to your GameMaker's user folder (this will use both `devices.json` and `local_settings.json`)
    * `-p` followed by a space separated list of platforms \[allows: windows mac linux android ios tvos html5\]
