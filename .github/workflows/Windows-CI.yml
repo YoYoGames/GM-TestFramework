@@ -23,7 +23,7 @@ jobs:
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           path: ".\\GM-TF\\workspace\\summary.json"
-          channel: random          
+          channel: ${{ secrets.SLACK_CHANNEL_ID }}        
       # - uses: slackapi/slack-github-action@v1.23.0
       #   id: slack
       #   with:
