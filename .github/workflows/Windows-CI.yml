@@ -7,6 +7,7 @@ jobs:
  
   Windows-CI:
     name: "Windows-CI"
+    id: slack
     runs-on: Windows
     steps:
       - name: Check out the GM-TestFramework repo
@@ -16,5 +17,12 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python framework_launcher.py -uf "C:\GM-TestFramework\User_Folder\" -ak ${{ secrets.ACCESS_KEY }}
+      - run: python framework_launcher.py -cf ${{ secrets.WINDOWS_CONFIG_FOLDER }}
         working-directory: GM-TF      
+      - uses: slackapi/slack-github-action@v1.23.0
+        with:
+         channel-id: 'C0508TFEW4Q'
+         payload-file-path: ".\workspace\summary.json"
+         slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"         
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}        
