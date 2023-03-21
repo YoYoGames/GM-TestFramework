@@ -16,5 +16,5 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python framework_launcher.py -cf ${{ secrets.WINDOWS_CONFIG_FOLDER }}
+      - run: python framework_launcher.py -cf 'C:\GM-TestFramework\config_windows.json'
         working-directory: GM-TF      
