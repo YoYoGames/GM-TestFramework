@@ -62,7 +62,7 @@ META_PATH = os.path.join(WORKSPACE_DIR, '.meta')
 DEFAULT_CONFIG_PATH = os.path.join(DEFAULTS_DIR, 'config.json')
 
 LOG_PATH = os.path.join(WORKSPACE_DIR, 'test_0.log')
-SUMMARY_PATH = os.path.join(WORKSPACE_DIR, 'results.json')
+RESULTS_PATH = os.path.join(WORKSPACE_DIR, 'results.json')
 
 IGOR_PATH = os.path.join(IGOR_DIR, 'igor.exe')
 
@@ -248,7 +248,7 @@ def valid_version(version):
 def valid_path(path):    
     resolved_path = os.path.abspath(path)
     if not os.path.exists(resolved_path):
-        raise argparse.ArgumentTypeError('Invalid path provided. This path can be relative or absolute but must exist.')
+        raise argparse.ArgumentTypeError(f'Invalid path provided. This path can be relative or absolute but must exist: {resolved_path}')
     return resolved_path
 
 def array_contains_any(arr1, arr2):
@@ -521,6 +521,38 @@ def results_update(meta_path, log_path, summary_path):
     results['summary'] = sumary
     save_to_json_file(results, results_path)
 
+def results_create_summary(runtime_version, results_path):
+    # Initialize summary dictionary
+    summary = {'version': runtime_version, 'results': {}}
+
+    # Loop through all the files in the results directory
+    for filename in os.listdir(results_path):
+        # Check if the file has a .json extension
+        if filename.endswith('.json'):
+            # Load the JSON data from the file
+            json_data = load_json_file(os.path.join(results_path, filename))
+
+            # Extract the target name from the filename (without extension)
+            target_name = os.path.splitext(filename)[0]
+
+            # Determine the target status based on the tallies in the JSON data
+            tallies = json_data['data']['tallies']
+            if 'failed' in tallies or 'expired' in tallies:
+                status = 'FAILED'
+            else:
+                status = 'PASSED'
+
+            # Removed passed details
+            data = json_data['data']
+            data['details'].pop('passed', None)
+
+            # Update the summary dictionary with the target status and data
+            summary['results'][target_name] = {'status': status, 'data': data}
+
+    # Save the summary dictionary to a JSON file
+    summary_path = os.path.join(WORKSPACE_DIR, 'summary.json')
+    save_to_json_file(summary, summary_path)
+
 # Execution
 
 def main():
@@ -622,7 +654,7 @@ def main():
 
                 # For each test update results according to metadata
                 if check_file_exists(META_PATH):
-                    results_update(META_PATH, LOG_PATH, SUMMARY_PATH)
+                    results_update(META_PATH, LOG_PATH, RESULTS_PATH)
 
             # Run test on target (with sandbox ON)
             project_set_sandbox(project_folder, platform, True)
@@ -632,7 +664,7 @@ def main():
 
             # For each test update results according to metadata
             if check_file_exists(META_PATH):
-                results_update(META_PATH, LOG_PATH, SUMMARY_PATH)
+                results_update(META_PATH, LOG_PATH, RESULTS_PATH)
 
     # Test for HTML5 (slightly different, there is not VM/YYC)
     if "html5" in platforms:
@@ -644,7 +676,7 @@ def main():
         igor_run_tests(igor_path, user_folder, runtime_path, "HTML5|selenium:chrome")
 
         # For each test update results according to metadata
-        results_update(META_PATH, LOG_PATH, SUMMARY_PATH)
+        results_update(META_PATH, LOG_PATH, RESULTS_PATH)
 
     # Close Android emulator
     if "android" in platforms:
@@ -653,6 +685,10 @@ def main():
 
     # Stop the servers
     stop_servers(servers)
+
+    # Write summary file
+    results_path = os.path.join(WORKSPACE_DIR, 'results', 'tests', version)
+    results_create_summary(version, results_path)
 
     # Check if we should fail the job
     if (check_file_exists(FAIL_PATH)):
