@@ -17,3 +17,4 @@ jobs:
         working-directory: GM-TF
         shell: cmd
       - run: python framework_launcher.py -cf ${{ secrets.Windows_Config_Folder }}
+        working-directory: GM-TF      
