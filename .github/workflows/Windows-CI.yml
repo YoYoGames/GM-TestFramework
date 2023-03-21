@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request:
+    
+jobs:
+ 
+  CI:
+    name: "CI"
+    runs-on: Windows
+    steps:
+      - name: Check out the GM-TestFramework repo
+        uses: actions/checkout@v3
+        with:
+          path: GM-TF
+      - run: .\setup.bat
+        working-directory: GM-TF
+        shell: cmd
+      - run: python3 framework_launcher.py -cf ${{ secrets.Windows_Config_Folder }}
