@@ -7,7 +7,6 @@ jobs:
  
   Windows-CI:
     name: "Windows-CI"
-    id: slack
     runs-on: Windows
     steps:
       - name: Check out the GM-TestFramework repo
@@ -20,6 +19,7 @@ jobs:
       - run: python framework_launcher.py -cf ${{ secrets.WINDOWS_CONFIG_FOLDER }}
         working-directory: GM-TF      
       - uses: slackapi/slack-github-action@v1.23.0
+        id: slack
         with:
          channel-id: 'C0508TFEW4Q'
          payload-file-path: ".\\workspace\\summary.json"
