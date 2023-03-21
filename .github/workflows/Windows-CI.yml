@@ -22,7 +22,7 @@ jobs:
       - uses: slackapi/slack-github-action@v1.23.0
         with:
          channel-id: 'C0508TFEW4Q'
-         payload-file-path: ".\workspace\summary.json"
+         payload-file-path: ".\\workspace\\summary.json"
          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"         
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}        
