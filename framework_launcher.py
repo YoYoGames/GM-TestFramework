@@ -34,6 +34,9 @@ DEFAULT_CONFIG = {
     "$$parameters$$.isSandboxed": True
 }
 
+REDACTED_WORDS = ['-ak=', 'accessKey']
+REDACTED_MESSAGE = "<redacted to prevent expesure of private content>"
+
 FAIL_MESSAGE = '[ERROR] Not all unit tests succeeded.'
 
 ARGS_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'html5']
@@ -70,11 +73,33 @@ VERSION_REGEX = re.compile(r'Version (\d+\.\d+\.\d+\.\d+)')
 SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
 
 def configure_logging(level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S'):
+
     # Remove all handlers associated with the root logger object.
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
+
+    class MaskSensitiveInfoFilter(logging.Filter):
+        def filter(self, record):
+            # Check if the log record contains sensitive information
+            if any(key in record.getMessage() for key in REDACTED_WORDS):
+                # If it does, redact the password
+                record.msg = record.msg.replace(record.getMessage(), '<redacted>')
+            return True
+
+   # Create a console handler and add it to the root logger
+    console_handler = logging.StreamHandler()
+    logging.getLogger().addHandler(console_handler)
+
+    # Set the log level to DEBUG
+    logging.getLogger().setLevel(level)
+
     # Apply settings
-    logging.basicConfig(level=level, format=format, datefmt=datefmt)
+    # logging.basicConfig(level=level, format=format, datefmt=datefmt)
+    formatter = logging.Formatter(format, datefmt)
+    console_handler.setFormatter(formatter)
+
+    # Add the filter to the console handler
+    console_handler.addFilter(MaskSensitiveInfoFilter())
 
 def generate_random_number():
     return random.randint(111111111, 999999999)
@@ -235,7 +260,7 @@ def merge_dict(new, base):
     output = base.copy()
     for key, value in new.items():
         if key in base:
-            logging.info("Overriding value for key %s: %s -> %s", key, base[key], value)
+            logging.info(f'Overriding value for key {key}: {base[key]} -> {value}')
         output[key] = value
     return output
 
@@ -248,7 +273,7 @@ def valid_version(version):
 def valid_path(path):    
     resolved_path = os.path.abspath(path)
     if not os.path.exists(resolved_path):
-        raise argparse.ArgumentTypeError(f'Invalid path provided. This path can be relative or absolute but must exist: {resolved_path}')
+        raise argparse.ArgumentTypeError(f'Invalid path provided. This path can be relative or absolute but must exist.')
     return resolved_path
 
 def array_contains_any(arr1, arr2):
