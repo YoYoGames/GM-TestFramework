@@ -3,7 +3,6 @@ name: Android-CI
 on:
   pull_request:
     
-
 jobs:
  
   Android-CI:
