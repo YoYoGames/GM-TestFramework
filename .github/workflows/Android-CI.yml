@@ -17,5 +17,5 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python framework_launcher.py -cf ${{ secrets.ANDROID_CONFIG_FOLDER }}
+      - run: python framework_launcher.py -cf "C:\GM-TestFramework\config_android.json"
         working-directory: GM-TF      
