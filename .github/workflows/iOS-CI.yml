@@ -29,18 +29,4 @@ jobs:
         with:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
-          if-no-files-found: error           
-      # - name: Upload to slack step
-      #   uses: adrey/slack-file-upload-action@master
-      #   with:
-      #     token: ${{ secrets.SLACK_TOKEN }}
-      #     path: "./GM-TF/workspace/summary.json"
-      #     channel: ${{ secrets.SLACK_CHANNEL_ID }}        
-      # - uses: slackapi/slack-github-action@v1.23.0
-      #   id: slack
-      #   with:
-      #    channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-      #    payload-file-path: ".\\GM-TF\\workspace\\summary.json"
-      #    slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"         
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}        
+          if-no-files-found: error                  
