@@ -1,3 +1,5 @@
 workspace/
 servers/node_modules/
 user/
+
+projects/xUnit/datafiles/config.json

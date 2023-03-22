@@ -12,7 +12,7 @@ function HttpPublisher(_configuration = undefined) : IPublisher() constructor {
 	port = addProperty("port", 8080, is_real);
 	
 	// @ignore
-	asyncId = undefined;
+	requestId = undefined;
 	
 	/// @function publish(data)
 	/// @description This function should implement the logic for publishing some data.
@@ -31,7 +31,14 @@ function HttpPublisher(_configuration = undefined) : IPublisher() constructor {
 		var _headers = ds_map_create();
 		_headers[? "content-type"] = "application/json";
 	
-		asyncId = http_request(_url, "POST", _headers, json_stringify(_body));
+		requestId = http_request(_url, "POST", _headers, json_stringify(_body));
+	}
+	
+	/// @function getRequestId()
+	/// @description Returns the request id of the http request.
+	/// @returns {Real|Undefined}
+	static getRequestId = function() {
+		return requestId;
 	}
 	
 	config(config_get(self));
