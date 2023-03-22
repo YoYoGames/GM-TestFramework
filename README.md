@@ -50,7 +50,7 @@ To run the launcher from the command line, you need to have Python and Node.js i
 ```
 
    * `-ak` followed by your **Access Key**
-   * `-uf` followed by the path to your GameMaker's user folder (this will use both `devices.json` and `local_settings.json`)
+   * `-uf` followed by the path to your GameMaker's user folder (usually `%APPDATA%\Roaming\GameMakerStudio2\<username>`)
    * `-t` followed by a comma separated list of platform|device pairs \[valid platforms: windows mac linux android ios tvos HTML5\]
    * `-r` followed by a comma separated list of runners \[valid runners: vm yyc\]
    * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
