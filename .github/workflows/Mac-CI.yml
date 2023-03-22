@@ -16,7 +16,7 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python3 framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FILE }}
+      - run: python framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FILE }}
       - name: Upload tests Artifacts
         uses: actions/upload-artifact@v3
         with:
