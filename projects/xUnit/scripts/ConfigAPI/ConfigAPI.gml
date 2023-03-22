@@ -39,3 +39,4 @@ function config_set(_struct_name, _config) {
 	var _configManager = config_manager_get();
 	_configManager.setConfig(_struct_name, _config);
 }
+

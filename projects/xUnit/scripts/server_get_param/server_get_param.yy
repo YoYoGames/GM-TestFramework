@@ -1,11 +1,11 @@
 {
   "resourceType": "GMScript",
   "resourceVersion": "1.0",
-  "name": "setup",
+  "name": "server_get_param",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
-    "name": "xUnit",
-    "path": "xUnit.yyp",
+    "name": "Utils",
+    "path": "folders/Modules/PublisherModule/Utils.yy",
   },
 }

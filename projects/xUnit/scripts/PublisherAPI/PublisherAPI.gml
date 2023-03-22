@@ -19,3 +19,11 @@ function publisher_get(_name, _type = undefined) {
 	return publishers[$ _name];
 }
 
+/// @function http_publisher_get(name)
+/// @description Creates and/or fetches an http publisher given a name.
+/// @param {String} name This is the id to be given to the http publisher.
+/// @returns {Struct.HttpPublisher}
+function http_publisher_get(_name) {
+	return publisher_get(_name, HttpPublisher);
+}
+
