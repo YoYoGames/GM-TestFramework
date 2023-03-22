@@ -16,5 +16,5 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python framework_launcher.py -cf ${{ secrets.CI_CONFIG_FILE }}
+      - run: python framework_launcher.py -cf ${{ secrets.ALL_CONFIG_FILE }}
         working-directory: GM-TF      
