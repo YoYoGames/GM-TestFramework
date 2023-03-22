@@ -16,7 +16,7 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python framework_launcher.py -cf ${{ secrets.WINDOWS_CONFIG_FOLDER }}
+      - run: python framework_launcher.py -cf ${{ secrets.WINDOWS_CONFIG_FILE }}
         working-directory: GM-TF    
       - name: Upload to slack step
         uses: adrey/slack-file-upload-action@master
