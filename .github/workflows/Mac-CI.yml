@@ -7,7 +7,7 @@ jobs:
  
   Mac-CI:
     name: "Mac-CI"
-    runs-on: MacOs
+    runs-on: macOS
     steps:
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v3
@@ -16,4 +16,16 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python3 framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FOLDER }}
+      - run: python3 framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FILE }}
+      - name: Upload tests Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_results
+          path: .\GM-TF\workspace\results\tests\
+          if-no-files-found: error   
+      - name: Upload summary Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: summary_file
+          path: .\GM-TF\workspace\summary.json
+          if-no-files-found: error      
