@@ -1,12 +1,12 @@
-name: Android-CI
+name: Linux-CI
 
 on:
   pull_request:
     
 jobs:
  
-  Android-CI:
-    name: "Android-CI"
+  Linux-CI:
+    name: "Linux-CI"
     runs-on: Windows
     steps:
       - name: Check out the GM-TestFramework repo
