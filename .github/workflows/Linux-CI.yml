@@ -1,14 +1,14 @@
-name: iOS-CI
+name: Android-CI
 
 on:
   pull_request:
     
 jobs:
  
-  iOS-CI:
-    name: "iOS-CI"
+  Android-CI:
+    name: "Android-CI"
     runs-on: Windows
-    steps: 
+    steps:
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v3
         with:
@@ -16,8 +16,8 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python framework_launcher.py -cf ${{ secrets.IOS_CONFIG_FILE }}
-        working-directory: GM-TF 
+      - run: python framework_launcher.py -cf ${{ secrets.LINUX_CONFIG_FILE }}
+        working-directory: GM-TF    
       - name: Upload tests Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -29,4 +29,4 @@ jobs:
         with:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
-          if-no-files-found: error                  
+          if-no-files-found: error        
