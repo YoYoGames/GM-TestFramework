@@ -51,8 +51,8 @@ To run the launcher from the command line, you need to have Python and Node.js i
 
    * `-ak` followed by your **Access Key**
    * `-uf` followed by the path to your GameMaker's user folder (ex: `C:\Users\<WindowsUser>\AppData\Roaming\GameMakerStudio2\<username>`)
-   * `-t` followed by a comma separated list of platform|device pairs \[valid platforms: windows mac linux android ios tvos HTML5\]
-   * `-r` followed by a comma separated list of runners \[valid runners: vm yyc\]
+   * `-t` followed by a comma separated list of platform|device pairs (valid platforms: `[windows mac linux android ios tvos HTML5]`)
+   * `-r` followed by a comma separated list of runners (valid runners: `[vm yyc]`)
    * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
    * `-rv` followed by the version of the runtime to be tested (defaults to latest)
    * `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
