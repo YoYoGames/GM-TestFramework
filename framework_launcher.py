@@ -246,6 +246,7 @@ def parse_arguments(defaults):
     def validate_targets(input):
         # Regular expression pattern to match the input string format
         pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+)*$'
+        pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+)*$'
         # Check if the input string matches the pattern
         match = re.match(pattern, input)
         if not match:
