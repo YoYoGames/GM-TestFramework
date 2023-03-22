@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: GM-TF
-      - run: .\setup.bat
+      - run: ./setup.bat
         working-directory: GM-TF
-        shell: cmd
+        shell: pwsh
       - run: python3 framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FILE }}
       - name: Upload tests Artifacts
         uses: actions/upload-artifact@v3
