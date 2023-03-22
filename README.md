@@ -36,7 +36,7 @@ To run the launcher from the command line, you need to have Python and Node.js i
     "Launcher.runtimeVersion": null,
 
     "Launcher.runners": "vm",
-    "Launcher.platforms": "windows|Local",
+    "Launcher.targets": "windows|Local",
     "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss",
     "Launcher.project": "projects\\xUnit\\xUnit.yyp",
 
