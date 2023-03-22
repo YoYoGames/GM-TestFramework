@@ -16,4 +16,4 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - run: python3 framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FOLDER }}
+      - run: python3 framework_launcher.py -cf ${{ secrets.MAC_CONFIG_FILE }}
