@@ -331,18 +331,17 @@ def check_file_exists(file_path):
         logging.warning(f"File '{file_path}' does not exist")
         return False
 
-def get_local_ip_address():
-    # Get the hostname
-    hostname = socket.gethostname()
-
-    # Get the IP address for the hostname
+def get_local_ip():
     try:
-        ip_address = socket.gethostbyname(hostname)
-        logging.info(f"Local IP address: {ip_address}")
-        return ip_address
-    except socket.gaierror:
-        logging.error("Failed to retrieve local IP address")
-        return None
+        # Create a temporary UDP socket to determine the local IP address
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as temp_socket:
+            # Connect to a remote server (IP and port) that is reachable and doesn't block UDP packets
+            # The following IP address (8.8.8.8) is a Google DNS server, and the port (80) is for HTTP
+            temp_socket.connect(('8.8.8.8', 80))
+            local_ip = temp_socket.getsockname()[0]
+    except Exception:
+        local_ip = '127.0.0.1'
+    return local_ip
 
 # Igor
 
@@ -369,6 +368,7 @@ def igor_get_runtime_version(user_folder, feed, version):
         return None
 
 def igor_install_runtime(user_folder, feed, version, platforms):
+
     # This will prevent browser cache
     cacheBust = random.randint(111111111, 999999999)
     # Prepare modules string
@@ -442,12 +442,9 @@ def download_chrome_driver(runtime_path):
 # Android Specific
 
 def start_android_emulator(sdk_path):
-
-    # Get 'emulator' and 'adb' paths
     emulator_path = os.path.join(sdk_path, 'emulator', 'emulator.exe')
     adb_path = os.path.join(sdk_path, 'platform-tools', 'adb.exe')
 
-    # Get emulators list
     avd_list = subprocess.run([emulator_path, '-list-avds'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     avds = avd_list.stdout.decode().strip().splitlines()
 
@@ -455,32 +452,46 @@ def start_android_emulator(sdk_path):
         logging.error('No Android Virtual Devices found.')
         return None
 
-    # Start running the first emulator available
     emulator_name = avds[0]
     logging.info(f"Starting AVD: {emulator_name}")
     with open(os.devnull, "w") as f:
         subprocess.Popen([emulator_path, '-avd', emulator_name], stdout=f, stderr=f)
     logging.info('Emulator started')
 
+    # Wait for the emulator to appear in the adb devices list
+    logging.info('Waiting for emulator to connect to ADB')
+    while True:
+        result = subprocess.run([adb_path, 'devices'], capture_output=True, text=True)
+        lines = result.stdout.strip().split("\n")[1:]
+        emulators = [line.split("\t")[0] for line in lines if "emulator" in line]
+        if len(emulators) > 0:
+            break
+        time.sleep(1)
+
+    emulator_id = emulators[0]
+    logging.info(f'Connected emulator id: {emulator_id}')
+
     # Wait for the emulator to fully boot
     logging.info('Waiting for emulator to fully boot')
-    boot_check = subprocess.run([adb_path, 'shell', 'getprop', 'sys.boot_completed'], capture_output=True)
-    while boot_check.stdout.strip() != b'1':
-        time.sleep(1)
-        boot_check = subprocess.run([adb_path, 'shell', 'getprop', 'sys.boot_completed'], capture_output=True)
-    logging.info('Emulator is fully booted')
+    counter = 0
+    while True:
+        boot_check = subprocess.run([adb_path, '-s', emulator_id, 'shell', 'am', 'broadcast', '-a', 'android.intent.action.MAIN', '-n', 'com.android.internal.util.WithFramework/com.android.internal.util.FrameworkInitializer'], capture_output=True, text=True)
+        
+        if "result=0" in boot_check.stdout:
+            break
 
-    #Return the emulator id number
-    result = subprocess.check_output([adb_path, 'devices'], shell=True).decode("utf-8")
-    lines = result.strip().split("\n")[1:]
-    emulators = [line.split("\t")[0] for line in lines if "emulator" in line]
-    if len(emulators) == 0:
-        logging.error('No running emulators found.')
-        return None
-    else:
-        emulator_id = emulators[0]
-        logging.info(f'Running emulator id: {emulator_id}')
-        return emulator_id
+        logging.info('Boot check: %s', boot_check.stdout.strip())
+        counter += 1
+        if counter > 120:  # Timeout after 120 seconds
+            logging.error('Timeout waiting for emulator to fully boot')
+            break
+
+        time.sleep(1)
+
+    if "result=0" in boot_check.stdout:
+        logging.info('Emulator is fully booted')
+
+    return emulator_id
 
 def stop_android_emulator(sdk_path):
     # Stop the emulator
@@ -639,10 +650,13 @@ def main():
 
     # Prepare the Android emulator
     if any(key == 'android' for key, _ in target_kvs):
+        # Update debug runner path (command line will always run debug runner)
+        android_runner = os.path.join(runtime_path, 'android', 'runner')
+        settings['machine.Platform Settings.Android.debug.runner_path'] = android_runner
+        
         # Retrieve the AndroidSDK path from settings
         android_sdk = settings['machine.Platform Settings.Android.Paths.sdk_location']
-        emulator_id = start_android_emulator(android_sdk)
-        assert(emulator_id != None)
+        start_android_emulator(android_sdk)
 
     # Save 'local_settings.json' to workspace and local user (just to be on the safe side)
     save_to_json_file(settings, settings_path)
@@ -651,7 +665,7 @@ def main():
     igor_path = os.path.join(runtime_path, 'bin', 'igor', 'windows', 'x64', 'igor.exe')
     
     # Get local IP address
-    ip_address = get_local_ip_address()
+    ip_address = get_local_ip()
     assert(ip_address != None)
     
     # Configure project

@@ -5,7 +5,7 @@
 function HttpPublisher(_configuration = undefined) : IPublisher() constructor {
 	
 	// @ignore
-	ip = addProperty("ip", "127.0.0.0", is_string);
+	ip = addProperty("ip", "127.0.0.1", is_string);
 	// @ignore
 	endpoint = addProperty("endpoint", "tests", is_string);
 	// @ignore

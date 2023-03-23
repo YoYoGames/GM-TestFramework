@@ -10,7 +10,6 @@
 // Loads external configuration file
 config_manager_load("config.json");
 
-
 // ################# INTERNAL CONFIGURATIONS #################
 
 // [INFORMATION] The following can be tweaked.

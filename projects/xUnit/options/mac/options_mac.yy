@@ -6,7 +6,7 @@
   "option_mac_allow_incoming_network": false,
   "option_mac_allow_outgoing_network": false,
   "option_mac_app_category": "Games",
-  "option_mac_app_id": "com.company.game",
+  "option_mac_app_id": "com.yoyogames.empty",
   "option_mac_apple_sign_in": false,
   "option_mac_arm64": true,
   "option_mac_build_app_store": false,
