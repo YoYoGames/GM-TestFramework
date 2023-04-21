@@ -22,11 +22,11 @@ jobs:
         shell: cmd
       - name: Running Manually
         if: ${{ github.event.name == 'workflow_dispatch' }}
-      - run: python framework_launcher.py -cf ${{ github.event.inputs.CONFIG_FILE }}
+        run: python framework_launcher.py -cf ${{ github.event.inputs.CONFIG_FILE }}
         working-directory: GM-TF      
       - name: Running Manually   github.event_name != 'pull_request'
         if: ${{ github.event.name == 'pull_request' }}
-      - run: python framework_launcher.py -cf ${{ secrets.ALL_CONFIG_FILE }}
+        run: python framework_launcher.py -cf ${{ secrets.ALL_CONFIG_FILE }}
         working-directory: GM-TF         
       - name: Upload tests Artifacts
         uses: actions/upload-artifact@v3
