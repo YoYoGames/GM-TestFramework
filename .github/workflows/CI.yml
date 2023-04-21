@@ -41,8 +41,9 @@ jobs:
           path: .\GM-TF\workspace\summary.json
           if-no-files-found: error        
       - uses: slackapi/slack-github-action@v1.23.0
+        id: slack
         with:
            channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-           payload-file-path: ".\GM-TF\workspace\summary.json"
+           payload-file-path: .\GM-TF\workspace\summary.json
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
