@@ -185,7 +185,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 	
 					var buf_size = buffer_tell(buf);
 	
-					dataLength = network_send_raw(socket, buf, buf_size);
+					dataLength = network_send_packet(socket, buf, buf_size);
 					buffer_delete(buf);
 					
 					break;
@@ -237,7 +237,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 					var buf = buffer_create(buf_size, buffer_fixed, 1);
 					buffer_fill(buf, 0, buffer_u8, 12, buf_size);
 	
-					dataLength = network_send_raw(socket, buf, buf_size);
+					dataLength = network_send_packet(socket, buf, buf_size);
 					buffer_delete(buf);
 					
 					break;
