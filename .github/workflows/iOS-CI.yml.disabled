@@ -23,10 +23,10 @@ jobs:
         with:
           name: test_results
           path: .\GM-TF\workspace\results\tests\
-          if-no-files-found: error   
+          if-no-files-found: continue   
       - name: Upload summary Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
-          if-no-files-found: error                  
+          if-no-files-found: continue                
