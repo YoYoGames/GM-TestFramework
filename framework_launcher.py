@@ -245,6 +245,7 @@ def parse_arguments(defaults):
     # Auxiliary function that validates a list of targets (platform|device,platform|device,...)
     def validate_targets(input):
         # Regular expression pattern to match the input string format
+        pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+)*$'
         pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+)*$'
         # Check if the input string matches the pattern
         match = re.match(pattern, input)

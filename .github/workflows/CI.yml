@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+       CONFIG_FILE:
+         description: "CONFIG_FILE"
+         required: true
+
+jobs:
+ 
+  CI:
+    name: "CI"
+    runs-on: Windows
+    steps:
+      - name: Check out the GM-TestFramework repo
+        uses: actions/checkout@v3
+        with:
+          path: GM-TF
+      - run: .\setup.bat
+        working-directory: GM-TF
+        shell: cmd
+      - name: Running Manually
+        if: ${{ github.event.name == 'workflow_dispatch' }}
+      - run: python framework_launcher.py -cf ${{ github.event.inputs.CONFIG_FILE }}
+        working-directory: GM-TF      
+      - name: Running Manually   github.event_name != 'pull_request'
+        if: ${{ github.event.name == 'pull_request' }}
+      - run: python framework_launcher.py -cf ${{ secrets.ALL_CONFIG_FILE }}
+        working-directory: GM-TF         
+      - name: Upload tests Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test_results
+          path: .\GM-TF\workspace\results\tests\
+          if-no-files-found: error   
+      - name: Upload summary Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: summary_file
+          path: .\GM-TF\workspace\summary.json
+          if-no-files-found: error        
+      - uses: slackapi/slack-github-action@v1.23.0
+        with:
+           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+           payload-file-path: ".\GM-TF\workspace\summary.json"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
