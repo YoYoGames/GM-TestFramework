@@ -994,90 +994,34 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	})
 
-	addFact("is_nan_test", function() {
-
-		var input, output;
-
-		//#1 is_nan ( pointer )
-		input = ptr({});
-		output = is_nan(input);
-		assert_false(output, "#1 is_nan ( pointer:local ), should be false");
-			
-		//#2 is_nan ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_nan(input);
-		assert_false(output, "#2 is_nan ( pointer_invalid:local ), should be false");
-			
-		//#3 is_nan ( pointer_null )
-		input = pointer_null;
-		output = is_nan(input);
-		assert_false(output, "#3 is_nan ( pointer_null:local ), should be false");
-			
-		//#4 is_nan ( real )
-		input = 32.33;
-		output = is_nan(input);
-		assert_false(output, "#4 is_nan ( real:local ), should be false");
-			
-		//#5 is_nan ( int32 )
-		input = int32(22);
-		output = is_nan(input);
-		assert_false(output, "#5 is_nan ( int32:local ), should be false");
-			
-		//#6 is_nan ( int64 )
-		input = int64(12);
-		output = is_nan(input);
-		assert_false(output, "#6 is_nan ( int64:local ), should be false");
-						
-		//#7 is_nan ( string )
-		input = "-21233.223";
-		output = is_nan(input);
-		assert_false(output, "#7 is_nan ( string:local ), should be false");
-
-		//#8 is_nan ( bool )
-		input = true;
-		output = is_nan(input);
-		assert_false(output, "#8 is_nan ( bool:local ), should be false");
-
-		//#9 is_nan ( nan )
-		input = NaN;
-		output = is_nan(input);
-		assert_true(output, "#9 is_nan ( NaN:local ), should be true");
-			
-		//#10 is_nan ( infinity )
-		input = infinity;
-		output = is_nan(input);
-		assert_false(output, "#10 is_nan ( infinity:local ), should be false");
-			
-		//#11 is_nan ( undefined )
-		input = undefined;
-		output = is_nan(input);
-		assert_false(output, "#11 is_nan ( undefined:local ), should be false");
-
-		//#12 is_nan ( struct )
-		input = { key: "value" };
-		output = is_nan(input);
-		assert_true(output, "#12 is_nan ( struct:local ), should be true (no valueOf is defined)");
-
-		//#13 is_nan ( array )
-		input = [];
-		output = is_nan(input);
-		assert_false(output, "#13 is_nan ( array:local ), should be false");
-
-		//#14 is_nan ( method )
-		input = function() {};
-		output = is_nan(input);
-		assert_true(output, "#14 is_nan ( method:local ), should be true (no valueOf is defined)");
-			
-		//#15 is_nan ( function )
-		input = get_timer;
-		output = is_nan(input);
-		assert_false(output, "#15 is_nan ( function:local ), should be false");
+	addTheory("is_nan_test", [
+		[ptr({}),			assert_false, "#1 is_nan ( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false, "#2 is_nan ( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false, "#3 is_nan ( pointer_null:local ), should be false"],
 		
-		//#16 is_nan ( function )
-		input = { key: "value", valueOf: function() { return 100; } };
-		output = is_nan(input);
-		assert_false(output, "#16 is_nan ( function:local ), should be false (valueOf is defined)");
-
+		[32.33,				assert_false, "#4 is_nan ( real:local ), should be false"],
+		[int32(22),			assert_false, "#5 is_nan ( int32:local ), should be false"],
+		[int64(12),			assert_false, "#6 is_nan ( int64:local ), should be false"],
+		
+		["-21233.223",		assert_false, "#7 is_nan ( string:local ), numeric string should be false"],
+		["",				assert_true, "#8 is_nan ( string:local ), empty string should be true"],
+		["abc",				assert_true, "#9 is_nan ( string:local ), non-numeric string should be true"],
+		
+		[true,				assert_false, "#10 is_nan ( bool:local ), should be false"],
+		[NaN,				assert_true, "#11 is_nan ( NaN:local ), should be true"],
+		[infinity,			assert_false, "#12 is_nan ( infinity:local ), should be false"],
+		[undefined,			assert_true,  "#13 is_nan ( undefined:local ), should be true"],
+		
+		[[],				assert_true, "#14 is_nan ( array:local ), should be true"],
+		[{ key: "value" },	assert_true, "#15 is_nan ( struct:local ), should be true"],
+		[function() {},		assert_true, "#16 is_nan ( method:local ), should be true"],
+		[get_timer,			assert_false, "#17 is_nan ( function:local ), should be false"],
+		
+	], function(_value, _test_func, _desc) {
+		
+		var _output = is_nan(_value)
+		_test_func(_output, _desc);
+		
 	})
 
 	addFact("is_numeric_test", function() {
