@@ -45,7 +45,20 @@ jobs:
       - uses: slackapi/slack-github-action@v1.23.0
         id: slack
         with:
-           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+           channel-id: 'C050C70MU21'
            payload-file-path: .\GM-TF\workspace\summary.json
+           payload: |
+                    {
+                     "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+                     "blocks": [
+                         {
+                          "type": "section",
+                          "text": {
+                             "type": "mrkdwn",
+                             "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                                  }
+                          }
+                      ]
+                    }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
