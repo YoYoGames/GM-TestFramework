@@ -10,7 +10,6 @@
 // Loads external configuration file
 config_manager_load("config.json");
 
-
 // ################# INTERNAL CONFIGURATIONS #################
 
 // [INFORMATION] The following can be tweaked.
@@ -140,7 +139,7 @@ config_set("TestFrameworkRun", {
 		log_info("TestFramework ended");
 		
 		// Log failures and tallies
-		log_warning(_resultBag[$ "failed"]);
+		log_warning(json_stringify(_resultBag[$ "failed"]));
 	}
 
 });

@@ -50,13 +50,13 @@
   ],
   "IncludedFiles": [
     {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"config.json","CopyToMask":3035426170322551022,"filePath":"datafiles",},
-    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"testList.csv","CopyToMask":-1,"filePath":"datafiles",},
-    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"testTable.csv","CopyToMask":-1,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"testList.csv","CopyToMask":3035426170322551022,"filePath":"datafiles",},
+    {"resourceType":"GMIncludedFile","resourceVersion":"1.0","name":"testTable.csv","CopyToMask":3035426170322551022,"filePath":"datafiles",},
   ],
   "isEcma": false,
   "LibraryEmitters": [],
   "MetaData": {
-    "IDEVersion": "9.9.1.286",
+    "IDEVersion": "9.9.1.293",
   },
   "resources": [
     {"id":{"name":"oNephew","path":"objects/oNephew/oNephew.yy",},},
