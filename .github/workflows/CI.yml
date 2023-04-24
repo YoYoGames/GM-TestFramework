@@ -45,7 +45,7 @@ jobs:
 
   Slack-Notification:
     name: "Slack-Notification"
-    runs-on: ubuntu-22.04
+    runs-on: Windows
     needs: [ CI ]
     if: always()
     steps:
@@ -54,7 +54,7 @@ jobs:
         id: slack
         with:
            channel-id: 'C0545RKQ4MV'
-           payload-file-path: .\GM-TF\workspace\summary.json
+           payload-file-path: ${{ github.workspace }}/GM-TF/workspace/summary.json
            slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
