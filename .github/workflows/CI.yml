@@ -24,7 +24,7 @@ jobs:
         shell: cmd
       - name: Running Manually
         if: github.event_name == 'workflow_dispatch'
-        run: python framework_launcher.py -cf ${{ github.event.inputs.CONFIG_FILE }}
+        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
         working-directory: GM-TF   
         continue-on-error: true   
       - name: Running on PR
