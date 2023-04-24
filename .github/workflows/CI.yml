@@ -25,13 +25,11 @@ jobs:
       - name: Running Manually
         if: github.event_name == 'workflow_dispatch'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
-        working-directory: GM-TF   
-        continue-on-error: true        
+        working-directory: GM-TF        
       - name: Running on PR
         if: github.event_name == 'pull_request'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
-        working-directory: GM-TF   
-        continue-on-error: true      
+        working-directory: GM-TF       
       - name: Upload tests Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -44,23 +42,19 @@ jobs:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
           if-no-files-found: error        
-      - uses: slackapi/slack-github-action@v1.23.0
+
+  Slack-Notification:
+    name: "Slack-Notification"
+    runs-on: ubuntu-22.04
+    needs: [ CI ]
+    steps:
+      - name: Sending Test Result to Slack Channel
+        uses: slackapi/slack-github-action@v1.23.0
         id: slack
+        if: always()
         with:
            channel-id: 'C050C70MU21'
            payload-file-path: .\GM-TF\workspace\summary.json
-           payload: |
-                    {
-                     "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-                     "blocks": [
-                         {
-                          "type": "section",
-                          "text": {
-                             "type": "mrkdwn",
-                             "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                                  }
-                          }
-                      ]
-                    }
+           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
