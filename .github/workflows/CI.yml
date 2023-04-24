@@ -45,7 +45,7 @@ jobs:
 
   Slack-Notification:
     name: "Slack-Notification"
-    runs-on: ubuntu-22.04
+    runs-on: Windows
     needs: [ CI ]
     if: always()
     steps:
