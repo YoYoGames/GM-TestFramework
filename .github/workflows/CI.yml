@@ -47,13 +47,13 @@ jobs:
     name: "Slack-Notification"
     runs-on: ubuntu-22.04
     needs: [ CI ]
+    if: always()
     steps:
       - name: Sending Test Result to Slack Channel
         uses: slackapi/slack-github-action@v1.23.0
         id: slack
-        if: always()
         with:
-           channel-id: 'C050C70MU21'
+           channel-id: 'C0545RKQ4MV'
            payload-file-path: .\GM-TF\workspace\summary.json
            slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
