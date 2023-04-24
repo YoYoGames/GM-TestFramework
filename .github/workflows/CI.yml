@@ -50,7 +50,6 @@ jobs:
     if: always()
     steps:
       - name: Sending Test Result to Slack Channel
-      - name: Upload to slack step
         uses: adrey/slack-file-upload-action@master
         with:
           token: ${{ secrets.SLACK_TOKEN }}
