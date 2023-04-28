@@ -402,26 +402,24 @@ def igor_run_tests(igor_path, project_file, user_folder, runtime_path, targets, 
 
 # HTML5 Specific
 
-def get_chrome_version():
-    reg_paths = [
-        'SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome',
-        'SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome',
-        'SOFTWARE\\WOW6432Node\\Google\\Update\\Clients\\{8A69D345-D564-463c-AFF1-A69D9E530F96}',
-        'SOFTWARE\\Google\\Update\\Clients\\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
+def get_chrome_version_from_exe():
+    # Default Chrome installation paths
+    paths = [
+        os.path.expandvars(r'%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe'),
+        os.path.expandvars(r'%ProgramFiles%\Google\Chrome\Application\chrome.exe'),
+        os.path.expandvars(r'%LocalAppData%\Google\Chrome\Application\chrome.exe')
     ]
 
-    for reg_path in reg_paths:
-        try:
-            key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path)
-            chrome_version = winreg.QueryValueEx(key, 'Version')[0]
-            return chrome_version
-        except FileNotFoundError:
-            continue
-        except Exception as e:
-            logging.error(f'Error while looking for Chrome version: {str(e)}')
-            return None
-
-    logging.error('Unable to find Chrome version')
+    for path in paths:
+        if os.path.exists(path):
+            try:
+                output = subprocess.check_output(f'"{path}" --version', shell=True).decode().strip()
+                chrome_version = output.replace('Google Chrome ', '')
+                return chrome_version
+            except subprocess.CalledProcessError as e:
+                logging.error(f'Error while getting Chrome version: {str(e)}')
+                return None
+    logging.error('Unable to find Chrome executable')
     return None
 
 def download_chrome_driver(runtime_path):
