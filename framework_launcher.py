@@ -425,7 +425,7 @@ def get_chrome_version_from_exe():
 def download_chrome_driver(runtime_path):
 
     # Get Chrome version
-    chrome_version = get_chrome_version()
+    chrome_version = get_chrome_version_from_exe()
     assert(chrome_version)
 
     # Compute relevate version (extract W.X.Y from W.X.Y.Z)
