@@ -402,15 +402,33 @@ def igor_run_tests(igor_path, project_file, user_folder, runtime_path, targets, 
 
 # HTML5 Specific
 
+def get_chrome_version():
+    reg_paths = [
+        'SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome',
+        'SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome',
+        'SOFTWARE\\WOW6432Node\\Google\\Update\\Clients\\{8A69D345-D564-463c-AFF1-A69D9E530F96}',
+        'SOFTWARE\\Google\\Update\\Clients\\{8A69D345-D564-463c-AFF1-A69D9E530F96}'
+    ]
+
+    for reg_path in reg_paths:
+        try:
+            key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path)
+            chrome_version = winreg.QueryValueEx(key, 'Version')[0]
+            return chrome_version
+        except FileNotFoundError:
+            continue
+        except Exception as e:
+            logging.error(f'Error while looking for Chrome version: {str(e)}')
+            return None
+
+    logging.error('Unable to find Chrome version')
+    return None
+
 def download_chrome_driver(runtime_path):
 
     # Get Chrome version
-    try:
-        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, 'SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome')
-        chrome_version = winreg.QueryValueEx(key, 'Version')[0]
-    except:
-        logging.error(f'Unable to find Chrome version')
-        return None
+    chrome_version = get_chrome_version()
+    assert(chrome_version)
 
     # Compute relevate version (extract W.X.Y from W.X.Y.Z)
     relevant_version = chrome_version
