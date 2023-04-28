@@ -13,6 +13,7 @@ import json
 import shutil
 import yaml
 import socket
+import platform
 
 # DON'T CHANGE THESE (use external config file instead)
 DEFAULT_CONFIG = {
@@ -402,31 +403,33 @@ def igor_run_tests(igor_path, project_file, user_folder, runtime_path, targets, 
 
 # HTML5 Specific
 
-def get_chrome_version_from_exe():
-    # Default Chrome installation paths
-    paths = [
-        os.path.expandvars(r'%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe'),
-        os.path.expandvars(r'%ProgramFiles%\Google\Chrome\Application\chrome.exe'),
-        os.path.expandvars(r'%LocalAppData%\Google\Chrome\Application\chrome.exe')
-    ]
+def get_installed_chrome_version() -> str:
+    if platform.system() == 'Windows':
+        process = subprocess.Popen(
+            ['reg', 'query', 'HKEY_CURRENT_USER\\SOFTWARE\\Google\\Chrome\\BLBeacon', '/v', 'version'],
+            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+        return process.communicate()[0].decode('UTF-8').split()[-1]
 
-    for path in paths:
-        if os.path.exists(path):
-            try:
-                output = subprocess.check_output(f'"{path}" --version', shell=True).decode().strip()
-                chrome_version = output.replace('Google Chrome ', '')
-                return chrome_version
-            except subprocess.CalledProcessError as e:
-                logging.error(f'Error while getting Chrome version: {str(e)}')
-                return None
-    logging.error('Unable to find Chrome executable')
-    return None
+    elif platform.system() == 'Linux':
+        process = subprocess.Popen(
+            ['google-chrome', '--version'],
+            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+        return process.communicate()[0].decode('UTF-8').split()[-1]
+
+    elif platform.system() == 'Darwin':
+        process = subprocess.Popen(
+            ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '--version'],
+            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+        return process.communicate()[0].decode('UTF-8').split()[-1]
 
 def download_chrome_driver(runtime_path):
 
     # Get Chrome version
-    chrome_version = get_chrome_version_from_exe()
-    assert(chrome_version)
+    chrome_version = get_installed_chrome_version()
+    assert(chrome_version != None)
+
+    print(chrome_version)
+    exit(0)
 
     # Compute relevate version (extract W.X.Y from W.X.Y.Z)
     relevant_version = chrome_version
