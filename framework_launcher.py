@@ -730,7 +730,7 @@ def main():
         target = f'{kv[0]}|{kv[1]}'
 
         # Run project on HTML5
-        igor_run_tests(igor_path, user_folder, runtime_path, f"HTML5|{kv[1]}")
+        igor_run_tests(igor_path, project_file, user_folder, runtime_path, f"HTML5|{kv[1]}")
 
         # For each test update results according to metadata
         results_update(META_PATH, LOG_PATH, RESULTS_PATH)
