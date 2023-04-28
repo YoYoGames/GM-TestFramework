@@ -428,9 +428,6 @@ def download_chrome_driver(runtime_path):
     chrome_version = get_installed_chrome_version()
     assert(chrome_version != None)
 
-    print(chrome_version)
-    exit(0)
-
     # Compute relevate version (extract W.X.Y from W.X.Y.Z)
     relevant_version = chrome_version
     match = re.search(r'\d+\.\d+\.\d+', chrome_version)
