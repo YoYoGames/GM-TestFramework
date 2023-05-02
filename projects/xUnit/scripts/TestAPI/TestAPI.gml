@@ -87,7 +87,6 @@ function test_run_event(_eventName) {
 	}
 	catch (_error) {
 		_test.pushDiagnostic(_error, "exception");
-		test_end();
 	}
 }
 

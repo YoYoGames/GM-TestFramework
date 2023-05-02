@@ -122,8 +122,6 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 			_value = _valueType[0];
 			_details = _valueType[1];
 				
-			_output = weak_ref_alive(_value);
-				
 			assert_throw(method({cam: _camera, input: _value}, function() {
 					
 				camera_set_begin_script(cam, input);

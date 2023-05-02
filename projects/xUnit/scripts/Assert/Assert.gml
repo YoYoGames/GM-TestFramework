@@ -1668,7 +1668,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 
 		var _resolver = typeof(_value) == _expected ? pass : fail;
 	
-		return _resolver(assertTitle, _description, _value, _expected);
+		return _resolver(assertTitle, _description, typeof(_value), _expected);
 	}
 
 	/// @function isFalse(value, description)

@@ -139,7 +139,7 @@ config_set("TestFrameworkRun", {
 		log_info("TestFramework ended");
 		
 		// Log failures and tallies
-		log_warning(json_stringify(_resultBag[$ "failed"]));
+		log_warning(string(_resultBag[$ "failed"]));
 	}
 
 });
