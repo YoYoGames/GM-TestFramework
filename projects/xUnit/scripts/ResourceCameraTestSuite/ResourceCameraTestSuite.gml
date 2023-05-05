@@ -3,10 +3,6 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 	addFact("camera_matrix_test", function() {
 
 		math_set_epsilon(0.01);
-
-		//SB: camera_create, camera_get_active, camera_get_default, camera_get_proj_mat, camera_get_view_mat, camera_set_default, camera_set_proj_mat, camera_set_view_mat
-			
-		//show_debug_message("Start cameraMatrixTest");
 			
 		var _output;
 			
@@ -26,11 +22,11 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 			
 		_output = camera_get_active()
 		assert_not_equals(_output, _camera, "#2 camera_get_active(), returned camera before being made active"); 			
-
+		
 		camera_apply(_camera);
 		_output = camera_get_active()
 		assert_not_equals(_output, _camera, "#2.1 camera_get_active(), failed to detect active camera"); 	
-					
+			
 		camera_set_proj_mat(_camera, _orthoProjMatrix);			// [ 0.00,0,0,0,0,0.00,0,0,0,0,0.00,0,0,0,0.50,1 ]
 		_output = camera_get_proj_mat(_camera);					// [ 0.00,0,0,0,0,-0.00,0,0,0,0,0.00,0,0,0,0.50,1 ]
 		_output[5] *= -1;										// Flip the y axis (this is necessary for textures to no be drawn upside down)
@@ -62,57 +58,58 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 		_endScript = function() {};
 			
 		var _camera = camera_create();
-			
+		
 		// ### UNSET ###
-			
+		
 		_output = camera_get_begin_script(_camera);
 		assert_equals(_output, -1, "#1 camera_get_begin_script(), fail to return -1 when no script is attached");
-			
+		
 		_output = camera_get_end_script(_camera);
 		assert_equals(_output, -1, "#2 camera_get_end_script(), fail to return -1 when no script is attached");
-			
+		
 		_output = camera_get_update_script(_camera);
 		assert_equals(_output, -1, "#3 camera_get_update_script(), fail to return -1 when no script is attached");
-			
+		
 		// ### SET ###
-			
+		
 		camera_set_begin_script(_camera, _beginScript);
 		_output = camera_get_begin_script(_camera);
 		assert_equals(_output, _beginScript, "#4 camera_set_begin_script(), fail to set the currect script");
-			
+		
 		camera_set_end_script(_camera, _updateScript);
 		_output = camera_get_end_script(_camera);
 		assert_equals(_output, _updateScript, "#5 camera_set_end_script(), fail to set the currect script");
-			
+		
 		camera_set_update_script(_camera, _endScript);
 		_output = camera_get_update_script(_camera);
 		assert_equals(_output, _endScript, "#6 camera_set_update_script(), fail to set the currect script");
 
 		// ### UNSET ###
-			
+		
 		camera_set_begin_script(_camera, -1);
 		_output = camera_get_begin_script(_camera);
 		assert_equals(_output, -1, "#4 camera_set_begin_script(), fail remove the current script");
-			
+		
 		camera_set_end_script(_camera, -1);
 		_output = camera_get_end_script(_camera);
 		assert_equals(_output, -1, "#5 camera_set_end_script(), fail remove the current script");
-			
+		
 		camera_set_update_script(_camera, -1);
 		_output = camera_get_update_script(_camera);
 		assert_equals(_output, -1, "#6 camera_set_update_script(), fail remove the current script");
-			
+		
 		// ### FAILURES ###
 
 		var _valueType, _value, _details;
 				
 		var _valueDetails = [ 
-			[ ptr({}),		"ptr" ],
+			[ ptr({}),			"ptr" ],
 			[ pointer_null,		"ptrNull" ],
 			[ pointer_invalid,	"ptrInvalid" ],
 			[ "hello",			"string" ],
 			[ undefined,		"undefined" ],
-			[ [],				"array" ] ]; 
+			[ [],				"array" ]
+		]; 
 			
 			
 		var _valueDetailsCount = array_length(_valueDetails);

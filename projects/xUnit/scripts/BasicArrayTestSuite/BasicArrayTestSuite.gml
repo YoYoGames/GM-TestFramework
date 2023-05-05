@@ -144,13 +144,15 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		var _undefined = undefined;
 		var _failed = false;
 
-		//#17 array_create ( int macro, int local )
-		_result = array_create(_arraySize, _vInt32);
-		for(var _i = 0; _i < _arraySize; ++_i)
-		{
-			_failed |= !assert_equals(_result[_i], _vInt32, "#17 array_create ( int:local, int32:local ), reading not returning the correct value");
-			_failed |= !assert_typeof(_result[_i], "int32", "#17.1 array_create ( int:local, int32:local ), reading not returning the correct type");
-			if (_failed) break;
+		//#17 array_create ( int macro, int local ) NOTE: int32 type doesn't exist on HTML5
+		if (platform_not_browser()) {
+			_result = array_create(_arraySize, _vInt32);
+			for(var _i = 0; _i < _arraySize; ++_i)
+			{
+				_failed |= !assert_equals(_result[_i], _vInt32, "#17 array_create ( int:local, int32:local ), reading not returning the correct value");
+				_failed |= !assert_typeof(_result[_i], "int32", "#17.1 array_create ( int:local, int32:local ), reading not returning the correct type");
+				if (_failed) break;
+			}
 		}
 			
 		//#18 array_create ( int macro, int64 local )
