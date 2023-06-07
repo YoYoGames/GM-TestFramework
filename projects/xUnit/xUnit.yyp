@@ -56,7 +56,7 @@
   "isEcma": false,
   "LibraryEmitters": [],
   "MetaData": {
-    "IDEVersion": "9.9.1.327",
+    "IDEVersion": "2023.600.0.353",
   },
   "resources": [
     {"id":{"name":"oNephew","path":"objects/oNephew/oNephew.yy",},},

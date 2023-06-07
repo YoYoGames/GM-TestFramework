@@ -94,11 +94,8 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 		var _copiedMap = ds_map_create();
 		ds_map_copy(_copiedMap, _map);
 		assert_map_equals(_map, _copiedMap, "#1 ds_map_copy(), failed to correctly copy map");
-			
-		var _checkNative = "930100000100000001000000030000004D617000000000000000000000F03F";
-		var _checkBrowser = "93010000010000000100000007000000416464204D617005000000";
 		
-		var _checkValue = (os_browser == browser_not_a_browser) ? _checkNative : _checkBrowser;
+		var _checkValue = "930100000100000001000000030000004D617000000000000000000000F03F";
 		
 		var _writtenMap = ds_map_write(_map);
 		assert_equals(_writtenMap, _checkValue, "#2 ds_map_write(), doesn't match pre-baked encoded string");
@@ -196,6 +193,8 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 		// Clean up
 		buffer_delete(_mapSaveBuffer);
 		ds_map_destroy(_map);
+	}, {
+		test_filter: platform_not_browser
 	})
 	
 }

@@ -95,26 +95,26 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		//#14 bool(struct) should be true
 		input = {};
 		output = bool(input);
-		assert_true(output, "#14 bool ( struct:local ), should be true");
-		assert_typeof(output, "bool", "#14.1 bool ( struct:local ), should return bool type");
+		assert_true(output, "#15 bool ( struct:local ), should be true");
+		assert_typeof(output, "bool", "#15.1 bool ( struct:local ), should return bool type");
 			
 		//#15 bool(struct) should be true
 		input = function() {};
 		output = bool(input);
-		assert_true(output, "#15 bool ( method:local ), should be true");
-		assert_typeof(output, "bool", "#15.1 bool ( method:local ), should return bool type");
+		assert_true(output, "#16 bool ( method:local ), should be true");
+		assert_typeof(output, "bool", "#16.1 bool ( method:local ), should return bool type");
 
 		//#16 bool(array) should throw error
 		assert_throw(function() {
 			var input = [];
 			return bool(input);
-		}, "#16 bool ( array ), should throw error");
+		}, "#17 bool ( array ), should throw error");
 		
 		//#17 bool ( string ), where string is not 'true'/'false', should throw error
 		assert_throw(function() {
 			var input = "string";
 			return bool(input);
-		}, "#17 bool ( string ), where string is not 'true'/'false', should throw error");
+		}, "#18 bool ( string ), where string is not 'true'/'false', should throw error");
 			
 	})
 
@@ -477,12 +477,14 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 			assert_typeof(output, "ptr", "#10.1 ptr ( method:local ), should return ptr type");
 				
 		}, "#10 ptr ( method:local ), should not throw an error, valid convertion" );
-			
-		//#11 ptr ( array ), valid convertion
-		assert_not_throws(function() {
-			var input = [];
-			return ptr(input);
-		}, "#11 ptr ( array ), should not throw an error, valid convertion");
+		
+		if (platform_not_browser()) {
+			//#11 ptr ( array ), valid convertion
+			assert_not_throws(function() {
+				var input = [];
+				return ptr(input);
+			}, "#11 ptr ( array ), should not throw an error, valid convertion");
+		}
 		
 		//#12 ptr ( undefined )
 		assert_throw(function() {
@@ -493,928 +495,436 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	})
 
 	// TYPE CHECKING
-
-	addFact("is_array_test", function() {
-
-		var input, output;
-
-		//#1 is_array ( pointer )
-		input = ptr({});
-		output = is_array(input);
-		assert_false(output, "#1 is_array ( pointer:local ), should be false");
-			
-		//#2 is_array ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_array(input);
-		assert_false(output, "#2 is_array ( pointer_invalid:local ), should be false");
-			
-		//#3 is_array ( pointer_null )
-		input = pointer_null;
-		output = is_array(input);
-		assert_false(output, "#3 is_array ( pointer_null:local ), should be false");
-			
-		//#4 is_array ( real )
-		input = 32.33;
-		output = is_array(input);
-		assert_false(output, "#4 is_array ( real:local ), should be false");
-			
-		//#5 is_array ( int32 )
-		input = int32(22);
-		output = is_array(input);
-		assert_false(output, "#5 is_array ( int32:local ), should be false");
-			
-		//#6 is_array ( int64 )
-		input = int64(12);
-		output = is_array(input);
-		assert_false(output, "#6 is_array ( int64:local ), should be false");
-						
-		//#7 is_array ( string )
-		input = "-21233.223";
-		output = is_array(input);
-		assert_false(output, "#7 is_array ( string:local ), should be false");
-
-		//#8 is_array ( bool )
-		input = true;
-		output = is_array(input);
-		assert_false(output, "#8 is_array ( bool:local ), should be false");
-
-		//#9 is_array ( nan )
-		input = NaN;
-		output = is_array(input);
-		assert_false(output, "#9 is_array ( NaN:local ), should be false");
-			
-		//#10 is_array ( infinity )
-		input = infinity;
-		output = is_array(input);
-		assert_false(output, "#10 is_array ( infinity:local ), should be false");
-			
-		//#11 is_array ( undefined )
-		input = undefined;
-		output = is_array(input);
-		assert_false(output, "#11 is_array ( undefined:local ), should be false");
-
-		//#12 is_array ( struct )
-		input = { key: "value" };
-		output = is_array(input);
-		assert_false(output, "#12 is_array ( struct:local ), should be false");
-
-		//#13 is_array ( array )
-		input = [];
-		output = is_array(input);
-		assert_true(output, "#13 is_array ( array:local ), should be true");
-			
-		//#13.1 is_array ( array )
-		output = is_array([]);
-		assert_true(output, "#13.1 is_array ( array:literal ), should be true");
-			
-		//#14 is_array ( method )
-		input = function() {};
-		output = is_array(input);
-		assert_false(output, "#14 is_array ( method:local ), should be false");
-			
-		//#15 is_array ( function )
-		input = get_timer;
-		output = is_array(input);
-		assert_false(output, "#15 is_array ( function:local ), should be false");
-
-	})
-
-	addFact("is_bool_test", function() {
-
-		var input, output;
-
-		//#1 is_bool ( pointer )
-		input = ptr({});
-		output = is_bool(input);
-		assert_false(output, "#1 is_bool ( pointer:local ), should be false");
-			
-		//#2 is_bool ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_bool(input);
-		assert_false(output, "#2 is_bool ( pointer_invalid:local ), should be false");
-			
-		//#3 is_bool ( pointer_null )
-		input = pointer_null;
-		output = is_bool(input);
-		assert_false(output, "#3 is_bool ( pointer_null:local ), should be false");
-			
-		//#4 is_bool ( real )
-		input = 32.33;
-		output = is_bool(input);
-		assert_false(output, "#4 is_bool ( real:local ), should be false");
-			
-		//#5 is_bool ( int32 )
-		input = int32(22);
-		output = is_bool(input);
-		assert_false(output, "#5 is_bool ( int32:local ), should be false");
-			
-		//#6 is_bool ( int64 )
-		input = int64(12);
-		output = is_bool(input);
-		assert_false(output, "#6 is_bool ( int64:local ), should be false");
-						
-		//#7 is_bool ( string )
-		input = "-21233.223";
-		output = is_bool(input);
-		assert_false(output, "#7 is_bool ( string:local ), should be false");
-
-		//#8 is_bool ( bool )
-		input = true;
-		output = is_bool(input);
-		assert_true(output, "#8 is_bool ( bool:local ), should be true");
-			
-		//#8.1 is_bool ( bool )
-		output = is_bool(true);
-		assert_true(output, "#8.1 is_bool ( bool:literal ), should be true");
-
-		//#9 is_bool ( nan )
-		input = NaN;
-		output = is_bool(input);
-		assert_false(output, "#9 is_bool ( NaN:local ), should be false");
-			
-		//#10 is_bool ( infinity )
-		input = infinity;
-		output = is_bool(input);
-		assert_false(output, "#10 is_bool ( infinity:local ), should be false");
-			
-		//#11 is_bool ( undefined )
-		input = undefined;
-		output = is_bool(input);
-		assert_false(output, "#11 is_bool ( undefined:local ), should be false");
-
-		//#12 is_bool ( struct )
-		input = { key: "value" };
-		output = is_bool(input);
-		assert_false(output, "#12 is_bool ( struct:local ), should be false");
-
-		//#13 is_bool ( array )
-		input = [];
-		output = is_bool(input);
-		assert_false(output, "#13 is_bool ( array:local ), should be false");
-			
-		//#14 is_bool ( method )
-		input = function() {};
-		output = is_bool(input);
-		assert_false(output, "#14 is_bool ( method:local ), should be false");
-			
-		//#15 is_bool ( function )
-		input = get_timer;
-		output = is_bool(input);
-		assert_false(output, "#15 is_bool ( function:local ), should be false");
-			
-
-	})
-
-	addFact("is_infinity_test", function() {
-
-		var input, output;
-
-		//#1 is_infinity ( pointer )
-		input = ptr({});
-		output = is_infinity(input);
-		assert_false(output, "#1 is_infinity ( pointer:local ), should be false");
-			
-		//#2 is_infinity ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_infinity(input);
-		assert_false(output, "#2 is_infinity ( pointer_invalid:local ), should be false");
-			
-		//#3 is_infinity ( pointer_null )
-		input = pointer_null;
-		output = is_infinity(input);
-		assert_false(output, "#3 is_infinity ( pointer_null:local ), should be false");
-			
-		//#4 is_infinity ( real )
-		input = 32.33;
-		output = is_infinity(input);
-		assert_false(output, "#4 is_infinity ( real:local ), should be false");
-			
-		//#5 is_infinity ( int32 )
-		input = int32(22);
-		output = is_infinity(input);
-		assert_false(output, "#5 is_infinity ( int32:local ), should be false");
-			
-		//#6 is_infinity ( int64 )
-		input = int64(12);
-		output = is_infinity(input);
-		assert_false(output, "#6 is_infinity ( int64:local ), should be false");
-						
-		//#7 is_infinity ( string )
-		input = "-21233.223";
-		output = is_infinity(input);
-		assert_false(output, "#7 is_infinity ( string:local ), should be false");
-
-		//#8 is_infinity ( bool )
-		input = true;
-		output = is_infinity(input);
-		assert_false(output, "#8 is_infinity ( bool:local ), should be false");
-
-		//#9 is_infinity ( nan )
-		input = NaN;
-		output = is_infinity(input);
-		assert_false(output, "#9 is_infinity ( NaN:local ), should be false");
-			
-		//#10 is_infinity ( infinity )
-		input = infinity;
-		output = is_infinity(input);
-		assert_true(output, "#10 is_infinity ( infinity:local ), should be true");
-			
-		//#11 is_infinity ( undefined )
-		input = undefined;
-		output = is_infinity(input);
-		assert_false(output, "#11 is_infinity ( undefined:local ), should be false");
-			
-		//#12 is_infinity ( struct )
-		input = { key: "value" };
-		output = is_infinity(input);
-		assert_false(output, "#12 is_infinity ( struct:local ), should be false");
-
-		//#13 is_infinity ( array )
-		input = [];
-		output = is_infinity(input);
-		assert_false(output, "#13 is_infinity ( array:local ), should be false");
-
-		//#14 is_infinity ( method )
-		input = function() {};
-		output = is_infinity(input);
-		assert_false(output, "#14 is_infinity ( method:local ), should be false");
-			
-		//#15 is_infinity ( function )
-		input = get_timer;
-		output = is_infinity(input);
-		assert_false(output, "#15 is_infinity ( function:local ), should be false");
-			
-	})
-
-	addFact("is_int32_test", function() {
-
-		var input, output;
-
-		//#1 is_int32 ( pointer )
-		input = ptr({});
-		output = is_int32(input);
-		assert_false(output, "#1 is_int32 ( pointer:local ), should be false");
-			
-		//#2 is_int32 ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_int32(input);
-		assert_false(output, "#2 is_int32 ( pointer_invalid:local ), should be false");
-			
-		//#3 is_int32 ( pointer_null )
-		input = pointer_null;
-		output = is_int32(input);
-		assert_false(output, "#3 is_int32 ( pointer_null:local ), should be false");
-			
-		//#4 is_int32 ( real )
-		input = 32.33;
-		output = is_int32(input);
-		assert_false(output, "#4 is_int32 ( real:local ), should be false");
-			
-		//#5 is_int32 ( int32 )
-		input = int32(22);
-		output = is_int32(input);
-		assert_true(output, "#5 is_int32 ( int32:local ), should be true");
-			
-		//#6 is_int32 ( int64 )
-		input = int64(12);
-		output = is_int32(input);
-		assert_false(output, "#6 is_int32 ( int64:local ), should be false");
-						
-		//#7 is_int32 ( string )
-		input = "-21233.223";
-		output = is_int32(input);
-		assert_false(output, "#7 is_int32 ( string:local ), should be false");
-
-		//#8 is_int32 ( bool )
-		input = true;
-		output = is_int32(input);
-		assert_false(output, "#8 is_int32 ( bool:local ), should be false");
-
-		//#9 is_int32 ( nan )
-		input = NaN;
-		output = is_int32(input);
-		assert_false(output, "#9 is_int32 ( NaN:local ), should be false");
-			
-		//#10 is_int32 ( infinity )
-		input = infinity;
-		output = is_int32(input);
-		assert_false(output, "#10 is_int32 ( infinity:local ), should be false");
-			
-		//#11 is_int32 ( undefined )
-		input = undefined;
-		output = is_int32(input);
-		assert_false(output, "#11 is_int32 ( undefined:local ), should be false");
-
-		//#12 is_int32 ( struct )
-		input = { key: "value" };
-		output = is_int32(input);
-		assert_false(output, "#12 is_int32 ( struct:local ), should be false");
-
-		//#13 is_int32 ( array )
-		input = [];
-		output = is_int32(input);
-		assert_false(output, "#13 is_int32 ( array:local ), should be false");
-			
-		//#14 is_int32 ( method )
-		input = function() {};
-		output = is_int32(input);
-		assert_false(output, "#14 is_int32 ( method:local ), should be false");
-			
-		//#15 is_int32 ( function )
-		input = get_timer;
-		output = is_int32(input);
-		assert_false(output, "#15 is_int32 ( function:local ), should be false");
-			
-	})
-
-	addFact("is_int64_test", function() {
-
-		var input, output;
-
-		//#1 is_int64 ( pointer )
-		input = ptr({});
-		output = is_int64(input);
-		assert_false(output, "#1 is_int64 ( pointer:local ), should be false");
-			
-		//#2 is_int64 ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_int64(input);
-		assert_false(output, "#2 is_int64 ( pointer_invalid:local ), should be false");
-			
-		//#3 is_int64 ( pointer_null )
-		input = pointer_null;
-		output = is_int64(input);
-		assert_false(output, "#3 is_int64 ( pointer_null:local ), should be false");
-			
-		//#4 is_int64 ( real )
-		input = 32.33;
-		output = is_int64(input);
-		assert_false(output, "#4 is_int64 ( real:local ), should be false");
-			
-		//#5 is_int64 ( int32 )
-		input = int32(22);
-		output = is_int64(input);
-		assert_false(output, "#5 is_int64 ( int32:local ), should be false");
-			
-		//#6 is_int64 ( int64 )
-		input = int64(12);
-		output = is_int64(input);
-		assert_true(output, "#6 is_int64 ( int64:local ), should be true");
-						
-		//#7 is_int64 ( string )
-		input = "-21233.223";
-		output = is_int64(input);
-		assert_false(output, "#7 is_int64 ( string:local ), should be false");
-
-		//#8 is_int64 ( bool )
-		input = true;
-		output = is_int64(input);
-		assert_false(output, "#8 is_int64 ( bool:local ), should be false");
-
-		//#9 is_int64 ( nan )
-		input = NaN;
-		output = is_int64(input);
-		assert_false(output, "#9 is_int64 ( NaN:local ), should be false");
-			
-		//#10 is_int64 ( infinity )
-		input = infinity;
-		output = is_int64(input);
-		assert_false(output, "#10 is_int64 ( infinity:local ), should be false");
-			
-		//#11 is_int64 ( undefined )
-		input = undefined;
-		output = is_int64(input);
-		assert_false(output, "#11 is_int64 ( undefined:local ), should be false");
-
-		//#12 is_int64 ( struct )
-		input = { key: "value" };
-		output = is_int64(input);
-		assert_false(output, "#12 is_int64 ( struct:local ), should be false");
-
-		//#13 is_int64 ( array )
-		input = [];
-		output = is_int64(input);
-		assert_false(output, "#13 is_int64 ( array:local ), should be false");
-			
-		//#14 is_int64 ( enum )
-		input = RainbowColors.Orange;
-		output = is_int64(input);
-		assert_true(output, "#14 is_int64 ( enum ), should be true (enum entries are always int64)");
-			
-		//#15 is_int64 ( method )
-		input = function() {};
-		output = is_int64(input);
-		assert_false(output, "#15 is_int64 ( method:local ), should be false");
-			
-		//#16 is_int64 ( function )
-		input = get_timer;
-		output = is_int64(input);
-		assert_false(output, "#16 is_int64 ( function:local ), should be false");
-			
-	})
-
-	addFact("is_method_test", function() {
-
-		var input, output;
-
-		//#1 is_method ( pointer )
-		input = ptr({});
-		output = is_method(input);
-		assert_false(output, "#1 is_method ( pointer:local ), should be false");
-			
-		//#2 is_method ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_method(input);
-		assert_false(output, "#2 is_method ( pointer_invalid:local ), should be false");
-			
-		//#3 is_method ( pointer_null )
-		input = pointer_null;
-		output = is_method(input);
-		assert_false(output, "#3 is_method ( pointer_null:local ), should be false");
-			
-		//#4 is_method ( real )
-		input = 32.33;
-		output = is_method(input);
-		assert_false(output, "#4 is_method ( real:local ), should be false");
-			
-		//#5 is_method ( int32 )
-		input = int32(22);
-		output = is_method(input);
-		assert_false(output, "#5 is_method ( int32:local ), should be false");
-			
-		//#6 is_method ( int64 )
-		input = int64(12);
-		output = is_method(input);
-		assert_false(output, "#6 is_method ( int64:local ), should be false");
-						
-		//#7 is_method ( string )
-		input = "-21233.223";
-		output = is_method(input);
-		assert_false(output, "#7 is_method ( string:local ), should be false");
-
-		//#8 is_method ( bool )
-		input = true;
-		output = is_method(input);
-		assert_false(output, "#8 is_method ( bool:local ), should be false");
-
-		//#9 is_method ( nan )
-		input = NaN;
-		output = is_method(input);
-		assert_false(output, "#9 is_method ( NaN:local ), should be false");
-			
-		//#10 is_method ( infinity )
-		input = infinity;
-		output = is_method(input);
-		assert_false(output, "#10 is_method ( infinity:local ), should be false");
-			
-		//#11 is_method ( undefined )
-		input = undefined;
-		output = is_method(input);
-		assert_false(output, "#11 is_method ( undefined:local ), should be false");
-
-		//#12 is_method ( struct )
-		input = { key: "value" };
-		output = is_method(input);
-		assert_false(output, "#12 is_method ( struct:local ), should be false");
-
-		//#13 is_method ( array )
-		input = [];
-		output = is_method(input);
-		assert_false(output, "#13 is_method ( array:local ), should be false");
-
-		//#14 is_method ( method )
-		input = function() {};
-		output = is_method(input);
-		assert_true(output, "#14 is_method ( method:local ), should be true");
-			
-		//#15 is_method ( function )
-		input = get_timer;
-		output = is_method(input);
-		assert_false(output, "#15 is_method ( function:local ), should be false");
-
-	})
-
-	addTheory("is_nan_test", [
-		[ptr({}),			assert_false, "#1 is_nan ( pointer:local ), should be false"],
-		[pointer_invalid,	assert_false, "#2 is_nan ( pointer_invalid:local ), should be false"],
-		[pointer_null,		assert_false, "#3 is_nan ( pointer_null:local ), should be false"],
+	
+	addTheory("is_array_test", [
+	
+		[ptr({}),				assert_false,	"#1 is_array ( pointer:local ), should be false"],
+		[pointer_invalid,		assert_false,	"#2 is_array ( pointer_invalid:local ), should be false"],
+		[pointer_null,			assert_false,	"#3 is_array ( pointer_null:local ), should be false"],
 		
-		[32.33,				assert_false, "#4 is_nan ( real:local ), should be false"],
-		[int32(22),			assert_false, "#5 is_nan ( int32:local ), should be false"],
-		[int64(12),			assert_false, "#6 is_nan ( int64:local ), should be false"],
+		[32.33,					assert_false,	"#4 is_array ( real:local ), should be false"],
+		[int32(22),				assert_false,	"#5 is_array ( int32:local ), should be false"],
+		[int64(12),				assert_false,	"#6 is_array ( int64:local ), should be false"],
 		
-		["-21233.223",		assert_false, "#7 is_nan ( string:local ), numeric string should be false"],
-		["",				assert_true, "#8 is_nan ( string:local ), empty string should be true"],
-		["abc",				assert_true, "#9 is_nan ( string:local ), non-numeric string should be true"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 		
-		[true,				assert_false, "#10 is_nan ( bool:local ), should be false"],
-		[NaN,				assert_true, "#11 is_nan ( NaN:local ), should be true"],
-		[infinity,			assert_false, "#12 is_nan ( infinity:local ), should be false"],
-		[undefined,			assert_true,  "#13 is_nan ( undefined:local ), should be true"],
+		["-21233.223",			assert_false,	"#8 is_array ( string:local ), numeric string should be false"],
+		[true,					assert_false,	"#9 is_array ( bool:local ), should be false"],
+		[NaN,					assert_false,	"#10 is_array ( NaN:local ), should be false"],
+		[infinity,				assert_false,	"#11 is_array ( infinity:local ), should be false"],
+		[undefined,				assert_false,	"#12 is_array ( undefined:local ), should be false"],
 		
-		[[],				assert_true, "#14 is_nan ( array:local ), should be true"],
-		[{ key: "value" },	assert_true, "#15 is_nan ( struct:local ), should be true"],
-		[function() {},		assert_true, "#16 is_nan ( method:local ), should be true"],
-		[get_timer,			assert_false, "#17 is_nan ( function:local ), should be false"],
+		[[],					assert_true,	"#13 is_array ( array:local ), should be true"],
+		[{ key: "value" },		assert_false,	"#14 is_array ( struct:local ), should be false"],
+		[function() {},			assert_false,	"#15 is_array ( method:local ), should be false"],
+		[get_timer,				assert_false,	"#16 is_array ( function:local ), should be false"],
 		
-	], function(_value, _test_func, _desc) {
+	], function(_input, _test_func, _desc, _condition = undefined) {
 		
-		var _output = is_nan(_value)
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_array(_input)
 		_test_func(_output, _desc);
 		
 	})
 
-	addFact("is_numeric_test", function() {
-
-		var input, output;
-
-		//#1 is_numeric ( pointer )
-		input = ptr({});
-		output = is_numeric(input);
-		assert_false(output, "#1 is_numeric ( pointer:local ), should be false");
-			
-		//#2 is_numeric ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_numeric(input);
-		assert_false(output, "#2 is_numeric ( pointer_invalid:local ), should be false");
-			
-		//#3 is_numeric ( pointer_null )
-		input = pointer_null;
-		output = is_numeric(input);
-		assert_false(output, "#3 is_numeric ( pointer_null:local ), should be false");
-			
-		//#4 is_numeric ( real )
-		input = 32.33;
-		output = is_numeric(input);
-		assert_true(output, "#4 is_numeric ( real:local ), should be true");
-			
-		//#5 is_numeric ( int32 )
-		input = int32(22);
-		output = is_numeric(input);
-		assert_true(output, "#5 is_numeric ( int32:local ), should be true");
-			
-		//#6 is_numeric ( int64 )
-		input = int64(12);
-		output = is_numeric(input);
-		assert_true(output, "#6 is_numeric ( int64:local ), should be true");
-						
-		//#7 is_numeric ( string )
-		input = "-21233.223";
-		output = is_numeric(input);
-		assert_false(output, "#7 is_numeric ( string:local ), should be false");
-
-		//#8 is_numeric ( bool )
-		input = true;
-		output = is_numeric(input);
-		assert_true(output, "#8 is_numeric ( bool:local ), should be true");
-
-		//#9 is_numeric ( nan )
-		input = NaN;
-		output = is_numeric(input);
-		assert_true(output, "#9 is_numeric ( NaN:local ), should be true");
-			
-		//#10 is_numeric ( infinity )
-		input = infinity;
-		output = is_numeric(input);
-		assert_true(output, "#10 is_numeric ( infinity:local ), should be true");
-			
-		//#11 is_numeric ( undefined )
-		input = undefined;
-		output = is_numeric(input);
-		assert_false(output, "#11 is_numeric ( undefined:local ), should be false");
-
-		//#12 is_numeric ( struct )
-		input = { key: "value" };
-		output = is_numeric(input);
-		assert_false(output, "#12 is_numeric ( struct:local ), should be false");
-
-		//#13 is_numeric ( array )
-		input = [];
-		output = is_numeric(input);
-		assert_false(output, "#13 is_numeric ( array:local ), should be false");
-			
-		//#14 is_numeric ( method )
-		input = function() {};
-		output = is_numeric(input);
-		assert_false(output, "#14 is_numeric ( method:local ), should be false");
-			
-		//#15 is_numeric ( function )
-		input = get_timer;
-		output = is_numeric(input);
-		assert_true(output, "#15 is_numeric ( function:local ), should be true");
-			
-	})
-
-	addFact("is_ptr_test", function() {
-
-		var input, output;
-
-		//#1 is_ptr ( pointer )
-		input = ptr({});
-		output = is_ptr(input);
-		assert_true(output, "#1 is_ptr ( pointer:local ), should be true");
-			
-		//#2 is_ptr ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_ptr(input);
-		assert_true(output, "#2 is_ptr ( pointer_invalid:local ), should be true");
-			
-		//#3 is_ptr ( pointer_null )
-		input = pointer_null;
-		output = is_ptr(input);
-		assert_true(output, "#3 is_ptr ( pointer_null:local ), should be true");
-			
-		//#4 is_ptr ( real )
-		input = 32.33;
-		output = is_ptr(input);
-		assert_false(output, "#4 is_ptr ( real:local ), should be false");
-			
-		//#5 is_ptr ( int32 )
-		input = int32(22);
-		output = is_ptr(input);
-		assert_false(output, "#5 is_ptr ( int32:local ), should be false");
-			
-		//#6 is_ptr ( int64 )
-		input = int64(12);
-		output = is_ptr(input);
-		assert_false(output, "#6 is_ptr ( int64:local ), should be false");
-						
-		//#7 is_ptr ( string )
-		input = "-21233.223";
-		output = is_ptr(input);
-		assert_false(output, "#7 is_ptr ( string:local ), should be false");
-
-		//#8 is_ptr ( bool )
-		input = true;
-		output = is_ptr(input);
-		assert_false(output, "#8 is_ptr ( bool:local ), should be false");
-
-		//#9 is_ptr ( nan )
-		input = NaN;
-		output = is_ptr(input);
-		assert_false(output, "#9 is_ptr ( NaN:local ), should be false");
-			
-		//#10 is_ptr ( infinity )
-		input = infinity;
-		output = is_ptr(input);
-		assert_false(output, "#10 is_ptr ( infinity:local ), should be false");
-			
-		//#11 is_ptr ( undefined )
-		input = undefined;
-		output = is_ptr(input);
-		assert_false(output, "#11 is_ptr ( undefined:local ), should be false");
-
-		//#12 is_ptr ( struct )
-		input = { key: "value" };
-		output = is_ptr(input);
-		assert_false(output, "#12 is_ptr ( struct:local ), should be false");
-
-		//#13 is_ptr ( array )
-		input = [];
-		output = is_ptr(input);
-		assert_false(output, "#13 is_ptr ( array:local ), should be false");
-			
-		//#14 is_ptr ( method )
-		input = function() {};
-		output = is_ptr(input);
-		assert_false(output, "#14 is_ptr ( method:local ), should be false");
-			
-		//#15 is_ptr ( function )
-		input = get_timer;
-		output = is_ptr(input);
-		assert_false(output, "#15 is_ptr ( function:local ), should be false");
-			
-	})
-
-	addFact("is_real_test", function() {
-
-		var input, output;
-
-		//#1 is_real ( pointer )
-		input = ptr({});
-		output = is_real(input);
-		assert_false(output, "#1 is_real ( pointer:local ), should be false");
-			
-		//#2 is_real ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_real(input);
-		assert_false(output, "#2 is_real ( pointer_invalid:local ), should be false");
-			
-		//#3 is_real ( pointer_null )
-		input = pointer_null;
-		output = is_real(input);
-		assert_false(output, "#3 is_real ( pointer_null:local ), should be false");
-			
-		//#4 is_real ( real )
-		input = 32.33;
-		output = is_real(input);
-		assert_true(output, "#4 is_real ( real:local ), should be true");
-						
-		//#4.1 is_real ( real )
-		output = is_real(3232);
-		assert_true(output, "#4.1 is_real ( real:literal ), should be true");
-			
-		//#5 is_real ( int32 )
-		input = int32(22);
-		output = is_real(input);
-		assert_false(output, "#5 is_real ( int32:local ), should be false");
-			
-		//#6 is_real ( int64 )
-		input = int64(12);
-		output = is_real(input);
-		assert_false(output, "#6 is_real ( int64:local ), should be false");
-						
-		//#7 is_real ( string )
-		input = "-21233.223";
-		output = is_real(input);
-		assert_false(output, "#7 is_real ( string:local ), should be false");
-
-		//#8 is_real ( bool )
-		input = true;
-		output = is_real(input);
-		assert_false(output, "#8 is_real ( bool:local ), should be false");
-
-		//#9 is_real ( nan )
-		input = NaN;
-		output = is_real(input);
-		assert_true(output, "#9 is_real ( NaN:local ), should be true");
-			
-		//#10 is_real ( infinity )
-		input = infinity;
-		output = is_real(input);
-		assert_true(output, "#10 is_real ( infinity:local ), should be true");
-			
-		//#11 is_real ( undefined )
-		input = undefined;
-		output = is_real(input);
-		assert_false(output, "#11 is_real ( undefined:local ), should be false");
-
-		//#12 is_real ( struct )
-		input = { key: "value" };
-		output = is_real(input);
-		assert_false(output, "#12 is_real ( struct:local ), should be false");
-
-		//#13 is_real ( array )
-		input = [];
-		output = is_real(input);
-		assert_false(output, "#13 is_real ( array:local ), should be false");
-			
-		//#14 is_real ( method )
-		input = function() {};
-		output = is_real(input);
-		assert_false(output, "#14 is_real ( method:local ), should be false");
-			
-		//#15 is_real ( function )
-		input = get_timer;
-		output = is_real(input);
-		assert_true(output, "#15 is_real ( function:local ), should be true");
-			
-	})
-
-	addFact("is_struct_test", function() {
-
-		var input, output;
-
-		//#1 is_struct ( pointer )
-		input = ptr({});
-		output = is_struct(input);
-		assert_false(output, "#1 is_struct ( pointer:local ), should be false");
-			
-		//#2 is_struct ( pointer_invalid )
-		input = pointer_invalid;
-		output = is_struct(input);
-		assert_false(output, "#2 is_struct ( pointer_invalid:local ), should be false");
-			
-		//#3 is_struct ( pointer_null )
-		input = pointer_null;
-		output = is_struct(input);
-		assert_false(output, "#3 is_struct ( pointer_null:local ), should be false");
-			
-		//#4 is_struct ( real )
-		input = 32.33;
-		output = is_struct(input);
-		assert_false(output, "#4 is_struct ( real:local ), should be false");
-			
-		//#5 is_struct ( int32 )
-		input = int32(22);
-		output = is_struct(input);
-		assert_false(output, "#5 is_struct ( int32:local ), should be false");
-			
-		//#6 is_struct ( int64 )
-		input = int64(12);
-		output = is_struct(input);
-		assert_false(output, "#6 is_struct ( int64:local ), should be false");
-						
-		//#7 is_struct ( string )
-		input = "-21233.223";
-		output = is_struct(input);
-		assert_false(output, "#7 is_struct ( string:local ), should be false");
-
-		//#8 is_struct ( bool )
-		input = true;
-		output = is_struct(input);
-		assert_false(output, "#8 is_struct ( bool:local ), should be false");
-
-		//#9 is_struct ( nan )
-		input = NaN;
-		output = is_struct(input);
-		assert_false(output, "#9 is_struct ( NaN:local ), should be false");
-			
-		//#10 is_struct ( infinity )
-		input = infinity;
-		output = is_struct(input);
-		assert_false(output, "#10 is_struct ( infinity:local ), should be false");
-			
-		//#11 is_struct ( undefined )
-		input = undefined;
-		output = is_struct(input);
-		assert_false(output, "#11 is_struct ( undefined:local ), should be false");
-
-		//#12 is_struct ( struct )
-		input = { key: "value" };
-		output = is_struct(input);
-		assert_true(output, "#12 is_struct ( struct:local ), should be true");
-
-		//#13 is_struct ( array )
-		input = [];
-		output = is_struct(input);
-		assert_false(output, "#13 is_struct ( array:local ), should be false");
-
-		//#14 is_struct ( method )
-		input = function() {};
-		output = is_struct(input);
-		assert_true(output, "#14 is_struct ( method:local ), should be true");
-			
-		//#15 is_struct ( function )
-		input = get_timer;
-		output = is_struct(input);
-		assert_false(output, "#15 is_struct ( function:local ), should be false");
-			
+	
+	addTheory("is_bool_test", [
+	
+		[ptr({}),				assert_false,	"#1 is_bool ( pointer:local ), should be false"],
+		[pointer_invalid,		assert_false,	"#2 is_bool ( pointer_invalid:local ), should be false"],
+		[pointer_null,			assert_false,	"#3 is_bool ( pointer_null:local ), should be false"],
+		
+		[32.33,					assert_false,	"#4 is_bool ( real:local ), should be false"],
+		[int32(22),				assert_false,	"#5 is_bool ( int32:local ), should be false"],
+		[int64(12),				assert_false,	"#6 is_bool ( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_bool ( int64:local ), should be false (enum entries are always int64)"],
+		
+		["-21233.223",			assert_false,	"#8 is_bool ( string:local ), numeric string should be false"],
+		[true,					assert_true,	"#9 is_bool ( bool:local ), should be true"],
+		[NaN,					assert_false,	"#10 is_bool ( NaN:local ), should be false"],
+		[infinity,				assert_false,	"#11 is_bool ( infinity:local ), should be false"],
+		[undefined,				assert_false,	"#12 is_bool ( undefined:local ), should be false"],
+		
+		[[],					assert_false,	"#13 is_bool ( array:local ), should be false"],
+		[{ key: "value" },		assert_false,	"#14 is_bool ( struct:local ), should be false"],
+		[function() {},			assert_false,	"#15 is_bool ( method:local ), should be false"],
+		[get_timer,				assert_false,	"#16 is_bool ( function:local ), should be false"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_bool(_input)
+		_test_func(_output, _desc);
+		
 	})
 	
-	addFact("typeof_test", function() {
 
-		var value;
-
-		//#1 typeof ( pointer )
-		value = ptr({});
-		assert_typeof(value, "ptr", "#1 typeof ( pointer:local ), value is not of the correct type");
-			
-		//#2 typeof ( pointer_invalid )
-		value = pointer_invalid;
-		assert_typeof(value, "ptr", "#2 typeof ( pointer_invalid:local ), value is not of the correct type");
-			
-		//#3 typeof ( pointer_null )
-		value = pointer_null;
-		assert_typeof(value, "ptr", "#3 typeof ( pointer_null:local ), value is not of the correct type");
-			
-		//#4 typeof ( real )
-		value = 32.33;
-		assert_typeof(value, "number", "#4 typeof ( real:local ), value is not of the correct type");
-			
-		//#5 typeof ( int32 )
-		value = int32(22);
-		assert_typeof(value, "int32", "#5 typeof ( int32:local ), value is not of the correct type");
-			
-		//#6 typeof ( int64 )
-		value = int64(12);
-		assert_typeof(value, "int64", "#6 typeof ( int64:local ), value is not of the correct type");
-						
-		//#7 typeof ( string )
-		value = "-21233.223";
-		assert_typeof(value, "string", "#7 typeof ( string:local ), value is not of the correct type");
-
-		//#8 typeof ( bool )
-		value = true;
-		assert_typeof(value, "bool", "#8 typeof ( bool:local ), value is not of the correct type");
-
-		//#9 typeof ( nan )
-		value = NaN;
-		assert_typeof(value, "number", "#9 typeof ( NaN:local ), value is not of the correct type");
-			
-		//#10 typeof ( infinity )
-		value = infinity;
-		assert_typeof(value, "number", "#10 typeof ( infinity:local ), value is not of the correct type");
-			
-		//#11 typeof ( undefined )
-		value = undefined;
-		assert_typeof(value, "undefined", "#11 typeof ( undefined:local ), value is not of the correct type");
-
-		//#12 typeof ( struct )
-		value = { key: "value" };
-		assert_typeof(value, "struct", "#12 typeof ( struct:local ), value is not of the correct type");
-
-		//#13 typeof ( array )
-		value = [];
-		assert_typeof(value, "array", "#13 typeof ( array:local ), value is not of the correct type");
-			
-		//#14 typeof ( method )
-		value = function() {}
-		assert_typeof(value, "method", "#14 typeof ( method:local ), value is not of the correct type");
-			
-		//#14 typeof ( function )
-		value = get_timer;
-		assert_typeof(value, "number", "#14 typeof ( function:local ), value is not of the correct type");
-			
+	addTheory("is_infinity_test", [
+	
+		[ptr({}),				assert_false,	"#1 is_infinity ( pointer:local ), should be false"],
+		[pointer_invalid,		assert_false,	"#2 is_infinity ( pointer_invalid:local ), should be false"],
+		[pointer_null,			assert_false,	"#3 is_infinity ( pointer_null:local ), should be false"],
+		
+		[32.33,					assert_false,	"#4 is_infinity ( real:local ), should be false"],
+		[int32(22),				assert_false,	"#5 is_infinity ( int32:local ), should be false"],
+		[int64(12),				assert_false,	"#6 is_infinity ( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_infinity ( int64:local ), should be false (enum entries are always int64)"],
+		
+		["-21233.223",			assert_false,	"#8 is_infinity ( string:local ), numeric string should be false"],
+		[true,					assert_false,	"#9 is_infinity ( bool:local ), should be false"],
+		[NaN,					assert_false,	"#10 is_infinity ( NaN:local ), should be false"],
+		[infinity,				assert_true,	"#11 is_infinity ( infinity:local ), should be true"],
+		[undefined,				assert_false,	"#12 is_infinity ( undefined:local ), should be false"],
+		
+		[[],					assert_false,	"#13 is_infinity ( array:local ), should be false"],
+		[{ key: "value" },		assert_false,	"#14 is_infinity ( struct:local ), should be false"],
+		[function() {},			assert_false,	"#15 is_infinity ( method:local ), should be false"],
+		[get_timer,				assert_false,	"#16 is_infinity ( function:local ), should be false"],
+		
+		[infinity + 300,		assert_true,	"#17 is_infinity ( infinity + value ), should be true"],
+		[infinity - 300,		assert_true,	"#18 is_infinity ( infinity - value ), should be true"],
+		[infinity * 300,		assert_true,	"#19 is_infinity ( infinity * value ), should be true"],
+		[infinity / 300,		assert_true,	"#20 is_infinity ( infinity / value ), should be true"],
+		[infinity / NaN,		assert_false,	"#21 is_infinity ( value / infinity ), should be false (expect 0)"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_infinity(_input)
+		_test_func(_output, _desc);
+		
 	})
+	
+	addTheory("is_int32_test", [
+	
+		[ptr({}),				assert_false,	"#1 is_int32 ( pointer:local ), should be false"],
+		[pointer_invalid,		assert_false,	"#2 is_int32 ( pointer_invalid:local ), should be false"],
+		[pointer_null,			assert_false,	"#3 is_int32 ( pointer_null:local ), should be false"],
+		
+		[32.33,					assert_false,	"#4 is_int32 ( real:local ), should be false"],
+		[int32(22),				assert_true,	"#5 is_int32 ( int32:local ), should be true"],
+		[int64(12),				assert_false,	"#6 is_int32 ( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_int32 ( int64:local ), should be false (enum entries are always int64)"],
+		
+		["-21233.223",			assert_false,	"#8 is_int32 ( string:local ), numeric string should be false"],
+		[true,					assert_false,	"#9 is_int32 ( bool:local ), should be false"],
+		[NaN,					assert_false,	"#10 is_int32 ( NaN:local ), should be false"],
+		[infinity,				assert_false,	"#11 is_int32 ( infinity:local ), should be false"],
+		[undefined,				assert_false,	"#12 is_int32 ( undefined:local ), should be false"],
+		
+		[[],					assert_false,	"#13 is_int32 ( array:local ), should be false"],
+		[{ key: "value" },		assert_false,	"#14 is_int32 ( struct:local ), should be false"],
+		[function() {},			assert_false,	"#15 is_int32 ( method:local ), should be false"],
+		[get_timer,				assert_false,	"#16 is_int32 ( function:local ), should be false"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_int32(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+
+	addTheory("is_int64_test", [
+	
+		[ptr({}),				assert_false,	"#1 is_int64 ( pointer:local ), should be false"],
+		[pointer_invalid,		assert_false,	"#2 is_int64 ( pointer_invalid:local ), should be false"],
+		[pointer_null,			assert_false,	"#3 is_int64 ( pointer_null:local ), should be false"],
+		
+		[32.33,					assert_false,	"#4 is_int64 ( real:local ), should be false"],
+		[int32(22),				assert_false,	"#5 is_int64 ( int32:local ), should be false"],
+		[int64(12),				assert_true,	"#6 is_int64 ( int64:local ), should be true"],
+		
+		[RainbowColors.Orange,	assert_true,	"#7 is_int64 ( int64:local ), should be true (enum entries are always int64)", platform_not_browser],
+		
+		["-21233.223",			assert_false,	"#8 is_int64 ( string:local ), numeric string should be false"],
+		[true,					assert_false,	"#9 is_int64 ( bool:local ), should be false"],
+		[NaN,					assert_false,	"#10 is_int64 ( NaN:local ), should be false"],
+		[infinity,				assert_false,	"#11 is_int64 ( infinity:local ), should be false"],
+		[undefined,				assert_false,	"#12 is_int64 ( undefined:local ), should be false"],
+		
+		[[],					assert_false,	"#13 is_int64 ( array:local ), should be false"],
+		[{ key: "value" },		assert_false,	"#14 is_int64 ( struct:local ), should be false"],
+		[function() {},			assert_false,	"#15 is_int64 ( method:local ), should be false"],
+		[get_timer,				assert_false,	"#16 is_int64 ( function:local ), should be false"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_int64(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+
+	addTheory("is_method_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_method ( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_method ( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_method ( pointer_null:local ), should be false"],
+		
+		[32.33,				assert_false,	"#4 is_method ( real:local ), should be false"],
+		[int32(22),			assert_false,	"#5 is_method ( int32:local ), should be false"],
+		[int64(12),			assert_false,	"#6 is_method ( int64:local ), should be false"],
+		
+		["-21233.223",		assert_false,	"#7 is_method ( string:local ), numeric string should be false"],
+		[true,				assert_false,	"#8 is_method ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#9 is_method ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#10 is_method ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#11 is_method ( undefined:local ), should be true"],
+		
+		[[],				assert_false,	"#12 is_method ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#13 is_method ( struct:local ), should be false"],
+		[function() {},		assert_true,	"#14 is_method ( method:local ), should be true"],
+		[get_timer,			assert_false,	"#15 is_method ( function:local ), should be false", platform_not_browser],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_method(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+	addTheory("is_nan_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_nan ( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_nan ( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_nan ( pointer_null:local ), should be false"],
+		
+		[32.33,				assert_false,	"#4 is_nan ( real:local ), should be false"],
+		[int32(22),			assert_false,	"#5 is_nan ( int32:local ), should be false"],
+		[int64(12),			assert_false,	"#6 is_nan ( int64:local ), should be false"],
+		
+		["-21233.223",		assert_false,	"#7 is_nan ( string:local ), numeric string should be false"],
+		["",				assert_true,	"#8 is_nan ( string:local ), empty string should be true"],
+		["abc",				assert_true,	"#9 is_nan ( string:local ), non-numeric string should be true"],
+		
+		[true,				assert_false,	"#10 is_nan ( bool:local ), should be false"],
+		[NaN,				assert_true,	"#11 is_nan ( NaN:local ), should be true"],
+		[infinity,			assert_false,	"#12 is_nan ( infinity:local ), should be false"],
+		[undefined,			assert_true,	"#13 is_nan ( undefined:local ), should be true"],
+		
+		[[],				assert_true,	"#14 is_nan ( array:local ), should be true"],
+		[{ key: "value" },	assert_true,	"#15 is_nan ( struct:local ), should be true"],
+		[function() {},		assert_true,	"#16 is_nan ( method:local ), should be true"],
+		[get_timer,			assert_false,	"#17 is_nan ( function:local ), should be false", platform_not_browser],
+		
+		[NaN + 300,			assert_true,	"#18 is_nan ( NaN + value ), should be true"],
+		[NaN - 300,			assert_true,	"#19 is_nan ( NaN - value ), should be true"],
+		[NaN * 300,			assert_true,	"#20 is_nan ( NaN * value ), should be true"],
+		[NaN / 300,			assert_true,	"#21 is_nan ( NaN / value ), should be true"],
+		[300 / NaN,			assert_true,	"#22 is_nan ( value / NaN ), should be true"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_nan(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+	addTheory("is_numeric_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_numeric ( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_numeric ( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_numeric ( pointer_null:local ), should be false"],
+		
+		[32.33,				assert_true,	"#4 is_numeric ( real:local ), should be true"],
+		[int32(22),			assert_true,	"#5 is_numeric ( int32:local ), should be true"],
+		[int64(12),			assert_true,	"#6 is_numeric ( int64:local ), should be true"],
+		
+		["-21233.223",		assert_false,	"#7 is_numeric ( string:local ), numeric string should be false"],
+		["",				assert_false,	"#8 is_numeric ( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#9 is_numeric ( string:local ), non-numeric string should be false"],
+		
+		[true,				assert_true,	"#10 is_numeric ( bool:local ), should be true"],
+		[NaN,				assert_true,	"#11 is_numeric ( NaN:local ), should be false"],
+		[infinity,			assert_true,	"#12 is_numeric ( infinity:local ), should be true"],
+		[undefined,			assert_false,	"#13 is_numeric ( undefined:local ), should be false"],
+		
+		[[],				assert_false,	"#14 is_numeric ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#15 is_numeric ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#16 is_numeric ( method:local ), should be false"],
+		[get_timer,			assert_true,	"#17 is_numeric ( function:local ), should be true", platform_not_browser],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_numeric(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+
+	addTheory("is_ptr_test", [
+	
+		[ptr({}),			assert_true,	"#1 is_ptr ( pointer:local ), should be true"],
+		[pointer_invalid,	assert_true,	"#2 is_ptr ( pointer_invalid:local ), should be true"],
+		[pointer_null,		assert_true,	"#3 is_ptr ( pointer_null:local ), should be true"],
+		
+		[32.33,				assert_false,	"#4 is_ptr ( real:local ), should be false"],
+		[int32(22),			assert_false,	"#5 is_ptr ( int32:local ), should be false"],
+		[int64(12),			assert_false,	"#6 is_ptr ( int64:local ), should be false"],
+		
+		["-21233.223",		assert_false,	"#7 is_ptr ( string:local ), numeric string should be false"],
+		["",				assert_false,	"#8 is_ptr ( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#9 is_ptr ( string:local ), non-numeric string should be false"],
+		
+		[true,				assert_false,	"#10 is_ptr ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#11 is_ptr ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#12 is_ptr ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#13 is_ptr ( undefined:local ), should be false"],
+		
+		[[],				assert_false,	"#14 is_ptr ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#15 is_ptr ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#16 is_ptr ( method:local ), should be false"],
+		[get_timer,			assert_false,	"#17 is_ptr ( function:local ), should be false"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_ptr(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+
+	addTheory("is_real_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_real( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_real( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_real( pointer_null:local ), should be false"],
+
+		[32.33,				assert_true,	"#4 is_real( real:local ), should be true"],
+		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
+		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
+
+		["-21233.223",		assert_false,	"#7 is_real( string:local ), numeric string should be false"],
+		["",				assert_false,	"#8 is_real( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#9 is_real( string:local ), non-numeric string should be false"],
+
+		[true,				assert_false,	"#10 is_real ( bool:local ), should be true"],
+		[NaN,				assert_true,	"#11 is_real ( NaN:local ), should be true"],
+		[infinity,			assert_true,	"#12 is_real ( infinity:local ), should be true"],
+		[undefined,			assert_false,	"#13 is_real ( undefined:local ), should be false"],
+
+		[[],				assert_false,	"#14 is_real ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#15 is_real ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#16 is_real ( method:local ), should be false"],
+		[get_timer,			assert_true,	"#17 is_real ( function:local ), should be true", platform_not_browser],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_real(_input)
+		_test_func(_output, _desc);
+		
+	})
+
+
+	addTheory("is_struct_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_struct( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_struct( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_struct( pointer_null:local ), should be false"],
+
+		[32.33,				assert_false,	"#4 is_struct( real:local ), should be false"],
+		[int32(22),			assert_false,	"#5 is_struct( int32:local ), should be false"],
+		[int64(12),			assert_false,	"#6 is_struct( int64:local ), should be false"],
+
+		["-21233.223",		assert_false,	"#7 is_struct( string:local ), numeric string should be false"],
+		["",				assert_false,	"#8 is_struct( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#9 is_struct( string:local ), non-numeric string should be false"],
+
+		[true,				assert_false,	"#10 is_struct ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#11 is_struct ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#12 is_struct ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#13 is_struct ( undefined:local ), should be false"],
+
+		[[],				assert_false,	"#14 is_struct ( array:local ), should be false"],
+		[{ key: "value" },	assert_true,	"#15 is_struct ( struct:local ), should be true"],
+		[function() {},		assert_true,	"#16 is_struct ( method:local ), should be true", platform_not_browser],
+		[get_timer,			assert_false,	"#17 is_struct ( function:local ), should be false"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_struct(_input)
+		_test_func(_output, _desc);
+		
+	})
+	
+	
+	addTheory("typeof_test", [
+	
+		[ptr({}),			"ptr",			"#1 typeof( pointer:local )"],
+		[pointer_invalid,	"ptr",			"#2 typeof( pointer_invalid:local )"],
+		[pointer_null,		"ptr",			"#3 typeof( pointer_null:local )"],
+
+		[32.33,				"number",		"#4 typeof( real:local )"],
+		[int32(22),			"int32",		"#5 typeof( int32:local )",	platform_not_browser],
+		[int64(12),			"int64",		"#6 typeof( int64:local )"],
+
+		["-21233.223",		"string",		"#7 typeof( string:local )"],
+		["",				"string",		"#8 typeof( string:local )"],
+		["abc",				"string",		"#9 typeof( string:local )"],
+
+		[true,				"bool",			"#10 typeof ( bool:local )"],
+		[NaN,				"number",		"#11 typeof ( NaN:local )"],
+		[infinity,			"number",		"#12 typeof ( infinity:local )"],
+		[undefined,			"undefined",	"#13 typeof ( undefined:local )"],
+
+		[[],				"array",		"#14 typeof ( array:local )"],
+		[{ key: "value" },	"struct",		"#15 typeof ( struct:local )"],
+		[function() {},		"method",		"#16 typeof ( method:local )"],
+		[get_timer,			"number",		"#17 typeof ( function:local )", platform_not_browser],
+		
+	], function(_input, _expected, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		assert_typeof(_input, _expected, _desc);
+		
+	})
+
 }

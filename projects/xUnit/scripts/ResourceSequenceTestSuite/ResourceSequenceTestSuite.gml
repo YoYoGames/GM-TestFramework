@@ -342,15 +342,17 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 
 			
 			_valueDetailsCount = array_length(_valueDetails);
+			var _prev;
 			for (var _j = 0; _j < _valueDetailsCount; _j++) {
 				
 				_valueType = _valueDetails[_j];
 				_value = _valueType[0];
 				_details = _valueType[1];
-					
+				
+				_prev = _seq.playbackSpeedType;
 				_seq.playbackSpeedType = _value;
 				_output = _seq.playbackSpeedType;
-				assert_equals(_output, spritespeed_framespergameframe, "#4 get/set sequence.playbackSpeedType ["+_details+"], out of bounds (should not have changed)");
+				assert_equals(_output, _prev, "#4 get/set sequence.playbackSpeedType ["+_details+"], out of bounds (should not have changed)");
 			}
 			
 			// Clean up
@@ -361,7 +363,7 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 
 		addFact("sequence.tracks_test", function() {
 
-			var _elmID, _seq1Inst, _seq1, _seq1Tracks, _seq2Inst, _seq2, _seq2Tracks, _output;
+			var _seqElm1, _seq1Inst, _seq1, _seq1Tracks, _seqElm2, _seq2Inst, _seq2, _seq2Tracks, _output;
 
 			var _testLayer = layer_create(100, "testLayer");
 			
@@ -370,22 +372,18 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			
 			if (_output == false) return; // We don't have a layer to work with
 
-			_elmID = layer_sequence_create(_testLayer, 0, 0, Sequence1);
-			_seq1Inst = layer_sequence_get_instance(_elmID);
+			_seqElm1 = layer_sequence_create(_testLayer, 0, 0, Sequence1);
+			_seq1Inst = layer_sequence_get_instance(_seqElm1);
 			_seq1 = _seq1Inst.sequence;
 			_seq1Tracks = _seq1.tracks;
 			
 			// Clean up
-			layer_sequence_destroy(_elmID);
+			layer_sequence_destroy(_seqElm1);
 			
-			_elmID = layer_sequence_create(_testLayer, 0, 0, Sequence2);
-			_seq2Inst = layer_sequence_get_instance(_elmID);
+			_seqElm2 = layer_sequence_create(_testLayer, 0, 0, Sequence2);
+			_seq2Inst = layer_sequence_get_instance(_seqElm2);
 			_seq2 = _seq2Inst.sequence;
 			_seq2Tracks = _seq2.tracks;
-			
-			// Clean up
-			layer_sequence_destroy(_elmID);
-			layer_destroy(_testLayer);
 			
 			
 			//#1 get sequence.tracks - is array
@@ -403,6 +401,10 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			_seq2.tracks = _seq1Tracks;
 			_output = _seq2.tracks;
 			assert_array_equals(_output, _seq1Tracks, "#4 get/set sequence.tracks, failed to set/get tracks");
+
+			// Clean up
+			layer_sequence_destroy(_seqElm2);
+			layer_destroy(_testLayer);
 
 		})
 
@@ -1258,7 +1260,7 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 
 		addFact("track.tracks_test", function() {
 
-			var _elmID, _output;
+			var _seqElem1, _seqElem2, _output;
 			var _seq1Inst, _seq1, _seq1Tracks, _seq1Track0Tracks;
 			var _seq2Inst, _seq2, _seq2Tracks, _seq2Track0Tracks;
 			
@@ -1269,25 +1271,19 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			
 			if (_output == false) return; // We don't have a layer to work with
 			
-			_elmID = layer_sequence_create(_testLayer, 0, 0, Sequence1);
-			_seq1Inst = layer_sequence_get_instance(_elmID);
+			_seqElem1 = layer_sequence_create(_testLayer, 0, 0, Sequence1);
+			_seq1Inst = layer_sequence_get_instance(_seqElem1);
 			_seq1 = _seq1Inst.sequence;
 			_seq1Tracks = _seq1.tracks;
 			_seq1Track0Tracks = _seq1Tracks[0].tracks;
 
 			// Clean up
-			layer_sequence_destroy(_elmID);
 			
-			_elmID = layer_sequence_create(_testLayer, 0, 0, Sequence2);
-			_seq2Inst = layer_sequence_get_instance(_elmID);
+			_seqElem2 = layer_sequence_create(_testLayer, 0, 0, Sequence2);
+			_seq2Inst = layer_sequence_get_instance(_seqElem2);
 			_seq2 = _seq2Inst.sequence;
 			_seq2Tracks = _seq2.tracks;
 			_seq2Track0Tracks = _seq2Tracks[0].tracks;
-	
-			// Clean up
-			layer_sequence_destroy(_elmID);
-			layer_destroy(_testLayer);
-
 
 			//#1 get tracks.tracks - is array
 			assert_typeof(_seq1Track0Tracks, "array", "#1 get tracks.tracks, should be of type array");
@@ -1298,6 +1294,7 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			//#3 get/set tracks.tracks
 			_seq1Tracks[0].tracks = _seq2Track0Tracks;
 			_output = _seq1Tracks[0].tracks;
+			
 			assert_array_equals(_output, _seq2Track0Tracks, "#3 get/set tracks.tracks, failed to set/get tracks");
 			
 			//#4 get/set tracks.tracks
@@ -1305,6 +1302,10 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			_output = _seq2Tracks[0].tracks;
 			assert_array_equals(_output, _seq1Track0Tracks, "#4 get/set tracks.tracks, failed to set/get tracks");
 			
+			// Clean up
+			layer_sequence_destroy(_seqElem1);
+			layer_sequence_destroy(_seqElem2);
+			layer_destroy(_testLayer);
 		})
 
 		addFact("track.traits_test", function() {

@@ -169,17 +169,17 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		return _resolver(assertTitle, _description, _value, _expected);
 	}
 
-	/// @function contained(value, array, description)
+	/// @function any_of(value, array, description)
 	/// @param {Any} value The value to be tested.
 	/// @param {Array} expected The array that should contain the value.
 	/// @param {String} [description] An optional description for this assert_true.
 	/// @returns {Bool}
-	static contained = function(_value, _expected, _description = undefined) {
+	static any_of = function(_value, _expected, _description = undefined) {
 	
 		// Assert type
-		static assertTitle = "Asserted value to be contained in array";
+		static assertTitle = "Asserted value to be any of the values in the array";
 	
-		if (!is_array(_expected)) throw log_error("contained :: argument 'expected' must be of type {Array}");
+		if (!is_array(_expected)) throw log_error("any_of :: argument 'expected' must be of type {Array}");
 		
 		var _resolver = array_contains(_expected, _value) ? pass : fail;
 		
@@ -324,7 +324,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 				assertDepth--;
 			}
 			else if (is_array(_current)) {
-				assertDepth++;
+				assertDepth++;	
 				_passed = arrayEquals(_current, _expected[_i], _description);
 				assertDepth--;
 			}
@@ -1270,7 +1270,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		var _names = variable_struct_get_names(_expected);
 		for (var _i = 0; _i < _size && _passed; _i++) {
 		
-			var _name = _names[_i];
+			var _name = _names[_i];			
 			var _current = _struct[$ _name];
 		
 			// Resolve nested structs

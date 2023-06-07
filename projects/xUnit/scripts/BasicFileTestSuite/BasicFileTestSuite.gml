@@ -144,6 +144,8 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		//file_attributes(fname,fa_volumeid);
 		//file_attributes(fname,fa_archive);
 
+	}, {
+		test_filter: platform_not_browser
 	})
 
 	addFact("file_exists_not_sandboxed", function() {

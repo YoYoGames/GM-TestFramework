@@ -38,7 +38,7 @@ DEFAULT_CONFIG = {
 REDACTED_WORDS = ['-ak=', 'accessKey']
 REDACTED_MESSAGE = "<redacted to prevent exposure of sensitive data>"
 
-VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'HTML5']
+VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'HTML5', 'ps4']
 VALID_RUNNERS = ['vm', 'yyc']
 
 FAILURE_MESSAGE = '[ERROR] Not all unit tests succeeded.'
@@ -374,7 +374,10 @@ def igor_install_runtime(user_folder, feed, version, platforms):
     # This will prevent browser cache
     cacheBust = random.randint(111111111, 999999999)
     # Prepare modules string
-    modules = ','.join(platforms).lower()
+    t = platforms
+    if not 'windows' in platforms:
+        t.append('windows')
+    modules = ','.join(t).lower()
     # Setup arguments
     args = [f'/uf={user_folder}', f'/ru={feed}?cachebust={cacheBust}', f'/rp={RUNTIME_DIR}', f'/m={modules}', 'Runtime', 'Install', version]
     

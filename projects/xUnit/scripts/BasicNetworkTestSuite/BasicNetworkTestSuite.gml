@@ -42,7 +42,10 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { test_timeout_millis: 3000 });
+	}, { 
+		test_timeout_millis: 3000,
+		test_filter: platform_not_browser
+	});
 	
 	addTestAsync("network_connect_fail", objTestAsyncNetworking, {
 		
@@ -98,7 +101,10 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { test_timeout_millis: 3000 });
+	}, { 
+		test_timeout_millis: 3000,
+		test_filter: platform_not_browser
+	});
 	
 	addTestAsync("network_send_packet_test", objTestAsyncNetworking, {
 		

@@ -80,15 +80,15 @@ function assert_less_or_equal(_value, _expected, _description = undefined) {
 	return framework.lessOrEqual(_value, _expected, _description);
 }
 
-/// @functions assert_contained(value, array, description)
+/// @functions assert_any_of(value, array, description)
 /// @param {Any} value The value to be tested.
 /// @param {Array} expected The array that should contain the value.
 /// @param {String} [description] An optional description for this assert_true.
 /// @returns {Bool}
-function assert_contained(_value, _expected, _description = undefined) {
+function assert_any_of(_value, _expected, _description = undefined) {
 	
 	static framework = assert_get_singleton();
-	return framework.contained(_value, _expected, _description);	
+	return framework.any_of(_value, _expected, _description);	
 }
 
 /// @param {Any} value The value to be tested.
@@ -697,8 +697,9 @@ function assert_string_starts_with_any(_string, _expected, _description = undefi
 
 #region Type Asserts
 
-/// @function assert_typeof(value, description)
+/// @function assert_typeof(value, expected, description)
 /// @param {Any} value The value to be tested.
+/// @param {String} expected The expected 'typeof' result.
 /// @param {String} [description] An optional description for this assert_true.
 /// @returns {Bool}
 function assert_typeof(_value, _expected, _description = undefined) {

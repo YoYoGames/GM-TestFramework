@@ -97,28 +97,26 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 			
 		//#16 choose()
 		_output = choose();
-		assert_equals(_output, 0, "#16 choose ( empty ), should return 0");
-
-			
+		assert_equals(_output, 0, "#16 choose ( empty ), should return 0");	
 		//#17 choose( real const , real const , real const , real const )
 		_output = choose(0.5, 1.1, 2.0, 99.9);
-		assert_contained(_output, [0.5, 1.1, 2.0, 99.9], "#17 choose ( real,... ), the result should be one of the provided");
+		assert_any_of(_output, [0.5, 1.1, 2.0, 99.9], "#17 choose ( real,... ), the result should be one of the provided");
 		assert_typeof(_output, "number", "#17.1 choose ( real,... ), failed to return the correct type");
 			
 		//#18 choose( int64 const , int64 const , int64 const , int64 const )
 		_output = choose(0x1122334455667788, 0x8877665544332211, 0x7FFFFFFFFFFFFFFF, 0x5566778811223344);
-		assert_contained(_output, [0x1122334455667788, 0x8877665544332211, 0x7FFFFFFFFFFFFFFF, 0x5566778811223344], "#18 choose ( int64,... ), the result should be one of the provided");
+		assert_any_of(_output, [0x1122334455667788, 0x8877665544332211, 0x7FFFFFFFFFFFFFFF, 0x5566778811223344], "#18 choose ( int64,... ), the result should be one of the provided");
 		assert_typeof(_output, "int64", "#18.1 choose ( int64,... ), failed to return the correct type");
 			
 		//#19 choose( string const , string const , string const , string const )
 		_output = choose("one", "two", "three", "four");
-		assert_contained(_output, ["one", "two", "three", "four"], "#19 choose ( string,... ), the result should be one of the provided");
+		assert_any_of(_output, ["one", "two", "three", "four"], "#19 choose ( string,... ), the result should be one of the provided");
 		assert_typeof(_output, "string", "#19.1 choose ( string,... ), failed to return the correct type");
 			
 		//#20 choose( string const , real const , real const , int64 const )
 		_output = choose("one", 2.0, int32(3), int64(0x0004));
-		assert_contained(_output, ["one", 2.0, int32(3), int64(0x0004)], "#20 choose( string, real, int32, int64 ), the result should be one of the provided");
-		assert_contained(typeof(_output), ["string", "number", "int32", "int64"], "#20.1 choose( string, real, int32, int64 ), failed to return the correct type");
+		assert_any_of(_output, ["one", 2.0, int32(3), int64(0x0004)], "#20 choose( string, real, int32, int64 ), the result should be one of the provided");
+		assert_any_of(typeof(_output), ["string", "number", "int32", "int64"], "#20.1 choose( string, real, int32, int64 ), failed to return the correct type");
 			
 			
 		// Tests for non-identical results (this tests could legitimitely fail but is unlikely to)
