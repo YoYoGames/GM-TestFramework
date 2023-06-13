@@ -43,15 +43,15 @@ jobs:
           path: .\GM-TF\workspace\summary.json
           continue-on-error: true        
 
-  Slack-Notification:
-    name: "Slack-Notification"
-    runs-on: Windows
-    needs: [ CI ]
-    if: always()
-    steps:
-      - name: Sending Test Result to Slack Channel
-        uses: adrey/slack-file-upload-action@master
-        with:
-          token: ${{ secrets.SLACK_TOKEN }}
-          path: .\GM-TF\workspace\summary.json
-          channel: 'C0545RKQ4MV'
+  # Slack-Notification:
+  #   name: "Slack-Notification"
+  #   runs-on: Windows
+  #   needs: [ CI ]
+  #   if: always()
+  #   steps:
+  #     - name: Sending Test Result to Slack Channel
+  #       uses: adrey/slack-file-upload-action@master
+  #       with:
+  #         token: ${{ secrets.SLACK_TOKEN }}
+  #         path: .\GM-TF\workspace\summary.json
+  #         channel: 'C0545RKQ4MV'

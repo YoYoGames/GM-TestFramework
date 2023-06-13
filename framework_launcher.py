@@ -8,7 +8,7 @@ import zipfile
 import io
 import random
 import os
-import winreg
+# import winreg
 import json
 import shutil
 import yaml
