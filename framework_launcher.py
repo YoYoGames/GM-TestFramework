@@ -8,7 +8,6 @@ import zipfile
 import io
 import random
 import os
-# import winreg
 import json
 import shutil
 import yaml
@@ -375,8 +374,6 @@ def igor_install_runtime(user_folder, feed, version, platforms):
     cacheBust = random.randint(111111111, 999999999)
     # Prepare modules string
     t = platforms
-    if not 'windows' in platforms:
-        t.append('windows')
     modules = ','.join(t).lower()
     # Setup arguments
     args = [f'/uf={user_folder}', f'/ru={feed}?cachebust={cacheBust}', f'/rp={RUNTIME_DIR}', f'/m={modules}', 'Runtime', 'Install', version]
