@@ -206,7 +206,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		assert_throw(function() {
 			var _input = "string";
 			return int64(_input);
-		}, "#14 int64 ( array ), should throw error");
+		}, "#14 int64 ( string ), should throw error");
 
 		//#15 int64 ( array ), should throw error
 		assert_throw(function() {
@@ -616,7 +616,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),				assert_true,	"#5 is_int32 ( int32:local ), should be true"],
 		[int64(12),				assert_false,	"#6 is_int32 ( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_int32 ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_int32 ( int64:local ), should be false (enum entries are always int64)", platform_not_browser],
 		
 		["-21233.223",			assert_false,	"#8 is_int32 ( string:local ), numeric string should be false"],
 		[true,					assert_false,	"#9 is_int32 ( bool:local ), should be false"],

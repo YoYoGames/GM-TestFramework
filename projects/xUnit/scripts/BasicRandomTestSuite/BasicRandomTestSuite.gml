@@ -33,8 +33,10 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		_input = int32(22);
 		_output = choose(_input);
 		assert_equals(_output, _input, "#5 choose ( int32:local ), should return the input");
-		assert_typeof(_output, "int32", "#5.1 choose ( int32:local ), failed to return the correct type");
-			
+		
+		var _type = platform_not_browser() ? "int32" : "number";
+		assert_typeof(_output, _type, "#5.1 choose ( int32:local ), failed to return the correct type");
+
 		//#6 choose ( int64 )
 		_input = int64(12);
 		_output = choose(_input);
@@ -93,7 +95,9 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		_input = get_timer;
 		_output = choose(_input);
 		assert_equals(_output, _input, "#15 choose ( function:local ), should return the input");
-		assert_typeof(_output, "number", "#15.1 choose ( function:local ), failed to return the correct type");
+		
+		_type = platform_not_browser() ? "number" : "method";
+		assert_typeof(_output, _type, "#15.1 choose ( function:local ), failed to return the correct type");
 			
 		//#16 choose()
 		_output = choose();
@@ -1015,99 +1019,99 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 			
 			//#1 random ( int local )
 			_res = random(_vInt);
-			assert_true( _res >= 0 && _res < _vInt , "#1 random ( int local )" );
+			assert_true( _res >= 0 && _res <= _vInt , "#1 random ( int local )" );
 			
 			//#2 random ( int const )
 			_res = random(42);
-			assert_true( _res >= 0 && _res < 42 , "#2 random ( int const )" );
+			assert_true( _res >= 0 && _res <= 42 , "#2 random ( int const )" );
 			
 			//#3 random ( int macro )
 			_res = random( kInt_RandomTest );
-			assert_true( _res >= 0 && _res < kInt_RandomTest, "#3 random ( int macro )" );
+			assert_true( _res >= 0 && _res <= kInt_RandomTest, "#3 random ( int macro )" );
 			
 			//#4 random ( int global )
 			_res = random( global.gInt );
-			assert_true( _res >= 0 && _res < global.gInt, "#4 random ( int global )" );
+			assert_true( _res >= 0 && _res <= global.gInt, "#4 random ( int global )" );
 			
 			//#5 random ( instance int )
 			with( _objTest ) {
 				_res = random ( oInt );
 			}
-			assert_true( _res >= 0 && _res < _objTest.oInt, "#5 random ( instance int )" );
+			assert_true( _res >= 0 && _res <= _objTest.oInt, "#5 random ( instance int )" );
 			
 			
 			//tests for negative int types
 			
 			//#6 random ( int local )
 			_res = random(-_vInt);
-			assert_true( _res > -_vInt && _res <= 0 , "#6 random ( int local )" );
+			assert_true( _res >= -_vInt && _res <= 0 , "#6 random ( int local )" );
 			
 			//#7 random ( int const )
 			_res = random(-42);
-			assert_true( _res > -42 && _res <= 0 , "#7 random ( int const )" );
+			assert_true( _res >= -42 && _res <= 0 , "#7 random ( int const )" );
 			
 			//#8 random ( int macro )
 			_res = random(-kInt_RandomTest);
-			assert_true( _res > -kInt_RandomTest && _res <= 0, "#8 random ( int macro )" );
+			assert_true( _res >= -kInt_RandomTest && _res <= 0, "#8 random ( int macro )" );
 			
 			//#9 random ( int global )
 			_res = random( -global.gInt );
-			assert_true( _res > -global.gInt && _res <= 0, "#9 random ( int global )" );
+			assert_true( _res >= -global.gInt && _res <= 0, "#9 random ( int global )" );
 			
 			//#10 random ( instance int )
 			with( _objTest ) {
 				_res = random ( -oInt );
 			}
-			assert_true( _res > -_objTest.oInt && _res <= 0, "#10 random ( instance int )" );
+			assert_true( _res >= -_objTest.oInt && _res <= 0, "#10 random ( instance int )" );
 			
 			//tests for positive int64 types
 			
 			//#11 random ( int64 local )
 			_res = random(_vInt64);
-			assert_true( _res >= 0 && _res < _vInt64 , "#11 random ( int64 local )" );
+			assert_true( _res >= 0 && _res <= _vInt64 , "#11 random ( int64 local )" );
 			
 			//#12 random ( int64 const )
 			_res = random(int64(5000));
-			assert_true( _res >= 0 && _res < int64(5000) , "#12 random ( int64 const )" );
+			assert_true( _res >= 0 && _res <= int64(5000) , "#12 random ( int64 const )" );
 			
 			//#13 random ( int64 macro )
 			_res = random( kInt64_RandomTest );
-			assert_true( _res >= 0 && _res < kInt64_RandomTest, "#13 random ( int64 macro )" );
+			assert_true( _res >= 0 && _res <= kInt64_RandomTest, "#13 random ( int64 macro )" );
 			
 			//#14 random ( int64 global )
 			_res = random( global.gInt64 );
-			assert_true( _res >= 0 && _res < global.gInt64, "#14 random ( int64 global )" );
+			assert_true( _res >= 0 && _res <= global.gInt64, "#14 random ( int64 global )" );
 			
 			//#15 random ( instance int64 )
 			with( _objTest ) {
 				_res = random ( oInt64 );
 			}
-			assert_true( _res >= 0 && _res < _objTest.oInt64, "#15 random ( instance int64 )" );
+			assert_true( _res >= 0 && _res <= _objTest.oInt64, "#15 random ( instance int64 )" );
 			
 			
 			//tests for negative int64 types
 			
 			//#16 random ( int64 local )
 			_res = random(-_vInt64);
-			assert_true( _res > -_vInt64 && _res <= 0 , "#16 random ( int64 local )" );
+			assert_true( _res >= -_vInt64 && _res <= 0 , "#16 random ( int64 local )" );
 			
 			//#17 random ( int64 const )
 			_res = random(0xdeadc0deabcdefed);
-			assert_true( _res > 0xdeadc0deabcdefed && _res <= 0 , "#17 random ( int64 const )" );
+			assert_true( _res >= 0xdeadc0deabcdefed && _res <= 0 , "#17 random ( int64 const )" );
 			
 			//#18 random ( int64 macro )
 			_res = random( -kInt64_RandomTest );
-			assert_true( _res > -kInt64_RandomTest && _res <= 0, "#18 random ( int64 macro )" );
+			assert_true( _res >= -kInt64_RandomTest && _res <= 0, "#18 random ( int64 macro )" );
 			
 			//#19 random ( int64 global )
 			_res = random( -global.gInt64 );
-			assert_true( _res > -global.gInt64 && _res <= 0, "#19 random ( int64 global )" );
+			assert_true( _res >= -global.gInt64 && _res <= 0, "#19 random ( int64 global )" );
 			
 			//#20 random ( instance int64 )
 			with( _objTest ) {
 				_res = random ( -oInt64 );
 			}
-			assert_true( _res > -_objTest.oInt64 && _res <= 0, "#20 random ( instance int64 )" );
+			assert_true( _res >= -_objTest.oInt64 && _res <= 0, "#20 random ( instance int64 )" );
 			
 
 			//tests for positive real types
@@ -1139,7 +1143,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 			
 			//#26 random ( real local )
 			_res = random(-_vReal);
-			assert_true( _res > -_vReal && _res <= 0 , "#26 random ( real local )" );
+			assert_true( _res >= -_vReal && _res <= 0 , "#26 random ( real local )" );
 			
 			//#27 random ( real const )
 			_res = random(-42.5);
