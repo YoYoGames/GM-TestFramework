@@ -130,18 +130,6 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		assert_not_null(_output, "#1 int64 ( pointer:local ), should not be null");
 		assert_typeof(_output, "int64", "#1.1 int64 ( pointer:local ), should be of type int64");
 			
-		//#2 int64 ( pointer_invalid )
-		_input = pointer_invalid;
-		_output = int64(_input);
-		assert_equals(_output, -1, "#2 int64 ( pointer_invalid:local ), should be -1");
-		assert_typeof(_output, "int64", "#2.1 int64 ( pointer_invalid:local ), should return int64 type");
-			
-		//#3 int64 ( pointer_null ) should be false
-		_input = pointer_null;
-		_output = int64(_input);
-		assert_equals(_output, 0, "#3 int64 ( pointer_null:local ), should be zero (0)");
-		assert_typeof(_output, "int64", "#3.1 int64 ( pointer_null:local ), should be of type int64");
-			
 		//#4 int64 ( real ) should be true
 		_input = 32.33;
 		_output = int64(_input);

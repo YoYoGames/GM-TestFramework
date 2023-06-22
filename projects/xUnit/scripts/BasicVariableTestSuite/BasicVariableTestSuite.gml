@@ -593,12 +593,29 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				type = typeof(value);
 				variable_instance_set(target, "variable", value);
 				output = variable_instance_get(target, "variable");
-					
+				
 				assert_equals(output, value, "variable_instance_set/get("+ info +"):" + details + ", failed to maintain value consistency");
 				assert_typeof(output, type, "variable_instance_set/get("+ info +"):" + details + ", failed to maintain type consistency");
 			}
 		}
+		
+		type = "number"
+		value = NaN;
 			
+		for (var i = 0; i < targetInfosCount; i++) {
+			
+			targetInfo = targetInfos[i];
+			target = targetInfo[0];
+			info = targetInfo[1];
+			
+			variable_instance_set(target, "variable", value);
+			output = variable_instance_get(target, "variable");
+					
+			assert_nan(output, "variable_instance_set/get("+ info +"):" + type + ", failed to maintain value consistency");
+			assert_typeof(output, type, "variable_instance_set/get("+ info +"):" + type + ", failed to maintain type consistency");
+
+		}
+		
 		instance_destroy(instance);
 			
 		// ##### WITH + SELF ####
@@ -649,25 +666,6 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			
 		instance_destroy(instance1);
 		instance_destroy(instance2);
-
-		// ##### NAN #####
-			
-		type = "number"
-		value = NaN;
-			
-		for (var i = 0; i < targetInfosCount; i++) {
-			
-			targetInfo = targetInfos[i];
-			target = targetInfo[0];
-			info = targetInfo[1];
-			
-			variable_struct_set(target, "variable", value);
-			output = variable_struct_get(target, "variable");
-					
-			assert_nan(output, "variable_instance_set/get("+ info +"):" + type + ", failed to maintain value consistency");
-			assert_typeof(output, type, "variable_instance_set/get("+ info +"):" + type + ", failed to maintain type consistency");
-
-		}
 
 		// ##### FAILS #####
 
@@ -1159,7 +1157,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			assert_typeof(output, type, "#1.1 struct[$ "+ name +"], failed to maintain type consistency");
 		}
 	})
-	*/
+*/
 /*
 	addFact("builtin_constant_varnames_test", function() {
 

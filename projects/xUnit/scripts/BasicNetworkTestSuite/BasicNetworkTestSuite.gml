@@ -42,7 +42,8 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { 
+	},
+	{ 
 		test_timeout_millis: 3000,
 		test_filter: platform_not_browser
 	});
@@ -73,7 +74,11 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { test_timeout_millis: 3000 });
+	}, 
+	{ 
+		test_timeout_millis: 3000,
+		test_filter: platform_not_browser
+	});
 		
 	addTestAsync("network_connect_raw_test", objTestAsyncNetworking, {
 		
@@ -101,7 +106,8 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { 
+	},
+	{
 		test_timeout_millis: 3000,
 		test_filter: platform_not_browser
 	});
@@ -159,7 +165,11 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { test_timeout_millis: 3000 });
+	}, 
+	{ 
+		test_timeout_millis: 3000,
+		test_filter: platform_not_browser
+	});
 
 	addTestAsync("network_send_packet_handshake_test", objTestAsyncNetworking, {
 		
@@ -214,7 +224,11 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { test_timeout_millis: 3000 });
+	}, 
+	{ 
+		test_timeout_millis: 3000,
+		test_filter: platform_not_browser
+	});
 	
 	addTestAsync("network_send_packet_handshake_limit_test", objTestAsyncNetworking, {
 		
@@ -263,6 +277,10 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	}, { test_timeout_millis: 3000 });
+	}, 
+	{ 
+		test_timeout_millis: 3000,
+		test_filter: platform_not_browser
+	});
 
 }

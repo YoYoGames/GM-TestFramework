@@ -86,6 +86,7 @@
     {"name":"ds_stack_to_array","order":4,"path":"scripts/ds_stack_to_array/ds_stack_to_array.yy",},
     {"name":"sprSquare","order":1,"path":"sprites/sprSquare/sprSquare.yy",},
     {"name":"BasicArrayTestSuite","order":1,"path":"scripts/BasicArrayTestSuite/BasicArrayTestSuite.yy",},
+    {"name":"channel_get_name","order":5,"path":"scripts/channel_get_name/channel_get_name.yy",},
     {"name":"Task","order":2,"path":"scripts/Task/Task.yy",},
     {"name":"TestAsync","order":1,"path":"scripts/TestAsync/TestAsync.yy",},
     {"name":"BasicFileTestSuite","order":11,"path":"scripts/BasicFileTestSuite/BasicFileTestSuite.yy",},

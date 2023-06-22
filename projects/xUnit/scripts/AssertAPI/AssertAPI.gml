@@ -17,7 +17,7 @@ function assert_get_singleton() {
 /// @functions assert_equals(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_equals(_value, _expected, _description = undefined) {
 	
@@ -28,7 +28,7 @@ function assert_equals(_value, _expected, _description = undefined) {
 /// @functions assert_not_equals(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_equals(_value, _expected, _description = undefined) {
 	
@@ -39,7 +39,7 @@ function assert_not_equals(_value, _expected, _description = undefined) {
 /// @functions assert_greater(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_greater(_value, _expected, _description = undefined) {
 	
@@ -50,7 +50,7 @@ function assert_greater(_value, _expected, _description = undefined) {
 /// @functions assert_greater_or_equal(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_greater_or_equal(_value, _expected, _description = undefined) {
 	
@@ -61,7 +61,7 @@ function assert_greater_or_equal(_value, _expected, _description = undefined) {
 /// @functions assert_less(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_less(_value, _expected, _description = undefined) {
 	
@@ -72,7 +72,7 @@ function assert_less(_value, _expected, _description = undefined) {
 /// @functions assert_less_or_equal(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_less_or_equal(_value, _expected, _description = undefined) {
 	
@@ -83,7 +83,7 @@ function assert_less_or_equal(_value, _expected, _description = undefined) {
 /// @functions assert_any_of(value, array, description)
 /// @param {Any} value The value to be tested.
 /// @param {Array} expected The array that should contain the value.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_any_of(_value, _expected, _description = undefined) {
 	
@@ -92,7 +92,7 @@ function assert_any_of(_value, _expected, _description = undefined) {
 }
 
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 function assert_nan(_value, _description = undefined) {
 	
 	static framework = assert_get_singleton();
@@ -100,7 +100,7 @@ function assert_nan(_value, _description = undefined) {
 }
 
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 function assert_not_nan(_value, _description = undefined) {
 	
 	static framework = assert_get_singleton();
@@ -114,7 +114,7 @@ function assert_not_nan(_value, _description = undefined) {
 /// @function assert_array_contains(array, expected, description)
 /// @param {Array} array The array to be tested.
 /// @param {Any} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_contains(_array, _expected, _description = undefined) {
 	
@@ -125,7 +125,7 @@ function assert_array_contains(_array, _expected, _description = undefined) {
 /// @function assert_array_contains_all(array, expected, description)
 /// @param {Array} array The array to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_contains_all(_array, _expected, _description = undefined) {
 	
@@ -136,7 +136,7 @@ function assert_array_contains_all(_array, _expected, _description = undefined) 
 /// @function assert_array_contains_any(array, expected, description)
 /// @param {Array} array The array to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_contains_any(_array, _expected, _description = undefined) {
 	
@@ -146,7 +146,7 @@ function assert_array_contains_any(_array, _expected, _description = undefined) 
 
 /// @function assert_array_empty(array, description)
 /// @param {Array} array The array to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_empty(_array, _description = undefined) {
 
@@ -157,7 +157,7 @@ function assert_array_empty(_array, _description = undefined) {
 /// @function assert_array_equals(array, expected, description)
 /// @param {Array} array The array to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_equals(_array, _expected, _description = undefined) {
 
@@ -168,7 +168,7 @@ function assert_array_equals(_array, _expected, _description = undefined) {
 /// @function assert_array_length(array, expected, description)
 /// @param {Array} array The array to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_length(_array, _expected, _description = undefined) {
 	
@@ -178,7 +178,7 @@ function assert_array_length(_array, _expected, _description = undefined) {
 
 /// @function assert_array_not_empty(array, description)
 /// @param {Array} array The array to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_array_not_empty(_array, _description = undefined) {
 
@@ -193,7 +193,7 @@ function assert_array_not_empty(_array, _description = undefined) {
 /// @function assert_buffer_alignment(buffer, expected, description)
 /// @param {Id.Buffer} buffer The buffer to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_buffer_alignment(_buffer, _expected, _description = undefined) {
 	
@@ -204,7 +204,7 @@ function assert_buffer_alignment(_buffer, _expected, _description = undefined) {
 /// @function assert_buffer_equals(buffer, expected, description)
 /// @param {Id.Buffer} buffer The buffer to be tested.
 /// @param {Id.Buffer} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_buffer_equals(_buffer, _expected, _description = undefined) {
 	
@@ -215,7 +215,7 @@ function assert_buffer_equals(_buffer, _expected, _description = undefined) {
 /// @function assert_buffer_size(buffer, expected, description)
 /// @param {Id.Buffer} buffer The buffer to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_buffer_size(_buffer, _expected, _description = undefined) {
 	
@@ -226,12 +226,96 @@ function assert_buffer_size(_buffer, _expected, _description = undefined) {
 /// @function assert_buffer_type(buffer, expected, description)
 /// @param {Id.Buffer} buffer The buffer to be tested.
 /// @param {Constant.BufferType} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_buffer_type(_buffer, _expected, _description = undefined) {
 	
 	static framework = assert_get_singleton();
 	return framework.bufferType(_buffer, _expected, _description);
+}
+
+/// @function assert_buffer_channel_equals(buffer, buffer_channel, expected, description)
+/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+/// @param {Real} buffer_channel The channel to be tested.
+/// @param {Real} expected  The expected value to test against.
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_buffer_channel_equals(_buffer, _channel, _expected, _description = undefined) {
+
+	static framework = assert_get_singleton();
+	return framework.bufferChannelEquals(_buffer, _channel, _expected, _description);
+}
+
+/// @function assert_buffer_channel_less(buffer, buffer_channel, expected, description)
+/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+/// @param {Real} buffer_channel The channel to be tested.
+/// @param {Real} expected  The expected value to test against.
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_buffer_channel_less(_buffer, _channel, _expected, _description = undefined) {
+
+	static framework = assert_get_singleton();
+	return framework.bufferChannelLessThan(_buffer, _channel, _expected, _description);
+}
+
+/// @function assert_buffer_channel_less_or_equal(buffer, buffer_channel, expected, description)
+/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+/// @param {Real} buffer_channel The channel to be tested.
+/// @param {Real} expected  The expected value to test against.
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_buffer_channel_less_or_equal(_buffer, _channel, _expected, _description = undefined) {
+
+	static framework = assert_get_singleton();
+	return framework.bufferChannelLessOrEqual(_buffer, _channel, _expected, _description);
+}
+
+/// @function assert_buffer_channel_greater(buffer, buffer_channel, expected, description)
+/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+/// @param {Real} buffer_channel The channel to be tested.
+/// @param {Real} expected  The expected value to test against.
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_buffer_channel_greater(_buffer, _channel, _expected, _description = undefined) {
+
+	static framework = assert_get_singleton();
+	return framework.bufferChannelGreaterThan(_buffer, _channel, _expected, _description);
+}
+
+/// @function assert_buffer_channel_greater_or_equal(buffer, buffer_channel, expected, description)
+/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+/// @param {Real} buffer_channel The channel to be tested.
+/// @param {Real} expected  The expected value to test against.
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_buffer_channel_greater_or_equal(_buffer, _channel, _expected, _description = undefined) {
+
+	static framework = assert_get_singleton();
+	return framework.bufferChannelGreaterOrEqual(_buffer, _channel, _expected, _description);
+}
+
+#endregion
+
+#region Surface Asserts
+
+/// @function assert_surface_all(surface, func, description)
+/// @param {Id.Surface} surface The surface to be tested.
+/// @param {Method} func The predicate function use as test (per pixel).
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_surface_all(_surface, _func, _description = undefined) {
+	static framework = assert_get_singleton();
+	return framework.surfaceForeach(_surface, _func, _description);
+}
+
+/// @function assert_surface_any(surface, func, description)
+/// @param {Id.Surface} surface The surface to be tested.
+/// @param {Method} func The predicate function use as test (per pixel).
+/// @param {String} [description] An optional description for this assert.
+/// @returns {Bool}
+function assert_surface_any(_surface, _func, _description = undefined) {
+	static framework = assert_get_singleton();
+	return framework.surfaceForeach(_surface, _func, _description);
 }
 
 #endregion
@@ -241,7 +325,7 @@ function assert_buffer_type(_buffer, _expected, _description = undefined) {
 /// @function assert_grid_equals_array(grid, expected, description)
 /// @param {Id.DsGrid} grid The grid to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_grid_equals_array(_grid, _expected, _description = undefined) {
 
@@ -252,7 +336,7 @@ function assert_grid_equals_array(_grid, _expected, _description = undefined) {
 /// @function assert_grid_equals(grid, expected, description)
 /// @param {Id.DsGrid} grid The grid to be tested.
 /// @param {Id.DsGrid} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_grid_equals(_grid, _expected, _description = undefined) {
 
@@ -263,7 +347,7 @@ function assert_grid_equals(_grid, _expected, _description = undefined) {
 /// @function assert_grid_not_equals(grid, expected, description)
 /// @param {Id.DsGrid} grid The grid to be tested.
 /// @param {Id.DsGrid} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_grid_not_equals(_grid, _expected, _description = undefined) {
 
@@ -278,7 +362,7 @@ function assert_grid_not_equals(_grid, _expected, _description = undefined) {
 /// @function assert_list_size(list, expected, description)
 /// @param {Id.DsList} list The list to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_list_size(_list, _expected, _description = undefined) {
 
@@ -288,7 +372,7 @@ function assert_list_size(_list, _expected, _description = undefined) {
 
 /// @function assert_list_empty(list, description)
 /// @param {Id.DsList} list The list to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_list_empty(_list, _description = undefined) {
 
@@ -299,7 +383,7 @@ function assert_list_empty(_list, _description = undefined) {
 /// @function assert_list_equals(list, expected, description)
 /// @param {Id.DsList} list The list to be tested.
 /// @param {Id.DsList} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_list_equals(_list, _expected, _description = undefined) {
 	
@@ -310,7 +394,7 @@ function assert_list_equals(_list, _expected, _description = undefined) {
 /// @function assert_list_equals_array(list, expected, description)
 /// @param {Id.DsList} list The list to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_list_equals_array(_list, _expected, _description = undefined) {
 
@@ -320,7 +404,7 @@ function assert_list_equals_array(_list, _expected, _description = undefined) {
 
 /// @function assert_list_not_empty(list, description)
 /// @param {Id.DsList} list The list to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_list_not_empty(_list, _description = undefined) {
 
@@ -335,7 +419,7 @@ function assert_list_not_empty(_list, _description = undefined) {
 /// @function assert_map_size(map, expected, description)
 /// @param {Id.DsMap} map The map to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_map_size(_map, _expected, _description = undefined) {
 
@@ -345,7 +429,7 @@ function assert_map_size(_map, _expected, _description = undefined) {
 
 /// @function assert_map_empty(map, description)
 /// @param {Id.DsMap} map The map to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_map_empty(_map, _description = undefined) {
 
@@ -356,7 +440,7 @@ function assert_map_empty(_map, _description = undefined) {
 /// @function assert_map_equals(map, expected, description)
 /// @param {Id.DsMap} map The map to be tested.
 /// @param {Id.DsMap} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_map_equals(_map, _expected, _description = undefined) {
 	
@@ -367,7 +451,7 @@ function assert_map_equals(_map, _expected, _description = undefined) {
 /// @function assert_map_equals_array(map, expected, description)
 /// @param {Id.DsMap} map The map to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_map_equals_array(_map, _expected, _description = undefined) {
 
@@ -377,7 +461,7 @@ function assert_map_equals_array(_map, _expected, _description = undefined) {
 
 /// @function assert_map_not_empty(map, expected, description)
 /// @param {Id.DsMap} map The map to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_map_not_empty(_map, _description = undefined) {
 
@@ -392,7 +476,7 @@ function assert_map_not_empty(_map, _description = undefined) {
 /// @function assert_queue_size(queue, expected, description)
 /// @param {Id.DsQueue} queue The queue to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_queue_size(_queue, _expected, _description = undefined) {
 	
@@ -402,7 +486,7 @@ function assert_queue_size(_queue, _expected, _description = undefined) {
 
 /// @function assert_queue_empty(queue, description)
 /// @param {Id.DsQueue} queue The queue to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_queue_empty(_queue, _description = undefined) {
 	
@@ -413,7 +497,7 @@ function assert_queue_empty(_queue, _description = undefined) {
 /// @function assert_queue_equals(queue, expected, description)
 /// @param {Id.DsQueue} queue The queue to be tested.
 /// @param {Id.DsQueue} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_queue_equals(_queue, _expected, _description) {
 
@@ -424,7 +508,7 @@ function assert_queue_equals(_queue, _expected, _description) {
 /// @function assert_queue_equals_array(queue, expected, description)
 /// @param {Id.DsQueue} queue The queue to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_queue_equals_array(_queue, _expected, _description = undefined) {
 
@@ -434,7 +518,7 @@ function assert_queue_equals_array(_queue, _expected, _description = undefined) 
 
 /// @function assert_queue_not_empty(queue, description)
 /// @param {Id.DsQueue} queue The queue to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_queue_not_empty(_queue, _description = undefined) {
 	
@@ -449,7 +533,7 @@ function assert_queue_not_empty(_queue, _description = undefined) {
 /// @function assert_stack_size(stack, expected, description)
 /// @param {Id.DsStack} stack The stack to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_stack_size(_stack, _expected, _description = undefined) {
 	
@@ -459,7 +543,7 @@ function assert_stack_size(_stack, _expected, _description = undefined) {
 
 /// @function assert_stack_empty(stack, expected, description)
 /// @param {Id.DsStack} stack The stack to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_stack_empty(_stack, _description = undefined) {
 	
@@ -470,7 +554,7 @@ function assert_stack_empty(_stack, _description = undefined) {
 /// @function assert_stack_equals(stack, expected, description)
 /// @param {Id.DsStack} stack The stack to be tested.
 /// @param {Id.DsStack} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_stack_equals(_stack, _expected, _description = undefined) {
 
@@ -481,7 +565,7 @@ function assert_stack_equals(_stack, _expected, _description = undefined) {
 /// @function assert_stack_equals_array(stack, expected, description)
 /// @param {Id.DsStack} stack The stack to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_stack_equals_array(_stack, _expected, _description = undefined) {
 
@@ -491,7 +575,7 @@ function assert_stack_equals_array(_stack, _expected, _description = undefined) 
 
 /// @function assert_stack_not_empty(stack, expected, description)
 /// @param {Id.DsStack} stack The stack to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_stack_not_empty(_stack, _description = undefined) {
 	
@@ -506,7 +590,7 @@ function assert_stack_not_empty(_stack, _description = undefined) {
 /// @function assert_struct_size(struct, expected, description)
 /// @param {Struct} struct The struct to be tested.
 /// @param {Real} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_struct_size(_struct, _expected, _description = undefined) {
 	
@@ -516,7 +600,7 @@ function assert_struct_size(_struct, _expected, _description = undefined) {
 
 /// @function assert_struct_empty(struct, description)
 /// @param {Struct} struct The struct to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_struct_empty(_struct, _expected, _description = undefined) {
 	
@@ -527,7 +611,7 @@ function assert_struct_empty(_struct, _expected, _description = undefined) {
 /// @function assert_struct_equals(struct, expected, description)
 /// @param {Struct} struct The struct to be tested.
 /// @param {Struct} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_struct_equals(_struct, _expected, _description = undefined) {
 
@@ -537,7 +621,7 @@ function assert_struct_equals(_struct, _expected, _description = undefined) {
 
 /// @function assert_struct_not_empty(struct, description)
 /// @param {Struct} struct The struct to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_struct_not_empty(_struct, _description = undefined) {
 	
@@ -551,7 +635,7 @@ function assert_struct_not_empty(_struct, _description = undefined) {
 
 /// @function assert_not_throws(func, description)
 /// @param {Function} func The function to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_throws(_func, _description = undefined) {
 	
@@ -561,7 +645,7 @@ function assert_not_throws(_func, _description = undefined) {
 
 /// @function assert_throw(func, description)
 /// @param {Function} func The function to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_throw(_func, _description = undefined) {
 	
@@ -575,7 +659,7 @@ function assert_throw(_func, _description = undefined) {
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_contains(_string, _expected, _description = undefined) {
 	
@@ -585,7 +669,7 @@ function assert_string_contains(_string, _expected, _description = undefined) {
 
 /// @param {String} str The string to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_contains_all(_string, _expected, _description = undefined) {
 	
@@ -595,7 +679,7 @@ function assert_string_contains_all(_string, _expected, _description = undefined
 
 /// @param {String} str The string to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_contains_any(_string, _expected, _description = undefined) {
 	
@@ -605,7 +689,7 @@ function assert_string_contains_any(_string, _expected, _description = undefined
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_ends_with(_string, _expected, _description = undefined) {
 
@@ -615,7 +699,7 @@ function assert_string_ends_with(_string, _expected, _description = undefined) {
 
 /// @param {String} str The string to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_ends_with_any(_string, _expected, _description = undefined) {
 
@@ -625,7 +709,7 @@ function assert_string_ends_with_any(_string, _expected, _description = undefine
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_equals_ignore_case(_string, _expected, _description = undefined) {
 	
@@ -635,7 +719,7 @@ function assert_string_equals_ignore_case(_string, _expected, _description = und
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_not_contains(_string, _expected, _description = undefined) {
 	
@@ -645,7 +729,7 @@ function assert_string_not_contains(_string, _expected, _description = undefined
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_not_ends_with(_string, _expected, _description = undefined) {
 
@@ -655,7 +739,7 @@ function assert_string_not_ends_with(_string, _expected, _description = undefine
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_not_equals_ignore_case(_string, _expected, _description = undefined) {
 	
@@ -665,7 +749,7 @@ function assert_string_not_equals_ignore_case(_string, _expected, _description =
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_not_starts_with(_string, _expected, _description = undefined) {
 
@@ -675,7 +759,7 @@ function assert_string_not_starts_with(_string, _expected, _description = undefi
 
 /// @param {String} str The string to be tested.
 /// @param {String} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_starts_with(_string, _expected, _description = undefined) {
 
@@ -685,7 +769,7 @@ function assert_string_starts_with(_string, _expected, _description = undefined)
 
 /// @param {String} str The string to be tested.
 /// @param {Array} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_string_starts_with_any(_string, _expected, _description = undefined) {
 
@@ -700,7 +784,7 @@ function assert_string_starts_with_any(_string, _expected, _description = undefi
 /// @function assert_typeof(value, expected, description)
 /// @param {Any} value The value to be tested.
 /// @param {String} expected The expected 'typeof' result.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_typeof(_value, _expected, _description = undefined) {
 	
@@ -710,7 +794,7 @@ function assert_typeof(_value, _expected, _description = undefined) {
 
 /// @function assert_false(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_false(_value, _description = undefined) {
 	
@@ -720,7 +804,7 @@ function assert_false(_value, _description = undefined) {
 
 /// @function assert_not_null(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_null(_value, _description = undefined) {
 	
@@ -730,7 +814,7 @@ function assert_not_null(_value, _description = undefined) {
 
 /// @function assert_not_typeof(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_typeof(_value, _expected, _description = undefined) {
 	
@@ -740,7 +824,7 @@ function assert_not_typeof(_value, _expected, _description = undefined) {
 
 /// @function assert_not_undefined(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_undefined(_value, _description = undefined) {
 	
@@ -750,7 +834,7 @@ function assert_not_undefined(_value, _description = undefined) {
 
 /// @function assert_null(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_null(_value, _description = undefined) {
 	
@@ -760,7 +844,7 @@ function assert_null(_value, _description = undefined) {
 
 /// @function assert_undefined(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_undefined(_value, _description = undefined) {
 	
@@ -770,7 +854,7 @@ function assert_undefined(_value, _description = undefined) {
 
 /// @function assert_true(value, description)
 /// @param {Any} value The value to be tested.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_true(_value, _description = undefined) {
 	
@@ -784,7 +868,7 @@ function assert_true(_value, _description = undefined) {
 
 /// @param {Id.Instance} value The value to be tested.
 /// @param {Asset.GMObject} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_child_of(_instance, _expected, _description = undefined) {
 
@@ -794,7 +878,7 @@ function assert_child_of(_instance, _expected, _description = undefined) {
 
 /// @param {Id.Instance} value The value to be tested.
 /// @param {Asset.GMObject} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_instance_of(_instance, _expected, _description = undefined) {
 							
@@ -804,7 +888,7 @@ function assert_instance_of(_instance, _expected, _description = undefined) {
 
 /// @param {Id.Instance} value The value to be tested.
 /// @param {Asset.GMObject} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_child_of(_instance, _expected, _description = undefined) {
 
@@ -814,7 +898,7 @@ function assert_not_child_of(_instance, _expected, _description = undefined) {
 
 /// @param {Id.Instance} value The value to be tested.
 /// @param {Asset.GMObject} expected The expected value to test against.
-/// @param {String} [description] An optional description for this assert_true.
+/// @param {String} [description] An optional description for this assert.
 /// @returns {Bool}
 function assert_not_instance_of(_instance, _expected, _description = undefined) {
 

@@ -463,6 +463,296 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		return _resolver(assertTitle, _description, _result, _expected);
 	}
 
+	#macro buffer_channel_red 0
+	#macro buffer_channel_green 1
+	#macro buffer_channel_blue 2
+	#macro buffer_channel_alpha 3
+
+	/// @function bufferChannelEquals(buffer, buffer_channel, expected, description)
+	/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+	/// @param {Real} buffer_channel The channel to be tested.
+	/// @param {Real} expected  The expected value to test against.
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static bufferChannelEquals = function(_buffer, _channel, _expected, _description = undefined) {
+
+		static assertTitle = "Assert surface buffer {0} channel data to equal";
+
+		// If no buffer exists for this index then exit (but don't fail)
+		if (!buffer_exists(_buffer)) return false;
+
+		// Store old position for reset
+		var _old_pos = buffer_tell(_buffer);
+		buffer_seek(_buffer, buffer_seek_start, 0);
+
+		// Apply mask to the value
+		_expected = (_expected & 0xff) << (_channel * 8);
+		var _mask = 0xff << (_channel * 8);
+
+		var _resolver = pass;
+		var _value = 0;
+		var _size = buffer_get_size(_buffer);
+		
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if ((_value & _mask) != _expected) {
+				_resolver = fail;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_seek(_buffer, buffer_seek_start, _old_pos);
+	
+		return _resolver(string(assertTitle, channel_get_name(_channel)), _description, _value);
+	}
+	
+	/// @function bufferChannelLessThan(buffer, buffer_channel, expected, description)
+	/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+	/// @param {Real} buffer_channel The channel to be tested.
+	/// @param {Real} expected  The expected value to test against.
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static bufferChannelLessThan = function(_buffer, _channel, _expected, _description = undefined) {
+
+		static assertTitle = "Assert surface buffer {0} channel data to be less than";
+
+		// If no buffer exists for this index then exit (but don't fail)
+		if (!buffer_exists(_buffer)) return false;
+
+		// Store old position for reset
+		var _old_pos = buffer_tell(_buffer);
+		buffer_seek(_buffer, buffer_seek_start, 0);
+
+		// Apply mask to the value
+		_expected = (_expected & 0xff) << (_channel * 8);
+		var _mask = 0xff << (_channel * 8);
+
+		var _resolver = pass;
+		var _value = 0;
+		var _size = buffer_get_size(_buffer);
+		
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if ((_value & _mask) != _expected) {
+				_resolver = fail;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_seek(_buffer, buffer_seek_start, _old_pos);
+	
+		return _resolver(string(assertTitle, channel_get_name(_channel)), _description, _value);
+	}
+
+	/// @function bufferChannelLessOrEqual(buffer, buffer_channel, expected, description)
+	/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+	/// @param {Real} buffer_channel The channel to be tested.
+	/// @param {Real} expected  The expected value to test against.
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static bufferChannelLessOrEqual = function(_buffer, _channel, _expected, _description = undefined) {
+
+		static assertTitle = "Assert surface buffer {0} channel data to be less or equal to";
+
+		// If no buffer exists for this index then exit (but don't fail)
+		if (!buffer_exists(_buffer)) return false;
+
+		// Store old position for reset
+		var _old_pos = buffer_tell(_buffer);
+		buffer_seek(_buffer, buffer_seek_start, 0);
+
+		// Apply mask to the value
+		_expected = (_expected & 0xff) << (_channel * 8);
+		var _mask = 0xff << (_channel * 8);
+
+		var _resolver = pass;
+		var _value = 0;
+		var _size = buffer_get_size(_buffer);
+		
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if ((_value & _mask) != _expected) {
+				_resolver = fail;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_seek(_buffer, buffer_seek_start, _old_pos);
+	
+		return _resolver(string(assertTitle, channel_get_name(_channel)), _description, _value);
+	}
+	
+	/// @function bufferChannelGreaterThan(buffer, buffer_channel, expected, description)
+	/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+	/// @param {Real} buffer_channel The channel to be tested.
+	/// @param {Real} expected  The expected value to test against.
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static bufferChannelGreaterThan = function(_buffer, _channel, _expected, _description = undefined) {
+
+		static assertTitle = "Assert surface buffer {0} channel data to be greater than";
+
+		// If no buffer exists for this index then exit (but don't fail)
+		if (!buffer_exists(_buffer)) return false;
+
+		// Store old position for reset
+		var _old_pos = buffer_tell(_buffer);
+		buffer_seek(_buffer, buffer_seek_start, 0);
+
+		// Apply mask to the value
+		_expected = (_expected & 0xff) << (_channel * 8);
+		var _mask = 0xff << (_channel * 8);
+
+		var _resolver = pass;
+		var _value = 0;
+		var _size = buffer_get_size(_buffer);
+		
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if ((_value & _mask) > _expected) {
+				_resolver = fail;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_seek(_buffer, buffer_seek_start, _old_pos);
+	
+		return _resolver(string(assertTitle, channel_get_name(_channel)), _description, _value);
+	}
+	
+	/// @function bufferChannelGreaterOrEqual(buffer, buffer_channel, expected, description)
+	/// @param {Id.Buffer} buffer The buffer to be tested (converted from a surface).
+	/// @param {Real} buffer_channel The channel to be tested.
+	/// @param {Real} expected  The expected value to test against.
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static bufferChannelGreaterOrEqual = function(_buffer, _channel, _expected, _description = undefined) {
+
+		static assertTitle = "Assert surface buffer {0} channel data to greater of equal to",
+
+		// If no buffer exists for this index then exit (but don't fail)
+		if (!buffer_exists(_buffer)) return false;
+
+		// Store old position for reset
+		var _old_pos = buffer_tell(_buffer);
+		buffer_seek(_buffer, buffer_seek_start, 0);
+
+		// Apply mask to the value
+		_expected = (_expected & 0xff) << (_channel * 8);
+		var _mask = 0xff << (_channel * 8);
+
+		var _resolver = pass;
+		var _value = 0;
+		var _size = buffer_get_size(_buffer);
+		
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if ((_value & _mask) >= _expected) {
+				_resolver = fail;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_seek(_buffer, buffer_seek_start, _old_pos);
+	
+		return _resolver(string(assertTitle, channel_get_name(_channel)), _description, _value);
+	}
+	
+	#endregion
+
+	#region Surface Asserts
+	
+	/// @function surfaceAll(surface, func, description)
+	/// @param {Id.Surface} surface The surface to be tested.
+	/// @param {Method} func The predicate function use as test (per pixel).
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	surfaceAll = function(_surface, _func, _description = undefined) {
+		
+		// Assert type
+		static assertTitle = "Assert surface data to match a predicate";
+	
+		// If no surface exists for this index then exit (but don't fail)
+		if (!surface_exists(_surface)) return false;
+
+		// Only 'surface_rgba8unorm' format is supported
+		if (surface_get_format(_surface) != surface_rgba8unorm) {
+			return log_warning("Trying to run assert_surface_foreach with an incompatible format (only supports 'surface_rgba8unorm')")
+		}
+
+		// Get width and height of the surface
+		var surf_width = surface_get_width(_surface);
+		var surf_height = surface_get_height(_surface);
+
+		// Cache into a buffer
+		var _buffer = buffer_create(surf_width * surf_height * 4, buffer_fixed, 1);
+		buffer_get_surface(_buffer, _surface, 0);
+
+		var _size = buffer_get_size(_buffer);
+		
+		var _resolver = pass;
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if (!_func(_value)) {
+				_resolver = fail;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_delete(_buffer);
+	
+		return _resolver(assertTitle, _description);
+	}
+	
+	/// @function surfaceAny(surface, func, description)
+	/// @param {Id.Surface} surface The surface to be tested.
+	/// @param {Method} func The predicate function use as test (per pixel).
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	surfaceAny = function(_surface, _func, _description = undefined) {
+		
+		// Assert type
+		static assertTitle = "Assert surface data to match a predicate";
+	
+		// If no surface exists for this index then exit (but don't fail)
+		if (!surface_exists(_surface)) return false;
+
+		// Only 'surface_rgba8unorm' format is supported
+		if (surface_get_format(_surface) != surface_rgba8unorm) {
+			return log_warning("Trying to run assert_surface_foreach with an incompatible format (only supports 'surface_rgba8unorm')")
+		}
+
+		// Get width and height of the surface
+		var surf_width = surface_get_width(_surface);
+		var surf_height = surface_get_height(_surface);
+
+		// Cache into a buffer
+		var _buffer = buffer_create(surf_width * surf_height * 4, buffer_fixed, 1);
+		buffer_get_surface(_buffer, _surface, 0);
+
+		var _size = buffer_get_size(_buffer);
+		
+		var _resolver = fail;
+		while (buffer_tell(_buffer) < _size) {
+			var _value = buffer_read(_buffer, buffer_u32);
+			if (_func(_value)) {
+				_resolver = pass;
+				break;
+			}
+		}
+		
+		// Delete aux buffer
+		buffer_delete(_buffer);
+	
+		return _resolver(assertTitle, _description);
+	}
+	
 	#endregion
 
 	#region Grid Asserts
@@ -1667,6 +1957,10 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		static assertTitle = "Asserted value to be of a given type";
 
 		var _resolver = typeof(_value) == _expected ? pass : fail;
+	
+		if (_resolver == fail) {
+			show_debug_message($"{_value} :: {typeof(_value)} != {_expected}");
+		}
 	
 		return _resolver(assertTitle, _description, typeof(_value), _expected);
 	}

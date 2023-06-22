@@ -56,7 +56,7 @@
   "isEcma": false,
   "LibraryEmitters": [],
   "MetaData": {
-    "IDEVersion": "2023.600.0.356",
+    "IDEVersion": "9.9.1.364",
   },
   "resources": [
     {"id":{"name":"oNephew","path":"objects/oNephew/oNephew.yy",},},
@@ -127,6 +127,7 @@
     {"id":{"name":"sprSquare","path":"sprites/sprSquare/sprSquare.yy",},},
     {"id":{"name":"Fact","path":"scripts/Fact/Fact.yy",},},
     {"id":{"name":"BasicArrayTestSuite","path":"scripts/BasicArrayTestSuite/BasicArrayTestSuite.yy",},},
+    {"id":{"name":"channel_get_name","path":"scripts/channel_get_name/channel_get_name.yy",},},
     {"id":{"name":"Task","path":"scripts/Task/Task.yy",},},
     {"id":{"name":"TestFrameworkRun","path":"scripts/TestFrameworkRun/TestFrameworkRun.yy",},},
     {"id":{"name":"constants","path":"scripts/constants/constants.yy",},},

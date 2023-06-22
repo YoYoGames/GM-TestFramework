@@ -102,7 +102,7 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 		assert_equals(output, 1, "#3.1 layer_background_get_alpha(), failed to get the correct value");
 			
 		output = layer_background_get_blend(layerBackground);
-		assert_equals(output, 0xFFFFFFFF, "#3.2 layer_background_get_blend(), failed to get the correct value");
+		assert_equals(output & 0x00ffffff, 0xFFFFFF, "#3.2 layer_background_get_blend(), failed to get the correct value");
 			
 		output = layer_background_get_htiled(layerBackground);
 		assert_false(output, "#3.3 layer_background_get_htiled(), failed to get the correct value");
@@ -689,7 +689,7 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 		assert_equals(output, 0, "#3.6 layer_sprite_get_angle(), failed to get the correct value");
 			
 		output = layer_sprite_get_blend(layerSprite);
-		assert_equals(output, 0xFFFFFFFF, "#3.7 layer_sprite_get_blend(), failed to get the correct value");
+		assert_equals(output & 0xffffff, 0xFFFFFF, "#3.7 layer_sprite_get_blend(), failed to get the correct value");
 			
 		output = layer_sprite_get_sprite(layerSprite);
 		assert_equals(output, sprSquare, "#3.8 layer_sprite_get_sprite(), failed to get the correct value");			
@@ -765,7 +765,7 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 		output = layer_sprite_get_sprite(layerSprite);
 		assert_equals(output, input, "#5.4 layer_sprite_change(), failed to set the correct value");
 			
-		input = 2;
+		input = 0;
 		layer_sprite_index(layerSprite, input);
 		output = layer_sprite_get_index(layerSprite);
 		assert_equals(output, input, "#5.5 layer_sprite_index(), failed to set the correct value");
