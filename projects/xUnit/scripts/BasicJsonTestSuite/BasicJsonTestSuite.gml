@@ -86,7 +86,7 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 			
 		_jsonStr = json_encode(_map);
 		_output = json_decode(_jsonStr);
-			
+		
 		assert_map_equals(_map, _output, "#2 json_encode ( ds_map:local ), complex json encoding with nested map failed (maps are not equal)");
 
 		ds_map_destroy(_map);

@@ -516,7 +516,7 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 		file_delete("Buffer.sav");
 		file_delete("BufferExt.sav");
 			
-	})
+	}, { test_filter: platform_not_console })
 
 	// #### ASYNC ####
 
@@ -546,7 +546,7 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 			test_end();
 		},
 		
-	});
+	}, { test_filter: platform_not_console });
 		
 	addTestAsync("buffer_save_async_group_test", objTestAsyncSaveLoad, {
 			
@@ -580,8 +580,7 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 			test_end();
 		}
 			
-	}, { test_filter: platform_not_browser });
-		
+	}, { test_filter: platform_not_console });
 		
 	addTestAsync("buffer_load_async_test", objTestAsyncSaveLoad, {
 			
@@ -609,9 +608,8 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 			test_end();
 		}
 			
-	});
+	}, { test_filter: platform_not_console });
 		
-	
 	config({
 		suite_filter: platform_not_browser
 	})

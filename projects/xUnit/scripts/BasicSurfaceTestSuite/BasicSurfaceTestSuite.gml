@@ -35,13 +35,12 @@ function BasicSurfaceTestSuite() : TestSuite() constructor {
 		assert_equals(output, 4278222848, "#6 surface_getpixel_ext(), failed to return the correct color+alpha at specific point");
 
 		// If this is not HTML5
-		if (os_browser == browser_not_a_browser) {
-				
+		if (platform_not_browser() && platform_not_console()) {	
 			surface_set_target_ext(2, surface);
 			output = surface_get_target_ext(2);
 			assert_equals(output, surface, "#7 surface_set/get_target_ext(), failed set/get the target surface (specified index)");
 		}
-
+		
 		surface_reset_target();
 		output = surface_get_target();
 		assert_not_equals(output, surface, "#8 surface_reset_target(), failed to pop the surface correctly");

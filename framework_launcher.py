@@ -37,7 +37,7 @@ DEFAULT_CONFIG = {
 REDACTED_WORDS = ['-ak=', 'accessKey']
 REDACTED_MESSAGE = "<redacted to prevent exposure of sensitive data>"
 
-VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'HTML5', 'ps4']
+VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'HTML5', 'ps4', 'ps5']
 VALID_RUNNERS = ['vm', 'yyc']
 
 FAILURE_MESSAGE = '[ERROR] Not all unit tests succeeded.'

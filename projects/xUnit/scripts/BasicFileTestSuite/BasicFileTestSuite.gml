@@ -550,6 +550,8 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	})
 
+	config({ suite_filter: platform_not_console });
+
 }
 
 

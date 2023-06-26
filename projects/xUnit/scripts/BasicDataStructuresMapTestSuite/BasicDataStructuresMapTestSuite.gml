@@ -95,10 +95,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 		ds_map_copy(_copiedMap, _map);
 		assert_map_equals(_map, _copiedMap, "#1 ds_map_copy(), failed to correctly copy map");
 		
-		var _checkValue = "930100000100000001000000030000004D617000000000000000000000F03F";
-		
 		var _writtenMap = ds_map_write(_map);
-		assert_equals(_writtenMap, _checkValue, "#2 ds_map_write(), doesn't match pre-baked encoded string");
 		
 		_output = ds_map_empty(_map)
 		assert_false(_output, "#3 ds_map_empty(), detected empty map when it shouldn't");

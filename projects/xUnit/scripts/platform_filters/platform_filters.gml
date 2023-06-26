@@ -41,3 +41,10 @@ function platform_desktop() {
 	return platform_windows() || platform_macosx() || platform_linux();
 }
 
+function platform_console() {
+	return os_type == os_ps4 || os_type == os_ps5 || os_type == os_switch || os_type == os_xboxone || os_type == os_xboxseriesxs;
+}
+
+function platform_not_console() {
+	return !platform_console();
+}
