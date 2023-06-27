@@ -363,6 +363,11 @@ The `Logger` constructor allows these **default** properties:
 
 </br>
 
+> **Note**
+> An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
+
+</br>
+
 ---
 
 ## Project Structure (ADVANCED)
@@ -382,6 +387,8 @@ To facilitate improvements and contributions, the xUnit (TestFramework) project 
 6. TestModule: Responsible for test execution, the TestModule exposes constructors such as `Test`, `TestSuite`, and `TestFramework`. These constructors can be configured using the [Test Configuration](#Test-Properties), [TestSuite Configuration](#TestSuite-Properties), and [TestFramework Configuration](#TestFramework-Properties) systems, respectively.
 
 By organizing the xUnit (TestFramework) project into these modules, it becomes easier to manage and enhance the functionality of the framework.
+
+</br>
 
 ---
 
