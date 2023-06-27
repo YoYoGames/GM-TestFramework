@@ -311,7 +311,7 @@ The `Logger` constructor allows these default properties:
 </br>
 
 > **Warning**
-> Function callbacks and delegates cannot be defined inside the external `config-json` file.
+> Function callbacks and delegates cannot be defined inside the external `config.json` file.
 
 </br>
 
