@@ -378,13 +378,13 @@ To facilitate improvements and contributions, the xUnit (TestFramework) project 
 
 2. PropertyModule: Serving as a superclass to other modules (such as `Assert`, `Test`, `Logger`, and `Publisher`), the PropertyModule (`Modules/PropertyModule`) handles properties and their access levels (private or public). A `PropertyHolder` is an `IConfigurable` entity that can utilize the ConfigModule to load default configurations.
 
-3. LoggerModule: Responsible for logging operations within the framework, the LoggerModule is located in `Modules/LoggerModule/`. Its default API is exposed through the Modules/LoggerModule/LoggerAPI script. The [Logger Configuration](#Logger-Properties) system allows for customization of default properties.
+3. LoggerModule: Responsible for logging operations within the framework, the LoggerModule is located in `Modules/LoggerModule/`. Its default API is exposed through the Modules/LoggerModule/LoggerAPI script.
 
-4. AssertModule: Handling assertions, the AssertModule is situated in `Modules/AssertModule/Internal/Assert`, where the assert functions are defined as members of the Assert constructor. The framework incorporates the AssertAPI script found in `Modules/AssertModule`. The Assert Configuration system provides hooks to the `assert_failed` and `assert_passed` events. The [Assert Configuration](#Assert-Properties) system allows for customization of default properties.
+4. AssertModule: Handling assertions, the AssertModule is situated in `Modules/AssertModule/Internal/Assert`, where the assert functions are defined as members of the Assert constructor. The framework incorporates the AssertAPI script found in `Modules/AssertModule`. The Assert Configuration system provides hooks to the `assert_failed` and `assert_passed` events.
 
-5. PublisherModule: The PublisherModule, found in `Modules/PublisherModule/`, facilitates the publication of test framework results. It acts as an abstraction layer that supports the implementation of multiple publishers. The framework's default publisher is the HttpPublisher, which publishes results to a server (refer to [Command line usage](#From-the-Command-Line)).
+5. PublisherModule: The PublisherModule, found in `Modules/PublisherModule/`, facilitates the publication of test framework results. It acts as an abstraction layer that supports the implementation of multiple publishers.
 
-6. TestModule: Responsible for test execution, the TestModule exposes constructors such as `Test`, `TestSuite`, and `TestFramework`. These constructors can be configured using the [Test Configuration](#Test-Properties), [TestSuite Configuration](#TestSuite-Properties), and [TestFramework Configuration](#TestFramework-Properties) systems, respectively.
+6. TestModule: Responsible for test execution, the TestModule exposes constructors such as `Test`, `TestSuite`, and `TestFramework`.
 
 By organizing the xUnit (TestFramework) project into these modules, it becomes easier to manage and enhance the functionality of the framework.
 
