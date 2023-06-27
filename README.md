@@ -252,17 +252,18 @@ function MyTestSuite() : TestSuite() constructor {
 
 ## Configuring the TestFramework (ADVANCED)
 
-You can configura advanced functionality of the test framework by looking at the `frameworkSetup` script. This script is used to define default configurations used by the various classes (constructors) in the various modules.
-These are the properties that can be configured using the `config_set` function (part of the configuration manager).
+To configure advanced functionality of the test framework, you can refer to the frameworkSetup script. This script is responsible for defining default configurations utilized by the different classes and constructors within the various modules.
+
+Within the frameworkSetup script, you can make use of the config_set function, which is part of the configuration manager. This function allows you to configure specific properties associated with the test framework.
 
 ### Test Properties
 
-The `Test` constructor allows these default properties:
+The `Test` constructor allows these **default** properties:
 
-- **`test_end_hook`** {_Function_} Hook function that will be executed at the end of the test.
-- **`test_start_hook`** {_Function_} Hook function that will be executed at the start of the test.
-- **`test_filter`** {_Function_} Predicate function that determines whether the test should run or not.
-- **`test_timeout_millis`** {_Function_} The number of millis to wait until the test timesout.
+* **`test_end_hook`** {_Function_} Hook function that will be executed at the end of the test.
+* **`test_start_hook`** {_Function_} Hook function that will be executed at the start of the test.
+* **`test_filter`** {_Function_} Predicate function that determines whether the test should run or not.
+* **`test_timeout_millis`** {_Function_} The number of millis to wait until the test timesout.
 
 </br>
 
@@ -278,14 +279,14 @@ The `Test` constructor allows these default properties:
 
 ### TestSuite Properties
 
-The `TestSuite` constructor allows these default properties:
+The `TestSuite` constructor allows these **default** properties:
 
-- **`suite_end_hook`** {_Function_} Hook function that will be executed at the end of the suite.
-- **`suite_start_hook`** {_Function_} Hook function that will be executed at the start of the suite.
-- **`suite_filter`** {_Function_} Predicate function that determines whether the suite should run or not.
-- **`suite_timeout_millis`** {_Function_} The number of millis to wait until the suite timesout.
-- **`suite_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed suite.
-- **`suite_delay_seconds`** {_Real_} The number of seconds to wait between tests.
+* **`suite_end_hook`** {_Function_} Hook function that will be executed at the end of the suite.
+* **`suite_start_hook`** {_Function_} Hook function that will be executed at the start of the suite.
+* **`suite_filter`** {_Function_} Predicate function that determines whether the suite should run or not.
+* **`suite_timeout_millis`** {_Function_} The number of millis to wait until the suite timesout.
+* **`suite_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed suite.
+* **`suite_delay_seconds`** {_Real_} The number of seconds to wait between tests.
 
 </br>
 
@@ -301,14 +302,14 @@ The `TestSuite` constructor allows these default properties:
 
 ### TestFramework Properties
 
-The `TestFramework` constructor allows these default properties:
+The `TestFramework` constructor allows these **default** properties:
 
-- **`framework_end_hook`** {_Function_} Hook function that will be executed at the end of the framework.
-- **`framework_start_hook`** {_Function_} Hook function that will be executed at the start of the framework.
-- **`framework_filter`** {_Function_} Predicate function that determines whether the framework should run or not.
-- **`framework_timeout_millis`** {_Function_} The number of millis to wait until the framework timesout.
-- **`framework_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed framework.
-- **`framework_delay_seconds`** {_Real_} The number of seconds to wait between suites.
+* **`framework_end_hook`** {_Function_} Hook function that will be executed at the end of the framework.
+* **`framework_start_hook`** {_Function_} Hook function that will be executed at the start of the framework.
+* **`framework_filter`** {_Function_} Predicate function that determines whether the framework should run or not.
+* **`framework_timeout_millis`** {_Function_} The number of millis to wait until the framework timesout.
+* **`framework_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed framework.
+* **`framework_delay_seconds`** {_Real_} The number of seconds to wait between suites.
 
 </br>
 
@@ -324,12 +325,12 @@ The `TestFramework` constructor allows these default properties:
 
 ### Assert Properties
 
-The `Assert` constructor allows these default properties:
+The `Assert` constructor allows these **default** properties:
 
-- **`assert_failed_hook`** {_Function_} Hook function that will be executed on every failed assertion.
-- **`assert_passed_hook`** {_Function_} Hook function that will be executed on every passed assertion.
-- **`assert_stack_base_depth`** {_Real_} The value used to specify the base depth for the stack (number of function calls from the `assert` call until the `debug_get_callstack` call) 
-- **`assert_stack_depth`** {_Real_} The number of stack entries to show in the assert information.
+* **`assert_failed_hook`** {_Function_} Hook function that will be executed on every failed assertion.
+* **`assert_passed_hook`** {_Function_} Hook function that will be executed on every passed assertion.
+* **`assert_stack_base_depth`** {_Real_} The value used to specify the base depth for the stack (number of function calls from the `assert` call until the `debug_get_callstack` call) 
+* **`assert_stack_depth`** {_Real_} The number of stack entries to show in the assert information.
 
 </br>
 
@@ -345,11 +346,42 @@ The `Assert` constructor allows these default properties:
 
 ### Logger Properties
 
-The `Logger` constructor allows these default properties:
+The `Logger` constructor allows these **default** properties:
 
-- **`logger_level`** {_Real_} The filter level for showing log messages (levels below this value are not shown, see `LoggerLevel` enum)
-- **`logger_time_format`** {_String_} The format used for the time display. Allows `{Y}` (year), `{m}` (month), `{d}` (day), `{H}` (hours), `{M}` (minutes) and `{S}` (seconds).
-- **`logger_message_format`** {_String_} The format used for the log message. Allows `{message}` (the actual message), `{time}` (displays the time) and `{level}` (string representation of the level).
+* **`logger_level`** {_Real_} The filter level for showing log messages (see `LoggerLevel` enum)
+* **`logger_time_format`** {_String_} The format used for the time (ie.: `"{H}:{M}:{S}"`). Allows the following:
+  * `{Y}` for displaying the year in a XXXX format
+  * `{m}` for displaying the month
+  * `{d}` for displaying the day
+  * `{H}` for displaying the hours
+  * `{M}` for displaying the minutes
+  * `{S}` for displaying the seconds
+* **`logger_message_format`** {_String_} The format used for the message (ie.: `"[{level}] {message}"`). Allows for following:
+  * `{message}` displays the actual message)
+  * `{time}` displays the time (see **`logger_time_format`** above)
+  * `{level}` displays the string representation of the current log type (INFO, WARNING, ERROR, ...)
+
+</br>
+
+---
+
+## Project Structure (ADVANCED)
+
+To facilitate improvements and contributions, the xUnit (TestFramework) project is structured into different modules:
+
+1. ConfigModule: This module (`Modules/ConfigModule/`) manages the default configurations for the framework.
+
+2. PropertyModule: Serving as a superclass to other modules (such as `Assert`, `Test`, `Logger`, and `Publisher`), the PropertyModule (`Modules/PropertyModule`) handles properties and their access levels (private or public). A `PropertyHolder` is an `IConfigurable` entity that can utilize the ConfigModule to load default configurations.
+
+3. LoggerModule: Responsible for logging operations within the framework, the LoggerModule is located in `Modules/LoggerModule/`. Its default API is exposed through the Modules/LoggerModule/LoggerAPI script. The [Logger Configuration](#Logger-Properties) system allows for customization of default properties.
+
+4. AssertModule: Handling assertions, the AssertModule is situated in `Modules/AssertModule/Internal/Assert`, where the assert functions are defined as members of the Assert constructor. The framework incorporates the AssertAPI script found in `Modules/AssertModule`. The Assert Configuration system provides hooks to the `assert_failed` and `assert_passed` events. The [Assert Configuration](#Assert-Properties) system allows for customization of default properties.
+
+5. PublisherModule: The PublisherModule, found in `Modules/PublisherModule/`, facilitates the publication of test framework results. It acts as an abstraction layer that supports the implementation of multiple publishers. The framework's default publisher is the HttpPublisher, which publishes results to a server (refer to [Command line usage](#From-the-Command-Line)).
+
+6. TestModule: Responsible for test execution, the TestModule exposes constructors such as `Test`, `TestSuite`, and `TestFramework`. These constructors can be configured using the [Test Configuration](#Test-Properties), [TestSuite Configuration](#TestSuite-Properties), and [TestFramework Configuration](#TestFramework-Properties) systems, respectively.
+
+By organizing the xUnit (TestFramework) project into these modules, it becomes easier to manage and enhance the functionality of the framework.
 
 ---
 
