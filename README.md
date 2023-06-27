@@ -384,7 +384,7 @@ To facilitate improvements and contributions, the xUnit (TestFramework) project 
 
 2. PropertyModule: Serving as a superclass to other modules (such as `Assert`, `Test`, `Logger`, and `Publisher`), the PropertyModule (`Modules/PropertyModule`) handles properties and their access levels (private or public). A `PropertyHolder` is an `IConfigurable` entity that can utilize the ConfigModule to load default configurations.
 
-3. LoggerModule: Responsible for logging operations within the framework, the LoggerModule is located in `Modules/LoggerModule/`. Its default API is exposed through the Modules/LoggerModule/LoggerAPI script.
+3. LoggerModule: Responsible for logging operations within the framework, the LoggerModule is located in `Modules/LoggerModule/`. Its default API is exposed through the `Modules/LoggerModule/LoggerAPI` script.
 
 4. AssertModule: Handling assertions, the AssertModule is situated in `Modules/AssertModule/Internal/Assert`, where the assert functions are defined as members of the Assert constructor. The framework incorporates the AssertAPI script found in `Modules/AssertModule`. The Assert Configuration system provides hooks to the `assert_failed` and `assert_passed` events.
 
