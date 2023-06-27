@@ -264,6 +264,18 @@ The `Test` constructor allows these default properties:
 - **`test_filter`** {_Function_} Predicate function that determines whether the test should run or not.
 - **`test_timeout_millis`** {_Function_} The number of millis to wait until the test timesout.
 
+</br>
+
+> **Note**
+> An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
+
+</br>
+
+> **Warning**
+> It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
+
+</br>
+
 ### TestSuite Properties
 
 The `TestSuite` constructor allows these default properties:
@@ -274,6 +286,18 @@ The `TestSuite` constructor allows these default properties:
 - **`suite_timeout_millis`** {_Function_} The number of millis to wait until the suite timesout.
 - **`suite_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed suite.
 - **`suite_delay_seconds`** {_Real_} The number of seconds to wait between tests.
+
+</br>
+
+> **Note**
+> An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
+
+</br>
+
+> **Warning**
+> It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
+
+</br>
 
 ### TestFramework Properties
 
@@ -286,6 +310,18 @@ The `TestFramework` constructor allows these default properties:
 - **`framework_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed framework.
 - **`framework_delay_seconds`** {_Real_} The number of seconds to wait between suites.
 
+</br>
+
+> **Note**
+> An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
+
+</br>
+
+> **Warning**
+> It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
+
+</br>
+
 ### Assert Properties
 
 The `Assert` constructor allows these default properties:
@@ -295,6 +331,18 @@ The `Assert` constructor allows these default properties:
 - **`assert_stack_base_depth`** {_Real_} The value used to specify the base depth for the stack (number of function calls from the `assert` call until the `debug_get_callstack` call) 
 - **`assert_stack_depth`** {_Real_} The number of stack entries to show in the assert information.
 
+</br>
+
+> **Note**
+> An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
+
+</br>
+
+> **Warning**
+> It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
+
+</br>
+
 ### Logger Properties
 
 The `Logger` constructor allows these default properties:
@@ -302,18 +350,6 @@ The `Logger` constructor allows these default properties:
 - **`logger_level`** {_Real_} The filter level for showing log messages (levels below this value are not shown, see `LoggerLevel` enum)
 - **`logger_time_format`** {_String_} The format used for the time display. Allows `{Y}` (year), `{m}` (month), `{d}` (day), `{H}` (hours), `{M}` (minutes) and `{S}` (seconds).
 - **`logger_message_format`** {_String_} The format used for the log message. Allows `{message}` (the actual message), `{time}` (displays the time) and `{level}` (string representation of the level).
-
-</br>
-
-> **Note**
-> You can also use a `config.json` file to pass all the above configurations (this is used by the framework launcher tool).
-
-</br>
-
-> **Warning**
-> Function callbacks and delegates cannot be defined inside the external `config.json` file.
-
-</br>
 
 ---
 
