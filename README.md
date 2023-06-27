@@ -38,7 +38,7 @@ To run the launcher from the command line, you need to have [Python](https://www
 
     "Launcher.runners": "vm",
     "Launcher.targets": "windows|Local",
-    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss",
+    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
     "Launcher.project": "projects\\xUnit\\xUnit.yyp",
 
     "Launcher.html5Runner": null,
@@ -57,9 +57,9 @@ To run the launcher from the command line, you need to have [Python](https://www
 
 * `-ak` followed by your **Access Key**
 * `-uf` followed by the a GameMaker's user folder path (ex: `C:\Users\<User>\AppData\Roaming\GameMakerStudio2\<username>`)
-* `-t` followed by a comma separated list of platform|device pairs (valid platforms: `[windows mac linux android ios tvos HTML5]`)
+* `-t` followed by a comma separated list of platform|device pairs (valid platforms: `[windows mac linux android ios tvos HTML5 ps4 ps5]`)
 * `-r` followed by a comma separated list of runners (valid runners: `[vm yyc]`)
-* `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
+* `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to BETA)
 * `-rv` followed by the version of the runtime to be tested (defaults to latest)
 * `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
 
