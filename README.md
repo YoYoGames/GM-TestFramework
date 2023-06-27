@@ -303,8 +303,15 @@ The `Logger` constructor allows these default properties:
 - **`logger_time_format`** {_String_} The format used for the time display. Allows `{Y}` (year), `{m}` (month), `{d}` (day), `{H}` (hours), `{M}` (minutes) and `{S}` (seconds).
 - **`logger_message_format`** {_String_} The format used for the log message. Allows `{message}` (the actual message), `{time}` (displays the time) and `{level}` (string representation of the level).
 
+</br>
+
 > **Note**
 > You can also use a `config.json` file to pass all the above configurations (this is used by the framework launcher tool).
+
+</br>
+
+> **Warning**
+> Function callbacks and delegates cannot be defined inside the external `config-json` file.
 
 </br>
 
