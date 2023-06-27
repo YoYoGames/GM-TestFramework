@@ -390,6 +390,11 @@ By organizing the xUnit (TestFramework) project into these modules, it becomes e
 
 </br>
 
+> **Warning**
+> It is essential to acknowledge that contributions to the framework can influence its internal mechanisms. However, it is crucial to maintain the integrity of the existing public API that is utilized by the tests during runtime. While additions to the API are acceptable, modifications to the existing API should be avoided.
+
+</br>
+
 ---
 
 ## Contributions
