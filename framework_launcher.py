@@ -23,7 +23,7 @@ DEFAULT_CONFIG = {
 
     "Launcher.runners": "vm",
     "Launcher.targets": "windows|Local",
-    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss",
+    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
     "Launcher.project": "projects\\xUnit\\xUnit.yyp",
 
     "Server.port": 8080,

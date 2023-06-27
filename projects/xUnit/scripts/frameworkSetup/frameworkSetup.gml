@@ -130,16 +130,16 @@ config_set("TestFrameworkRun", {
 		
 		// Publish the results
 		_resultPublisher.publish(_data);
-		
-		log_info(_tallies);
-		
+				
 		#endregion 
 		
 		// Do any extra required logging and logic here (_testSuite is an instance of TestFrameworkRun)
 		log_info("TestFramework ended");
 		
 		// Log failures and tallies
-		log_warning(string(_resultBag[$ "failed"]));
+		log_info(_tallies);
+		log_info($"FAILED: {_resultBag[$ "failed"]}");
+		log_info($"EXPIRED: {_resultBag[$ "expired"]}");
 	}
 
 });

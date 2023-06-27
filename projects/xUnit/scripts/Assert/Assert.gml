@@ -5,6 +5,8 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 
 	#macro assert_fail_hook failHook
 	#macro assert_pass_hook passHook
+	#macro assert_stack_base_depth stackBaseDepth
+	#macro assert_stack_depth stackDepth
 
 	/// @ignore
 	failHook = addProperty("failHook", undefined, is_callable);
