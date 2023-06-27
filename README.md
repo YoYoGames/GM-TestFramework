@@ -259,49 +259,49 @@ These are the properties that can be configured using the `config_set` function 
 
 The `Test` constructor allows these default properties:
 
-- **test_end_hook** {_Function_} Hook function that will be executed at the end of the test.
-- **test_start_hook** {_Function_} Hook function that will be executed at the start of the test.
-- **test_filter** {_Function_} Predicate function that determines whether the test should run or not.
-- **test_timeout_millis** {_Function_} The number of millis to wait until the test timesout.
+- **`test_end_hook`** {_Function_} Hook function that will be executed at the end of the test.
+- **`test_start_hook`** {_Function_} Hook function that will be executed at the start of the test.
+- **`test_filter`** {_Function_} Predicate function that determines whether the test should run or not.
+- **`test_timeout_millis`** {_Function_} The number of millis to wait until the test timesout.
 
 ### TestSuite Properties
 
 The `TestSuite` constructor allows these default properties:
 
-- **suite_end_hook** {_Function_} Hook function that will be executed at the end of the suite.
-- **suite_start_hook** {_Function_} Hook function that will be executed at the start of the suite.
-- **suite_filter** {_Function_} Predicate function that determines whether the suite should run or not.
-- **suite_timeout_millis** {_Function_} The number of millis to wait until the suite timesout.
-- **suite_bail_on_fail** {_Bool_} Should the suite bail execution after the first failed suite.
-- **suite_delay_seconds** {_Real_} The number of seconds to wait between tests.
+- **`suite_end_hook`** {_Function_} Hook function that will be executed at the end of the suite.
+- **`suite_start_hook`** {_Function_} Hook function that will be executed at the start of the suite.
+- **`suite_filter`** {_Function_} Predicate function that determines whether the suite should run or not.
+- **`suite_timeout_millis`** {_Function_} The number of millis to wait until the suite timesout.
+- **`suite_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed suite.
+- **`suite_delay_seconds`** {_Real_} The number of seconds to wait between tests.
 
 ### TestFramework Properties
 
 The `TestFramework` constructor allows these default properties:
 
-- **framework_end_hook** {_Function_} Hook function that will be executed at the end of the framework.
-- **framework_start_hook** {_Function_} Hook function that will be executed at the start of the framework.
-- **framework_filter** {_Function_} Predicate function that determines whether the framework should run or not.
-- **framework_timeout_millis** {_Function_} The number of millis to wait until the framework timesout.
-- **framework_bail_on_fail** {_Bool_} Should the suite bail execution after the first failed framework.
-- **framework_delay_seconds** {_Real_} The number of seconds to wait between suites.
+- **`framework_end_hook`** {_Function_} Hook function that will be executed at the end of the framework.
+- **`framework_start_hook`** {_Function_} Hook function that will be executed at the start of the framework.
+- **`framework_filter`** {_Function_} Predicate function that determines whether the framework should run or not.
+- **`framework_timeout_millis`** {_Function_} The number of millis to wait until the framework timesout.
+- **`framework_bail_on_fail`** {_Bool_} Should the suite bail execution after the first failed framework.
+- **`framework_delay_seconds`** {_Real_} The number of seconds to wait between suites.
 
 ### Assert Properties
 
 The `Assert` constructor allows these default properties:
 
-- **assert_failed_hook** {_Function_} Hook function that will be executed on every failed assertion.
-- **assert_passed_hook** {_Function_} Hook function that will be executed on every passed assertion.
-- **assert_stack_base_depth** {_Real_} The value used to specify the base depth for the stack (number of function calls from the `assert` call until the `debug_get_callstack` call) 
-- **assert_stack_depth** {_Real_} The number of stack entries to show in the assert information.
+- **`assert_failed_hook`** {_Function_} Hook function that will be executed on every failed assertion.
+- **`assert_passed_hook`** {_Function_} Hook function that will be executed on every passed assertion.
+- **`assert_stack_base_depth`** {_Real_} The value used to specify the base depth for the stack (number of function calls from the `assert` call until the `debug_get_callstack` call) 
+- **`assert_stack_depth`** {_Real_} The number of stack entries to show in the assert information.
 
 ### Logger Properties
 
 The `Logger` constructor allows these default properties:
 
-- **logger_level** {_Real_} The filter level for showing log messages (levels below this value are not shown, see `LoggerLevel` enum)
-- **logger_time_format** {_String_} The format used for the time display. Allows `{Y}` (year), `{m}` (month), `{d}` (day), `{H}` (hours), `{M}` (minutes) and `{S}` (seconds).
-- **logger_message_format** {_String_} The format used for the log message. Allows `{message}` (the actual message), `{time}` (displays the time) and `{level}` (string representation of the level).
+- **`logger_level`** {_Real_} The filter level for showing log messages (levels below this value are not shown, see `LoggerLevel` enum)
+- **`logger_time_format`** {_String_} The format used for the time display. Allows `{Y}` (year), `{m}` (month), `{d}` (day), `{H}` (hours), `{M}` (minutes) and `{S}` (seconds).
+- **`logger_message_format`** {_String_} The format used for the log message. Allows `{message}` (the actual message), `{time}` (displays the time) and `{level}` (string representation of the level).
   
 ---
 
