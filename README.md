@@ -23,11 +23,12 @@ To utilize the project within the IDE, simply select the desired platform and pr
 > **Warning**
 > The command line framework launcher tool is only compatible with Windows OS and is available exclusively for Enterprise users. You'll need to obtain an **Access Key** from the [following link](https://gamemaker.io/account/access_keys).
 
-To run the launcher from the command line, you need to have Python and Node.js installed. Then, follow these steps:
+To run the launcher from the command line, you need to have [Python](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/en/download) installed. Then, follow these steps:
 
 1. Run the `setup.bat` script, which will install all Python and Node.js dependencies.
 2. Run `python framework_launcher.py` script with the following arguments:
-   * `-cf` followed by the path to the configuration file. With the following format:
+
+* `-cf` followed by the path to the configuration file. With the following format:
 
 ```json
 {
@@ -49,13 +50,18 @@ To run the launcher from the command line, you need to have Python and Node.js i
 }
 ```
 
-   * `-ak` followed by your **Access Key**
-   * `-uf` followed by the a GameMaker's user folder path (ex: `C:\Users\<User>\AppData\Roaming\GameMakerStudio2\<username>`)
-   * `-t` followed by a comma separated list of platform|device pairs (valid platforms: `[windows mac linux android ios tvos HTML5]`)
-   * `-r` followed by a comma separated list of runners (valid runners: `[vm yyc]`)
-   * `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
-   * `-rv` followed by the version of the runtime to be tested (defaults to latest)
-   * `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
+> **Note**
+> The command line parameters listed below are optional and can be omitted if they are already specified in the configuration file, and vice versa. However, if provided, they will overwrite the corresponding values in the configuration file.
+
+</br>
+
+* `-ak` followed by your **Access Key**
+* `-uf` followed by the a GameMaker's user folder path (ex: `C:\Users\<User>\AppData\Roaming\GameMakerStudio2\<username>`)
+* `-t` followed by a comma separated list of platform|device pairs (valid platforms: `[windows mac linux android ios tvos HTML5]`)
+* `-r` followed by a comma separated list of runners (valid runners: `[vm yyc]`)
+* `-f` followed by the RSS feed to be used for retrieving the runtime (defaults to DEV)
+* `-rv` followed by the version of the runtime to be tested (defaults to latest)
+* `-h5r` followed by the path to the HTML5 scripts folder (defaults to selected runtime)
 
 </br>
 
