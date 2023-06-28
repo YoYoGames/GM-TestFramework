@@ -258,9 +258,9 @@ function MyTestSuite() : TestSuite() constructor {
 
 ## Configuring the TestFramework (ADVANCED)
 
-To configure advanced functionality of the test framework, you can refer to the frameworkSetup script. This script is responsible for defining default configurations utilized by the different classes and constructors within the various modules.
+To configure advanced functionality of the test framework, you can refer to the `frameworkSetup` script. This script is responsible for defining default configurations utilized by the different classes and constructors within the various modules.
 
-Within the frameworkSetup script, you can make use of the config_set function, which is part of the configuration manager. This function allows you to configure specific properties associated with the test framework.
+Within the `frameworkSetup` script, you can make use of the `config_set(...)` function, which is part of the configuration manager. This function allows you to configure specific properties associated with the test framework.
 
 ### Test Properties
 
