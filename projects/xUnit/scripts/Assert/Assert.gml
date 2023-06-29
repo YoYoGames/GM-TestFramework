@@ -634,7 +634,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @returns {Bool}
 	static bufferChannelGreaterOrEqual = function(_buffer, _channel, _expected, _description = undefined) {
 
-		static assertTitle = "Assert surface buffer {0} channel data to greater of equal to",
+		static assertTitle = "Assert surface buffer {0} channel data to greater of equal to";
 
 		// If no buffer exists for this index then exit (but don't fail)
 		if (!buffer_exists(_buffer)) return false;
