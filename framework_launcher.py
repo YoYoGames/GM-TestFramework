@@ -690,7 +690,7 @@ def main():
     project_set_config(args, project_folder, ip_address)
 
     # Starts the servers
-    server_port = args['$$parameters$$.server_port']
+    server_port = args['$$parameters$$.serverPort']
     servers = start_servers(runtime_version, server_port)
     assert(servers != None)
 
