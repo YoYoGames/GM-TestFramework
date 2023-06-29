@@ -46,7 +46,7 @@ function ConfigManager() constructor {
 	static loadFromFile = function(_filename) {
 		
 		if (!file_exists(_filename))
-			log_error("loadFromFile :: config file doesn't exist");
+			return log_warning("loadFromFile :: config file doesn't exist");
 		
 		// Load file into a buffer
 		var _buffer = buffer_load(_filename);
