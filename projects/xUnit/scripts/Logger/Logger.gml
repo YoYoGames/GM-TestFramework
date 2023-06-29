@@ -13,7 +13,7 @@ function Logger(_configuration = undefined) : PropertyHolder() constructor {
 	enum LoggerLevel { NotSet = 0, Debug = 10, Info = 20, Warning = 30, Error = 40, Critical = 50 }
 	
 	/// @ignore
-	level = addProperty("level", LoggerLevel.Warning, is_numeric);
+	level = addProperty("level", LoggerLevel.Debug, is_numeric);
 	/// @ignore
 	levelNames = { };
 	levelNames[$ LoggerLevel.Debug] = "DEBUG";

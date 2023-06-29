@@ -26,12 +26,11 @@ DEFAULT_CONFIG = {
     "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
     "Launcher.project": "projects\\xUnit\\xUnit.yyp",
 
-    "Server.port": 8080,
-    "Server.endpoint": "tests",
-
     "Logger.level": 10,
 
-    "$$parameters$$.isSandboxed": True
+    "$$parameters$$.isSandboxed": True,
+    "$$parameters$$.serverPort": 8080,
+    "$$parameters$$.serverEndpoint": "tests",
 }
 
 REDACTED_WORDS = ['-ak=', 'accessKey']
@@ -540,7 +539,7 @@ def stop_servers(serverProcess):
 
 def project_set_config(data, project_path, ip_address):
 
-    data['Server.ip'] = ip_address
+    data['$$parameters$$.serverAddress'] = ip_address
 
     config_file = os.path.join(project_path, 'datafiles', 'config.json')
     save_to_json_file(data, config_file)
@@ -691,7 +690,7 @@ def main():
     project_set_config(args, project_folder, ip_address)
 
     # Starts the servers
-    server_port = args['Server.port']
+    server_port = args['$$parameters$$.server_port']
     servers = start_servers(runtime_version, server_port)
     assert(servers != None)
 

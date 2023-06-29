@@ -104,7 +104,6 @@
     {"id":{"name":"Theory","path":"scripts/Theory/Theory.yy",},},
     {"id":{"name":"PublisherAPI","path":"scripts/PublisherAPI/PublisherAPI.yy",},},
     {"id":{"name":"oParent","path":"objects/oParent/oParent.yy",},},
-    {"id":{"name":"server_get_param","path":"scripts/server_get_param/server_get_param.yy",},},
     {"id":{"name":"shader0","path":"shaders/shader0/shader0.yy",},},
     {"id":{"name":"Property","path":"scripts/Property/Property.yy",},},
     {"id":{"name":"ResourceEventsTestSuite","path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},},

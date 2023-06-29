@@ -71,7 +71,6 @@
     {"name":"Theory","order":2,"path":"scripts/Theory/Theory.yy",},
     {"name":"PublisherAPI","order":3,"path":"scripts/PublisherAPI/PublisherAPI.yy",},
     {"name":"oParent","order":6,"path":"objects/oParent/oParent.yy",},
-    {"name":"server_get_param","order":1,"path":"scripts/server_get_param/server_get_param.yy",},
     {"name":"ResourceEventsTestSuite","order":26,"path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},
     {"name":"BasicJsonTestSuite","order":14,"path":"scripts/BasicJsonTestSuite/BasicJsonTestSuite.yy",},
     {"name":"BasicNetworkTestSuite","order":17,"path":"scripts/BasicNetworkTestSuite/BasicNetworkTestSuite.yy",},

@@ -30,6 +30,17 @@ function config_get(_struct_name) {
 	return _configManager.getConfig(_struct_name);
 }
 
+/// @function config_get_param(_param_name)
+/// @description Get the value of a given parameter (from the default configuration manager).
+/// @param {String} _param_name The param name to get the value from.
+/// @returns {Any}
+function config_get_param(_param_name) {
+	
+	var _configManager = config_manager_get();
+	var _params = _configManager.getConfig("$$parameters$$") ?? { };
+	return _params[$ _param_name];
+}
+
 /// @function config_set(struct, config)
 /// @description Sets the configuration for the type of a given struct (in the default configuration manager).
 /// @param {Struct|String} _struct The struct to set the config for (configuration is based on type).

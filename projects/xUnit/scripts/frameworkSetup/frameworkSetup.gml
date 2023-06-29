@@ -103,7 +103,7 @@ config_set("TestFrameworkRun", {
 	},
 	
 	framework_end_hook: function(_test, _resultBag) {
-		
+				
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
 		
 		// Create tallies
@@ -123,9 +123,9 @@ config_set("TestFrameworkRun", {
 		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
 		var _resultPublisher = http_publisher_get("$$default$$");
 		_resultPublisher.config({
-			ip: server_get_param("ip"),
-			port: server_get_param("port"),
-			endpoint: server_get_param("endpoint"),	
+			ip: config_get_param("serverAddress") ?? "127.0.0.1",
+			port: config_get_param("serverPort") ?? 8080,
+			endpoint: config_get_param("serverEndpoint") ?? "tests",
 		})
 		
 		// Publish the results
