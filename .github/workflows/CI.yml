@@ -28,17 +28,17 @@ jobs:
       - name: Running Manually
         run: | 
           if [[ github.event_name == 'workflow_dispatch' && github.event.inputs.RSS_Feed = 'true' ]]; then
-          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json -f ${{ github.event.inputs.RSS_Feed }}
+          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
           else 
           python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}            
         working-directory: GM-TF  
         continue-on-error: true      
       - name: Running on PR
         run: |
-          if [[github.event_name == 'pull_request' && github.event.inputs.RSS_Feed = 'true' ]]; then
+          if [[ github.event_name == 'pull_request' && github.event.inputs.RSS_Feed = 'true' ]]; then
           python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json -f ${{ github.event.inputs.RSS_Feed }}
           else 
-          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}            
+          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json            
         working-directory: GM-TF    
         continue-on-error: true            
       - name: Upload tests Artifacts
