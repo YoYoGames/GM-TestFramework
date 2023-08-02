@@ -8,6 +8,9 @@ on:
        CONFIG_FILE:
          description: "CONFIG_FILE"
          required: true
+       RSS_Feed:
+         description: "RSS_Feed"
+         required: false
 
 jobs:
  
@@ -29,7 +32,7 @@ jobs:
         continue-on-error: true      
       - name: Running on PR
         if: github.event_name == 'pull_request'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json
+        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF    
         continue-on-error: true            
       - name: Upload tests Artifacts
