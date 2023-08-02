@@ -34,6 +34,7 @@ jobs:
         working-directory: GM-TF  
         continue-on-error: true      
       - name: Running on PR
+        if: github.event_name == 'pull_request'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
         working-directory: GM-TF    
         continue-on-error: true            
