@@ -30,7 +30,8 @@ jobs:
           if [[ github.event_name == 'workflow_dispatch' && github.event.inputs.RSS_Feed = 'true' ]]; then
           python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
           else 
-          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}            
+          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}       
+          fi     
         working-directory: GM-TF  
         continue-on-error: true      
       - name: Running on PR
