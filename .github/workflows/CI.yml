@@ -10,7 +10,7 @@ on:
          required: true
        RSS_Feed:
          description: "RSS_Feed"
-         required: false
+         required: true
 
 jobs:
  
