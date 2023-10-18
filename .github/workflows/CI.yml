@@ -26,12 +26,14 @@ jobs:
         working-directory: GM-TF
         shell: cmd
       - name: Running Manually
-        run: |
-          if [ "${{ github.event.inputs.RSS_Feed }}" == '' ]; then
-          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
-          elif
-          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
-          fi
+        if: github.event.inputs.RSS_Feed == 'true'
+        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
+        working-directory: GM-TF  
+        continue-on-error: false
+      - name: Running Manually without passing Feed
+        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
+        working-directory: GM-TF  
+        continue-on-error: false              
       - name: Running on PR
         if: github.event_name == 'pull_request'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
