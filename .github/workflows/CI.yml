@@ -72,7 +72,7 @@ jobs:
           with:
             token: ${{ secrets.SLACK_TOKEN }}
             filetype: json
-            path: summary.json
+            path: test/summary.json
             channel: 'C0545RKQ4MV'
         
       
