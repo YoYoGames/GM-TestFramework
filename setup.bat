@@ -1,7 +1,7 @@
 @echo off
 
 echo Installing Python dependencies...
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 echo Installing NodeJS dependencies...
 cd servers
