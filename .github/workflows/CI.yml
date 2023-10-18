@@ -26,12 +26,12 @@ jobs:
         working-directory: GM-TF
         shell: cmd
       - name: Running Manually
-        if: github.event.inputs.RSS_Feed == '' || github.event_name == 'workflow_dispatch'
+        if: github.event.inputs.RSS_Feed == 'true' || github.event_name == 'workflow_dispatch'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF  
         continue-on-error: true
       - name: Running Manually without passing Feed
-        if: github.event_name == 'workflow_dispatch' || github.event.inputs.RSS_Feed != ''
+        if: github.event_name == 'workflow_dispatch' || github.event.inputs.RSS_Feed == 'fasle'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
         working-directory: GM-TF  
         continue-on-error: true               
