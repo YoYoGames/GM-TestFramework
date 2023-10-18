@@ -65,7 +65,8 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: summary_file
-            path: summary.json
+            path: test
+        - run: ls
         - name: Upload to slack step
           uses: adrey/slack-file-upload-action@master
           with:
