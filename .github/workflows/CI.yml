@@ -66,13 +66,13 @@ jobs:
           with:
             name: summary_file
             path: test
-        - run: ls
+        - run: ls -al
         - name: Upload to slack step
-          uses: adrey/slack-file-upload-action@master
+          uses: MeilCli/slack-upload-file@v3
           with:
-            token: ${{ secrets.SLACK_TOKEN }}
-            filetype: json
-            path: test/summary.json
-            channel: 'C0545RKQ4MV'
+            slack_token: ${{ secrets.SLACK_TOKEN }}
+            file_type: json
+            file_path: test/summary.json
+            channel_id: 'C0545RKQ4MV'
         
       
