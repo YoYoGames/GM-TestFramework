@@ -514,11 +514,11 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		_result = array_length(_array2D1[4]);
 		assert_equals(_result, _arraySize - 3, "#7 array_length, the 2nd dimension of a pre-filled 2d array");
 			
-		//#8 array_length( not array ), should return undefined
+		//#8 array_length( not array ), should return 0
 		var _tests = [ 22.5, int32(10), int64(20), "hello world", undefined, infinity, NaN, ptr(application_surface) ];
 		for (var _i = array_length(_tests) - 1; _i >= 0; _i--) {
 			_result = array_length(_tests[_i]);
-			assert_undefined(_result, "#8 array_length( not array ), should return undefined");
+			assert_equals(_result, 0, "#8 array_length( not array ), should return 0");
 		}
 
 	})
