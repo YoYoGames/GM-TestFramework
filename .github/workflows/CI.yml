@@ -26,13 +26,13 @@ jobs:
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd
-      - name: Testing Manually
+      - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
         if: github.event.inputs.RSS_Feed != ''
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF  
         continue-on-error: true
         shell: cmd
-      - name: Testing Manually without passing Feed
+      - name: Testing Manually without passing Feed (By Default it takes Red Feed)
         if: github.event.inputs.RSS_Feed == ''
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
         working-directory: GM-TF  
@@ -56,13 +56,18 @@ jobs:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
         continue-on-error: false 
-      - name: Send custom JSON data to Slack workflow
-        id: slack
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          channel-id: 'C0545RKQ4MV'
-          slack-message: "Test-Framework Results: ${{ job.status }}"
-          payload-file-path: "./GM-TF/workspace/summary.json"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      # - name: Send custom JSON data to Slack workflow
+        # id: slack
+        # uses: slackapi/slack-github-action@v1.23.0
+        # with:
+        #   channel-id: 'C0545RKQ4MV'
+        #   slack-message: "Test-Framework Results: ${{ job.status }}"
+        #   payload-file-path: "./GM-TF/workspace/summary.json"
+        # env:
+        #   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      - name: Upload JSON File to Slack
+        run: |
+           curl -X POST -H 'Authorization: Bearer ${{ secrets.SLACK_TOKEN }}' -F file=@./GM-TF/workspace/summary.json -H 'Content-type: application/json; charset=utf-8'  --data '{"channel":"#gm-testframework-notifications","text":"Test Framework Results"}' https://slack.com/api/files.upload
+
+      
