@@ -26,29 +26,26 @@ jobs:
         working-directory: GM-TF
         shell: cmd
       - name: Running Manually
-        if: github.event.inputs.RSS_Feed == 'true' || github.event_name == 'workflow_dispatch'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
-        working-directory: GM-TF  
-        continue-on-error: true
-      - name: Running Manually without passing Feed
-        if: github.event_name == 'workflow_dispatch' || github.event.inputs.RSS_Feed == 'false'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
-        working-directory: GM-TF  
-        continue-on-error: true               
+        run: |
+          if [ "${{ github.event.inputs.RSS_Feed }}" == '' ]; then
+          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
+          elif
+          python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
+          fi
       - name: Running on PR
         if: github.event_name == 'pull_request'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
         working-directory: GM-TF    
-        continue-on-error: true            
+        continue-on-error: false            
       - name: Upload tests Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: test_results
           path: .\GM-TF\workspace\results\tests\
-        continue-on-error: true  
+        continue-on-error: false  
       - name: Upload summary Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
-        continue-on-error: true        
+        continue-on-error: false        
