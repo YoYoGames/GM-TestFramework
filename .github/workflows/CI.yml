@@ -56,23 +56,6 @@ jobs:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
         continue-on-error: false 
-      # - name: Send custom JSON data to Slack workflow
-        # id: slack
-        # uses: slackapi/slack-github-action@v1.23.0
-        # with:
-        #   channel-id: 'C0545RKQ4MV'
-        #   slack-message: "Test-Framework Results: ${{ job.status }}"
-        #   payload-file-path: "./GM-TF/workspace/summary.json"
-        # env:
-        #   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-      # - name: Upload JSON File to Slack
-      #   env:
-      #     SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-      #     CHANNEL: '#gm-testframework-notifications'
-      #   run: |
-      #      curl -X POST -H "Authorization: Bearer !SLACK_TOKEN!" -F "file=@./GM-TF/workspace/summary.json" -F "Content-type: application/json; charset=utf-8" --data "{\"channel\":\"!CHANNEL!\",\"text\":\"Test Framework Results\"}" https://slack.com/api/files.upload
-      #   shell: cmd
 
   Slack-Notification:
      runs-on: ubuntu-latest
@@ -83,13 +66,12 @@ jobs:
           with:
             name: summary_file
             path: summary.json
-        - uses: MeilCli/slack-upload-file@v3
+        - name: Upload to slack step
+          uses: adrey/slack-file-upload-action@master
           with:
-            slack_token: ${{ secrets.SLACK_TOKEN }}
-            channel_id: 'C0545RKQ4MV'
-            file_type: 'json'
-            file_name: 'summary_file'
-            file_path: 'summary.json'
-            title: 'Test Results'
+            token: ${{ secrets.SLACK_TOKEN }}
+            filetype: json
+            path: summary.json
+            channel: 'C0545RKQ4MV'
         
       
