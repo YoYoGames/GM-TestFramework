@@ -89,6 +89,7 @@ jobs:
             channel_id: 'C0545RKQ4MV'
             file_type: 'json'
             file_name: 'summary_file'
+            file_path: 'summary.json'
             title: 'Test Results'
         
       
