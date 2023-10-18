@@ -27,12 +27,12 @@ jobs:
         working-directory: GM-TF
         shell: cmd
       - name: Running Manually
-        if: github.event.inputs.RSS_Feed == ${{ github.event.inputs.RSS_Feed }}
+        if: github.event.inputs.RSS_Feed != ''
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF  
         continue-on-error: false
       - name: Running Manually without passing Feed
-        if: github.event.inputs.RSS_Feed != ${{ github.event.inputs.RSS_Feed }}
+        if: github.event.inputs.RSS_Feed == ''
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
         working-directory: GM-TF  
         continue-on-error: false              
