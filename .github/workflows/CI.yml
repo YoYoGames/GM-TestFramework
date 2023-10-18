@@ -72,4 +72,5 @@ jobs:
           CHANNEL: '#gm-testframework-notifications'
         run: |
            curl -X POST -H "Authorization: Bearer !SLACK_TOKEN!" -F "file=@./GM-TF/workspace/summary.json" -H "Content-type: application/json; charset=utf-8" --data "{\"channel\":\"!CHANNEL!\",\"text\":\"Test Framework Results\"}" https://slack.com/api/files.upload
+        shell: cmd
       
