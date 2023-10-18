@@ -19,43 +19,43 @@ jobs:
     name: "CI"
     runs-on: Windows
     steps:
-      - name: Check out the GM-TestFramework repo
-        uses: actions/checkout@v3
-        with:
-          path: GM-TF
-      - run: .\setup.bat
-        working-directory: GM-TF
-        shell: cmd
-      - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
-        if: github.event.inputs.RSS_Feed != ''
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
-        working-directory: GM-TF  
-        continue-on-error: true
-        shell: cmd
-      - name: Testing Manually without passing Feed (By Default it takes Red Feed)
-        if: github.event.inputs.RSS_Feed == ''
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
-        working-directory: GM-TF  
-        continue-on-error: true    
-        shell: cmd          
-      - name: Testing on PR
-        if: github.event_name == 'pull_request'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
-        working-directory: GM-TF    
-        continue-on-error: true    
-        shell: cmd        
-      - name: Upload tests Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: test_results
-          path: .\GM-TF\workspace\results\tests\
-        continue-on-error: false  
-      - name: Upload summary Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: summary_file
-          path: .\GM-TF\workspace\summary.json
-        continue-on-error: false 
+      # - name: Check out the GM-TestFramework repo
+      #   uses: actions/checkout@v3
+      #   with:
+      #     path: GM-TF
+      # - run: .\setup.bat
+      #   working-directory: GM-TF
+      #   shell: cmd
+      # - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
+      #   if: github.event.inputs.RSS_Feed != ''
+      #   run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
+      #   working-directory: GM-TF  
+      #   continue-on-error: true
+      #   shell: cmd
+      # - name: Testing Manually without passing Feed (By Default it takes Red Feed)
+      #   if: github.event.inputs.RSS_Feed == ''
+      #   run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
+      #   working-directory: GM-TF  
+      #   continue-on-error: true    
+      #   shell: cmd          
+      # - name: Testing on PR
+      #   if: github.event_name == 'pull_request'
+      #   run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
+      #   working-directory: GM-TF    
+      #   continue-on-error: true    
+      #   shell: cmd        
+      # - name: Upload tests Artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: test_results
+      #     path: .\GM-TF\workspace\results\tests\
+      #   continue-on-error: false  
+      # - name: Upload summary Artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: summary_file
+      #     path: .\GM-TF\workspace\summary.json
+      #   continue-on-error: false 
       # - name: Send custom JSON data to Slack workflow
         # id: slack
         # uses: slackapi/slack-github-action@v1.23.0
@@ -67,7 +67,9 @@ jobs:
         #   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
       - name: Upload JSON File to Slack
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          CHANNEL: '#gm-testframework-notifications'
         run: |
-           curl -X POST -H 'Authorization: Bearer ${{ secrets.SLACK_TOKEN }}' -F file=@./GM-TF/workspace/summary.json -H 'Content-type: application/json; charset=utf-8'  --data '{"channel":"#gm-testframework-notifications","text":"Test Framework Results"}' https://slack.com/api/files.upload
-
+           curl -X POST -H "Authorization: Bearer !SLACK_TOKEN!" -F "file=@./GM-TF/workspace/summary.json" -H "Content-type: application/json; charset=utf-8" --data "{\"channel\":\"!CHANNEL!\",\"text\":\"Test Framework Results\"}" https://slack.com/api/files.upload
       
