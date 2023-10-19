@@ -1,3 +1,5 @@
+
+
 function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 
 	addFact("ds_map_create_test", function() {

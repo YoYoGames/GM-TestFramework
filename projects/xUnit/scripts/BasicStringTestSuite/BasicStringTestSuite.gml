@@ -1,4 +1,5 @@
 
+
 function BasicStringTestSuite() : TestSuite() constructor {
 
 	addFact("ansi_char_test", function() {

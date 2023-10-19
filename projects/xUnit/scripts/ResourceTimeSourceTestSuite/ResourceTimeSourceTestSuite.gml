@@ -1,4 +1,5 @@
 
+
 // Generates a random time source configuration, optionally specifying the parent. Returns the configuration.
 function GenerateRandomConfiguration(_parent = undefined) constructor
 {
@@ -633,3 +634,4 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 	
 	});
 }
+

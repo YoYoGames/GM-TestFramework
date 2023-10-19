@@ -1,3 +1,5 @@
+
+
 function ResourceLayersTestSuite() : TestSuite() constructor {
 
 	addFact("layer_get_set_test", function() {
@@ -547,12 +549,12 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 		output = layer_get_script_end(testLayer);
 		assert_equals(output, -1, "#1 layer_get_script_end(), failed to get the correct script (not set).");
 			
-		input = function() { /* function 1 */ };
+		input = function() { }; // function 1
 		layer_script_begin(testLayer, input);
 		output = layer_get_script_begin(testLayer);
 		assert_equals(output, input, "#1 layer_script_begin(), failed to set the correct script.");
 			
-		input = function() { /* function 2 */ };
+		input = function() { }; // function 2
 		layer_script_end(testLayer, input);
 		output = layer_get_script_end(testLayer);
 		assert_equals(output, input, "#2 layer_script_begin(), failed to set the correct script.");
@@ -1079,3 +1081,4 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 	});
 	
 }
+

@@ -1,4 +1,7 @@
+
+
 function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
+	
 	addFact("Audio Effects: Bus Structs", function() {
 		// Checks the members of the built-in bus struct audio_bus_main and a user-created bus
 		var _buses = [ 

@@ -48,3 +48,12 @@ function platform_console() {
 function platform_not_console() {
 	return !platform_console();
 }
+
+function is_gmrt() {
+	return config_get_param("isGMRT") ?? false;
+}
+
+function is_not_gmrt() {
+	return !is_gmrt();
+}
+

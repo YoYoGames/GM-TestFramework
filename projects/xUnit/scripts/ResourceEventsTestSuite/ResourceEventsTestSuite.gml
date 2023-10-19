@@ -1,4 +1,5 @@
 
+
 function ResourceEventsTestSuite() : TestSuite() constructor {
 
 	addFact("event_perform_object_test", function() {

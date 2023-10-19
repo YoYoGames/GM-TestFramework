@@ -1,4 +1,5 @@
 
+
 function BasicJsonTestSuite() : TestSuite() constructor {
 	
 	// JSON TO/FROM DS_MAP
@@ -94,23 +95,23 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 			
 			
 		// ========== COMPLEX STRUCTURE (nested list) ==========
-		/*
-		_map = ds_map_create();
-		ds_map_add(_map, "version", "2");
-			
-		var subList = ds_list_create();
-		ds_list_add(subList, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-			
-		ds_map_add_list(_map, "myArray", subList);
-			
-		_jsonStr = json_encode(_map);
-		_output = json_decode(_jsonStr);
-			
-		assert_map_equals(_map, _output, "#2 json_encode ( ds_map:local ), complex json encoding with nested list failed (maps are not equal)");
-			
-		ds_map_destroy(_map);
-		ds_map_destroy(_output);
-		*/
+		
+		//_map = ds_map_create();
+		//ds_map_add(_map, "version", "2");
+		//	
+		//var subList = ds_list_create();
+		//ds_list_add(subList, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		//	
+		//ds_map_add_list(_map, "myArray", subList);
+		//	
+		//_jsonStr = json_encode(_map);
+		//_output = json_decode(_jsonStr);
+		//	
+		//assert_map_equals(_map, _output, "#2 json_encode ( ds_map:local ), complex json encoding with nested list failed (maps are not equal)");
+		//	
+		//ds_map_destroy(_map);
+		//ds_map_destroy(_output);
+
 	})
 
 	// JSON TO/FROM STRUCTS

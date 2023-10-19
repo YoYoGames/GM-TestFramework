@@ -1,4 +1,5 @@
 
+
 function BasicWeakRefsTestSuite() : TestSuite() constructor {
 
 	addFact("weak_ref_create", function() {
@@ -85,3 +86,4 @@ function BasicWeakRefsTestSuite() : TestSuite() constructor {
 	})
 
 }
+

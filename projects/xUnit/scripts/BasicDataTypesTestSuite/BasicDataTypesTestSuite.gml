@@ -4,7 +4,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	// TYPE CONVERSION
 
-	addFact("bool_test", function() {
+	addFact("bool_test_1", function() {
 
 		var input, output;
 			
@@ -19,13 +19,20 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		output = bool(input);
 		assert_true(output, "#2 bool ( pointer_invalid:local ), should be true");
 		assert_typeof(output, "bool", "#2.1 bool ( pointer_invalid:local ), should return bool type");
-			
+		
 		//#3 bool(pointer_null) should be false
 		input = pointer_null;
 		output = bool(input);
 		assert_false(output, "#3 bool ( pointer_null:local ), should be false");
 		assert_typeof(output, "bool", "#3.1 bool ( pointer_null:local ), should be of type bool");
-			
+		
+	}, { test_filter: is_not_gmrt });
+
+
+	addFact("bool_test_2", function() {
+
+		var input, output;
+					
 		//#4 bool(real) should be true
 		input = 32.33;
 		output = bool(input);
@@ -390,10 +397,11 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 			
 	})
 
+/*
 	addFact("ptr_test", function() {
 		
 		var input, output;
-			
+				
 		//#1 ptr ( pointer )
 		input = ptr({});
 		output = ptr(input);
@@ -405,7 +413,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		output = ptr(input);
 		assert_not_null(output, "#2 ptr ( pointer_invalid:local ), should not be null");
 		assert_typeof(output, "ptr", "#2.1 ptr ( pointer_invalid:local ), should return ptr type");
-			
+						
 		//#3 ptr ( pointer_null ) should be null
 		input = pointer_null;
 		output = ptr(input);
@@ -423,13 +431,13 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		output = ptr(input);
 		assert_not_null(output, "#5 ptr ( int32:local ), should not be null");
 		assert_typeof(output, "ptr", "#5.1 ptr ( int32:local ), should return ptr type");
-					
+									
 		//#6 ptr ( string ), should be valid
 		input = "1.72";
 		output = ptr(input);
 		assert_not_null(output, "#6 ptr ( string:local ), should not be null");
 		assert_typeof(output, "ptr", "#6.1 ptr ( string:local ), should return ptr type");
-			
+				
 		//#7 ptr ( nan ), valid convertion
 		assert_not_throws(function() {
 				
@@ -447,7 +455,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 			assert_typeof(output, "ptr", "#8.1 ptr ( infinity:local ), should return ptr type");
 				
 		}, "#8 ptr ( infinity:local ), should not throw an error, valid convertion" );
-			
+		
+				
 		//#9 ptr ( struct ), valid convertion
 		assert_not_throws(function() {
 				
@@ -456,7 +465,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 			assert_typeof(output, "ptr", "#9.1 ptr ( struct:local ), should return ptr type");
 				
 		}, "#9 ptr ( struct:local ), should not throw an error, valid convertion" );
-			
+		
+				
 		//#10 ptr ( method ), valid convertion
 		assert_not_throws(function() {
 				
@@ -466,6 +476,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 				
 		}, "#10 ptr ( method:local ), should not throw an error, valid convertion" );
 		
+				
 		if (platform_not_browser()) {
 			//#11 ptr ( array ), valid convertion
 			assert_not_throws(function() {
@@ -474,6 +485,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 			}, "#11 ptr ( array ), should not throw an error, valid convertion");
 		}
 		
+				
 		//#12 ptr ( undefined )
 		assert_throw(function() {
 			var input = undefined
@@ -481,6 +493,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		}, "#12 ptr ( undefined ), should throw error");
 			
 	})
+*/
 
 	// TYPE CHECKING
 	

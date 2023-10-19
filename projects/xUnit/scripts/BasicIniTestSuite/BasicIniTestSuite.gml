@@ -1,4 +1,5 @@
 
+
 function BasicIniTestSuite() : TestSuite() constructor {
 
 	addFact("ini_file_test", function() {

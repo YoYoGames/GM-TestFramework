@@ -1,4 +1,5 @@
 
+
 function BasicMathTestSuite() : TestSuite() constructor {
 
 	addFact("abs_test", function() {

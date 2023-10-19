@@ -1,4 +1,5 @@
 
+
 function BasicDateTimeTestSuite() : TestSuite() constructor {
 
 	// DATETIME
@@ -338,33 +339,32 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 
 	// PLATFORM SPECIFIC
 
-/*
-	addFact("date_datetime_string_windows_html5", function() {
+	//addFact("date_datetime_string_windows_html5", function() {
+	//
+	//	var dateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);
+	//		
+	//	var dateTimeString = "15/09/2011 09:43:44";			
+	//	assert_equals(date_datetime_string(dateTime), dateTimeString, "date_datetime_string returned the wrong value");
+	//			
+	//	var dateString = "15/09/2011";
+	//					
+	//	assert_equals(date_date_string(dateTime), dateString, "date_date_string returned the wrong value");
+	//	assert_equals(date_time_string(dateTime), "09:43:44", "date_time_string returned the wrong value");
+	//		
+	//		
+	//}, { test_filter: function() { return platform_windows() || platform_browser(); } });
+	//	
+	//addFact("date_datetime_string_macos_ios_android", function() {
+	//		
+	//	var dateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);
+	//				
+	//	var dateTimeString =  "Thu Sep 15 09:43:44 2011";
+	//	assert_equals(date_datetime_string(dateTime), dateTimeString, "date_datetime_string returned the wrong value");
+	//			
+	//	var dateString = "09/15/11";	
+	//	assert_equals(date_date_string(dateTime), dateString, "date_date_string returned the wrong value");
+	//	assert_equals(date_time_string(dateTime), "09:43:44", "date_time_string returned the wrong value");
+	//		
+	//}, { test_filter: function() { return platform_macosx() || platform_browser(); } });
 
-		var dateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);
-			
-		var dateTimeString = "15/09/2011 09:43:44";			
-		assert_equals(date_datetime_string(dateTime), dateTimeString, "date_datetime_string returned the wrong value");
-				
-		var dateString = "15/09/2011";
-						
-		assert_equals(date_date_string(dateTime), dateString, "date_date_string returned the wrong value");
-		assert_equals(date_time_string(dateTime), "09:43:44", "date_time_string returned the wrong value");
-			
-			
-	}, { test_filter: function() { return platform_windows() || platform_browser(); } });
-		
-	addFact("date_datetime_string_macos_ios_android", function() {
-			
-		var dateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);
-					
-		var dateTimeString =  "Thu Sep 15 09:43:44 2011";
-		assert_equals(date_datetime_string(dateTime), dateTimeString, "date_datetime_string returned the wrong value");
-				
-		var dateString = "09/15/11";	
-		assert_equals(date_date_string(dateTime), dateString, "date_date_string returned the wrong value");
-		assert_equals(date_time_string(dateTime), "09:43:44", "date_time_string returned the wrong value");
-			
-	}, { test_filter: function() { return platform_macosx() || platform_browser(); } });
-*/
 }

@@ -1,6 +1,6 @@
 
-function BasicRandomTestSuite()  : TestSuite() constructor {
 
+function BasicRandomTestSuite()  : TestSuite() constructor {
 	addFact("choose_test", function() {
 
 		var _input, _output;
