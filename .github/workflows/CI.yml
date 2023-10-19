@@ -76,5 +76,6 @@ jobs:
             file_type: txt
             file_path: test/summary.txt
             channel_id: 'C0545RKQ4MV'
+          continue-on-error: true
         
       
