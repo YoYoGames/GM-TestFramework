@@ -194,4 +194,65 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 		test_filter: platform_not_browser
 	})
 	
+	addFact("ds_map_array_reference_keys_test", function() {
+		// Making sure that DS map can properly handle array keys
+		// I.e. different array references are treated as separate keys
+		// even if arrays themselves are equivalent
+		
+		// Setup
+		var _firstArray = [];
+		var _secondArray = [];
+		var _thirdArray = [];
+		
+		var _map = ds_map_create();
+		_map[? _firstArray] = "first";
+		_map[? _secondArray] = "second";
+		_map[? _thirdArray] = "third";
+		
+		// Assertions
+		var _output;
+		_output = ds_map_size(_map);
+		assert_equals(_output, 3, $"The map of arrays should have 3 keys but had {_output} instead.");
+		
+		_output = _map[? _firstArray];
+		assert_equals(_output, "first", $"The result keyed by the first array should be 'first' but was '{_output}' instead.");
+		_output = _map[? _secondArray];
+		assert_equals(_output, "second", $"The result keyed by the second array should be 'second' but was '{_output}' instead.");
+		_output = _map[? _thirdArray];
+		assert_equals(_output, "third", $"The result keyed by the third array should be 'third' but was '{_output}' instead.");
+		
+		// Clean up
+		ds_map_destroy(_map);
+	})
+	
+	addFact("ds_map_struct_reference_keys_test", function() {
+		// Making sure that DS map can properly handle struct keys
+		// I.e. different struct references are treated as separate keys
+		// even if structs themselves are equivalent
+		
+		// Setup
+		var _firstStruct = {};
+		var _secondStruct = {};
+		var _thirdStruct = {};
+		
+		var _map = ds_map_create();
+		_map[? _firstStruct] = "first";
+		_map[? _secondStruct] = "second";
+		_map[? _thirdStruct] = "third";
+		
+		// Assertions
+		var _output;
+		_output = ds_map_size(_map);
+		assert_equals(_output, 3, $"The map of structs should have 3 keys but had {_output} instead.");
+		
+		_output = _map[? _firstStruct];
+		assert_equals(_output, "first", $"The result keyed by the first struct should be 'first' but was '{_output}' instead.");
+		_output = _map[? _secondStruct];
+		assert_equals(_output, "second", $"The result keyed by the second struct should be 'second' but was '{_output}' instead.");
+		_output = _map[? _thirdStruct];
+		assert_equals(_output, "third", $"The result keyed by the third struct should be 'third' but was '{_output}' instead.");
+		
+		// Clean up
+		ds_map_destroy(_map);
+	})
 }
