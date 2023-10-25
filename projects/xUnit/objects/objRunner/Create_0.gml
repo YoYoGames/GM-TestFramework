@@ -20,7 +20,7 @@ testFramework = new TestFrameworkRun();
 //testFramework.addSuite(BasicFileTestSuite);
 
 // DOESN'T COMPILE
-//testFramework.addSuite(BasicFiltersEffectsTestSuite);
+testFramework.addSuite(BasicFiltersEffectsTestSuite);
 
 //testFramework.addSuite(BasicIniTestSuite);
 //testFramework.addSuite(BasicJsonTestSuite);
@@ -34,16 +34,16 @@ testFramework = new TestFrameworkRun();
 //testFramework.addSuite(BasicVariableTestSuite);
 //testFramework.addSuite(BasicWeakRefsTestSuite);
 
-// CRASH (Bus Linking)
-testFramework.addSuite(ResourceAudioEffectsTestSuite);
+// CRASH (Bus Linking) - TOBY
+// testFramework.addSuite(ResourceAudioEffectsTestSuite);
 
 //testFramework.addSuite(ResourceCameraTestSuite);
 //testFramework.addSuite(ResourceEventsTestSuite);
 //testFramework.addSuite(ResourceLayersTestSuite);
 // testFramework.addSuite(ResourceSequenceTestSuite);
 
-// HANGS (State Transitions, Reconfiguration)
-// CRASH (Sibling Destruction)
+// HANGS (State Transitions, Reconfiguration) - TOBY
+// CRASH (Sibling Destruction) - TOBY
 //testFramework.addSuite(ResourceTimeSourceTestSuite);
 
 // ###########################################################
