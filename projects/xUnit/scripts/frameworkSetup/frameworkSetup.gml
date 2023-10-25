@@ -121,15 +121,15 @@ config_set("TestFrameworkRun", {
 		}
 
 		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
-		var _resultPublisher = http_publisher_get("$$default$$");
-		_resultPublisher.config({
-			ip: config_get_param("serverAddress") ?? "127.0.0.1",
-			port: config_get_param("serverPort") ?? 8080,
-			endpoint: config_get_param("serverEndpoint") ?? "tests",
-		})
-		
-		// Publish the results
-		_resultPublisher.publish(_data);
+		//var _resultPublisher = http_publisher_get("$$default$$");
+		//_resultPublisher.config({
+		//	ip: config_get_param("serverAddress") ?? "127.0.0.1",
+		//	port: config_get_param("serverPort") ?? 8080,
+		//	endpoint: config_get_param("serverEndpoint") ?? "tests",
+		//})
+		//
+		//// Publish the results
+		//_resultPublisher.publish(_data);
 				
 		#endregion 
 		
@@ -137,9 +137,14 @@ config_set("TestFrameworkRun", {
 		log_info("TestFramework ended");
 		
 		// Log failures and tallies
-		log_info(_tallies);
-		log_info($"FAILED: {_resultBag[$ "failed"]}");
-		log_info($"EXPIRED: {_resultBag[$ "expired"]}");
+		var _stats = json_stringify(_tallies);
+		log_info(_stats);
+		
+		var _failed = json_stringify(_resultBag[$ "failed"]);
+		var _expired = json_stringify(_resultBag[$ "expired"]);
+		
+		log_info($"FAILED: {_failed}");
+		log_info($"EXPIRED: {_expired}");
 	}
 
 });

@@ -90,15 +90,21 @@ function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 			audio_emitter_create()
 		];
 
+		show_debug_message("Setting");
+
 		// Link one emitter to each bus
 		// Emitters should link to the main bus by default,
 		// we can test that by not explicitly linking one to it.
 		for (var _i = 1; _i < array_length(_emitters); ++_i)
 			audio_emitter_bus(_emitters[_i], _buses[_i]);
 			
+		show_debug_message("Comparing");
+			
 		// Verify that the retrieved bus is the same as the one we linked each emitter to
 		for (var _i = 0; _i < array_length(_buses); ++_i)
 			assert_equals(_buses[_i], audio_emitter_get_bus(_emitters[_i]));
+			
+		show_debug_message("Freeing");
 			
 		// Clean up the emitters
 		for (var _i = 0; _i < array_length(_emitters); ++_i)

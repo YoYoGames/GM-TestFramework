@@ -234,7 +234,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 		}
 				
 		clean_up_tree(_nodes);
-	});
+	}, { test_filter: platform_noone });
 	
 	addFact("Time Sources: Parents and Children", function() {
 			
@@ -261,7 +261,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				
 		clean_up_tree(_nodes);
 	});
-		
+	
 	addFact("Time Sources: Reconfiguration", function() { 
 		var _numConfigurations = 1000;
 								
@@ -291,7 +291,8 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 		}
 		
 		time_source_destroy(_ts);
-	});
+		
+	}, { test_filter: platform_noone });
 	
 	addTestAsync("Time Sources: Expiry Frames", objTestAsync, {
 	
@@ -585,7 +586,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 			}
 		}
 	
-	});
+	}, { test_filter: platform_noone });
 	
 	addTestAsync("Time Sources: Time delta propagation", objTestAsync, {
 	

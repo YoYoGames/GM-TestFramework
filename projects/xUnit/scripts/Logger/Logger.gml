@@ -64,7 +64,7 @@ function Logger(_configuration = undefined) : PropertyHolder() constructor {
 		if (!is_undefined(messageFormat)) {
 			_messageString = string(messageFormat, _message, _timeString, levelNames[$ _level]);
 		}
-		show_debug_message(_messageString);
+		show_debug_message(messageFormat, _message, _timeString, levelNames[$ _level]);
 		
 		return _messageString;
 	}

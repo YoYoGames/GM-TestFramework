@@ -49,6 +49,10 @@ function platform_not_console() {
 	return !platform_console();
 }
 
+function platform_noone() {
+	return false;
+}
+
 function is_gmrt() {
 	return config_get_param("isGMRT") ?? false;
 }

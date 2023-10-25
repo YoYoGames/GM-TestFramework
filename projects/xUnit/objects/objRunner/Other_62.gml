@@ -7,4 +7,4 @@ var _resultPublisher = http_publisher_get("$$default$$");
 if (_resultPublisher.getRequestId() != async_load[? "id"]) return;
 
 // Finish the game
-game_end();
+// game_end();

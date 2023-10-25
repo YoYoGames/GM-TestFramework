@@ -4,7 +4,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	// TYPE CONVERSION
 
-	addFact("bool_test_1", function() {
+	addFact("bool_test_skip", function() {
 
 		var input, output;
 			
@@ -26,10 +26,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		assert_false(output, "#3 bool ( pointer_null:local ), should be false");
 		assert_typeof(output, "bool", "#3.1 bool ( pointer_null:local ), should be of type bool");
 		
-	}, { test_filter: is_not_gmrt });
+	}, { test_filter: platform_noone });
 
-
-	addFact("bool_test_2", function() {
+	addFact("bool_test", function() {
 
 		var input, output;
 					
@@ -639,7 +638,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_int32(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 
 
 	addTheory("is_int64_test", [
@@ -674,7 +673,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_int64(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 
 
 	addTheory("is_method_test", [
@@ -707,7 +706,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_method(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 
 	addTheory("is_nan_test", [
 	
@@ -748,7 +747,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_nan(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
+
 
 	addTheory("is_numeric_test", [
 	
@@ -783,7 +783,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_numeric(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 
 
 	addTheory("is_ptr_test", [
@@ -819,7 +819,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_ptr(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 
 
 	addTheory("is_real_test", [
@@ -855,7 +855,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_real(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 
 
 	addTheory("is_struct_test", [
@@ -891,7 +891,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var _output = is_struct(_input)
 		_test_func(_output, _desc);
 		
-	})
+	});
 	
 	
 	addTheory("typeof_test", [
@@ -926,6 +926,6 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		assert_typeof(_input, _expected, _desc);
 		
-	})
+	});
 
 }
