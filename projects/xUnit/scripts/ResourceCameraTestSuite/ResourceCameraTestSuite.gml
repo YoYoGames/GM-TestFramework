@@ -62,13 +62,13 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 		var _camera = camera_create();
 		
 		// ### UNSET ###
-		
+
 		_output = camera_get_begin_script(_camera);
 		assert_equals(_output, -1, "#1 camera_get_begin_script(), fail to return -1 when no script is attached");
-		
+
 		_output = camera_get_end_script(_camera);
 		assert_equals(_output, -1, "#2 camera_get_end_script(), fail to return -1 when no script is attached");
-		
+
 		_output = camera_get_update_script(_camera);
 		assert_equals(_output, -1, "#3 camera_get_update_script(), fail to return -1 when no script is attached");
 		
@@ -91,11 +91,11 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 		camera_set_begin_script(_camera, -1);
 		_output = camera_get_begin_script(_camera);
 		assert_equals(_output, -1, "#4 camera_set_begin_script(), fail remove the current script");
-		
+			
 		camera_set_end_script(_camera, -1);
 		_output = camera_get_end_script(_camera);
 		assert_equals(_output, -1, "#5 camera_set_end_script(), fail remove the current script");
-		
+			
 		camera_set_update_script(_camera, -1);
 		_output = camera_get_update_script(_camera);
 		assert_equals(_output, -1, "#6 camera_set_update_script(), fail remove the current script");
@@ -141,8 +141,9 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 				
 		}
 
+		assert_true(false, "Camera will not be freed, test fails during camera_destroy (c++ error when Mark4GC camera scripts)! Needs fixing!")
 		// Clean up
-		camera_destroy(_camera);
+		//camera_destroy(_camera);
 	})
 
 	addFact("camera_view_test", function() {

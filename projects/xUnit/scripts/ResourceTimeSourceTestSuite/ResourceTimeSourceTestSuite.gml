@@ -221,7 +221,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 			}
 		}
 				
-		log_warning("_num_shifts was reduced to 10 from 1000 due to slow execution - it should be restored to 1000 when possible");
+		assert_true(false, "_num_shifts was reduced to 10 from 1000 due to slow execution - it should be restored to 1000 when possible");
 		var _num_shifts = 10;
 		var _num_sources = 10;
 			
@@ -263,8 +263,11 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 		clean_up_tree(_nodes);
 	});
 	
-	addFact("Time Sources: Reconfiguration", function() { 
-		var _numConfigurations = 1000;
+	addFact("Time Sources: Reconfiguration", function() {
+			
+		assert_true(false, "_numConfigurations was reduced to 10 from 1000 due to slow execution - it should be restored to 1000 when possible");
+		
+		var _numConfigurations = 10;
 								
 		var _output, _ts = generate_time_source();
 				
