@@ -11,7 +11,7 @@ This project is written in pure GML and *should* work on all available exports.
 
 ### From the IDE
 
-> **Note**
+> [!NOTE]
 > When running the project from the IDE, there are limitations on tests that require external servers to function. These servers are initilaized and managed by the command line launcher, and you'll need to initialize them manually when running the project within the IDE.
 
 To utilize the project within the IDE, simply select the desired platform and press the 'Run' button.
@@ -20,7 +20,7 @@ To utilize the project within the IDE, simply select the desired platform and pr
 
 ### From the Command Line
 
-> **Warning**
+> [!IMPORTANT]
 > The command line framework launcher tool is only compatible with Windows OS and is available exclusively for Enterprise users. You'll need to obtain an **Access Key** from the [following link](https://gamemaker.io/account/access_keys).
 
 To run the launcher from the command line, you need to have [Python](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/en/download) installed. Then, follow these steps:
@@ -50,7 +50,7 @@ To run the launcher from the command line, you need to have [Python](https://www
 }
 ```
 
-> **Note**
+> [!NOTE]
 > The command line parameters listed below are optional and can be omitted if they are already specified in the configuration file, and vice versa. However, if provided, they will overwrite the corresponding values in the configuration file.
 
 </br>
@@ -160,7 +160,7 @@ Asynchronous tests offer better control over the test's lifespan and are execute
 
 </br>
 
-> **Note**
+> [!NOTE]
 > If you require more events, create your own `objTestAsync<SubName>` object with the respective handlers (refer to existing `objTestAsyncSaveLoad` and `objTestAsyncNetworking`, stored inside `Modules/TestModule/Objects`).
 
 </br>
@@ -273,12 +273,12 @@ The `Test` constructor allows these **default** properties:
 
 </br>
 
-> **Note**
+> [!NOTE]
 > An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
 
 </br>
 
-> **Warning**
+> [!IMPORTANT]
 > It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
 
 </br>
@@ -296,12 +296,12 @@ The `TestSuite` constructor allows these **default** properties:
 
 </br>
 
-> **Note**
+> [!NOTE]
 > An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
 
 </br>
 
-> **Warning**
+> [!IMPORTANT]
 > It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
 
 </br>
@@ -319,12 +319,12 @@ The `TestFramework` constructor allows these **default** properties:
 
 </br>
 
-> **Note**
+> [!NOTE]
 > An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
 
 </br>
 
-> **Warning**
+> [!IMPORTANT]
 > It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
 
 </br>
@@ -340,12 +340,12 @@ The `Assert` constructor allows these **default** properties:
 
 </br>
 
-> **Note**
+> [!NOTE]
 > An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
 
 </br>
 
-> **Warning**
+> [!IMPORTANT]
 > It is important to note that function callbacks and delegates cannot be defined directly within the external config.json file. This limitation exists because functions cannot be stored in JSON format.
 
 </br>
@@ -369,7 +369,7 @@ The `Logger` constructor allows these **default** properties:
 
 </br>
 
-> **Note**
+> [!NOTE]
 > An alternative option is to utilize a config.json file to provide all the aforementioned configurations. This approach is commonly employed by the framework launcher tool to streamline the configuration process.
 
 </br>
@@ -396,7 +396,7 @@ By organizing the xUnit (TestFramework) project into these modules, it becomes e
 
 </br>
 
-> **Warning**
+> [!IMPORTANT]
 > It is essential to acknowledge that contributions to the framework can influence its internal mechanisms. However, it is crucial to maintain the integrity of the existing public API that is utilized by the tests during runtime. While additions to the API are acceptable, modifications to the existing API should be avoided.
 
 </br>
