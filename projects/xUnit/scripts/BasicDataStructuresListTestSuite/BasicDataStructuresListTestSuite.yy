@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicDataStructuresListTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicDataStructuresListTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

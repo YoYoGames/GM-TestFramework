@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicRandomTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicRandomTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

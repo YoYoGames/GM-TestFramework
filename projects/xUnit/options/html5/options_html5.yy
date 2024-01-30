@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMHtml5Options",
-  "resourceVersion": "1.0",
-  "name": "HTML5",
+  "$GMHtml5Options": "",
+  "%Name": "HTML5",
   "option_html5_allow_fullscreen": true,
   "option_html5_browser_title": "Created with GameMaker",
   "option_html5_centregame": false,
@@ -24,10 +23,10 @@
   "option_html5_scale": 0,
   "option_html5_splash_png": "${base_options_dir}/html5/splash.png",
   "option_html5_texture_page": "2048x2048",
-  "option_html5_use_facebook": false,
   "option_html5_usebuiltinfont": true,
   "option_html5_usebuiltinparticles": true,
   "option_html5_usesplash": false,
+  "option_html5_use_facebook": false,
   "option_html5_version": "1.0.0.0",
   "option_html5_webgl": 2,
 }

@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ResourceTimeSourceTestSuite",
+  "$GMScript": "",
+  "%Name": "ResourceTimeSourceTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

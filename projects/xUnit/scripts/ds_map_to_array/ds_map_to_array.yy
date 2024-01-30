@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ds_map_to_array",
+  "$GMScript": "",
+  "%Name": "ds_map_to_array",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

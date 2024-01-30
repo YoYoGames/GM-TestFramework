@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "filesystem_is_sandboxed",
+  "$GMScript": "",
+  "%Name": "filesystem_is_sandboxed",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

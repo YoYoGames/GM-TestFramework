@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "constants",
+  "$GMScript": "",
+  "%Name": "constants",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

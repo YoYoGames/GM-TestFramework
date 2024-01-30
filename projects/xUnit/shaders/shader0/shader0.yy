@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMShader",
-  "resourceVersion": "1.0",
-  "name": "shader0",
+  "$GMShader": "",
+  "%Name": "shader0",
   "parent": {
     "name": "shaders",
     "path": "folders/Tests/TestResources/shaders.yy",

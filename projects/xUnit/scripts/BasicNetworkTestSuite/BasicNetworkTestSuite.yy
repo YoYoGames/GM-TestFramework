@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicNetworkTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicNetworkTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ResourceEventsTestSuite",
+  "$GMScript": "",
+  "%Name": "ResourceEventsTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

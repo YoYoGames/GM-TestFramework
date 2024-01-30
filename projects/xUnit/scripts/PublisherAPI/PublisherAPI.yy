@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "PublisherAPI",
+  "$GMScript": "",
+  "%Name": "PublisherAPI",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

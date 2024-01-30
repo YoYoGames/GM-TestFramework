@@ -10,6 +10,15 @@
 // Loads external configuration file
 config_manager_load("config.json");
 
+// ################# LOGGER CONFIGURATIONS #################
+
+// [INFORMATION] The following can be tweaked.
+
+// Loads external configuration file
+var _default_logger = logger_get("$$default$$");
+_default_logger.config({ messageFormat: "[xUNIT] [{level}]: {message}" });
+
+
 // ################# INTERNAL CONFIGURATIONS #################
 
 // [INFORMATION] The following can be tweaked.
@@ -68,10 +77,13 @@ config_set("Test", {
 //		- suite_start_hook {Function} Hook function that will be executed at the start of the suite.
 //		- suite_filter {Function} Predicate function that determines whether the suite should run or not.
 //		- suite_timeout_millis {Function} The number of millis to wait until the suite timesout.
-//		- suite_bail_on_fail {Bool} Should the suite bail execution after the first failed suite.
+//		- suite_bail_on_fail {Bool} Should the suite bail execution after the first failed test.
 //		- suite_delay_seconds {Real} The number of seconds to wait between tests.
 //
 config_set("TestSuite", {
+	
+	// Uncomment the following line to bail on first failed test
+	//suite_bail_on_fail: true,
 	
 	suite_start_hook: function(_testSuite) { 
 		// Do any extra required logging and logic here (_testSuite is an instance of TestSuite)
@@ -91,10 +103,13 @@ config_set("TestSuite", {
 //		- framework_start_hook {Function} Hook function that will be executed at the start of the framework.
 //		- framework_filter {Function} Predicate function that determines whether the framework should run or not.
 //		- framework_timeout_millis {Function} The number of millis to wait until the framework timesout.
-//		- framework_bail_on_fail {Bool} Should the suite bail execution after the first failed framework.
+//		- framework_bail_on_fail {Bool} Should the framework bail execution after the first failed suite.
 //		- framework_delay_seconds {Real} The number of seconds to wait between suites.
 //
 config_set("TestFrameworkRun", {
+	
+	// Uncomment the following line to bail on first failed suite
+	//framework_bail_on_fail: true,
 	
 	framework_start_hook: function(_test) {
 		

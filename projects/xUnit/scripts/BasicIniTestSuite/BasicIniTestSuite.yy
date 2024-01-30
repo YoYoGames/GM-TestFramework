@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicIniTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicIniTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

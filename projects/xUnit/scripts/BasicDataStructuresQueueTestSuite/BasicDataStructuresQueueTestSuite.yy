@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicDataStructuresQueueTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicDataStructuresQueueTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

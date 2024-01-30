@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ResourceCameraTestSuite",
+  "$GMScript": "",
+  "%Name": "ResourceCameraTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

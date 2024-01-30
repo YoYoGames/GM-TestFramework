@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "event_to_string",
+  "$GMScript": "",
+  "%Name": "event_to_string",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

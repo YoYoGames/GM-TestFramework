@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicFiltersEffectsTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicFiltersEffectsTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

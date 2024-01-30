@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "LoggerAPI",
+  "$GMScript": "",
+  "%Name": "LoggerAPI",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

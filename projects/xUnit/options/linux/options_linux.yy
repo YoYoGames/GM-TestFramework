@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMLinuxOptions",
-  "resourceVersion": "1.0",
-  "name": "Linux",
+  "$GMLinuxOptions": "",
+  "%Name": "Linux",
   "option_linux_allow_fullscreen": false,
   "option_linux_disable_sandbox": false,
   "option_linux_display_cursor": true,

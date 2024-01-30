@@ -575,7 +575,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			
 		//#5 string_delete( string local , real const , real const ) - delete negative count
 		res = string_delete(vstring, 7, -1);
-		assert_equals(res, "Hello World!", "#5 string_delete( string local , real const , real const ) - delete negative count")
+		assert_equals(res, "Hello orld!", "#5 string_delete( string local , real const , real const ) - delete negative count")
 			
 		//#6 string_delete( string local , real const , real const ) - index > string length
 		res = string_delete(vstring, 100, 1);
@@ -587,7 +587,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			
 		//#8 string_delete( string local , real const , real const ) - negative index
 		res = string_delete(vstring, -1, 1);
-		assert_equals(res, "Hello World!", "#8 string_delete( string local , real const , real const ) - negative index")
+		assert_equals(res, "Hello World", "#8 string_delete( string local , real const , real const ) - negative index")
 			
 		//#9 string_delete( string local , real const , real const )
 		res = string_delete(vstring, 7, 2.4);
@@ -2042,20 +2042,20 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	addFact("string", function() {
 		
 		var _format = "{0} {1} {2}";
-		var _result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello [  ]", "#1 string : failed to correctly _format a string with mixed types");
+		var _result = string(_format, 12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12 hello 1,2,3", "#1 string : failed to correctly _format a string with mixed types");
 		
 		_format = "{0} {1}";
-		_result = string(_format, 12, "hello", []);
+		_result = string(_format, 12, "hello", [1, 2, 3]);
 		assert_equals(_result, "12 hello", "#2 string : failed to correctly _format a string with less placeholders than arguments");
 		
 		_format = "{0} {1} {2} {3}";
-		_result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello [  ] {3}", "#3 string : failed to correctly _format a string with more placeholders than arguments");
+		_result = string(_format, 12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12 hello 1,2,3 {3}", "#3 string : failed to correctly _format a string with more placeholders than arguments");
 		
 		_format = "{0} {1} {2} {0} {1} {2}";
-		_result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello [  ] 12 hello [  ]", "#4 string : failed to correctly _format a string with repeated placeholders");
+		_result = string(_format, 12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12 hello 1,2,3 12 hello 1,2,3", "#4 string : failed to correctly _format a string with repeated placeholders");
 		
 		_format = "{0}{1}";
 		_result = string(_format, "合気道合", "気道合気道合気道");
@@ -2070,20 +2070,20 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	addFact("string_ext", function() {
 
 		var _format = "{0} {1} {2}";
-		var _result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello [  ]", "#1 string_ext : failed to correctly _format a string with mixed types");
+		var _result = string_ext(_format, [12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12 hello 1,2,3", "#1 string_ext : failed to correctly _format a string with mixed types");
 		
 		_format = "{0} {1}";
-		_result = string_ext(_format, [12, "hello", []]);
+		_result = string_ext(_format, [12, "hello", [1, 2, 3]]);
 		assert_equals(_result, "12 hello", "#2 string_ext : failed to correctly _format a string with less placeholders than arguments");
 		
 		_format = "{0} {1} {2} {3}";
-		_result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello [  ] {3}", "#3 string_ext : failed to correctly _format a string with more placeholders than arguments");
+		_result = string_ext(_format, [12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12 hello 1,2,3 {3}", "#3 string_ext : failed to correctly _format a string with more placeholders than arguments");
 		
 		_format = "{0} {1} {2} {0} {1} {2}";
-		_result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello [  ] 12 hello [  ]", "#4 string_ext : failed to correctly _format a string with repeated placeholders");
+		_result = string_ext(_format, [12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12 hello 1,2,3 12 hello 1,2,3", "#4 string_ext : failed to correctly _format a string with repeated placeholders");
 		
 		_format = "{0}{1}";
 		_result = string_ext(_format, ["合気道合", "気道合気道合気道"]);
@@ -2097,8 +2097,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 
 	addFact("string_concat", function() {
 		
-		var _result = string_concat(12, "hello", []);
-		assert_equals(_result, "12hello[  ]", "#1 string_concat : failed to correctly concat a string with mixed types");
+		var _result = string_concat(12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12hello1,2,3", "#1 string_concat : failed to correctly concat a string with mixed types");
 		
 		_result = string_concat("合気道合", "気道合気道合気道");
 		assert_equals(_result, "合気道合気道合気道合気道", "#2 string_concat : failed to correctly concat a string with non-latin characters");
@@ -2110,8 +2110,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	
 	addFact("string_concat_ext", function() {
 
-		var _result = string_concat_ext([12, "hello", []]);
-		assert_equals(_result, "12hello[  ]", "#1 string_concat_ext : failed to correctly concat a string with mixed types");
+		var _result = string_concat_ext([12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12hello1,2,3", "#1 string_concat_ext : failed to correctly concat a string with mixed types");
 		
 		_result = string_concat_ext(["合気道合", "気道合気道合気道"]);
 		assert_equals(_result, "合気道合気道合気道合気道", "#2 string_concat_ext : failed to correctly concat a string with non-latin characters");
@@ -2123,8 +2123,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	
 	addFact("string_join", function() {
 		
-		var _result = string_join(",", 12, "hello", []);
-		assert_equals(_result, "12,hello,[  ]", "#1 string_join : failed to correctly join a string with mixed types, using a comma.");
+		var _result = string_join(",", 12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12,hello,1,2,3", "#1 string_join : failed to correctly join a string with mixed types, using a comma.");
 		
 		_result = string_join(",", "合気道合", "気道合気道合気道");
 		assert_equals(_result, "合気道合,気道合気道合気道", "#2 string_join : failed to correctly join a string with non-latin characters, using a comma");
@@ -2132,8 +2132,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_join(",", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎,👣💎🎤🌊💎🕥🌑👵🎿,🎐📪👺🌸🍓,💎", "#3 string_join : failed to correctly join a string with emoji characters, using a comma");
 		
-		_result = string_join("道", 12, "hello", []);
-		assert_equals(_result, "12道hello道[  ]", "#4 string_join : failed to correctly join a string with mixed types, using a non-latin character.");
+		_result = string_join("道", 12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12道hello道1,2,3", "#4 string_join : failed to correctly join a string with mixed types, using a non-latin character.");
 		
 		_result = string_join("道", "合気道合", "気道合気道合気道");
 		assert_equals(_result, "合気道合道気道合気道合気道", "#5 string_join : failed to correctly join a string with non-latin characters, using a non-latin character.");
@@ -2141,8 +2141,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_join("道", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎道👣💎🎤🌊💎🕥🌑👵🎿道🎐📪👺🌸🍓道💎", "#6 string_join : failed to correctly join a string with emoji characters, using a non-latin character.");
 		
-		_result = string_join("🙂", 12, "hello", []);
-		assert_equals(_result, "12🙂hello🙂[  ]", "#7 string_join : failed to correctly join a string with mixed types, using an emoji character.");
+		_result = string_join("🙂", 12, "hello", [1, 2, 3]);
+		assert_equals(_result, "12🙂hello🙂1,2,3", "#7 string_join : failed to correctly join a string with mixed types, using an emoji character.");
 		
 		_result = string_join("🙂", "合気道合", "気道合気道合気道");
 		assert_equals(_result, "合気道合🙂気道合気道合気道", "#8 string_join : failed to correctly join a string with non-latin characters, using an emoji character.");
@@ -2154,8 +2154,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	
 	addFact("string_join_ext", function() {
 
-		var _result = string_join_ext(",", [12, "hello", []]);
-		assert_equals(_result, "12,hello,[  ]", "#1 string_join_ext : failed to correctly join a string with mixed types, using a comma.");
+		var _result = string_join_ext(",", [12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12,hello,1,2,3", "#1 string_join_ext : failed to correctly join a string with mixed types, using a comma.");
 		
 		_result = string_join_ext(",", ["合気道合", "気道合気道合気道"]);
 		assert_equals(_result, "合気道合,気道合気道合気道", "#2 string_join_ext : failed to correctly join a string with non-latin characters, using a comma");
@@ -2163,8 +2163,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_join_ext(",", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎,👣💎🎤🌊💎🕥🌑👵🎿,🎐📪👺🌸🍓,💎", "#3 string_join_ext : failed to correctly join a string with emoji characters, using a comma");
 		
-		_result = string_join_ext("道", [12, "hello", []]);
-		assert_equals(_result, "12道hello道[  ]", "#4 string_join_ext : failed to correctly join a string with mixed types, using a non-latin character.");
+		_result = string_join_ext("道", [12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12道hello道1,2,3", "#4 string_join_ext : failed to correctly join a string with mixed types, using a non-latin character.");
 		
 		_result = string_join_ext("道", ["合気道合", "気道合気道合気道"]);
 		assert_equals(_result, "合気道合道気道合気道合気道", "#5 string_join_ext : failed to correctly join a string with non-latin characters, using a non-latin character.");
@@ -2172,8 +2172,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_join_ext("道", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎道👣💎🎤🌊💎🕥🌑👵🎿道🎐📪👺🌸🍓道💎", "#6 string_join_ext : failed to correctly join a string with emoji characters, using a non-latin character.");
 		
-		_result = string_join_ext("🙂", [12, "hello", []]);
-		assert_equals(_result, "12🙂hello🙂[  ]", "#7 string_join_ext : failed to correctly join a string with mixed types, using an emoji character.");
+		_result = string_join_ext("🙂", [12, "hello", [1, 2, 3]]);
+		assert_equals(_result, "12🙂hello🙂1,2,3", "#7 string_join_ext : failed to correctly join a string with mixed types, using an emoji character.");
 		
 		_result = string_join_ext("🙂", ["合気道合", "気道合気道合気道"]);
 		assert_equals(_result, "合気道合🙂気道合気道合気道", "#8 string_join_ext : failed to correctly join a string with non-latin characters, using an emoji character.");

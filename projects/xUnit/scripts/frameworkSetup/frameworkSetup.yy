@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "frameworkSetup",
+  "$GMScript": "",
+  "%Name": "frameworkSetup",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

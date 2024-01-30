@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Theory",
+  "$GMScript": "",
+  "%Name": "Theory",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

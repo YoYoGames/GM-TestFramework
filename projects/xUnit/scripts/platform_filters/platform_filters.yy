@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "platform_filters",
+  "$GMScript": "",
+  "%Name": "platform_filters",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

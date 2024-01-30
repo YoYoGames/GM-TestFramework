@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMObject",
-  "resourceVersion": "1.0",
-  "name": "oChild1",
+  "$GMObject": "",
+  "%Name": "oChild1",
   "eventList": [],
   "managed": true,
   "overriddenProperties": [],

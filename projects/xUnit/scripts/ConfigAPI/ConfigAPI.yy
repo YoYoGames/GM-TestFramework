@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ConfigAPI",
+  "$GMScript": "",
+  "%Name": "ConfigAPI",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

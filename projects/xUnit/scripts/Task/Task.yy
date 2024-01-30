@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Task",
+  "$GMScript": "",
+  "%Name": "Task",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

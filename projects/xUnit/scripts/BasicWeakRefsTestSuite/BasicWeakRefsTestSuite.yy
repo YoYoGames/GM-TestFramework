@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicWeakRefsTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicWeakRefsTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

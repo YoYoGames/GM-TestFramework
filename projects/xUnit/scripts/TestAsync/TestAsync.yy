@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "TestAsync",
+  "$GMScript": "",
+  "%Name": "TestAsync",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

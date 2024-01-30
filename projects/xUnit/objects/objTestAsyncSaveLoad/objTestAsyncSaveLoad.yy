@@ -1,9 +1,8 @@
 {
-  "resourceType": "GMObject",
-  "resourceVersion": "1.0",
-  "name": "objTestAsyncSaveLoad",
+  "$GMObject": "",
+  "%Name": "objTestAsyncSaveLoad",
   "eventList": [
-    {"resourceType":"GMEvent","resourceVersion":"1.0","name":"","collisionObjectId":null,"eventNum":72,"eventType":7,"isDnD":false,},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":72,"eventType":7,"isDnD":false,},
   ],
   "managed": true,
   "overriddenProperties": [],

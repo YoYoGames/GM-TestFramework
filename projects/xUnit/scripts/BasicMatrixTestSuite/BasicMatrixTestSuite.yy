@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicMatrixTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicMatrixTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

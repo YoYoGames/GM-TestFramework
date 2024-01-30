@@ -1,9 +1,8 @@
 {
-  "resourceType": "GMTileSet",
-  "resourceVersion": "1.0",
-  "name": "tilesAuto",
+  "$GMTileSet": "",
+  "%Name": "tilesAuto",
   "autoTileSets": [
-    {"resourceType":"GMAutoTileSet","resourceVersion":"1.0","name":"autotile_1","closed_edge":false,"tiles":[
+    {"$GMAutoTileSet":"","%Name":"autotile_1","closed_edge":false,"tiles":[
         1,
         2,
         3,
@@ -146,7 +145,6 @@
     "name": "Default",
     "path": "texturegroups/Default",
   },
-  "tile_count": 56,
   "tileAnimation": {
     "FrameData": [
       0,
@@ -216,4 +214,5 @@
   "tileWidth": 10,
   "tilexoff": 0,
   "tileyoff": 0,
+  "tile_count": 56,
 }

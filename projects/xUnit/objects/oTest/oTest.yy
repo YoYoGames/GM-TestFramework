@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMObject",
-  "resourceVersion": "1.0",
-  "name": "oTest",
+  "$GMObject": "",
+  "%Name": "oTest",
   "eventList": [],
   "managed": true,
   "overriddenProperties": [],

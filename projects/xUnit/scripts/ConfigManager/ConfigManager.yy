@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ConfigManager",
+  "$GMScript": "",
+  "%Name": "ConfigManager",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "int32",
+  "$GMScript": "",
+  "%Name": "int32",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

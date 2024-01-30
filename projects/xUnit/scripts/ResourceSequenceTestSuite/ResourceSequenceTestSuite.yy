@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ResourceSequenceTestSuite",
+  "$GMScript": "",
+  "%Name": "ResourceSequenceTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

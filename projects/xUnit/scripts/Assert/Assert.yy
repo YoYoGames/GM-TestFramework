@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Assert",
+  "$GMScript": "",
+  "%Name": "Assert",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

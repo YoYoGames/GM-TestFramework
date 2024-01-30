@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "BasicJsonTestSuite",
+  "$GMScript": "",
+  "%Name": "BasicJsonTestSuite",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {

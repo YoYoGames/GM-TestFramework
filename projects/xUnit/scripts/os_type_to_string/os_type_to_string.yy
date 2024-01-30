@@ -1,7 +1,6 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "os_type_to_string",
+  "$GMScript": "",
+  "%Name": "os_type_to_string",
   "isCompatibility": false,
   "isDnD": false,
   "parent": {
