@@ -1075,12 +1075,23 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	addFact("array_unique", function() {
 	
 		var _array = [1, "a", 2, "b", 3, "c", 4, 1, "a", 2, "b", 3, "c"];
-		
 		var _result = array_unique(_array);
 		
 		assert_array_equals(_result, [1, "a", 2, "b", 3, "c", 4], "#1 array_unique : failed to return the correct output");
 		assert_array_equals(_array, [1, "a", 2, "b", 3, "c", 4, 1, "a", 2, "b", 3, "c"], "#2 array_unique : mutated input array");
 		
+		_array = [1.3, 1.7, 1.9, 1.4, 1.3, 2, 1.7];		
+		_result = array_unique(_array);
+		assert_array_equals(_result, [1.3, 1.7, 1.9, 1.4, 2], "#3 array_unique : failed to return the correct output (doubles)");
+		
+		_array = [{}, {}, [], [], {}, {}];		
+		_result = array_unique(_array);
+		assert_array_length(_result, 6, "#4 array_unique : unique arrays and structs were not treated as unique");
+
+		var _arr = [], _struct = {};
+		_array = [{}, _struct, _arr, _arr, _struct, {}];	
+		_result = array_unique(_array);
+		assert_array_length(_result, 4, "#4 array_unique : referenced arrays and structs were treated as unique");
 	});
 	
 	addFact("array_unique_ext", function() {

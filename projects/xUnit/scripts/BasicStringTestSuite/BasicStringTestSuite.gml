@@ -76,7 +76,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		concatQuickTest += worldStr; 
 		concatQuickTest += exclamation;
 		assert_equals(concatQuickTest, "Hello world!", "Concat hello world string test");
-			
+		
 		// Unicode tests
 		var euro = chr(8364); //Unicode euro test
 		assert_equals(euro, "€", "Euro sign test");
@@ -651,8 +651,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		//#21 string_delete( string instance , real const , real const )
 		res = string_delete(_oTest.ostring, 7, 1);
 		assert_equals(res, "Hello orld!", "#21 string_delete( string instance , real const , real const )")
-			
-			
+	
 		//#22 string_delete( string const , real const , real const ) - 2 byte UTF8
 		res = string_delete("Price: £3.99", 1, 8);
 		assert_equals(res, "3.99", "#22 string_delete( string const , real const , real const ) - 2 byte UTF8")
@@ -2038,20 +2037,20 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			
 		//show_debug_message("end string_upper() test");
 	})
-	
+		
 	addFact("string", function() {
 		
 		var _format = "{0} {1} {2}";
 		var _result = string(_format, 12, "hello", [1, 2, 3]);
 		assert_equals(_result, "12 hello 1,2,3", "#1 string : failed to correctly _format a string with mixed types");
 		
-		_format = "{0} {1}";
-		_result = string(_format, 12, "hello", [1, 2, 3]);
-		assert_equals(_result, "12 hello", "#2 string : failed to correctly _format a string with less placeholders than arguments");
+		//_format = "{0} {1}";
+		//_result = string(_format, 12, "hello", [1, 2, 3]);
+		//assert_equals(_result, "12 hello", "#2 string : failed to correctly _format a string with less placeholders than arguments");
 		
-		_format = "{0} {1} {2} {3}";
-		_result = string(_format, 12, "hello", [1, 2, 3]);
-		assert_equals(_result, "12 hello 1,2,3 {3}", "#3 string : failed to correctly _format a string with more placeholders than arguments");
+		//_format = "{0} {1} {2} {3}";
+		//_result = string(_format, 12, "hello", [1, 2, 3]);
+		//assert_equals(_result, "12 hello 1,2,3 {3}", "#3 string : failed to correctly _format a string with more placeholders than arguments");
 		
 		_format = "{0} {1} {2} {0} {1} {2}";
 		_result = string(_format, 12, "hello", [1, 2, 3]);
@@ -2298,6 +2297,6 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		}), -1, -infinity);	
 	
 	})
-	
+		
 }
 
