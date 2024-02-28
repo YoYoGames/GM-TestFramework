@@ -1,5 +1,5 @@
 {
-  "FolderOrderSettings":[
+  "FolderOrderSettings": [
     {"name":"Modules","order":4,"path":"folders/Modules.yy",},
     {"name":"AssertModule","order":3,"path":"folders/Modules/AssertModule.yy",},
     {"name":"Internal","order":4,"path":"folders/Modules/AssertModule/Internal.yy",},
@@ -34,7 +34,7 @@
     {"name":"tilesets","order":7,"path":"folders/Tests/TestResources/tilesets.yy",},
     {"name":"Utils","order":2,"path":"folders/Tests/Utils.yy",},
   ],
-  "ResourceOrderSettings":[
+  "ResourceOrderSettings": [
     {"name":"oNephew","order":5,"path":"objects/oNephew/oNephew.yy",},
     {"name":"objTestAsyncSaveLoad","order":2,"path":"objects/objTestAsyncSaveLoad/objTestAsyncSaveLoad.yy",},
     {"name":"BasicIniTestSuite","order":13,"path":"scripts/BasicIniTestSuite/BasicIniTestSuite.yy",},

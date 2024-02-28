@@ -822,19 +822,19 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	addFact("array_copy_while", function() {
 	
 		var _array = [1, 2, 3, "a", "b", "c", "d", "e", "f", 4, 5, 6];
-	
+		
 		// Copy while is numeric
-		var _result = array_copy_while(_array, function(_value) { return is_numeric(_value); });
+		var _result = array_copy_while(_array, is_numeric);
 		assert_array_equals(_result, [1, 2, 3], "#1 array_copy_while : failed to return the correct array (numeric)");
 		
 		// Copy whiel is string
-		_result = array_copy_while(_array, function(_value) { return is_string(_value); });
+		_result = array_copy_while(_array, is_string);
 		assert_array_equals(_result, [], "#2 array_copy_while : failed stop copying after first invalid predicate (string)");
 	
-		_result = array_copy_while(_array, function(_value) { return is_string(_value); }, 3, 6);
+		_result = array_copy_while(_array, is_string, 3, 6);
 		assert_array_equals(_result, ["a", "b", "c", "d", "e", "f"], "#3 array_copy_while: failed to use correct range (positive values)");
 	
-		_result = array_copy_while(_array, function(_value) { return is_string(_value); }, -4, -6);
+		_result = array_copy_while(_array, is_string, -4, -6);
 		assert_array_equals(_result, ["f", "e", "d", "c", "b", "a"], "#3 array_copy_while: failed to use correct range/order (positive values)");
 		
 		assert_array_equals(_array, [1, 2, 3, "a", "b", "c", "d", "e", "f", 4, 5, 6], "#2 array_copy_while : mutated input array");	
@@ -858,7 +858,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 		assert_false(_result[0] == _result[1], "#3 array_create_ext: failed to create array with distinct elements (constructor)")
 	
-		_result = array_all(_result, function(_value) { return is_struct(_value); });
+		_result = array_all(_result, is_struct);
 		assert_true(_result, "#4 array_create_ext: failed to create array with correct element type (constructor)");
 	
 	
