@@ -212,7 +212,7 @@ def query_url(url):
 def load_json_file(file_path):
     logging.info(f'Loading JSON file: {file_path}')
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, 'r', encoding='utf-8') as file:
             data = yaml.safe_load(file.read())
             logging.info(f'JSON file loaded successfully')
             return data
@@ -225,7 +225,7 @@ def load_json_file(file_path):
 def save_to_json_file(obj, file_path):
     logging.info(f'Saving object to {file_path}')
     try:
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(obj, f, indent=4)
         logging.info(f'Object saved successfully to {file_path}')
     except Exception as e:
