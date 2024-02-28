@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "TestFrameworkRun",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Collections",
-    "path": "folders/Modules/TestModule/Collections.yy",
+  "$GMScript":"",
+  "%Name":"TestFrameworkRun",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TestFrameworkRun",
+  "parent":{
+    "name":"Collections",
+    "path":"folders/Modules/TestModule/Collections.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

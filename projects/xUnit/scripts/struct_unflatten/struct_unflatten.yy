@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "struct_unflatten",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Utils",
-    "path": "folders/Modules/ConfigModule/Utils.yy",
+  "$GMScript":"",
+  "%Name":"struct_unflatten",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"struct_unflatten",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Modules/ConfigModule/Utils.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

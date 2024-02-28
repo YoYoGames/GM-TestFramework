@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "TestAsync",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Tests",
-    "path": "folders/Modules/TestModule/Tests.yy",
+  "$GMScript":"",
+  "%Name":"TestAsync",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TestAsync",
+  "parent":{
+    "name":"Tests",
+    "path":"folders/Modules/TestModule/Tests.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

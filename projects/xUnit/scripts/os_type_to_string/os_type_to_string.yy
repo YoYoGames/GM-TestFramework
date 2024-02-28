@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "os_type_to_string",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Utils",
-    "path": "folders/Modules/TestModule/Utils.yy",
+  "$GMScript":"",
+  "%Name":"os_type_to_string",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"os_type_to_string",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Modules/TestModule/Utils.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

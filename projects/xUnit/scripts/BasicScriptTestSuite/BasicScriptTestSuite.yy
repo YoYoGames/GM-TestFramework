@@ -1,13 +1,16 @@
 {
-  "$GMScript": "",
-  "%Name": "BasicScriptTestSuite",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "TestSuites",
-    "path": "folders/Tests/TestSuites.yy",
+  "$GMScript":"",
+  "%Name":"BasicScriptTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BasicScriptTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
   },
-  "tags": [
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+  "tags":[
     "runtime_tests",
   ],
 }

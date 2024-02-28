@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "event_to_string",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Utils",
-    "path": "folders/Tests/Utils.yy",
+  "$GMScript":"",
+  "%Name":"event_to_string",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"event_to_string",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Tests/Utils.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

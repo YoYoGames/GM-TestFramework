@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "PublisherAPI",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "PublisherModule",
-    "path": "folders/Modules/PublisherModule.yy",
+  "$GMScript":"",
+  "%Name":"PublisherAPI",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"PublisherAPI",
+  "parent":{
+    "name":"PublisherModule",
+    "path":"folders/Modules/PublisherModule.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

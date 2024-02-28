@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "platform_filters",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Utils",
-    "path": "folders/Modules/TestModule/Utils.yy",
+  "$GMScript":"",
+  "%Name":"platform_filters",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"platform_filters",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Modules/TestModule/Utils.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "ds_queue_to_array",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Utils",
-    "path": "folders/Modules/AssertModule/Utils.yy",
+  "$GMScript":"",
+  "%Name":"ds_queue_to_array",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ds_queue_to_array",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Modules/AssertModule/Utils.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

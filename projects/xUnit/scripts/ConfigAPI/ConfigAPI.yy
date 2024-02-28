@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "ConfigAPI",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "ConfigModule",
-    "path": "folders/Modules/ConfigModule.yy",
+  "$GMScript":"",
+  "%Name":"ConfigAPI",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ConfigAPI",
+  "parent":{
+    "name":"ConfigModule",
+    "path":"folders/Modules/ConfigModule.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

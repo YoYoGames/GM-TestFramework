@@ -1,10 +1,13 @@
 {
-  "$GMScript": "",
-  "%Name": "IPublisher",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Interfaces",
-    "path": "folders/Modules/PublisherModule/Interfaces.yy",
+  "$GMScript":"",
+  "%Name":"IPublisher",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"IPublisher",
+  "parent":{
+    "name":"Interfaces",
+    "path":"folders/Modules/PublisherModule/Interfaces.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }
