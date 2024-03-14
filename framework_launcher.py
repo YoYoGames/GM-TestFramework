@@ -26,6 +26,8 @@ DEFAULT_CONFIG = {
     "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
     "Launcher.project": "projects\\xUnit\\xUnit.yyp",
 
+    "Server.testsuiteName": '',
+
     "Logger.level": 10,
 
     "$$parameters$$.isSandboxed": True,
@@ -212,7 +214,7 @@ def query_url(url):
 def load_json_file(file_path):
     logging.info(f'Loading JSON file: {file_path}')
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, 'r') as file:
             data = yaml.safe_load(file.read())
             logging.info(f'JSON file loaded successfully')
             return data
@@ -225,7 +227,7 @@ def load_json_file(file_path):
 def save_to_json_file(obj, file_path):
     logging.info(f'Saving object to {file_path}')
     try:
-        with open(file_path, 'w', encoding='utf-8') as f:
+        with open(file_path, 'w') as f:
             json.dump(obj, f, indent=4)
         logging.info(f'Object saved successfully to {file_path}')
     except Exception as e:
@@ -304,6 +306,7 @@ def parse_arguments(defaults):
     parser.add_argument('-cf', '--configFile', type=validate_path, required=False, help='The config file to be used by the launcher')
     parser.add_argument('-rv', '--runtimeVersion', type=validate_version, default=None, help='Runner version to use (defaults to <latest>)')
     parser.add_argument('-h5r', '--html5Runner', type=validate_path, required=False, help='A custom HTML5 runner to use instead of the runtime one')
+    parser.add_argument('-tsn', '--testsuiteName', type=str, required=False, help='Name for the XUnit Test')
 
     parsed_args = parser.parse_args()
 
@@ -320,6 +323,7 @@ def parse_arguments(defaults):
     ensure_argument(args, 'Launcher.feed', parsed_args, 'feed', 'f')
     ensure_argument(args, 'Launcher.userFolder', parsed_args, 'userFolder', 'uf', validate_path)
     ensure_argument(args, 'Launcher.accessKey', parsed_args, 'accessKey', 'ak')
+    ensure_argument(args, 'Server.testsuiteName', parsed_args, 'testsuiteName', 'tsn') 
 
     return args
 
@@ -519,9 +523,9 @@ def stop_android_emulator(sdk_path):
 
 # Servers
 
-def start_servers(runtime_version, http_port):
+def start_servers(runtime_version, http_port, testsuite_name):
     try:
-        serverProcess = subprocess.Popen(["node", "servers/servers.js", runtime_version, str(http_port)])
+        serverProcess = subprocess.Popen(["node", "servers/servers.js", runtime_version, str(http_port)], testsuite_name)
         logging.info(f"Server running on port {http_port}")
         return serverProcess
     except Exception as e:
@@ -691,7 +695,7 @@ def main():
 
     # Starts the servers
     server_port = args['$$parameters$$.serverPort']
-    servers = start_servers(runtime_version, server_port)
+    servers = start_servers(runtime_version, server_port, args['Server.testsuiteName'])
     assert(servers != None)
 
     # For all except HTML5
@@ -747,8 +751,8 @@ def main():
     results_create_summary(runtime_version, results_path)
 
     # Check if we should fail the job
-    # if (check_file_exists(FAIL_PATH)):
-    #     raise Exception(FAILURE_MESSAGE)
+    if (check_file_exists(FAIL_PATH)):
+        raise Exception(FAILURE_MESSAGE)
 
 if __name__ == '__main__':
     main()

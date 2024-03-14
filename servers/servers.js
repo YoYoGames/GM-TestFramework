@@ -7,7 +7,7 @@ import cors from "cors";
 import { WebSocketServer } from 'ws';
 import queryString from 'query-string';
 import xmlbuilder from 'xmlbuilder';
-
+import { Buffer } from 'buffer';
 
 
 function ensureDirectoryExists(directoryPath, callback = () => {}) {
@@ -68,7 +68,7 @@ function hasErrorsOrCrashed(data) {
 }
 
 
-function jsonToXml(testData) {
+function jsonToXml(testData, testsuiteName) {
     const tallies = {
         passed: 0,
         skipped: 0,
@@ -91,6 +91,7 @@ function jsonToXml(testData) {
     // Create XML document using xmlbuilder
     const xml = xmlbuilder.create('testsuites', { version: '1.0', encoding: 'UTF-8' })
         .ele('testsuite', {
+            name: testsuiteName,
             timestamp: timestamp,
             passed: tallies.passed,
             skipped: tallies.skipped,
@@ -142,11 +143,12 @@ function extractTestData(body) {
     }
 }
 
-function runServers(runtimeVersion, port) {
+function runServers(runtimeVersion, port, testsuiteName) {
     const testsPath = path.join('workspace', 'results', 'tests', runtimeVersion);
     const performancePath = path.join('workspace', 'results', 'performance', runtimeVersion);
     const failFile = path.join('workspace', '.fail');
     const metaFile = path.join('workspace', '.meta');
+    const testsuiteName = testsuiteName;
 
     ensureDirectoryExists(testsPath);
     ensureDirectoryExists(performancePath);
@@ -309,8 +311,13 @@ function runServers(runtimeVersion, port) {
 
 const args = process.argv.slice(2);
 
-if (args.length >= 2) {
-    runServers(args[0], args[1]);
+
+if (args.length >= 3) {
+    var runtimeVersion = args[0];
+    var port = args[1];
+    var testsuiteName = args[2];
+    
+    runServers(runtimeVersion, port, testsuiteName);
 }
 else {
     runServers("0.0.0.0", 8080, false);

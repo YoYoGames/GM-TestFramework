@@ -1,0 +1,267 @@
+{
+    "android": {
+        "User": {
+            
+        },
+        "Auto": {
+            "Android 12 (Emulator)": {
+                "displayname": "Android 12 (Emulator)",
+                "hostname": "emulator-5554"
+            }
+        }
+    },
+    "html5": {
+        
+    },
+    "ios": {
+        "iPhone 8 [MacMini M1 (Office)]": {
+            "displayname": "iPhone 8 [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "9C1EFE6B-A112-4487-8E1E-B78CD518EB21",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 8 Plus [MacMini M1 (Office)]": {
+            "displayname": "iPhone 8 Plus [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "04EABC03-321F-4DBB-A92D-40C85E8F9189",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 11 [MacMini M1 (Office)]": {
+            "displayname": "iPhone 11 [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "0A89334F-E6C8-4722-AECA-7EE256E3CC7A",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 11 Pro [MacMini M1 (Office)]": {
+            "displayname": "iPhone 11 Pro [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "F20D2815-6D63-4418-A16A-7D69C5F88C08",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 11 Pro Max [MacMini M1 (Office)]": {
+            "displayname": "iPhone 11 Pro Max [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "93F45396-7E4A-46AB-809A-873FB6E05D5E",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 12 mini [MacMini M1 (Office)]": {
+            "displayname": "iPhone 12 mini [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "BBE82E6B-A610-4C1B-AEEA-4E33EC99C826",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 12 [MacMini M1 (Office)]": {
+            "displayname": "iPhone 12 [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "3616E2B4-DD41-41D4-8A0C-FA613E01D6CA",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 12 Pro [MacMini M1 (Office)]": {
+            "displayname": "iPhone 12 Pro [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "896B3426-9213-4700-893E-C0876DBC203F",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 12 Pro Max [MacMini M1 (Office)]": {
+            "displayname": "iPhone 12 Pro Max [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "1D4A08B1-96CA-4DA8-894F-AAACC43D3D6D",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 13 Pro [MacMini M1 (Office)]": {
+            "displayname": "iPhone 13 Pro [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "5C783C76-0F96-4DBA-8312-0A7C1EB97C11",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 13 Pro Max [MacMini M1 (Office)]": {
+            "displayname": "iPhone 13 Pro Max [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "16737BDB-AFA7-43DE-B8B1-4D73065E5773",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 13 mini [MacMini M1 (Office)]": {
+            "displayname": "iPhone 13 mini [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "2E8B03E5-DF96-4763-AFC8-26685C20BC95",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone 13 [MacMini M1 (Office)]": {
+            "displayname": "iPhone 13 [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "F16AA7AF-7495-45D9-96FA-067CAE7589E5",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPhone SE (3rd generation) [MacMini M1 (Office)]": {
+            "displayname": "iPhone SE (3rd generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "671DE790-A4F9-468C-B19B-1D05BAC5CD0C",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPod touch (7th generation) [MacMini M1 (Office)]": {
+            "displayname": "iPod touch (7th generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "D73AD2DF-757E-44F7-ADA3-39076DCDF24D",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPad Pro (9.7-inch) [MacMini M1 (Office)]": {
+            "displayname": "iPad Pro (9.7-inch) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "C4D2E071-915F-4865-A73A-A679C251974C",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPad (9th generation) [MacMini M1 (Office)]": {
+            "displayname": "iPad (9th generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "E961BCF3-E298-46F7-8147-55C74F6E0360",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPad Pro (11-inch) (3rd generation) [MacMini M1 (Office)]": {
+            "displayname": "iPad Pro (11-inch) (3rd generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "412E2CFA-37BB-4A43-BB9C-AB7078A15117",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPad Pro (12.9-inch) (5th generation) [MacMini M1 (Office)]": {
+            "displayname": "iPad Pro (12.9-inch) (5th generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "37D97224-4C76-4C27-BEF6-F837A7E8B018",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPad Air (5th generation) [MacMini M1 (Office)]": {
+            "displayname": "iPad Air (5th generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "8A830F8E-06D4-4332-B5B8-B9CF8C57C5BE",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        },
+        "iPad mini (6th generation) [MacMini M1 (Office)]": {
+            "displayname": "iPad mini (6th generation) [MacMini M1 (Office)]",
+            "productType": "iOS 15.5",
+            "version": "iOS 15.5",
+            "device": "6B72B250-12BA-46DE-B982-A4226D816763",
+            "type": "platformdevice_type_simulator",
+            "status": "platformdevice_status_shutdown",
+            "hostmac": "MacMini M1 (Office)",
+            "deviceIP": ""
+        }
+    },
+    "linux": {
+        "Ubuntu 20.04 (Office)": {
+            "displayname": "Ubuntu 20.04 (Office)",
+            "hostname": "10.36.9.31",
+            "username": "autobuild",
+            "encrypted_password": "dFBVWlNSe1QHdgU=",
+            "install_dir": "~/GameMakerStudio2"
+        }
+    },
+    "mac": {
+        "MacMini M1 (Office)": {
+            "displayname": "MacMini M1 (Office)",
+            "hostname": "10.36.9.35",
+            "username": "admin",
+            "encrypted_password": "dFBVWlNSe1QHdgU=",
+            "install_dir": "~/GameMakerStudio2"
+        }
+    },
+    "ps4": {
+        
+    },
+    "ps5": {
+        
+    },
+    "tvos": {
+        
+    },
+    "windows": {
+        
+    },
+    "xboxseriesxs": {
+        
+    },
+    "switch": {
+        
+    },
+    "operagx": {
+        
+    }
+}

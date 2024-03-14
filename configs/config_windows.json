@@ -1,0 +1,17 @@
+{
+    "Launcher.accessKey": "c41e0042c5b408b6b109aa7c577f9ba4",
+    "Launcher.userFolder": "D:\\GM-TestFramework-1\\configs\\userFolder\\",
+    "Launcher.runtimeVersion": "9.9.1.735",
+  
+    "Launcher.runners": "vm",
+    "Launcher.targets": "windows|Local",
+    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss",
+    "Launcher.project": "projects\\xUnit\\xUnit.yyp",
+  
+    "Launcher.html5Runner": null,
+  
+    "Logger.level": 10,
+  
+    "Server.port": 8080,
+    "Server.endpoint": "tests"
+  }
