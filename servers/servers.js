@@ -1,14 +1,16 @@
 import express from 'express';
 import http from 'http';
-import path from 'path'
+import path from 'path';
 import fs from 'fs';
-import ip from 'ip'
-import cors from "cors"
-import { WebSocketServer } from 'ws'
-import { Buffer } from 'buffer';
+import ip from 'ip';
+import cors from "cors";
+import { WebSocketServer } from 'ws';
 import queryString from 'query-string';
+import xmlbuilder from 'xmlbuilder';
 
-function ensureDirectoryExists(directoryPath, callback = () => { }) {
+
+
+function ensureDirectoryExists(directoryPath, callback = () => {}) {
     fs.mkdir(directoryPath, { recursive: true }, (err) => {
         if (err) {
             console.error(`Error creating directory: ${directoryPath}`, err);
@@ -18,19 +20,17 @@ function ensureDirectoryExists(directoryPath, callback = () => { }) {
             callback(null);
         }
     });
-};
+}
 
-function createEmptyFile(filePath, callback = () => { }) {
+function createEmptyFile(filePath, callback = () => {}) {
     const dirname = path.dirname(filePath);
 
-    // Ensure the directory exists before creating the file
     fs.mkdir(dirname, { recursive: true }, (err) => {
         if (err) {
             callback(err);
             return;
         }
 
-        // Create an empty file
         fs.writeFile(filePath, '', (err) => {
             if (err) {
                 callback(err);
@@ -42,18 +42,15 @@ function createEmptyFile(filePath, callback = () => { }) {
     });
 }
 
-function createMetaFile(filePath, data, callback = () => { }) {
-
+function createMetaFile(filePath, data, callback = () => {}) {
     const dirname = path.dirname(filePath);
 
-    // Ensure the directory exists before creating the file
     fs.mkdir(dirname, { recursive: true }, (err) => {
         if (err) {
             callback(err);
             return;
         }
 
-        // Create an empty file
         fs.writeFile(filePath, data, (err) => {
             if (err) {
                 callback(err);
@@ -63,7 +60,6 @@ function createMetaFile(filePath, data, callback = () => { }) {
             callback(null);
         });
     });
-
 }
 
 function hasErrorsOrCrashed(data) {
@@ -71,8 +67,82 @@ function hasErrorsOrCrashed(data) {
     return tallies.failed != undefined || tallies.expired != undefined;
 }
 
-function runServers(runtimeVersion, port) {
 
+function jsonToXml(testData) {
+    const tallies = {
+        passed: 0,
+        skipped: 0,
+        failed: 0
+    };
+
+    testData.forEach(test => {
+        const { result } = test;
+        if (result === 'Passed') {
+            tallies.passed++;
+        } else if (result === 'Skipped') {
+            tallies.skipped++;
+        } else if (result === 'Failed' || result === 'Error') {
+            tallies.failed++;
+        }
+    });
+
+    const timestamp = new Date().toISOString();
+
+    // Create XML document using xmlbuilder
+    const xml = xmlbuilder.create('testsuites', { version: '1.0', encoding: 'UTF-8' })
+        .ele('testsuite', {
+            timestamp: timestamp,
+            passed: tallies.passed,
+            skipped: tallies.skipped,
+            failed: tallies.failed
+        });
+
+    testData.forEach(test => {
+        const { name, result, duration, errors } = test;
+        const durationInSeconds = duration ? (duration / 1000).toFixed(3) : '';
+
+        const testcase = xml.ele('testcase', { name: name, time: durationInSeconds });
+
+        if (result === 'Failed' && Array.isArray(errors)) {
+            errors.forEach((error, index) => {              
+                
+                const properties = testcase.ele('properties');
+                properties.ele('property', { name: `Actual #${index + 1}`, value: error.actual.replace(/"/g, '') }).up();
+                properties.ele('property', { name: `Expected #${index + 1}`, value: error.expected.replace(/"/g,'') }).up();
+                properties.ele('property', { name: `Stack #${index + 1}`, value: error.stack.replace(/"/g, '') });
+        
+                testcase.ele('failure', { message: error.title || '', type: error.description || '' });
+            });
+        }
+
+        if (result === 'Skipped') {
+            testcase.ele('skipped').txt(name || 'Test Skipped');
+        }
+    });
+
+    // End and return the XML string
+    return xml.end({ pretty: true });
+}
+
+export { jsonToXml };
+function extractTestData(body) {
+    try {
+        // Assuming your test data is stored in the `data` property of the body object
+        const testData = body.data;
+        // Check if testData.details exists and contains the expected structure
+        if (!testData || !testData.details || !testData.details.passed || !testData.details.failed || !testData.details.skipped) {
+            throw new Error("Invalid test data structure");
+        }
+        // Combine passed, failed, and skipped tests into a single array
+        const allTests = testData.details.passed.concat(testData.details.failed, testData.details.skipped);
+        return allTests;
+    } catch (error) {
+        console.error("Error extracting test data:", error);
+        return [];
+    }
+}
+
+function runServers(runtimeVersion, port) {
     const testsPath = path.join('workspace', 'results', 'tests', runtimeVersion);
     const performancePath = path.join('workspace', 'results', 'performance', runtimeVersion);
     const failFile = path.join('workspace', '.fail');
@@ -82,21 +152,9 @@ function runServers(runtimeVersion, port) {
     ensureDirectoryExists(performancePath);
 
     const app = express();
-
-    const jsonOptions = {
-        limit: '50mb'
-    }
-
-    const urlencodedOptions = {
-        extended: true,
-        limit: '50mb'
-    }
-
-    const corsOptions = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST",
-        "Access-Control-Allow-Headers": "Content-Type",
-    };
+    const jsonOptions = { limit: '50mb' };
+    const urlencodedOptions = { extended: true, limit: '50mb' };
+    const corsOptions = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" };
 
     app.use(express.json(jsonOptions));
     app.use(express.urlencoded(urlencodedOptions));
@@ -104,41 +162,73 @@ function runServers(runtimeVersion, port) {
 
     const server = http.createServer(app);
 
-    // HTTP Server
 
     app.post('/tests', (req, res) => {
-        // receive JSON message and store it to disk
-        const body = req.body;
+        const body = req.body;   
 
         const targetName = body.isBrowser ? 'html5' : body.targetName;
         const runnerName = body.isCompiled ? 'yyc' : 'vm';
         const filesystemType = body.isSandboxed ? '_sandboxed' : '';
 
         const fileName = `${targetName}_${runnerName}${filesystemType}`;
-        const filePath = path.join(testsPath, `${fileName}.json`);
+        try {
+            console.log("Request Body:", body);
+            // Extracting test data
+            const testData = extractTestData(body);
+            console.log("Test Data:", testData);
+        
+            const jsonFilePath = path.join(testsPath, `${fileName}.json`);
+            console.log("JSON File Path:", jsonFilePath);
+        
+            // Writing JSON data to file
+            fs.writeFile(jsonFilePath, JSON.stringify(body), (err) => {
+                if (err) {
+                    console.error("Error writing to JSON file:", err);
+                } else {
+                    console.log("JSON data written to file successfully:", jsonFilePath);
+                }
+            });
+        } catch (error) {
+            console.error("Error processing test data:", error);
+        }        
+        
+        try {
+            console.log("Request Body:", body);
+        
+            const testData = extractTestData(body);
+            console.log("Test Data:", testData);
+        
+            const xmlData = jsonToXml(testData);
+            console.log("Generated XML Data:", xmlData);
+        
+            const xmlFilePath = path.join(testsPath, `${fileName}.xml`);
+            console.log("XML File Path:", xmlFilePath);
+        
+            const streamXML = fs.createWriteStream(xmlFilePath);
+            streamXML.once('open', function () {
+                console.log("Writing XML Data to file:", xmlData);
+                streamXML.write(xmlData);
+                streamXML.end();
+            });
+            streamXML.on('error', function(err) {
+                console.error("Error writing to XML file:", err);
+            });
+        } catch (error) {
+            console.error("Error processing test data:", error);
+        }
+         
 
-        const stream = fs.createWriteStream(filePath);
-        stream.once('open', function () {
-            stream.write(JSON.stringify(body));
-            stream.end();
-        });
-
-        // There were errors or exception (fail the job)
         if (hasErrorsOrCrashed(body.data)) {
             createEmptyFile(failFile)
         }
 
-        const data = {
-            folder: testsPath,
-            file: fileName
-        }
+        const data = { folder: testsPath, file: fileName };
         createMetaFile(metaFile, JSON.stringify(data))
 
         res.status(200).send('Tests data stored');
     });
 
     app.post('/performance', (req, res) => {
-        // receive JSON message and store it to disk
         const body = req.body;
         const fileName = `${body.platformName}_${body.runnerName}.json`;
         const filePath = path.join(performancePath, fileName);
@@ -152,24 +242,15 @@ function runServers(runtimeVersion, port) {
         res.status(200).send('Performance data stored');
     });
 
-    // Websocket Server
-
-    const wss = new WebSocketServer({
-        noServer: true,
-        maxPayload: 1000000,
-        path: "/websockets"
-    });
+    const wss = new WebSocketServer({ noServer: true, maxPayload: 1000000, path: "/websockets" });
 
     server.on("upgrade", (request, socket, head) => {
-
         wss.handleUpgrade(request, socket, head, (websocket) => {
             wss.emit("connection", websocket, request);
         });
     });
 
     wss.on('connection', (connection, request) => {
-
-        // websocket protocol implementation
         console.log(`New websocket connection`);
 
         const [_, params] = request?.url?.split("?");
@@ -177,28 +258,21 @@ function runServers(runtimeVersion, port) {
 
         var mode = connectionParams?.mode ?? "raw";
         if (mode == "handshake") {
-
             console.log("Starting Handshake");
-            
             connection.userData = { handshake: true };
             connection.send("GM:Studio-Connect\0", { binary: true });
         }
         else console.log("Starting Echo");
 
         connection.on("message", (data, isBinary) => {
-
             if (connection.userData?.handshake) {
-
                 if (isBinary == false) {
                     connection.terminate();
-
                     console.log("Connection terminated!");
                     return;
                 }
-
                 if (data.length != 16) {
                     connection.terminate();
-
                     console.log("Connection terminated!");
                     return;
                 }
@@ -207,7 +281,6 @@ function runServers(runtimeVersion, port) {
 
                 if (data.readUInt32LE(0) != 0xCAFEBABE || data.readUInt32LE(4) != 0xDEADB00B || data.readUInt32LE(8) != 16) {
                     connection.terminate();
-
                     console.log("Connection terminated!");
                     return;
                 }
@@ -223,20 +296,16 @@ function runServers(runtimeVersion, port) {
                 console.log("Handshake succeeded!");
             }
             else {
-                // Just send the data back
                 connection.send(data);
                 console.log(data.buffer)
             }
         });
     });
 
-    // Initialize server
-
     server.listen(port, () => {
         console.log(`Servers running on ip ${ip.address()} port ${port}`);
     });
-};
-
+}
 
 const args = process.argv.slice(2);
 
