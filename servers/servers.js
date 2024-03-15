@@ -69,6 +69,7 @@ function hasErrorsOrCrashed(data) {
 
 
 function jsonToXml(testData, testsuiteName) {
+    // const testsuiteName = testsuiteName;
     const tallies = {
         passed: 0,
         skipped: 0,
@@ -148,7 +149,7 @@ function runServers(runtimeVersion, port, testsuiteName) {
     const performancePath = path.join('workspace', 'results', 'performance', runtimeVersion);
     const failFile = path.join('workspace', '.fail');
     const metaFile = path.join('workspace', '.meta');
-    const testsuiteName = testsuiteName;
+    // const testsuiteName = testsuiteName;
 
     ensureDirectoryExists(testsPath);
     ensureDirectoryExists(performancePath);
@@ -167,6 +168,7 @@ function runServers(runtimeVersion, port, testsuiteName) {
 
     app.post('/tests', (req, res) => {
         const body = req.body;   
+        // const testsuiteName = testsuiteName;
 
         const targetName = body.isBrowser ? 'html5' : body.targetName;
         const runnerName = body.isCompiled ? 'yyc' : 'vm';
@@ -200,7 +202,7 @@ function runServers(runtimeVersion, port, testsuiteName) {
             const testData = extractTestData(body);
             console.log("Test Data:", testData);
         
-            const xmlData = jsonToXml(testData);
+            const xmlData = jsonToXml(testData, testsuiteName);
             console.log("Generated XML Data:", xmlData);
         
             const xmlFilePath = path.join(testsPath, `${fileName}.xml`);
@@ -316,7 +318,7 @@ if (args.length >= 3) {
     var runtimeVersion = args[0];
     var port = args[1];
     var testsuiteName = args[2];
-    
+
     runServers(runtimeVersion, port, testsuiteName);
 }
 else {
