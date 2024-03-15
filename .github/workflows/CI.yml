@@ -19,6 +19,7 @@ jobs:
     name: "CI"
     runs-on: Windows
     steps:
+      - run: git config --global --add safe.directory '*'
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
         with:
