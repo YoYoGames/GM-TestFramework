@@ -31,7 +31,7 @@ DEFAULT_CONFIG = {
     "Logger.level": 10,
 
     "$$parameters$$.isSandboxed": True,
-    "$$parameters$$.serverPort": 8091,
+    "$$parameters$$.serverPort": 8080,
     "$$parameters$$.serverEndpoint": "tests",
 }
 
