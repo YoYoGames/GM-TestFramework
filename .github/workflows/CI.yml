@@ -20,7 +20,7 @@ jobs:
     runs-on: Windows
     steps:
       - name: Check out the GM-TestFramework repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: GM-TF
       - run: .\setup.bat
@@ -45,13 +45,13 @@ jobs:
         continue-on-error: true    
         shell: cmd        
       - name: Upload tests Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test_results
           path: .\GM-TF\workspace\results\tests\
         continue-on-error: false  
       - name: Upload summary Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
@@ -62,7 +62,7 @@ jobs:
      needs: CI
      steps:
         - name: Download summary Artifacts
-          uses: actions/download-artifact@v3
+          uses: actions/download-artifact@v4
           with:
             name: summary_file
             path: test
