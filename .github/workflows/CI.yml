@@ -29,19 +29,19 @@ jobs:
         shell: cmd
       - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
         if: github.event.inputs.RSS_Feed != ''
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
+        run: python3 framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF  
         continue-on-error: true
         shell: cmd
       - name: Testing Manually without passing Feed (By Default it takes Red Feed)
         if: github.event.inputs.RSS_Feed == ''
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
+        run: python3 framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
         working-directory: GM-TF  
         continue-on-error: true    
         shell: cmd          
       - name: Testing on PR
         if: github.event_name == 'pull_request'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
+        run: python3 framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
         working-directory: GM-TF    
         continue-on-error: true    
         shell: cmd        
@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test_results
-          path: .\GM-TF\workspace\results\tests\
+          path: .\GM-TF\workspace\results\tests\*\*.json
         continue-on-error: false  
       - name: Upload summary Artifacts
         uses: actions/upload-artifact@v4
