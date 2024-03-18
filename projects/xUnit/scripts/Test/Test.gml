@@ -30,10 +30,13 @@ function Test(_name = undefined) : Task() constructor {
 	name = _name;
 	
 	/// @ignore
+	timestamp = undefined;
+	assertions = 0;
+	
+	/// @ignore
 	preRunFunc = function() {
 		
 		callStartHook();
-
 		startTimestamp = get_timer();
 		
 		// Check if test needs to be skipped (ie.: platform specific)
@@ -122,6 +125,7 @@ function Test(_name = undefined) : Task() constructor {
 		var _summary = {
 			name: getName(),
 			result: getResultString(),
+			assertions: assertions
 		}
 		
 		switch (result) {

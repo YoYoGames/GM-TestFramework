@@ -15,7 +15,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		_destArray = [];
 		array_copy(_destArray, 0, _array1dToCopyLarge, 0, _largeArrayDimensions);
 		assert_array_equals(_destArray, _array1dToCopyLarge, "#1 array_copy, copy fully into start of empty array") 
-			
+		
 		//#2 array_copy, fully into out of range index of empty array
 		_destArray = [];
 		_expected = [0, 0, 0, 0, "one", "two", "three", "four", "five"];

@@ -1,8 +1,10 @@
+import xml.etree.ElementTree as ElementTree
 from aiohttp import web
 import json
 import logging
 import struct
 
+from classes.model.TestFrameworkResult import TestFrameworkResult
 from classes.utils.FileUtils import FileUtils
 
 # Define the asynchronous function to manage the server
@@ -135,11 +137,18 @@ class TestFrameworkServer:
 
         try:
             # Parse JSON body
-            data = await request.json()
-            logging.info(f"JSON data parsed successfully: {data}")
+            body = await request.json()
+            logging.info(f"JSON data parsed successfully: {body}")
 
             # Save to a file (example: 'data.json')
-            FileUtils.save_data_as_json(data, 'data.json')
+            FileUtils.save_data_as_json(body, 'data.json')
+
+            result = TestFrameworkResult(**body["data"])
+            element = result.to_xml()
+
+            # Create an ElementTree object from the root element
+            tree = ElementTree.ElementTree(element)
+            tree.write('output.xml', encoding='UTF-8', xml_declaration=True)
 
             # Respond to indicate success
             return web.Response(text="JSON saved successfully")

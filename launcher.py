@@ -6,6 +6,7 @@ import logging
 import os
 import subprocess
 import sys
+from click import BaseCommand
 from dotenv import load_dotenv
 
 from classes.utils.LoggingUtils import LoggingUtils
@@ -109,26 +110,20 @@ async def main():
     parser = argparse.ArgumentParser(description='TestFramework Tools')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
-    # Define subparser for runServer
-    run_server = subparsers.add_parser('runServer', help='Runs the test servers (useful for IDE execution)')
-
-    # Define subparser for runTests
-    run_tests = subparsers.add_parser('runTests', help='Runs the testframework and collects all results')
-    run_tests.add_argument('-rn', '--run-name', required=True, help='The name to be given to the test run')
+    # Register commands with the parser
+    RunServerCommand.register_command(subparsers)
+    RunTestsCommand.register_command(subparsers)
 
     args = parser.parse_args()
     args.base_folder = Path(__file__).parent
 
-    match(args.command):
-        case 'runServer':
-            cmd = RunServerCommand(args)
-        case 'runTests':
-            cmd = RunTestsCommand(args)
-        case _:
-            logging.error("Unknown command. Please use 'runServer' or 'runTests'.")
-            exit(1)
-    
-    await cmd.execute()
+    # Check if it is a valid command
+    if hasattr(args, 'command_class'):
+        cmd = args.command_class(args)
+        await cmd.execute()
+    else:
+        logging.error("Unknown command. Please use a registered command.")
+        exit(1)
 
 if __name__ == "__main__":
     install_dependencies()

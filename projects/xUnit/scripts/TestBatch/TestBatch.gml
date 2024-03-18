@@ -18,6 +18,9 @@ function TestBatch() : Test() constructor {
 	index = -1;
 
 	/// @ignore
+	localResultBag = {};
+
+	/// @ignore
 	runFunc = function(_test) {
 		
 		// If bail-on-fail and the state was fail (stop iteration)
@@ -28,12 +31,18 @@ function TestBatch() : Test() constructor {
 		// If there is a next test
 		else if (next()) {
 			// Delay test execution (allows spacing tests in time).
-			return call_later(getDelaySeconds(), time_source_units_seconds, function() { current().run(runFunc, resultBag); });
+			return call_later(getDelaySeconds(), time_source_units_seconds, function() { current().run(runFunc, localResultBag); });
 		}
 		// There are no more tests
 		else {
 			postRunFunc();
 		}
+	}
+	
+	/// @function callEndHook()
+	/// @description Calls the hook function assigned to the end of the execution.
+	static callEndHook = function() {
+		if (is_callable(endHook)) endHook(self, resultBag, localResultBag);
 	}
 	
 	/// @function doReset()
