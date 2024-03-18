@@ -1,15 +1,15 @@
 {
-  "$GMProject": "",
-  "%Name": "xUnit",
-  "AudioGroups": [
+  "$GMProject":"",
+  "%Name":"xUnit",
+  "AudioGroups":[
     {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
-  "configs": {
-    "children": [],
-    "name": "Default",
+  "configs":{
+    "children":[],
+    "name":"Default",
   },
-  "defaultScriptType": 1,
-  "Folders": [
+  "defaultScriptType":1,
+  "Folders":[
     {"$GMFolder":"","%Name":"Modules","folderPath":"folders/Modules.yy","name":"Modules","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"AssertModule","folderPath":"folders/Modules/AssertModule.yy","name":"AssertModule","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Internal","folderPath":"folders/Modules/AssertModule/Internal.yy","name":"Internal","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -47,18 +47,17 @@
     {"$GMFolder":"","%Name":"TestSuites","folderPath":"folders/Tests/TestSuites.yy","name":"TestSuites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Utils","folderPath":"folders/Tests/Utils.yy","name":"Utils","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
-  "IncludedFiles": [
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+  "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"testList.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testList.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"testTable.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testTable.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
-  "isEcma": false,
-  "LibraryEmitters": [],
-  "MetaData": {
-    "IDEVersion":"2024.200.0.494",
+  "isEcma":false,
+  "LibraryEmitters":[],
+  "MetaData":{
+    "IDEVersion":"2024.200.0.505",
   },
-  "name": "xUnit",
-  "resources": [
+  "name":"xUnit",
+  "resources":[
     {"id":{"name":"oNephew","path":"objects/oNephew/oNephew.yy",},},
     {"id":{"name":"objTestAsyncSaveLoad","path":"objects/objTestAsyncSaveLoad/objTestAsyncSaveLoad.yy",},},
     {"id":{"name":"BasicIniTestSuite","path":"scripts/BasicIniTestSuite/BasicIniTestSuite.yy",},},
@@ -155,15 +154,15 @@
     {"id":{"name":"BasicDataStructuresPriorityTestSuite","path":"scripts/BasicDataStructuresPriorityTestSuite/BasicDataStructuresPriorityTestSuite.yy",},},
     {"id":{"name":"rmInit","path":"rooms/rmInit/rmInit.yy",},},
   ],
-  "resourceType": "GMProject",
-  "resourceVersion": "2.0",
-  "RoomOrderNodes": [
+  "resourceType":"GMProject",
+  "resourceVersion":"2.0",
+  "RoomOrderNodes":[
     {"roomId":{"name":"rmInit","path":"rooms/rmInit/rmInit.yy",},},
     {"roomId":{"name":"room0","path":"rooms/room0/room0.yy",},},
     {"roomId":{"name":"room1","path":"rooms/room1/room1.yy",},},
   ],
-  "templateType": null,
-  "TextureGroups": [
+  "templateType":null,
+  "TextureGroups":[
     {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
   ],
 }

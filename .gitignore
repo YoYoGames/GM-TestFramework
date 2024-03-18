@@ -1,5 +1,7 @@
-workspace/
+__pycache__/
 servers/node_modules/
-user/
+
+.env
 
 projects/xUnit/datafiles/config.json
+
