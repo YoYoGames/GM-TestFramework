@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Theory",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Tests",
-    "path": "folders/Modules/TestModule/Tests.yy",
+  "$GMScript":"",
+  "%Name":"Theory",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Theory",
+  "parent":{
+    "name":"Tests",
+    "path":"folders/Modules/TestModule/Tests.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "PropertyHolder",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "PropertyModule",
-    "path": "folders/Modules/PropertyModule.yy",
+  "$GMScript":"",
+  "%Name":"PropertyHolder",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"PropertyHolder",
+  "parent":{
+    "name":"PropertyModule",
+    "path":"folders/Modules/PropertyModule.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

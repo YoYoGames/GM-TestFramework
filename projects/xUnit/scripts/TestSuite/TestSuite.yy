@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "TestSuite",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Collections",
-    "path": "folders/Modules/TestModule/Collections.yy",
+  "$GMScript":"",
+  "%Name":"TestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TestSuite",
+  "parent":{
+    "name":"Collections",
+    "path":"folders/Modules/TestModule/Collections.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

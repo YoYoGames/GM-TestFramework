@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Task",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Internal",
-    "path": "folders/Modules/TestModule/Internal.yy",
+  "$GMScript":"",
+  "%Name":"Task",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Task",
+  "parent":{
+    "name":"Internal",
+    "path":"folders/Modules/TestModule/Internal.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

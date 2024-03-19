@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Property",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Internal",
-    "path": "folders/Modules/PropertyModule/Internal.yy",
+  "$GMScript":"",
+  "%Name":"Property",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Property",
+  "parent":{
+    "name":"Internal",
+    "path":"folders/Modules/PropertyModule/Internal.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

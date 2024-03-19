@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "struct_from_entries",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Utils",
-    "path": "folders/Modules/LoggerModule/Utils.yy",
+  "$GMScript":"",
+  "%Name":"struct_from_entries",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"struct_from_entries",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Modules/LoggerModule/Utils.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }
