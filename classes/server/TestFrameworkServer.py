@@ -1,3 +1,4 @@
+from pathlib import Path
 import xml.etree.ElementTree as ElementTree
 from aiohttp import web
 import json
@@ -140,15 +141,18 @@ class TestFrameworkServer:
             body = await request.json()
             logging.info(f"JSON data parsed successfully: {body}")
 
-            # Save to a file (example: 'data.json')
-            FileUtils.save_data_as_json(body, 'data.json')
+            filename = body["data"]["name"]
+            output_path = Path('./output')
+
+            # Save to a file (example: 'output.json')
+            FileUtils.save_data_as_json(body, output_path / f'{filename}.json')
 
             result = TestFrameworkResult(**body["data"])
             element = result.to_xml()
 
             # Create an ElementTree object from the root element
             tree = ElementTree.ElementTree(element)
-            tree.write('output.xml', encoding='UTF-8', xml_declaration=True)
+            tree.write(output_path / f'{filename}.xml', encoding='UTF-8', xml_declaration=True)
 
             # Respond to indicate success
             return web.Response(text="JSON saved successfully")

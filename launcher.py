@@ -11,18 +11,6 @@ from classes.utils.LoggingUtils import LoggingUtils
 from classes.commands.RunServerCommand import RunServerCommand
 from classes.commands.RunTestsCommand import RunTestsCommand
 
-# DON'T CHANGE THESE (use external config file instead)
-DEFAULT_CONFIG = {
-    "Logger.level": 10,
-
-    "HttpPublisher.ip": "127.0.0.1",
-    "HttpPublisher.port": 8080,
-    "HttpPublisher.endpoint": "tests",
-
-    "$$parameters$$.isSandboxed": True,
-    "$$parameters$$.runName": "xUnit Tests",
-}
-
 def install_dependencies():
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
 
