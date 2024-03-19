@@ -20,62 +20,52 @@ jobs:
     runs-on: Windows
     steps:
       - name: Check out the GM-TestFramework repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: GM-TF
       - run: .\setup.bat
         working-directory: GM-TF
-        shell: cmd
+        shell: cmd          
       - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
-        if: github.event.inputs.RSS_Feed != ''
+        if: github.event_name == 'workflow_dispatch'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF  
-        continue-on-error: true
-        shell: cmd
-      - name: Testing Manually without passing Feed (By Default it takes Red Feed)
-        if: github.event.inputs.RSS_Feed == ''
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }}
-        working-directory: GM-TF  
-        continue-on-error: true    
-        shell: cmd          
+        shell: cmd         
       - name: Testing on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
         run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
-        working-directory: GM-TF    
-        continue-on-error: true    
+        working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test_results
-          path: .\GM-TF\workspace\results\tests\
-        continue-on-error: false  
+          path: ${{ github.workspace }}\GM-TF\workspace\results\tests\*\*.json
       - name: Upload summary Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: summary_file
-          path: .\GM-TF\workspace\summary.json
-        continue-on-error: false 
+          path: ${{ github.workspace }}\GM-TF\workspace\summary.json
 
-  Slack-Notification:
-     runs-on: ubuntu-latest
-     needs: CI
-     steps:
-        - name: Download summary Artifacts
-          uses: actions/download-artifact@v3
-          with:
-            name: summary_file
-            path: test
-        - run: |
-             cd test
-             cat summary.json > summary.txt
-        - name: Upload to slack step
-          uses: MeilCli/slack-upload-file@v3
-          with:
-            slack_token: ${{ secrets.SLACK_TOKEN }}
-            file_type: txt
-            file_path: test/summary.txt
-            channel_id: 'C0545RKQ4MV'
-          continue-on-error: true
+  # Slack-Notification:
+  #    runs-on: ubuntu-latest
+  #    needs: CI
+  #    steps:
+  #       - name: Download summary Artifacts
+  #         uses: actions/download-artifact@v3
+  #         with:
+  #           name: summary_file
+  #           path: test
+  #       - run: |
+  #            cd test
+  #            cat summary.json > summary.txt
+  #       - name: Upload to slack step
+  #         uses: MeilCli/slack-upload-file@v3
+  #         with:
+  #           slack_token: ${{ secrets.SLACK_TOKEN }}
+  #           file_type: txt
+  #           file_path: test/summary.txt
+  #           channel_id: ''
+  #         continue-on-error: true
         
       
