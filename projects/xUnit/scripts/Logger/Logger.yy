@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "Logger",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "Internal",
-    "path": "folders/Modules/LoggerModule/Internal.yy",
+  "$GMScript":"",
+  "%Name":"Logger",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Logger",
+  "parent":{
+    "name":"Internal",
+    "path":"folders/Modules/LoggerModule/Internal.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

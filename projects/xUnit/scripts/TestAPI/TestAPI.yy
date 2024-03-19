@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "TestAPI",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "TestModule",
-    "path": "folders/Modules/TestModule.yy",
+  "$GMScript":"",
+  "%Name":"TestAPI",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"TestAPI",
+  "parent":{
+    "name":"TestModule",
+    "path":"folders/Modules/TestModule.yy",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }

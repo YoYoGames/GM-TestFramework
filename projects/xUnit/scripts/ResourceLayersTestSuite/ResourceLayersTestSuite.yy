@@ -1,14 +1,16 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "ResourceLayersTestSuite",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "TestSuites",
-    "path": "folders/Tests/TestSuites.yy",
+  "$GMScript":"",
+  "%Name":"ResourceLayersTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ResourceLayersTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
   },
-  "tags": [
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+  "tags":[
     "runtime_tests",
   ],
 }

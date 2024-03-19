@@ -1,11 +1,13 @@
 {
-  "resourceType": "GMScript",
-  "resourceVersion": "1.0",
-  "name": "frameworkSetup",
-  "isCompatibility": false,
-  "isDnD": false,
-  "parent": {
-    "name": "xUnit",
-    "path": "xUnit.yyp",
+  "$GMScript":"",
+  "%Name":"frameworkSetup",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"frameworkSetup",
+  "parent":{
+    "name":"xUnit",
+    "path":"xUnit.yyp",
   },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
 }
