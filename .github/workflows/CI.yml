@@ -40,14 +40,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test_results
-          path: .\GM-TF\workspace\results\tests\
-        continue-on-error: false  
+          path: ${{ github.workspace }}\GM-TF\workspace\results\tests\*\*.json
       - name: Upload summary Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: summary_file
-          path: .\GM-TF\workspace\summary.json
-        continue-on-error: false 
+          path: ${{ github.workspace }}\GM-TF\workspace\summary.json
 
   # Slack-Notification:
   #    runs-on: ubuntu-latest
