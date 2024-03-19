@@ -43,7 +43,7 @@ jobs:
           path: .\GM-TF\workspace\results\tests\
         continue-on-error: false  
       - name: Upload summary Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: summary_file
           path: .\GM-TF\workspace\summary.json
