@@ -64,7 +64,7 @@ jobs:
   #           slack_token: ${{ secrets.SLACK_TOKEN }}
   #           file_type: txt
   #           file_path: test/summary.txt
-  #           channel_id: 'C0545RKQ4MV'
+  #           channel_id: ''
   #         continue-on-error: true
         
       
