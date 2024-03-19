@@ -1,14 +1,12 @@
 import asyncio
 from pathlib import Path
-import re
 import argparse
 import logging
-import os
 import subprocess
 import sys
-from click import BaseCommand
 from dotenv import load_dotenv
 
+from classes.utils.FileUtils import FileUtils
 from classes.utils.LoggingUtils import LoggingUtils
 from classes.commands.RunServerCommand import RunServerCommand
 from classes.commands.RunTestsCommand import RunTestsCommand
@@ -25,80 +23,6 @@ DEFAULT_CONFIG = {
     "$$parameters$$.runName": "xUnit Tests",
 }
 
-def parse_arguments(defaults):
-
-    VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'ps4', 'ps5']
-
-    def merge_dictionaries(new, base):
-        output = base.copy()
-        for key, value in new.items():
-            if key in base:
-                logging.info(f'Overriding value for key {key}: {base[key]} -> {value}')
-            output[key] = value
-        return output
-
-    # Auxiliary function that validates a list of targets (platform|device,platform|device,...)
-    def validate_targets(input):
-        # Regular expression pattern to match the input string format
-        pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+)*$'
-        pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+)*$'
-        # Check if the input string matches the pattern
-        match = re.match(pattern, input)
-        if not match:
-            raise argparse.ArgumentTypeError(f'Invalid -t/--t format (follow the format "<PLATFORM>|<DEVICE>,<PLATFORM>|<DEVICE>,..." supported platforms: {VALID_PLATFORMS})')
-        
-        # Split each key-value pair by the pipe character "|" to separate the key and value
-        return [(pair.split('|')[0], pair.split('|')[1]) for pair in input.split(',')]
-
-    # Auxiliary function that validates a runtime version
-    def validate_version(input):
-        pattern = re.compile(r'^\d+\.\d+\.\d+\.\d+$')
-        if not pattern.match(input):
-            raise argparse.ArgumentTypeError('Invalid version format. Use <Major>.<Minor>.<Build>.<Revision>')
-        return input
-
-    # Auxiliary function that validates an existing path
-    def validate_path(input):    
-        resolved_path = os.path.abspath(input)
-        if not os.path.exists(resolved_path):
-            raise argparse.ArgumentTypeError(f'Invalid path provided. This path can be relative or absolute but must exist.')
-        return resolved_path
-
-    # Auxiliary function that will make sure the arg exists (either from command line or from config file)
-    def ensure_argument(args, path, parsed_args, name, param, validator = None):
-        if not args[path]:
-            if not getattr(parsed_args, name):
-                parser.error(f"argument -{param}/--{param} is required or should be passed from config file (-cf/--cf) as: '{path}'")
-            value = getattr(parsed_args, name)
-            args[path] = value
-        if validator:
-            args[path] = validator(args[path])
-
-    parser = argparse.ArgumentParser(description='Run hybrid framework')
-
-    default_targets = defaults['Launcher.targets']
-
-    parser.add_argument('-t', '--targets', type=validate_targets, required=False, help=f'A comma separated list of "platform|config" pairs to run the framework on (defaults <{default_targets}>)')
-    parser.add_argument('-uf', '--user-folder', type=validate_path, required=False, help='The path to the GameMaker\' user folder')
-    parser.add_argument('-cf', '--config', type=validate_path, required=False, help='The config file to be used by the launcher')
-    parser.add_argument('-rn', '--run-name', type=str, required=False, help='Name of the TestFramework run')
-
-    parsed_args = parser.parse_args()
-
-    # Arguments are considered the default to beging with
-    args = defaults.copy()
-
-    # Load data from config file (if there is one)
-    if parsed_args.configFile:
-        config = load_json_file(parsed_args.configFile)
-        args = merge_dictionaries(config, defaults)
-
-    ensure_argument(args, 'Launcher.targets', parsed_args, 'targets', 't', validate_targets)
-    ensure_argument(args, 'Launcher.userFolder', parsed_args, 'user-folder', 'uf', validate_path)
-    ensure_argument(args, '$$parameters$$.runName', parsed_args, 'run-name', 'rn')
-
-    return args
-
 def install_dependencies():
     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
 
@@ -107,6 +31,19 @@ async def main():
 
     LoggingUtils.config_logger()
   
+    # Initial parser for the --config-file
+    config_parser = argparse.ArgumentParser(add_help=False)
+    config_parser.add_argument('--config-file', type=str, help='Path to configuration file.')
+    args, remaining_argv = config_parser.parse_known_args()
+
+    # Check if a config file was provided and load it
+    if args.config_file:
+        config_args: dict = FileUtils.read_data_from_json(args.config_file)
+        # Convert config args to command line args format
+        # Assumes flat JSON structure: {"arg1": "value1", "arg2": "value2"}
+        config_argv = [f'--{k}={v}' for k, v in config_args.items()]
+        remaining_argv += config_argv
+
     parser = argparse.ArgumentParser(description='TestFramework Tools')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
@@ -114,7 +51,7 @@ async def main():
     RunServerCommand.register_command(subparsers)
     RunTestsCommand.register_command(subparsers)
 
-    args = parser.parse_args()
+    args = parser.parse_args(remaining_argv)
     args.base_folder = Path(__file__).parent
 
     # Check if it is a valid command

@@ -10,7 +10,7 @@ class RunServerCommand(BaseCommand):
 
     @classmethod
     def register_command(cls, subparsers: argparse._SubParsersAction):
-        parser = subparsers.add_parser('runServer', help='Runs the test servers (useful for IDE execution)')
+        parser: argparse.ArgumentParser = subparsers.add_parser('runServer', help='Runs the test servers (useful for IDE execution)')
         parser.set_defaults(command_class=cls)
 
     async def execute(self):
