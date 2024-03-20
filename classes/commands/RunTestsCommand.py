@@ -38,25 +38,25 @@ class RunTestsCommand(BaseCommand):
         parser.set_defaults(command_class=cls)
 
     def get_run_name(self):
-        return getattr(self.options, 'run-name')
+        return self.options.run_name
 
     def get_yypc_path(self):
-        return getattr(self.options, 'yypc-path')
+        return self.options.yypc_path
     
     def get_yyp_file(self):
-        return getattr(self.options, 'yyp-file')
+        return self.options.yyp_file
 
     def get_compile_mode(self):
-        return getattr(self.options, 'compile-mode')
+        return self.options.compile_mode
 
     def get_output_folder(self):
-        return getattr(self.options, 'output-folder')
+        return self.options.output_folder
     
     def get_cmake_template(self):
-        return getattr(self.options, 'cmake-template')
+        return self.options.cmake_template
 
     def get_gmrt_libraries(self):
-        return getattr(self.options, 'gmrt-libraries')
+        return self.options.gmrt_libraries
 
     async def execute(self):
         # Run our server management function (start server, wait for user action, stop server)
@@ -84,3 +84,13 @@ class RunTestsCommand(BaseCommand):
 
         config_file = project_path / 'datafiles' / 'config.json'
         FileUtils.save_data_as_json(data, config_file)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Command Line Interface for running tests')
+    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+
+    RunTestsCommand.register_command(subparsers)
+
+    args = parser.parse_args()
+    command_class = args.command_class(args)
+    command_class.execute()
