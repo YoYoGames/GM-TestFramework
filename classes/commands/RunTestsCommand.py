@@ -34,25 +34,29 @@ class RunTestsCommand(BaseCommand):
         parser.add_argument('-yyp', '--yyp-file', type=str, required=True, help='The path to the project file (.yyp)')
         parser.add_argument('-cm', '--compile-mode', choices=['build-run', 'build-only'], default='build-run', help='The mode to be used during compilation')
         parser.add_argument('-ct', '--cmake-template', type=str, required=True, help='The mode to be used during compilation')
+        parser.add_argument('-l', '--gmrt-libraries', type=str, required=True, help='The location of the GMRT libraries')
         parser.set_defaults(command_class=cls)
 
     def get_run_name(self):
-        return vars(self.options)['run-name']
+        return getattr(self.options, 'run-name')
 
     def get_yypc_path(self):
-        return vars(self.options)['yypc-path']
+        return getattr(self.options, 'yypc-path')
     
     def get_yyp_file(self):
-        return vars(self.options)['yyp-file']
+        return getattr(self.options, 'yyp-file')
 
     def get_compile_mode(self):
-        return vars(self.options)['compile-mode']
+        return getattr(self.options, 'compile-mode')
 
     def get_output_folder(self):
-        return vars(self.options)['output-folder']
+        return getattr(self.options, 'output-folder')
     
     def get_cmake_template(self):
-        return vars(self.options)['cmake-template']
+        return getattr(self.options, 'cmake-template')
+
+    def get_gmrt_libraries(self):
+        return getattr(self.options, 'gmrt-libraries')
 
     async def execute(self):
         # Run our server management function (start server, wait for user action, stop server)
@@ -65,12 +69,13 @@ class RunTestsCommand(BaseCommand):
         output_folder = self.get_output_folder()
         cmake_template = self.get_cmake_template()
         compile_mode = self.get_compile_mode()
+        gmrt_libraries = self.get_gmrt_libraries()
         yyp_folder = Path(yyp_file).parent
 
         # Setup the project
         self.project_set_config(DEFAULT_CONFIG, yyp_folder, NetworkUtils.get_local_ip())
 
-        await AsyncUtils.run_exe(yypc_path, [yyp_file, f'-o {output_folder}', cmake_template, f'-mode={compile_mode}', '-v'])
+        await AsyncUtils.run_exe(yypc_path, [yyp_file, '-o', output_folder, '-t', cmake_template, f'-mode={compile_mode}', '-l', gmrt_libraries , '-v'])
 
     def project_set_config(self, data, project_path: Path, ip_address: str):
 
