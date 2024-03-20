@@ -27,36 +27,23 @@ class RunTestsCommand(BaseCommand):
     @classmethod
     def register_command(cls, subparsers: argparse._SubParsersAction):
         parser: argparse.ArgumentParser = subparsers.add_parser('runTests', help='Runs the testframework and collects all results')
-        parser.add_argument('-rn', '--run-name', default='xUnit TestFramework', help='The name to be given to the test run')
-        parser.add_argument('-p', '--platform', choices=['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'ps4', 'ps5'], default='windows', help=f'The target platform to build to')
-        parser.add_argument('-of', '--output-folder', type=str, required=True, help='The path to the output folder')
+
         parser.add_argument('-yypc', '--yypc-path', type=str, required=True, help='The path to the project compiler')
-        parser.add_argument('-yyp', '--yyp-file', type=str, required=True, help='The path to the project file (.yyp)')
-        parser.add_argument('-cm', '--compile-mode', choices=['build-run', 'build-only'], default='build-run', help='The mode to be used during compilation')
-        parser.add_argument('-ct', '--cmake-template', type=str, required=True, help='The mode to be used during compilation')
-        parser.add_argument('-l', '--gmrt-libraries', type=str, required=True, help='The location of the GMRT libraries')
+        parser.add_argument('-yyp', '--project-path', type=str, required=True, help='The path to the project file (.yyp)')
+        parser.add_argument('-o', '--output-folder', type=str, required=True, help='The path to the output folder')
+        parser.add_argument('-t', '--template-folder', type=str, required=True, help='The mode to be used during compilation')
+        parser.add_argument('-tc', '--toolchain-folder', type=str, required=True, help='The path to the GMRT toolchain')
+        parser.add_argument('-tt', '--target-triple', choices=['x86_64-pc-windows-msvc'], default='x86_64-pc-windows-msvc', help=f'The target platform to build to')
+        parser.add_argument('-ac', '--asset-compiler-path', type=str, required=True, help='The location of the GMRT asset compiler')
+        parser.add_argument('-m', '--mode', choices=['build-run', 'build-only'], default='build-run', help='The mode to be used during compilation')
+        parser.add_argument('-bt', '--build-type', choices=['Debug', 'Release'], default='Debug', help='The type of build (Debug|Release)')
+        parser.add_argument('-sbt', '--script-build-type', choices=['Debug', 'Release'], default='Debug', help='The type of script build (Debug|Release)')
+        parser.add_argument('-rn', '--run-name', default='xUnit TestFramework', help='The name to be given to the test run')
+
         parser.set_defaults(command_class=cls)
 
-    def get_run_name(self):
-        return self.options.run_name
-
-    def get_yypc_path(self):
-        return self.options.yypc_path
-    
-    def get_yyp_file(self):
-        return self.options.yyp_file
-
-    def get_compile_mode(self):
-        return self.options.compile_mode
-
-    def get_output_folder(self):
-        return self.options.output_folder
-    
-    def get_cmake_template(self):
-        return self.options.cmake_template
-
-    def get_gmrt_libraries(self):
-        return self.options.gmrt_libraries
+    def get_argument(self, name) -> str:
+        return getattr(self.options, name)
 
     async def execute(self):
         # Run our server management function (start server, wait for user action, stop server)
@@ -64,33 +51,30 @@ class RunTestsCommand(BaseCommand):
 
     async def build_and_run(self):
         # Here we want to run the yypc to build our project
-        yypc_path = self.get_yypc_path()
-        yyp_file = self.get_yyp_file()
-        output_folder = self.get_output_folder()
-        cmake_template = self.get_cmake_template()
-        compile_mode = self.get_compile_mode()
-        gmrt_libraries = self.get_gmrt_libraries()
+        yypc_path = self.get_argument("yypc_path")
+        yyp_file = self.get_argument("project_path")
         yyp_folder = Path(yyp_file).parent
 
         # Setup the project
         self.project_set_config(DEFAULT_CONFIG, yyp_folder, NetworkUtils.get_local_ip())
 
-        await AsyncUtils.run_exe(yypc_path, [yyp_file, '-o', output_folder, '-t', cmake_template, f'-mode={compile_mode}', '-l', gmrt_libraries , '-v'])
+        await AsyncUtils.run_exe(yypc_path, [
+            yyp_file, 
+            '-o', self.get_argument("output_folder"),
+            '-t', self.get_argument("template_folder"),
+            f'-toolchain={self.get_argument("toolchain_folder")}',
+            f'-target-triple={self.get_argument("target_triple")}',
+            f'-asset-compiler={self.get_argument("asset_compiler_path")}',
+            f'-build-type={self.get_argument("build_type")}',
+            f'-script-build-type={self.get_argument("script_build_type")}',
+            f'-mode={self.get_argument("mode")}',
+            '-v'])
 
     def project_set_config(self, data, project_path: Path, ip_address: str):
 
         data['HttpPublisher.ip'] = ip_address
-        data['$$parameters$$.runName'] = self.get_run_name()
+        data['$$parameters$$.runName'] = self.get_argument("run_name")
 
         config_file = project_path / 'datafiles' / 'config.json'
         FileUtils.save_data_as_json(data, config_file)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Command Line Interface for running tests')
-    subparsers = parser.add_subparsers(dest='command', help='Available commands')
-
-    RunTestsCommand.register_command(subparsers)
-
-    args = parser.parse_args()
-    command_class = args.command_class(args)
-    command_class.execute()

@@ -70,8 +70,9 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		if (assertDepth != 0 || !is_callable(passHook)) return true;
 
 		// Select only the stack portion we want
-		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
-		array_delete(_stack, 0, stackBaseDepth - 1);
+		//var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
+		//array_delete(_stack, 0, stackBaseDepth - 1);
+		var _stack = [];
 
 		passHook(_title, _description, _value, _expected, _stack, userData);
 		

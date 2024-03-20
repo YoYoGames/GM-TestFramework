@@ -11,8 +11,8 @@ from classes.utils.LoggingUtils import LoggingUtils
 from classes.commands.RunServerCommand import RunServerCommand
 from classes.commands.RunTestsCommand import RunTestsCommand
 
-# def install_dependencies():
-#     subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+def install_dependencies():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
 
 # Execution
 async def main():
@@ -51,6 +51,6 @@ async def main():
         exit(1)
 
 if __name__ == "__main__":
-    # install_dependencies()
+    install_dependencies()
     load_dotenv()
     asyncio.run(main())

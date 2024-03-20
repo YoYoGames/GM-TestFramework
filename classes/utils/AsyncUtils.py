@@ -26,7 +26,7 @@ class AsyncUtils:
         # Read output line by line as it becomes available
         while True:
             stdout_line = await process.stdout.readline()
-            if not stdout_line and process.returncode is not None:
+            if not stdout_line:
                 break
             stripped_output = stdout_line.decode('utf-8').strip()
             if stripped_output != '':

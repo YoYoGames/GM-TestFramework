@@ -1,9 +1,13 @@
 {
     "run-name": "xUnit TestFramework",
-    "platform": "windows",
-    "output-folder": "",
-    "yypc-path": "",
-    "yyp-file": "",
-    "compile-mode": "",
-    "cmake-template": ""
+    "yypc-path": "C:/Source/YoYoCompilerToolChain/build/libs_x86_64-pc-windows-msvc/Debug/bin/yypcd.exe",
+    "project-path": "E:/Source/GM-TestFramework/projects/xUnit/xUnit.yyp",
+    "output-folder": "E:/GameMaker/output",
+    "template-folder": "C:/Source/YoYoCompilerToolChain/tools/yypc/cmake-project-template",
+    "toolchain-folder": "C:/Source/YoYoCompilerToolChain/build/libs_x86_64-pc-windows-msvc",
+    "target-triple": "x86_64-pc-windows-msvc",
+    "asset-compiler-path": "C:/source/YoYoCompilerToolChain/build/libs_x86_64-pc-windows-msvc/Debug/bin/AssetCompiler.exe",
+    "mode": "build-run",
+    "script-build-type": "Debug",
+    "build-type": "Debug"
 }
