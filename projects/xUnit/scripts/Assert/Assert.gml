@@ -16,7 +16,9 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	stackBaseDepth = addProperty("stackBaseDepth", 4, is_numeric);
 	/// @ignore
 	stackDepth = addProperty("stackDepth", 0, is_numeric);
-		
+	
+	/// @ignore
+	assertionsCount = 0;
 	/// @ignore
 	assertDepth = 0;
 	/// @ignore
@@ -26,14 +28,31 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @description Allows to set some 'userData' that will be carried over and passed to the 'passHook' and 'failHook' functions.
 	/// @param {Any} data
 	static setUserData = function(_data) {
+		assertionsCount = 0;
 		userData = _data;
 	}
 	
 	/// @function reset()
-	/// @description Resets the current assert_true section including 'assertDepth' and 'userData'.
+	/// @description Resets the current assert session including 'assertDepth' and 'userData'.
 	static reset = function() {
 		assertDepth = 0;
 		userData = undefined;
+	}
+	
+	/// @function getAssertionsCount()
+	/// @description Returns the total number of assertions performed during this session.
+	static getAssertCount = function() {
+		return assertionsCount;
+	}
+	
+	/// @function getCallStack(depth)
+	/// @param {real} depth The depth of the requested callstack.
+	/// @description Gets the callstack in the moment of the assertion call.
+	static getCallStack = function(_depth = stackDepth) {
+		// Select only the stack portion we want
+		var _stack = debug_get_callstack(stackBaseDepth + _depth + 2);
+		array_delete(_stack, 0, stackBaseDepth + 1);
+		return _stack;
 	}
 	
 	#region Basic Asserts
@@ -47,13 +66,11 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @returns {Bool}
 	static fail = function(_title, _description, _value = undefined, _expected = undefined) {
 		
+		++assertionsCount;
 		if (assertDepth != 0 || !is_callable(failHook)) return false;
 		
-		// Select only the stack portion we want
-		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
-		array_delete(_stack, 0, stackBaseDepth - 1);
-		
-		failHook(_title, _description, _value, _expected, _stack, userData);
+				
+		failHook(self, _title, _description, _value, _expected, userData);
 		
 		return false;
 	}
@@ -67,13 +84,10 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @returns {Bool}
 	static pass = function(_title, _description, _value = undefined, _expected = undefined) {
 
+		++assertionsCount;
 		if (assertDepth != 0 || !is_callable(passHook)) return true;
 
-		// Select only the stack portion we want
-		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
-		array_delete(_stack, 0, stackBaseDepth - 1);
-
-		passHook(_title, _description, _value, _expected, _stack, userData);
+		passHook(self, _title, _description, _value, _expected, userData);
 		
 		return true;
 	}

@@ -47,22 +47,21 @@ config_set("Test", {
 	},
 	
 	test_end_hook: function(_test, _resultBag) {
-				
+		
 		// Do any extra required logging or logic here (test is an instance of Test)
 		
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
-		
-		static resultToCategory = [ "unset", "passed", "failed", "skipped", "bailed", "expired" ];
-		
-		var _category = resultToCategory[_test.result];
-		var _resultData = _test.getResultData();
 
 		// Add a new 
-		if (!variable_struct_exists(_resultBag, _category)) {
-			_resultBag[$ _category] = [];
+		if (!variable_struct_exists(_resultBag, "tests")) {
+			_resultBag.tests = [];
 		}
-
-		array_push(_resultBag[$ _category], _resultData);
+		
+		static assertSingleton = assert_get_singleton();
+		
+		var _resultData = _test.getResultData();
+		_resultData.assertions = assertSingleton.getAssertCount();
+		array_push(_resultBag.tests, _resultData);
 		
 		_test.doReset(); // Free some memory usage
 		
@@ -85,14 +84,27 @@ config_set("TestSuite", {
 	// Uncomment the following line to bail on first failed test
 	//suite_bail_on_fail: true,
 	
-	suite_start_hook: function(_testSuite) { 
+	suite_start_hook: function(_testSuite) {
+		
+		_testSuite.timestamp = time_get_unix_timestamp();
+		
 		// Do any extra required logging and logic here (_testSuite is an instance of TestSuite)
 		log_info("Test suite '{0}' started", _testSuite.getName());
 	},
 	
-	suite_end_hook: function(_testSuite, _resultBag) {
+	suite_end_hook: function(_testSuite, _resultBag, _localResultBag) {
 		// Do any extra required logging and logic here (_testSuite is an instance of TestSuite)
 		log_info("Test suite '{0}' ended", _testSuite.getName()); 
+	
+		// Add a new 
+		if (!variable_struct_exists(_resultBag, "testsuites")) {
+			_resultBag.testsuites = [];
+		}
+
+		_localResultBag.name = _testSuite.getName();
+		_localResultBag.timestamp = _testSuite.timestamp;
+		
+		array_push(_resultBag.testsuites, _localResultBag);
 	}
 
 });
@@ -111,29 +123,21 @@ config_set("TestFrameworkRun", {
 	// Uncomment the following line to bail on first failed suite
 	//framework_bail_on_fail: true,
 	
-	framework_start_hook: function(_test) {
+	framework_start_hook: function(_framework) {
 		
+		_framework.timestamp = time_get_unix_timestamp();
 		// Do any extra required logging and logic here (_testSuite is an instance of TestFrameworkRun)
 		log_info("TestFramework started");
 	},
 	
-	framework_end_hook: function(_test, _resultBag) {
+	/// @param {struct.TestFrameworkRun} framework
+	framework_end_hook: function(_framework, _resultBag, _localResultBag) {
 				
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
-		
-		// Create tallies
-		var _tallies = {};
-		var _resultTypes = variable_struct_get_names(_resultBag);
-		var _count = array_length(_resultTypes);
-		for (var _i = 0; _i < _count; _i++) {
-			var _type = _resultTypes[_i];
-			_tallies[$ _type] = array_length(_resultBag[$ _type]);
-		}
-		
-		var _data = {
-			tallies: _tallies,
-			details: _resultBag
-		}
+				
+		var _data = _localResultBag;
+		_data.name = config_get_param("runName");
+		_data.timestamp = _framework.timestamp;
 
 		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
 		var _resultPublisher = http_publisher_get("$$default$$");
@@ -146,20 +150,7 @@ config_set("TestFrameworkRun", {
 		// Publish the results
 		_resultPublisher.publish(_data);
 				
-		#endregion 
-		
-		// Do any extra required logging and logic here (_testSuite is an instance of TestFrameworkRun)
-		log_info("TestFramework ended");
-		
-		// Log failures and tallies
-		var _stats = json_stringify(_tallies);
-		log_info(_stats);
-		
-		var _failed = json_stringify(_resultBag[$ "failed"]);
-		var _expired = json_stringify(_resultBag[$ "expired"]);
-		
-		log_info($"FAILED: {_failed}");
-		log_info($"EXPIRED: {_expired}");
+		#endregion
 	}
 
 });
@@ -171,8 +162,7 @@ config_set("TestFrameworkRun", {
 //
 config_set("Assert", {
 	
-	// assert_pass_hook: function(_result, _userData) { log_info("Assert passed"); }, 
-	assert_fail_hook: function(_title, _description, _value, _expected, _stack, _userData) {
+	assert_fail_hook: function(_context, _title, _description, _value, _expected, _userData) {
 		
 		#region [WARNING] Don't change this block!
 		
@@ -181,7 +171,7 @@ config_set("Assert", {
 			description: _description,
 			actual: json_stringify(_value),			// stringify value
 			expected: json_stringify(_expected),	// stringify value
-			stack: _stack[0]
+			stack: _context.getCallStack()
 		}
 		
 		// Add params if they exist (useful for data driven tests)
@@ -193,10 +183,7 @@ config_set("Assert", {
 		_userData.pushDiagnostic(_result, "error");
 		
 		#endregion
-		
-		// Do any extra required logging and logic here (_userData is an instance of the running Test)
-		
 	}
-
+	
 });
 

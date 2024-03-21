@@ -30,10 +30,12 @@ function Test(_name = undefined) : Task() constructor {
 	name = _name;
 	
 	/// @ignore
+	timestamp = undefined;
+	
+	/// @ignore
 	preRunFunc = function() {
 		
 		callStartHook();
-
 		startTimestamp = get_timer();
 		
 		// Check if test needs to be skipped (ie.: platform specific)
