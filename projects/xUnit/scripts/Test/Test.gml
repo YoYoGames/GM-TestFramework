@@ -31,7 +31,6 @@ function Test(_name = undefined) : Task() constructor {
 	
 	/// @ignore
 	timestamp = undefined;
-	assertions = 0;
 	
 	/// @ignore
 	preRunFunc = function() {
@@ -125,7 +124,6 @@ function Test(_name = undefined) : Task() constructor {
 		var _summary = {
 			name: getName(),
 			result: getResultString(),
-			assertions: assertions
 		}
 		
 		switch (result) {

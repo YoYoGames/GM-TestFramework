@@ -47,7 +47,7 @@ config_set("Test", {
 	},
 	
 	test_end_hook: function(_test, _resultBag) {
-				
+		
 		// Do any extra required logging or logic here (test is an instance of Test)
 		
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
@@ -56,7 +56,12 @@ config_set("Test", {
 		if (!variable_struct_exists(_resultBag, "tests")) {
 			_resultBag.tests = [];
 		}
-		array_push(_resultBag.tests, _test.getResultData());
+		
+		static assertSingleton = assert_get_singleton();
+		
+		var _resultData = _test.getResultData();
+		_resultData.assertions = assertSingleton.getAssertCount();
+		array_push(_resultBag.tests, _resultData);
 		
 		_test.doReset(); // Free some memory usage
 		
@@ -125,6 +130,7 @@ config_set("TestFrameworkRun", {
 		log_info("TestFramework started");
 	},
 	
+	/// @param {struct.TestFrameworkRun} framework
 	framework_end_hook: function(_framework, _resultBag, _localResultBag) {
 				
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
@@ -156,8 +162,7 @@ config_set("TestFrameworkRun", {
 //
 config_set("Assert", {
 	
-	// assert_pass_hook: function(_result, _userData) { log_info("Assert passed"); }, 
-	assert_fail_hook: function(_title, _description, _value, _expected, _stack, _userData) {
+	assert_fail_hook: function(_context, _title, _description, _value, _expected, _userData) {
 		
 		#region [WARNING] Don't change this block!
 		
@@ -166,7 +171,7 @@ config_set("Assert", {
 			description: _description,
 			actual: json_stringify(_value),			// stringify value
 			expected: json_stringify(_expected),	// stringify value
-			stack: _stack[0]
+			stack: _context.getCallStack()
 		}
 		
 		// Add params if they exist (useful for data driven tests)
@@ -178,14 +183,7 @@ config_set("Assert", {
 		_userData.pushDiagnostic(_result, "error");
 		
 		#endregion
-		
-		// Do any extra required logging and logic here (_userData is an instance of the running Test)
-		_userData.assertions++;
-	},
-	
-	assert_pass_hook : function(_title, _description, _value, _expected, _stack, _userData) {
-		_userData.assertions++;
 	}
-
+	
 });
 
