@@ -29,7 +29,7 @@ class TestResult(BaseModel):
         element = ElementTree.Element('testcase')
         element.set("name", self.name)
         element.set("assertions", str(self.assertions))
-        element.set("duration", str(self.duration / 1000000))
+        element.set("time", str(self.duration / 1000000))
         
         for exception in self.exceptions:
             exception_element = ElementTree.Element('error')
