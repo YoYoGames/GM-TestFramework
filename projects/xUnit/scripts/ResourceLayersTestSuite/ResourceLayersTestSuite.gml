@@ -540,7 +540,10 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 	})
 
 	addFact("layer_script_test", function() {
-			
+		
+		if (!assert_true(false, "layer_script_test :: is crashing the runner the test is being force failed"))	
+			return;
+		
 		var input, output, testLayer = layer_create(100, "testLayer");
 			
 		output = layer_get_script_begin(testLayer);

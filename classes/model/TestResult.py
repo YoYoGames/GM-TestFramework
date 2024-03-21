@@ -10,7 +10,7 @@ class TestResult(BaseModel):
     result: str = ""
     duration: float = 0.0
     assertions: int = 0
-    exceptions: list[dict] = []
+    exceptions: list = []
     errors: list[dict] = []
 
     def did_error(self):
