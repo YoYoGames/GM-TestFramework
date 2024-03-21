@@ -1,5 +1,5 @@
 {
-    "run-name": "xUnit TestFramework",
+    "run-name": "x86_64-pc-windows-msvc:Debug",
     "yypc-path": "C:/Source/YoYoCompilerToolChain/build/libs_x86_64-pc-windows-msvc/Debug/bin/yypcd.exe",
     "project-path": "E:/Source/GM-TestFramework/projects/xUnit/xUnit.yyp",
     "output-folder": "E:/GameMaker/output",

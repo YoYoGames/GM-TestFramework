@@ -141,7 +141,8 @@ class TestFrameworkServer:
             body = await request.json()
             logging.info(f"JSON data parsed successfully: {body}")
 
-            filename = body["data"]["name"]
+            run_name: str = body["data"]["name"]
+            filename = f'testFramework_{run_name.replace(":", "_")}'
             output_path = Path('./output')
 
             # Save to a file (example: 'output.json')

@@ -45,5 +45,5 @@ class TestFrameworkResult(BaseModel):
         element.set("timestamp", self.get_iso_timestamp())
 
         for testsuite in self.testsuites:
-            element.append(testsuite.to_xml())
+            element.append(testsuite.to_xml(self.name))
         return element
