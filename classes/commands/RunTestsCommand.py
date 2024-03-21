@@ -35,6 +35,7 @@ class RunTestsCommand(BaseCommand):
         parser.add_argument('-tc', '--toolchain-folder', type=str, required=True, help='The path to the GMRT toolchain')
         parser.add_argument('-tt', '--target-triple', choices=['x86_64-pc-windows-msvc'], default='x86_64-pc-windows-msvc', help=f'The target platform to build to')
         parser.add_argument('-ac', '--asset-compiler-path', type=str, required=True, help='The location of the GMRT asset compiler')
+        parser.add_argument('-aca', '--asset-compiler-args', type=str, required=True, help='The arguments to be pass through to the asset compiler')
         parser.add_argument('-m', '--mode', choices=['build-run', 'build-only'], default='build-run', help='The mode to be used during compilation')
         parser.add_argument('-bt', '--build-type', choices=['Debug', 'Release'], default='Debug', help='The type of build (Debug|Release)')
         parser.add_argument('-sbt', '--script-build-type', choices=['Debug', 'Release'], default='Debug', help='The type of script build (Debug|Release)')
@@ -50,31 +51,29 @@ class RunTestsCommand(BaseCommand):
         await manage_server(self.build_and_run)
 
     async def build_and_run(self):
-        # Here we want to run the yypc to build our project
-        yypc_path = self.get_argument("yypc_path")
-        yyp_file = self.get_argument("project_path")
-        yyp_folder = Path(yyp_file).parent
-
         # Setup the project
-        self.project_set_config(DEFAULT_CONFIG, yyp_folder, NetworkUtils.get_local_ip())
+        self.project_set_config(DEFAULT_CONFIG)
 
-        await AsyncUtils.run_exe(yypc_path, [
-            yyp_file, 
+        await AsyncUtils.run_exe(self.get_argument("yypc_path"), [
+            self.get_argument("project_path"), 
             '-o', self.get_argument("output_folder"),
             '-t', self.get_argument("template_folder"),
             f'-toolchain={self.get_argument("toolchain_folder")}',
             f'-target-triple={self.get_argument("target_triple")}',
             f'-asset-compiler={self.get_argument("asset_compiler_path")}',
+            f'-asset-compiler-args={self.get_argument("asset_compiler_args")}',
             f'-build-type={self.get_argument("build_type")}',
             f'-script-build-type={self.get_argument("script_build_type")}',
             f'-mode={self.get_argument("mode")}',
             '-v'])
 
-    def project_set_config(self, data, project_path: Path, ip_address: str):
+    def project_set_config(self, data):
+        yyp_file = self.get_argument("project_path")
+        yyp_folder = Path(yyp_file).parent
 
-        data['HttpPublisher.ip'] = ip_address
+        data['HttpPublisher.ip'] = NetworkUtils.get_local_ip()
         data['$$parameters$$.runName'] = self.get_argument("run_name")
 
-        config_file = project_path / 'datafiles' / 'config.json'
+        config_file = yyp_folder / 'datafiles' / 'config.json'
         FileUtils.save_data_as_json(data, config_file)
 

@@ -22,6 +22,7 @@ async def main():
     # Initial parser for the --config-file
     config_parser = argparse.ArgumentParser(add_help=False)
     config_parser.add_argument('--config-file', type=str, help='Path to configuration file.')
+    config_parser.add_argument('--install', action='store_true', help='Should install dependencies.')
     args, remaining_argv = config_parser.parse_known_args()
 
     # Check if a config file was provided and load it
@@ -31,7 +32,12 @@ async def main():
         # Assumes flat JSON structure: {"arg1": "value1", "arg2": "value2"}
         config_argv = [f'--{k}={v}' for k, v in config_args.items()]
         remaining_argv += config_argv
+    if args.install:
+        install_dependencies()
 
+    # Load .env it it exists
+    load_dotenv()
+    
     parser = argparse.ArgumentParser(description='TestFramework Tools')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
@@ -51,6 +57,4 @@ async def main():
         exit(1)
 
 if __name__ == "__main__":
-    install_dependencies()
-    load_dotenv()
     asyncio.run(main())

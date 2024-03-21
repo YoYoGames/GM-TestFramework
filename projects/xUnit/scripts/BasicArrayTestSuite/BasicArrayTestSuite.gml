@@ -114,8 +114,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 
 		var _result;
 		
-		show_debug_message(1)
-		
 		//#1 array_create ( 0 )
 		_result = array_create(0);
 		assert_not_undefined(_result, "#1 array_create ( 0 ), returning undefined") 
@@ -131,8 +129,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		//#4 array_create ( real local )
 		_result = array_create(_vReal);
 		assert_array_length(_result, floor(_vReal), "#4 array_create ( real:local ), not returning the correct number of elements");
-
-		show_debug_message(2)
 		
 		var _arraySize = 100;
 			
@@ -146,8 +142,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		var _nan = NaN;
 		var _undefined = undefined;
 		var _failed = false;
-
-		show_debug_message(3)
 
 		//#17 array_create ( int macro, int local ) NOTE: int32 type doesn't exist on HTML5
 		if (platform_not_browser()) {
@@ -170,8 +164,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			if (_failed) break;
 		}
 			
-		show_debug_message(4)
-			
 		//#19 array_create ( int macro, real local )
 		_failed = false;
 		_result = array_create(_arraySize, _vReal);
@@ -181,8 +173,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			_failed |= !assert_typeof(_result[_i], "number", "#19.1 array_create ( int:local, real:local ), reading not returning the correct type");
 			if (_failed) break;
 		}
-		
-		show_debug_message(5)
 		
 		//#20 array_create ( int macro, string local )
 		_failed = false;
@@ -194,8 +184,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			if (_failed) break;
 		}
 			
-		show_debug_message(6)
-			
 		//#21 array_create ( int macro, ptr local )
 		_failed = false;
 		_result = array_create(_arraySize, _vPtr);
@@ -206,8 +194,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			if (_failed) break;
 		}
 			
-		show_debug_message(7)
-			
 		//#22 array_create ( int macro, bool local )
 		_failed = false;
 		_result = array_create(_arraySize, _vBool);
@@ -217,8 +203,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			_failed |= !assert_typeof(_result[_i], "bool", "#22.1 array_create ( int:local, bool:local ), reading not returning the correct type");
 			if (_failed) break;
 		}
-			
-		show_debug_message(8)
 			
 		//#23 array_create ( int macro, array1d local )
 		_failed = false;
@@ -241,8 +225,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			if (_failed) break;
 		}
 		
-		show_debug_message(9)
-		
 		//#25 array_create ( int macro, infinity )
 		_failed = false;
 		_result = array_create(_arraySize, _infinity);
@@ -260,8 +242,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 			_failed |= !assert_nan(_result[_i], "#26 array_create ( int:local, NaN:local ), reading not returning the correct value");
 			if (_failed) break;
 		}
-		
-		show_debug_message(10)
 		
 		//#27 array_create ( int macro, undefined )
 		_failed = false;
@@ -285,8 +265,6 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		//#30 array_create ( int64 const )
 		_vInt64 = int64(0x7fffffff00000100);
 		_vInt32 = _vInt64 & 0xffffffff;
-			
-		show_debug_message(11)
 			
 		_result = array_create(_vInt64);
 		assert_array_length(_result, _vInt32, "#30 array_create ( int64:local ), size didn't cap to max int32 (0xffffffff)");
