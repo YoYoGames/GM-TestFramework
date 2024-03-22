@@ -12,7 +12,8 @@ from classes.commands.RunServerCommand import RunServerCommand
 from classes.commands.RunTestsCommand import RunTestsCommand
 
 def install_dependencies():
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+    launcher_folder = Path(__file__).parent
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", launcher_folder / "requirements.txt"])
 
 # Execution
 async def main():
