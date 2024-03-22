@@ -2,6 +2,7 @@ __pycache__/
 servers/node_modules/
 
 .env
+env/
 
 projects/xUnit/datafiles/config.json
 
