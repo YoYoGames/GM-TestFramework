@@ -33,12 +33,16 @@ async def manage_server(task_func: callable):
 class TestFrameworkServer:
     def __init__(self):
         # Initializing the aiohttp application
-        self.app = web.Application()
+        self.app = web.Application(middlewares=[TestFrameworkServer.cors_middleware])
 
-        # Used for unit tests
+        # Http
         self.app.add_routes([web.post('/echo', self.http_echo_handler)])
+        self.app.add_routes([web.get('/status/{status}', self.http_status)])
+
+        # Websockets
         self.app.add_routes([web.get('/gm_websocket', self.gm_websocket_handler)])
         self.app.add_routes([web.get('/raw_websocket', self.raw_websocket_handler)])
+        
 
         # Used for results
         self.app.add_routes([web.post('/tests', self.http_result_handler)])
@@ -46,6 +50,15 @@ class TestFrameworkServer:
         # Runner and site will be used to control the server's lifecycle
         self.runner = None
         self.site = None
+
+    # Middleware to add CORS headers
+    @staticmethod
+    async def cors_middleware(app, handler):
+        async def cors_handler(request):
+            response = await handler(request)
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            return response
+        return cors_handler
 
     @staticmethod
     async def http_echo_handler(request: web.Request):
@@ -57,6 +70,23 @@ class TestFrameworkServer:
 
         # Echoing back the received binary data
         return web.Response(body=data, content_type='application/octet-stream')
+
+    @staticmethod
+    async def http_status(request: web.Request):
+        """HTTP handler that returns a JSON response with dynamic status."""
+        status_code = request.match_info.get('status', "200")  # Default to 200 if not provided
+        try:
+            status_code = int(status_code)  # Convert to integer
+        except ValueError:
+            return web.json_response({"error": "Invalid status code"}, status=400)
+
+        logging.info(f"Received HTTP access with status {status_code}")
+
+        # Preparing the dynamic JSON message
+        message = {"message": f"This is a status {status_code} test operation."}
+
+        # Returning the response with the dynamic status and message
+        return web.json_response(data=message, status=status_code)
 
     @staticmethod
     async def gm_websocket_handler(request: web.Request):

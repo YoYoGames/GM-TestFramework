@@ -7,7 +7,7 @@
     "toolchain-folder": "C:/Source/YoYoCompilerToolChain/build/libs_x86_64-pc-windows-msvc",
     "target-triple": "x86_64-pc-windows-msvc",
     "asset-compiler-path": "C:/source/YoYoCompilerToolChain/build/libs_x86_64-pc-windows-msvc/Debug/bin/AssetCompiler.exe",
-    "asset-compiler-args": "--headless",
+    "asset-compiler-args": "'--headless'",
     "mode": "build-run",
     "script-build-type": "Debug",
     "build-type": "Debug"
