@@ -284,3 +284,4 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 	});
 
 }
+

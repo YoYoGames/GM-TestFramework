@@ -1,3 +1,4 @@
+from typing import Optional
 import xml.etree.ElementTree as ElementTree
 
 from pydantic import BaseModel
@@ -10,8 +11,8 @@ class TestResult(BaseModel):
     result: str = ""
     duration: float = 0.0
     assertions: int = 0
-    exceptions: list = []
-    errors: list[dict] = []
+    exceptions: Optional[list] = []
+    errors: Optional[list[dict]] = []
 
     def did_error(self):
         return len(self.exceptions) != 0
@@ -36,7 +37,7 @@ class TestResult(BaseModel):
             exception_element.set("type", "ExceptionThrownError")
             exception_element.text = DataUtils.json_stringify(exception)
             element.append(exception_element)
-            
+        
         for error in self.errors:
             error_element = ElementTree.Element('failure')
             error_element.set("type", "AssertionError")

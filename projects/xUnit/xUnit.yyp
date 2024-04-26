@@ -55,7 +55,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.200.0.505",
+    "IDEVersion":"2024.400.0.532",
   },
   "name":"xUnit",
   "resources":[
@@ -134,7 +134,6 @@
     {"id":{"name":"ResourceLayersTestSuite","path":"scripts/ResourceLayersTestSuite/ResourceLayersTestSuite.yy",},},
     {"id":{"name":"ResourceSequenceTestSuite","path":"scripts/ResourceSequenceTestSuite/ResourceSequenceTestSuite.yy",},},
     {"id":{"name":"ResourceTimeSourceTestSuite","path":"scripts/ResourceTimeSourceTestSuite/ResourceTimeSourceTestSuite.yy",},},
-    {"id":{"name":"time_utils","path":"scripts/time_utils/time_utils.yy",},},
     {"id":{"name":"struct_from_entries","path":"scripts/struct_from_entries/struct_from_entries.yy",},},
     {"id":{"name":"struct_merge","path":"scripts/struct_merge/struct_merge.yy",},},
     {"id":{"name":"struct_unflatten","path":"scripts/struct_unflatten/struct_unflatten.yy",},},
@@ -146,6 +145,7 @@
     {"id":{"name":"TestFrameworkRun","path":"scripts/TestFrameworkRun/TestFrameworkRun.yy",},},
     {"id":{"name":"TestSuite","path":"scripts/TestSuite/TestSuite.yy",},},
     {"id":{"name":"Theory","path":"scripts/Theory/Theory.yy",},},
+    {"id":{"name":"time_utils","path":"scripts/time_utils/time_utils.yy",},},
     {"id":{"name":"Sequence1","path":"sequences/Sequence1/Sequence1.yy",},},
     {"id":{"name":"Sequence2","path":"sequences/Sequence2/Sequence2.yy",},},
     {"id":{"name":"shader0","path":"shaders/shader0/shader0.yy",},},

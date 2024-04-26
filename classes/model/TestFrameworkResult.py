@@ -1,5 +1,6 @@
 
 import datetime
+from typing import Optional
 from pydantic import BaseModel
 import xml.etree.ElementTree as ElementTree
 
@@ -8,7 +9,7 @@ from classes.model.TestSuiteResult import TestSuiteResult
 class TestFrameworkResult(BaseModel):
     name: str = ""
     timestamp: float = 0
-    testsuites: list[TestSuiteResult] = []
+    testsuites: Optional[list[TestSuiteResult]] = []
 
     def get_duration(self):
         return sum(testsuite.get_duration() for testsuite in self.testsuites)

@@ -136,8 +136,8 @@ function Test(_name = undefined) : Task() constructor {
 			case TestResult.Expired:
 			case TestResult.Failed:
 				_summary.duration = getDuration();
-				_summary.errors = getDiagnostics("error");
-				_summary.exceptions = getDiagnostics("exception");
+				_summary.errors = getDiagnostics("error") ?? [];
+				_summary.exceptions = getDiagnostics("exception") ?? [];
 				break;
 				
 			case TestResult.Skipped:

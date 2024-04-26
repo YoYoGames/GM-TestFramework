@@ -179,7 +179,7 @@ class TestFrameworkServer:
             FileUtils.save_data_as_json(body, output_path / f'{filename}.json')
 
             result = TestFrameworkResult(**body["data"])
-            element = result.to_xml()
+            element = result.to_xml()         
 
             # Create an ElementTree object from the root element
             tree = ElementTree.ElementTree(element)
