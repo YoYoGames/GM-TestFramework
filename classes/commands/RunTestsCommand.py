@@ -2,23 +2,11 @@
 import argparse
 from pathlib import Path
 
-from classes.commands.BaseCommand import BaseCommand
+from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
 from classes.utils.AsyncUtils import AsyncUtils
 from classes.utils.FileUtils import FileUtils
 from classes.utils.NetworkUtils import NetworkUtils
-
-# DON'T CHANGE THESE (use external config file instead)
-DEFAULT_CONFIG = {
-    "Logger.level": 10,
-
-    "HttpPublisher.ip": "127.0.0.1",
-    "HttpPublisher.port": 8080,
-    "HttpPublisher.endpoint": "tests",
-
-    "$$parameters$$.isSandboxed": True,
-    "$$parameters$$.runName": "xUnit Tests",
-}
 
 class RunTestsCommand(BaseCommand):
     def __init__(self, options: argparse.Namespace):
@@ -43,9 +31,6 @@ class RunTestsCommand(BaseCommand):
 
         parser.set_defaults(command_class=cls)
 
-    def get_argument(self, name) -> str:
-        return getattr(self.options, name)
-
     async def execute(self):
         # Run our server management function (start server, wait for user action, stop server)
         await manage_server(self.build_and_run)
@@ -66,15 +51,4 @@ class RunTestsCommand(BaseCommand):
             f'-script-build-type={self.get_argument("script_build_type")}',
             f'-mode={self.get_argument("mode")}',
             '-v'])
-
-    def project_set_config(self, data):
-        yyp_file = self.get_argument("project_path")
-        yyp_folder = Path(yyp_file).parent
-
-        data['HttpPublisher.ip'] = NetworkUtils.get_local_ip()
-        data['$$parameters$$.runName'] = self.get_argument("run_name")
-        data['$$parameters$$.serverAddress'] = NetworkUtils.get_local_ip()
-
-        config_file = yyp_folder / 'datafiles' / 'config.json'
-        FileUtils.save_data_as_json(data, config_file)
 
