@@ -141,11 +141,6 @@ config_set("TestFrameworkRun", {
 
 		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
 		var _resultPublisher = http_publisher_get("$$default$$");
-		_resultPublisher.config({
-			ip: config_get_param("serverAddress") ?? "127.0.0.1",
-			port: config_get_param("serverPort") ?? 8080,
-			endpoint: config_get_param("serverEndpoint") ?? "tests",
-		})
 		
 		// Publish the results
 		_resultPublisher.publish(_data);

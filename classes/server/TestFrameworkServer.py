@@ -208,7 +208,7 @@ class TestFrameworkServer:
         # Initialize the runner, set it up, then create a site to bind to an address
         self.runner = web.AppRunner(self.app)
         await self.runner.setup()
-        self.site = web.TCPSite(self.runner, host, port)
+        self.site = web.TCPSite(self.runner, '0.0.0.0', port)
         await self.site.start()
 
         logging.info("Server started successfully.")
