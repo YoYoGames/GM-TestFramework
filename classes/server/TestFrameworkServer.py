@@ -99,6 +99,9 @@ class TestFrameworkServer:
         # Handshake is initially required
         requires_handshake = True
 
+        # Server needs to start the handshake by sending a banner
+        await ws.send_bytes(bytes("GM:Studio-Connect", "ascii") + b"\x00")
+
         async for msg in ws:
             if requires_handshake:
                 if not msg.data or msg.type != web.WSMsgType.BINARY:

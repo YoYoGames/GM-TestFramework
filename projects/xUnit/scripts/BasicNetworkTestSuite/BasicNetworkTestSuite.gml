@@ -23,7 +23,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=handshake", 8080);
+			network_connect(socket, "ws://127.0.0.1/gm_websocket", 8080);
 		
 		},
 		ev_web_networking: function() {
@@ -56,7 +56,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=raw", 8080);	
+			network_connect(socket, "ws://127.0.0.1/raw_websocket", 8080);	
 		
 		},
 		ev_web_networking: function() {
@@ -88,7 +88,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect_raw(socket, "ws://127.0.0.1/websockets?mode=raw", 8080);	
+			network_connect_raw(socket, "ws://127.0.0.1/raw_websocket", 8080);	
 		
 		},
 		ev_web_networking: function() {
@@ -120,7 +120,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect_raw(socket, "ws://127.0.0.1/websockets?mode=raw", 8080);
+			network_connect_raw(socket, "ws://127.0.0.1/raw_websocket", 8080);
 		
 		},
 		ev_web_networking: function() {
@@ -179,7 +179,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=handshake", 8080);
+			network_connect(socket, "ws://127.0.0.1/gm_websocket", 8080);
 		
 		},
 		ev_web_networking: function() {
@@ -238,7 +238,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=handshake", 8080);
+			network_connect(socket, "ws://127.0.0.1/gm_websocket", 8080);
 		
 		},
 		ev_web_networking: function() {
