@@ -73,6 +73,7 @@ class RunTestsCommand(BaseCommand):
 
         data['HttpPublisher.ip'] = NetworkUtils.get_local_ip()
         data['$$parameters$$.runName'] = self.get_argument("run_name")
+        data['$$parameters$$.serverAddress'] = NetworkUtils.get_local_ip()
 
         config_file = yyp_folder / 'datafiles' / 'config.json'
         FileUtils.save_data_as_json(data, config_file)
