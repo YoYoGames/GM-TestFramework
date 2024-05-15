@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"handle_testSound",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.1,
+  "name":"handle_testSound",
+  "parent":{
+    "name":"handles",
+    "path":"folders/Tests/TestResources/handles.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"handle_testSound.wav",
+  "type":0,
+  "volume":1.0,
+}
