@@ -100,6 +100,7 @@
     {"id":{"name":"BasicDateTimeTestSuite","path":"scripts/BasicDateTimeTestSuite/BasicDateTimeTestSuite.yy",},},
     {"id":{"name":"BasicFileTestSuite","path":"scripts/BasicFileTestSuite/BasicFileTestSuite.yy",},},
     {"id":{"name":"BasicFiltersEffectsTestSuite","path":"scripts/BasicFiltersEffectsTestSuite/BasicFiltersEffectsTestSuite.yy",},},
+    {"id":{"name":"BasicHandlesTestSuite","path":"scripts/BasicHandlesTestSuite/BasicHandlesTestSuite.yy",},},
     {"id":{"name":"BasicIniTestSuite","path":"scripts/BasicIniTestSuite/BasicIniTestSuite.yy",},},
     {"id":{"name":"BasicJsonTestSuite","path":"scripts/BasicJsonTestSuite/BasicJsonTestSuite.yy",},},
     {"id":{"name":"BasicMathTestSuite","path":"scripts/BasicMathTestSuite/BasicMathTestSuite.yy",},},
