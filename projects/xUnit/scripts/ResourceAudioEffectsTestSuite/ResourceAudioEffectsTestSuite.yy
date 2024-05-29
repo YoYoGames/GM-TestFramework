@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ResourceAudioEffectsTestSuite",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ResourceCameraTestSuite",
   "isCompatibility":false,
   "isDnD":false,

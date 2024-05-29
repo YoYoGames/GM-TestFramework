@@ -55,7 +55,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.400.0.532",
+    "IDEVersion":"2024.600.0.560",
   },
   "name":"xUnit",
   "resources":[
@@ -63,6 +63,7 @@
     {"id":{"name":"objTest","path":"objects/objTest/objTest.yy",},},
     {"id":{"name":"objTestAsync","path":"objects/objTestAsync/objTestAsync.yy",},},
     {"id":{"name":"objTestAsyncNetworking","path":"objects/objTestAsyncNetworking/objTestAsyncNetworking.yy",},},
+    {"id":{"name":"objTestAsyncRoomChange","path":"objects/objTestAsyncRoomChange/objTestAsyncRoomChange.yy",},},
     {"id":{"name":"objTestAsyncSaveLoad","path":"objects/objTestAsyncSaveLoad/objTestAsyncSaveLoad.yy",},},
     {"id":{"name":"oChild1","path":"objects/oChild1/oChild1.yy",},},
     {"id":{"name":"oChild2","path":"objects/oChild2/oChild2.yy",},},
@@ -76,6 +77,7 @@
     {"id":{"name":"oOther","path":"objects/oOther/oOther.yy",},},
     {"id":{"name":"oParent","path":"objects/oParent/oParent.yy",},},
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},},
+    {"id":{"name":"rmEmpty","path":"rooms/rmEmpty/rmEmpty.yy",},},
     {"id":{"name":"rmInit","path":"rooms/rmInit/rmInit.yy",},},
     {"id":{"name":"room0","path":"rooms/room0/room0.yy",},},
     {"id":{"name":"room1","path":"rooms/room1/room1.yy",},},
@@ -99,6 +101,7 @@
     {"id":{"name":"BasicMatrixTestSuite","path":"scripts/BasicMatrixTestSuite/BasicMatrixTestSuite.yy",},},
     {"id":{"name":"BasicNetworkTestSuite","path":"scripts/BasicNetworkTestSuite/BasicNetworkTestSuite.yy",},},
     {"id":{"name":"BasicRandomTestSuite","path":"scripts/BasicRandomTestSuite/BasicRandomTestSuite.yy",},},
+    {"id":{"name":"BasicRoomTestSuite","path":"scripts/BasicRoomTestSuite/BasicRoomTestSuite.yy",},},
     {"id":{"name":"BasicScriptTestSuite","path":"scripts/BasicScriptTestSuite/BasicScriptTestSuite.yy",},},
     {"id":{"name":"BasicStringTestSuite","path":"scripts/BasicStringTestSuite/BasicStringTestSuite.yy",},},
     {"id":{"name":"BasicSurfaceTestSuite","path":"scripts/BasicSurfaceTestSuite/BasicSurfaceTestSuite.yy",},},
@@ -162,6 +165,7 @@
     {"roomId":{"name":"rmInit","path":"rooms/rmInit/rmInit.yy",},},
     {"roomId":{"name":"room0","path":"rooms/room0/room0.yy",},},
     {"roomId":{"name":"room1","path":"rooms/room1/room1.yy",},},
+    {"roomId":{"name":"rmEmpty","path":"rooms/rmEmpty/rmEmpty.yy",},},
   ],
   "templateType":null,
   "TextureGroups":[

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ConfigManager",
   "isCompatibility":false,
   "isDnD":false,

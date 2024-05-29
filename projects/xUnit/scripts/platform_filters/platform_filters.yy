@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"platform_filters",
   "isCompatibility":false,
   "isDnD":false,

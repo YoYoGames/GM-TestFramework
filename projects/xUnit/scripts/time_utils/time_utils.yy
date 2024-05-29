@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"time_utils",
   "isCompatibility":false,
   "isDnD":false,

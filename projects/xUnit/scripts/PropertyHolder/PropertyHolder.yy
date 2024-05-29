@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"PropertyHolder",
   "isCompatibility":false,
   "isDnD":false,

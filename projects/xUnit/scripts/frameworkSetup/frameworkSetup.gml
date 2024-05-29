@@ -146,6 +146,8 @@ config_set("TestFrameworkRun", {
 		_resultPublisher.publish(_data);
 				
 		#endregion
+		
+		show_debug_message(json_stringify(_data));
 	}
 
 });

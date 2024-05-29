@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ConfigAPI",
   "isCompatibility":false,
   "isDnD":false,

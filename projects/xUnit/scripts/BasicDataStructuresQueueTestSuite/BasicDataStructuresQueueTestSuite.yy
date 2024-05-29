@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"BasicDataStructuresQueueTestSuite",
   "isCompatibility":false,
   "isDnD":false,

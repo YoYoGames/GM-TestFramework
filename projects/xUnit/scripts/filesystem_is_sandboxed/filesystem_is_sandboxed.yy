@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"filesystem_is_sandboxed",
   "isCompatibility":false,
   "isDnD":false,

@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"channel_get_name",
   "isCompatibility":false,
   "isDnD":false,

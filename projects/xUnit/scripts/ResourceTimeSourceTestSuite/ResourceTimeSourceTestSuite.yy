@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ResourceTimeSourceTestSuite",
   "isCompatibility":false,
   "isDnD":false,

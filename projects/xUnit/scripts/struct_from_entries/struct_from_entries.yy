@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"struct_from_entries",
   "isCompatibility":false,
   "isDnD":false,
