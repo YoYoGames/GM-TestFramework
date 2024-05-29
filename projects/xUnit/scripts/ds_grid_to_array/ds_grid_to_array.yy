@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ds_grid_to_array",
   "isCompatibility":false,
   "isDnD":false,

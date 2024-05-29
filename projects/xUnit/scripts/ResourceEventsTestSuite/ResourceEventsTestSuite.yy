@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ResourceEventsTestSuite",
   "isCompatibility":false,
   "isDnD":false,

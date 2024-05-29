@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"struct_unflatten",
   "isCompatibility":false,
   "isDnD":false,

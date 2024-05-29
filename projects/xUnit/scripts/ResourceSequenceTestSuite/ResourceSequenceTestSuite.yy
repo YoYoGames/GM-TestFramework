@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"ResourceSequenceTestSuite",
   "isCompatibility":false,
   "isDnD":false,

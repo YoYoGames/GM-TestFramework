@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"TestAsync",
   "isCompatibility":false,
   "isDnD":false,

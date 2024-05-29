@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"BasicJsonTestSuite",
   "isCompatibility":false,
   "isDnD":false,

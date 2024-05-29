@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"BasicNetworkTestSuite",
   "isCompatibility":false,
   "isDnD":false,

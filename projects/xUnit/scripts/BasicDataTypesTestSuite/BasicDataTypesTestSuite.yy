@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"BasicDataTypesTestSuite",
   "isCompatibility":false,
   "isDnD":false,

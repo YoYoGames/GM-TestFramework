@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"BasicWeakRefsTestSuite",
+  "%Name":"BasicRoomTestSuite",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"BasicWeakRefsTestSuite",
+  "name":"BasicRoomTestSuite",
   "parent":{
     "name":"TestSuites",
     "path":"folders/Tests/TestSuites.yy",

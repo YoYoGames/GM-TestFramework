@@ -25,6 +25,7 @@ testFramework.addSuite(BasicMathTestSuite);
 testFramework.addSuite(BasicMatrixTestSuite);
 testFramework.addSuite(BasicNetworkTestSuite);
 testFramework.addSuite(BasicRandomTestSuite);
+testFramework.addSuite(BasicRoomTestSuite);
 testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
@@ -39,4 +40,5 @@ testFramework.addSuite(ResourceTimeSourceTestSuite);
 
 // ###########################################################
 
-testFramework.run(undefined, { });
+testFramework.run(undefined, {});
+

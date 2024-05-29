@@ -1,5 +1,5 @@
 {
-  "$GMScript":"",
+  "$GMScript":"v1",
   "%Name":"BasicDateTimeTestSuite",
   "isCompatibility":false,
   "isDnD":false,
