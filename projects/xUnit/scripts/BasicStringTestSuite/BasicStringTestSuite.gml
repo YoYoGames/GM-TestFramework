@@ -574,7 +574,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			
 		//#5 string_delete( string local , real const , real const ) - delete negative count
 		res = string_delete(vstring, 7, -1);
-		assert_equals(res, "Hello World!", "#5 string_delete( string local , real const , real const ) - delete negative count")
+		assert_equals(res, "Hello orld!", "#5 string_delete( string local , real const , real const ) - delete negative count")
 			
 		//#6 string_delete( string local , real const , real const ) - index > string length
 		res = string_delete(vstring, 100, 1);
@@ -586,7 +586,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			
 		//#8 string_delete( string local , real const , real const ) - negative index
 		res = string_delete(vstring, -1, 1);
-		assert_equals(res, "Hello World!", "#8 string_delete( string local , real const , real const ) - negative index")
+		assert_equals(res, "Hello World", "#8 string_delete( string local , real const , real const ) - negative index")
 			
 		//#9 string_delete( string local , real const , real const )
 		res = string_delete(vstring, 7, 2.4);

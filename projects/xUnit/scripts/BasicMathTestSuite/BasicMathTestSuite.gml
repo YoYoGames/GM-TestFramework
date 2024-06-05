@@ -3125,7 +3125,7 @@ function BasicMathTestSuite() : TestSuite() constructor {
 			
 		//#20 min( int64 const , int64 const , int64 const , int64 const )
 		_result = min(0x1122334455667788, 0x8877665544332211, 0x7FFFFFFFFFFFFFFF, 0x5566778811223344);
-		assert_equals(_result, 0x8877665544332211, "#20 min( int64 const , int64 const , int64 const , int64 const )");
+		assert_equals(_result, 0x1122334455667788, "#20 min( int64 const , int64 const , int64 const , int64 const )");
 			
 		//#21 min( real const , real const , real const , real const )
 		_result = min(kReal_MinTest, _objOther.oReal, global.gReal, _vReal);

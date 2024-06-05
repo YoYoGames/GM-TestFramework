@@ -1,5 +1,6 @@
 
 // feather ignore GM2017
+// feather ignore GM1042
 
 /// @function TestSuite()
 /// @description This class represents a collection of unit tests.
@@ -50,6 +51,15 @@ function TestSuite() : TestBatch() constructor {
 		add(_testAsync);
 		
 		return _testAsync;
+	}
+	
+	/// @function addObjectTest(name, object, [options])
+	/// @param {String} name The name/description of the current test.
+	/// @param {Asset.GMObject} object The object that will handle the test execution.
+	/// @param {Struct} [options] The options be used by the test.
+	static addObjectTest = function(_name, _object, _options = undefined) {
+	
+		return addTestAsync(_name, _object, {}, _options);
 	}
 	
 	config(config_get(self));

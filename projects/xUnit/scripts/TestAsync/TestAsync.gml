@@ -12,6 +12,8 @@ function TestAsync(_name, _object, _events = undefined, _options = undefined) : 
 	object = _object;
 	/// @ignore
 	events = _events;
+	/// @ignore
+	timeoutHandle = undefined;
 
 	/// @ignore
 	preRunFunc = function() {
@@ -28,11 +30,25 @@ function TestAsync(_name, _object, _events = undefined, _options = undefined) : 
 			return postRunFunc();
 		}
 		
+		startTimestamp = get_timer();
+		
 		// Create the test handler
-		instance_create_depth(0, 0, 0, object);
+		var _handler = instance_create_depth(0, 0, 0, object);
+		
+		// If the test is still running (actual async test)
+		if (test_current() != undefined) {		
+			timeoutHandle = call_later(timeoutMillis / 1000, time_source_units_seconds, method(_handler, function() {
+				test_end(TestResult.Expired);
+			}), false);
+		}
 	};
 	/// @ignore
 	postRunFunc = function() {
+		
+		// Cancel the timeout handle (this is required in case it has already finished)
+		if (!is_undefined(timeoutHandle)) {
+			call_cancel(timeoutHandle);
+		}
 		
 		// If we don't have a state yet (there was no forced state, ie.: Skipped, Bailed, Expired)
 		if (result == TestResult.Unset) result = hasDiagnostics() ? TestResult.Failed : TestResult.Passed;
@@ -51,4 +67,5 @@ function TestAsync(_name, _object, _events = undefined, _options = undefined) : 
 	config(_options);
 
 }
+
 
