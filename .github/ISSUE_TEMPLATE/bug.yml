@@ -1,0 +1,47 @@
+name: Bug Report
+description: File a bug report for issues with the project's code / tests that are knowingly commmented-out for safety reasons just now, but should be fixed later.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Write a concise yet detailed description of the issue and do include any relevant screenshots at suitable locations in the body of your text.
+    validations:
+      required: true
+      
+  - type: input
+    id: expected
+    attributes:
+      label: Expected Change
+      description: If it is not obvious from your Description text, what difference would you expect to see once this is fixed?
+    validations:
+      required: false
+      
+  - type: input
+    id: scriptname
+    attributes:
+      label: Script Name
+      description: Which script is this bug located in?
+    validations:
+      required: true
+
+  - type: input
+    id: factname
+    attributes:
+      label: Fact/Assert Name
+      description: Which fact is this bug located in? / Which assert is now at fault?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: repro-rate
+    attributes:
+      label: How reliably does this issue happen?
+      options:
+        - Always
+        - Most Times
+        - Rarely
+    validations:
+      required: true
+      

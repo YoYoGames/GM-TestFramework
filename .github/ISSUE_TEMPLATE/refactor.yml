@@ -1,0 +1,33 @@
+name: Refactor/Addition
+description: Propose a refactor or small addition to an existing area of testing (if the addition is substantial enough to warrant a new script/fact being created, use the New Test Proposal template instead).
+labels: ["refactor"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Write a concise yet detailed description of the change and what it must/should/should not contain. Include any relevant links/screenshots at suitable locations in the body of your text.
+    validations:
+      required: true
+
+  - type: input
+    id: scriptname
+    attributes:
+      label: Script Name
+      description: Which script is this change going to be located in?
+    validations:
+      required: true
+      
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To The Task
+      description: Add detailed, ordered steps for someone else to plan and execute this task (add as many steps into the middle as you require)
+      value: |
+        - [ ] 
+        - [ ] 
+        - [ ] 
+        - [ ] 
+    validations:
+      required: true
+

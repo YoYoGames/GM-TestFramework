@@ -1,0 +1,25 @@
+name: New Test Proposal
+description: Propose a new area/function/"feature request" to write tests for.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Write a concise yet detailed description of the functionality area and what tests it must/should/should not contain. Include any relevant links/screenshots at suitable locations in the body of your text.
+    validations:
+      required: true
+      
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To The Task
+      description: Add detailed, ordered steps for someone else to plan and execute this task (add as many steps into the middle as you require)
+      value: |
+        - [ ] 
+        - [ ] 
+        - [ ] 
+        - [ ] 
+    validations:
+      required: true
+      
