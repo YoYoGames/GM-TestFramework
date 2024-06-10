@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GameMaker Bugs
+    url: https://github.com/YoYoGames/GameMaker-Bugs/issues/new/choose
+    about: Do not report any bugs for GameMaker here! Report them in the usual place by clicking this link and choosing the correct form.
