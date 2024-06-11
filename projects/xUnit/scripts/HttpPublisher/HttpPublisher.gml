@@ -9,7 +9,7 @@ function HttpPublisher(_configuration = undefined) : IPublisher() constructor {
 	// @ignore
 	endpoint = addProperty("endpoint", "tests", is_string);
 	// @ignore
-	port = addProperty("port", 8080, is_real);
+	port = addProperty("port", 8080, is_numeric);
 	
 	// @ignore
 	requestId = undefined;
