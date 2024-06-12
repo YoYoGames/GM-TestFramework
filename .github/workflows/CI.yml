@@ -33,7 +33,7 @@ jobs:
         shell: cmd         
       - name: Testing on PR
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json              
+        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json -f ${{ vars.RED_RSS_FEED }}            
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts
