@@ -235,6 +235,8 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			assert_equals(output, value, "variable_global_set/get():" + details + ", failed to maintain value consistency");
 			assert_typeof(output, type, "variable_global_set/get():" + details + ", failed to maintain type consistency");
 			
+			variable_struct_remove(global, "variable");
+			
 		}
 
 		// ##### NAN #####
@@ -247,7 +249,64 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 					
 		assert_nan(output, "variable_struct_set/get():" + type + ", failed to maintain value consistency");
 		assert_typeof(output, type, "variable_struct_set/get():" + type + ", failed to maintain type consistency");
+		
+		variable_struct_remove(global, "variable");
+	})
+	
+	addFact("variable_global_get_names_tests", function() { 
 			
+		var iterations = 100;
+			
+		var output, expected = array_create(iterations);
+			
+		for (var i = 0; i < iterations; i++) {
+			expected[i] = "variable" + string(i);
+		}
+			
+		var length = array_length(expected);
+		for (var i = 0; i < length; i++) {
+			variable_global_set(expected[i], i);
+		}
+
+		output = variable_instance_get_names(global);
+		assert_array_contains_all(output, expected, "#1 variable_global_get_names(), failed to return the correct variable names.");
+			
+		for (var i = 0; i < length; i++) {
+			variable_struct_remove(global, expected[i]);
+		}
+			
+	})
+	
+	addFact("variable_global_names_count_tests", function() {
+
+		var iterations = 100;
+			
+		var output, globalNames, expected = array_create(iterations);
+			
+		for (var i = 0; i < iterations; i++) {
+			expected[i] = "variable" + string(i);
+		}
+			
+		var length = array_length(expected);
+		for (var i = 0; i < length; i++) {
+			variable_global_set(expected[i], i);
+		}
+
+		globalNames = variable_instance_get_names(global);
+		output = 0;
+		
+		for (var i = 0; i < length; i++) {
+			if (array_contains(globalNames, expected[i])) {
+				output++;
+			}
+		}
+		
+		assert_equals(output, length, "#1 variable_global_names_count, failed to return the correct variable number.");
+			
+		for (var i = 0; i < length; i++) {
+			variable_struct_remove(global, expected[i]);
+		}
+		
 	})
 
 	// INSTANCES
@@ -598,6 +657,8 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				assert_typeof(output, type, "variable_instance_set/get("+ info +"):" + details + ", failed to maintain type consistency");
 			}
 		}
+		
+		// ##### NAN #####
 		
 		type = "number"
 		value = NaN;
@@ -1069,7 +1130,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}
 
 		// ##### NAN #####
-			
+		
 		type = "number"
 		value = NaN;
 			
@@ -1114,7 +1175,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}, "#18 variable_struct_set/get( string, ... ), should throw error");
 			
 	})
-/*
+
 	addFact("builtin_instance_varnames_test", function() {
 
 		var value = function() {};
@@ -1143,6 +1204,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			layer: value,
 
 			in_sequence: value, sequence_instance: value 
+			
 		}
 					
 		var type = typeof(value);
@@ -1157,21 +1219,20 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			assert_typeof(output, type, "#1.1 struct[$ "+ name +"], failed to maintain type consistency");
 		}
 	})
-*/
-/*
+
 	addFact("builtin_constant_varnames_test", function() {
 
 		var value = function() {};
 			
 		var output, input = {
-			self: value,
+			//self: value, // <------ Cannot set a constant to a value
 			other: value,
 			all: value,
 			noone: value,
 			global: value,
-			//undefined: value, // <----- completly corrupts the game YYC BUG
-			//pointer_invalid: value, // <----- completly corrupts the game YYC BUG
-			//pointer_null: value, // <----- completly corrupts the game YYC BUG
+			undefined: value,
+			pointer_invalid: value,
+			pointer_null: value,
 
 			path_action_stop: value,
 			path_action_restart: value,
@@ -1182,10 +1243,11 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			false: value,
 			pi: value,
 			NaN: value,
-			//infinity: value, // <----- completly corrupts the game YYC BUG
+			infinity: value,
 			//GM_build_date: value,
 			//GM_version: value,
 			//GM_runtime_version: value,
+
 
 			ev_create: value,
 			ev_pre_create: value,
@@ -1253,6 +1315,14 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			ev_joystick2_button8: value,
 			ev_outside: value,
 			ev_boundary: value,
+			ev_boundary_view0: value,
+			ev_boundary_view1: value,
+			ev_boundary_view2: value,
+			ev_boundary_view3: value,
+			ev_boundary_view4: value,
+			ev_boundary_view5: value,
+			ev_boundary_view6: value,
+			ev_boundary_view7: value,
 			ev_game_start: value,
 			ev_game_end: value,
 			ev_room_start: value,
@@ -1358,6 +1428,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			ev_async_save_load: value,
 			ev_async_audio_recording: value,
 			ev_async_audio_playback: value,
+			ev_async_audio_playback_ended: value,
 			ev_async_system_event: value,
 
 			vk_nokey: value,
@@ -1467,9 +1538,11 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			bm_normal: value,
 			bm_add: value,
 			bm_max: value,
+			bm_min: value,
 			bm_subtract: value,
 			bm_zero: value,
 			bm_one: value,
+			bm_reverse_subtract: value,
 
 			bm_src_colour: value,
 			bm_inv_src_colour: value,
@@ -1503,7 +1576,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 
 			audio_mono: value,
 			audio_stereo: value,
-			audio_3d: value,
+			audio_3D: value,
 
 			cr_default: value,
 			cr_none: value,
@@ -1584,6 +1657,8 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			ps_shape_ellipse: value,
 			ps_shape_diamond: value,
 			ps_shape_line: value,
+			ps_mode_burst: value,
+			ps_mode_stream: value,
 
 			os_windows: value,
 			os_macosx: value,
@@ -1693,6 +1768,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			gp_axislv: value,
 			gp_axisrh: value,
 			gp_axisrv: value,
+			gp_touchpadbutton: value,
 
 			gp_axis_acceleration_x: value,
 			gp_axis_acceleration_y: value,
@@ -1738,7 +1814,6 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			layerelementtype_particlesystem: value,
 			layerelementtype_tile: value,
 			layerelementtype_sequence: value,
-
 
 			kbv_type_default: value,
 			kbv_type_ascii: value,
@@ -1815,22 +1890,186 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			seqaudiokey_oneshot: value,
 
 			animcurvetype_linear: value,
-			animcurvetype_catmullrom: value
+			animcurvetype_catmullrom: value,
+			
+			bboxkind_diamond: value,
+			bboxkind_ellipse: value,
+			bboxkind_precise: value,
+			bboxkind_rectangular: value,
+			
+			bboxmode_automatic: value,
+			bboxmode_fullimage: value,
+			bboxmode_manual: value,
+			
+			dll_cdecl: value,
+			dll_stdcall: value,
+			
+			gamespeed_fps: value,
+			gamespeed_microseconds: value,
+			
+			m_axisx: value,
+			m_axisx_gui: value,
+			m_axisy: value,
+			m_axisy_gui: value,
+			m_scroll_down: value,
+			m_scroll_up: value,
+			
+			matrix_projection: value,
+			matrix_view: value,
+			matrix_world: value,
+			
+			network_config_avoid_time_wait: value,
+			network_config_connect_timeout: value,
+			network_config_disable_multicast: value,
+			network_config_disable_reliable_udp: value,
+			network_config_enable_multicast: value,
+			network_config_enable_reliable_udp: value,
+			network_config_use_non_blocking_socket: value,
+			network_config_websocket_protocol: value,
+			network_connect_active: value,
+			network_connect_blocking: value,
+			network_connect_nonblocking: value,
+			network_connect_none: value,
+			network_connect_passive: value,
+			network_send_binary: value,
+			network_send_text: value,
+			network_socket_bluetooth: value,
+			network_socket_tcp: value,
+			network_socket_udp: value,
+			network_socket_ws: value,
+			network_type_connect: value,
+			network_type_data: value,
+			network_type_disconnect: value,
+			network_type_down: value,
+			network_type_non_blocking_connect: value,
+			network_type_up: value,
+			network_type_up_failed: value,
+			
+			phy_debug_render_aabb: value,
+			phy_debug_render_collision_pairs: value,
+			phy_debug_render_coms: value,
+			phy_debug_render_core_shapes: value,
+			phy_debug_render_joints: value,
+			phy_debug_render_obb: value,
+			phy_debug_render_shapes: value,
+			phy_joint_anchor_1_x: value,
+			phy_joint_anchor_1_y: value,
+			phy_joint_anchor_2_x: value,
+			phy_joint_anchor_2_y: value,
+			phy_joint_angle: value,
+			phy_joint_angle_limits: value,
+			phy_joint_damping_ratio: value,
+			phy_joint_frequency: value,
+			phy_joint_length_1: value,
+			phy_joint_length_2: value,
+			phy_joint_lower_angle_limit: value,
+			phy_joint_max_force: value,
+			phy_joint_max_length: value,
+			phy_joint_max_motor_force: value,
+			phy_joint_max_motor_torque: value,
+			phy_joint_motor_force: value,
+			phy_joint_motor_speed: value,
+			phy_joint_motor_torque: value,
+			phy_joint_reaction_force_x: value,
+			phy_joint_reaction_force_y: value,
+			phy_joint_reaction_torque: value,
+			phy_joint_speed: value,
+			phy_joint_translation: value,
+			phy_joint_upper_angle_limit: value,
+			phy_particle_data_flag_category: value,
+			phy_particle_data_flag_color: value,
+			phy_particle_data_flag_position: value,
+			phy_particle_data_flag_typeflags: value,
+			phy_particle_data_flag_velocity: value,
+			phy_particle_flag_colormixing: value,
+			phy_particle_flag_elastic: value,
+			phy_particle_flag_powder: value,
+			phy_particle_flag_spring: value,
+			phy_particle_flag_tensile: value,
+			phy_particle_flag_viscous: value,
+			phy_particle_flag_wall: value,
+			phy_particle_flag_water: value,
+			phy_particle_flag_zombie: value,
+			phy_particle_group_flag_rigid: value,
+			phy_particle_group_flag_solid: value,
+			
+			seqtextkey_bottom: value,
+			seqtextkey_center: value,	
+			seqtextkey_justify: value,
+			seqtextkey_left: value,
+			seqtextkey_middle: value,
+			seqtextkey_right: value,
+			seqtextkey_top: value,
+			
+			spritespeed_framespergameframe: value,
+			spritespeed_framespersecond: value,
+			
+			surface_r16float: value,	  
+			surface_r32float: value,	  
+			surface_r8unorm: value,
+			surface_rg8unorm: value,
+			surface_rgba16float: value,
+			surface_rgba32float: value,
+			surface_rgba4unorm: value,
+			surface_rgba8unorm: value,
+			
+			texturegroup_status_fetched: value,
+			texturegroup_status_loaded: value,
+			texturegroup_status_loading: value,
+			texturegroup_status_unloaded: value,
+			
+			tile_flip: value,
+			tile_index_mask: value,
+			tile_mirror: value,
+			tile_rotate: value,
+			
+			time_source_expire_after: value,
+			time_source_expire_nearest: value,
+			time_source_game: value,
+			time_source_global: value,
+			time_source_state_active: value,
+			time_source_state_initial: value,
+			time_source_state_paused: value,
+			time_source_state_stopped: value,
+			time_source_units_frames: value,
+			time_source_units_seconds: value,
+			
+			timezone_local: value,
+			timezone_utc: value,
+			
+			tm_countvsyncs: value,
+			tm_sleep: value,
+			tm_systemtiming: value,
+			
+			ty_real: value,
+			ty_string: value,
+			
+			video_format_rgba: value,
+			video_format_yuv: value,
+			
+			video_status_closed: value,
+			video_status_paused: value,
+			video_status_playing: value,
+			video_status_preparing: value
+			
+			
 		}
 					
 		var type = typeof(value);
 			
 		var names = variable_struct_get_names(input);
 		var count = array_length(names);
+		
 		repeat (count) {
 			var name = names[--count];
 					
 			output = input[$ name];
 			assert_equals(output, value, "#1 struct[$ "+ name +"], failed to maintain value consistency");
 			assert_typeof(output, type, "#1.1 struct[$ "+ name +"], failed to maintain type consistency");
+			
 		}
+		
 	})
-*/
 
 }
 
