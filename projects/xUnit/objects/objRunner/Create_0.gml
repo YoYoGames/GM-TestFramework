@@ -29,6 +29,7 @@ testFramework.addSuite(BasicRoomTestSuite);
 testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
+testFramework.addSuite(BasicTilemapTestSuite);
 testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
