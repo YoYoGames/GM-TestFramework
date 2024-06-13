@@ -68,53 +68,83 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		assert_false(output, "#10 bool ( 'false':local ), should be false");
 		assert_typeof(output, "bool", "#10.1 bool ( 'false':local ), should return bool type");
 			
-		//#11 bool(bool) should be false
+		//#11 bool(bool - true) should be true
 		input = true;
 		output = bool(input);
-		assert_true(output, "#11 bool ( bool:local ), should be true");
-		assert_typeof(output, "bool", "#11.1 bool ( bool:local ), should return bool type");
+		assert_true(output, "#11 bool ( bool - true:local ), should be true");
+		assert_typeof(output, "bool", "#11.1 bool ( bool - true:local ), should return bool type");
+		
+		//#12 bool(bool - false) should be false
+		input = false;
+		output	= bool(input);
+		assert_false(output, "#12 bool ( bool - false:local ), should be false" );
+		assert_typeof(output, "bool", "#12.1 bool ( bool - true:local ), should return bool type");
+		
+		//#13 bool(enum.0) should be false
+		input = RainbowColors.Red;
+		output = bool(input);
+		assert_false(output, "#13 bool (enum.0:local), should be false");
+		assert_typeof(output, "bool", "#13.1 bool (enum.0:local), should return bool type");
+		
+		//#14 bool(enum.1) should be true
+		input = RainbowColors.Orange;
+		output = bool(input);
+		assert_true(output, "#14 bool (enum.1:local), should be true");
+		assert_typeof(output, "bool", "#14.1 bool (enum.1:local), should return bool type");
 			
-		//#12 bool(nan) should be false
+		//#15 bool(nan) should be false
 		input = NaN;
 		output = bool(input);
-		assert_false(output, "#12 bool ( nan:local ), should be false");
-		assert_typeof(output, "bool", "#12.1 bool ( nan:local ), should return bool type");
+		assert_false(output, "#15 bool ( nan:local ), should be false");
+		assert_typeof(output, "bool", "#15.1 bool ( nan:local ), should return bool type");
 			
-		//#13 bool(infinity) should be false
+		//#16 bool(infinity) should be false
 		input = infinity;
 		output = bool(input);
-		assert_true(output, "#13 bool ( infinity:local ), should be true");
-		assert_typeof(output, "bool", "#13.1 bool ( infinity:local ), should return bool type");
+		assert_true(output, "#16 bool ( infinity:local ), should be true");
+		assert_typeof(output, "bool", "#16.1 bool ( infinity:local ), should return bool type");
 			
-		//#14 bool(undefined) should be false
+		//#17 bool(undefined) should be false
 		input = undefined;
 		output = bool(input);
-		assert_false(output, "#14 bool ( undefined:local ), should be false");
-		assert_typeof(output, "bool", "#14.1 bool ( undefined:local ), should return bool type");
+		assert_false(output, "#17 bool ( undefined:local ), should be false");
+		assert_typeof(output, "bool", "#17.1 bool ( undefined:local ), should return bool type");
 
-		//#14 bool(struct) should be true
+		//#18 bool(struct) should be true
 		input = {};
 		output = bool(input);
-		assert_true(output, "#15 bool ( struct:local ), should be true");
-		assert_typeof(output, "bool", "#15.1 bool ( struct:local ), should return bool type");
+		assert_true(output, "#18 bool ( struct:local ), should be true");
+		assert_typeof(output, "bool", "#18.1 bool ( struct:local ), should return bool type");
 			
-		//#15 bool(struct) should be true
+		//#19 bool(method) should be true
 		input = function() {};
 		output = bool(input);
-		assert_true(output, "#16 bool ( method:local ), should be true");
-		assert_typeof(output, "bool", "#16.1 bool ( method:local ), should return bool type");
+		assert_true(output, "#19 bool ( method:local ), should be true");
+		assert_typeof(output, "bool", "#19.1 bool ( method:local ), should return bool type");
 
-		//#16 bool(array) should throw error
+		//#20 bool(array) should throw error
 		assert_throw(function() {
 			var input = [];
 			return bool(input);
-		}, "#17 bool ( array ), should throw error");
+		}, "#20 bool ( array ), should throw error");
 		
-		//#17 bool ( string ), where string is not 'true'/'false', should throw error
+		//#21 bool (string), where string is not 'true'/'false', should throw error
 		assert_throw(function() {
 			var input = "string";
 			return bool(input);
-		}, "#18 bool ( string ), where string is not 'true'/'false', should throw error");
+		}, "#21 bool ( string ), where string is not 'true'/'false', should throw error");
+		
+		//#22 bool (empty string) should throw error
+		assert_throw(function() {
+			var input = "";
+			return bool(input);
+		}, "#22 bool (empty string), should throw error");
+		
+		//#23 bool (any) should throw error
+		assert_throw(function() {
+			var input;
+			return bool(input);
+		}, "#23 bool (any), should throw error");
 			
 	})
 
