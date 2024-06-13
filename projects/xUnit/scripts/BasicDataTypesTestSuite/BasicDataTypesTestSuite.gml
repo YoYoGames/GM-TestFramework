@@ -418,101 +418,143 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 			
 		var input, output;
 			
-		//#1 real ( real ) should be true
+		//#1 real ( real ) should be the input value
 		input = 32.33;
 		output = real(input);
 		assert_equals(output, input, "#1 real ( real:local ), should be the input value");
 		assert_typeof(output, "number", "#1.1 real ( real:local ), should return number type");
 			
-		//#2 real ( int32 ) should be true
+		//#2 real ( int32 ) should be the input value
 		input = int32(22);
 		output = real(input);
 		assert_equals(output, input, "#2 real ( int32:local ), should be the input value");
 		assert_typeof(output, "number", "#2.1 real ( int32:local ), should return number type");
+		
+		//#3 real ( int64 ) should be the input value
+		input = int64(32);
+		output = real(input);
+		assert_equals(output, input, "#3 real ( int64:local ), should be the input value");
+		assert_typeof(output, "number", "#3.1 real ( int64:local ), should return number type");
 			
-		//#3 real ( real ), should be true
+		//#4 real ( real ), should be the input value
 		input = real(12);
 		output = real(input);
-		assert_equals(output, input, "#3 real ( real:local ), should be the input value");
-		assert_typeof(output, "number", "#3.1 real ( real:local ), should return number type");
+		assert_equals(output, input, "#4 real ( real:local ), should be the input value");
+		assert_typeof(output, "number", "#4.1 real ( real:local ), should return number type");
+		
+		//#5 real ( bool - true ) should equal to 1
+		input = true;
+		output = real(input);
+		assert_equals(output, 1, "#5 real ( bool - true:local ), should equal to 1");
+		assert_typeof(output, "number", "#5.1 real ( bool - true:local ) should return number type");
+		
+		//#6 real ( bool - false ) should equal to 0
+		input = false;
+		output = real(input);
+		assert_equals(output, 0, "#6 real ( bool - false:local ), should equal to 0");
+		assert_typeof(output, "number", "#6.1 real ( bool - false:local ) should return number type");
 					
-		//#4 real ( string ), with real value, should be converted and floored
+		//#7 real ( string ), with real value, should be converted and floored
 		input = "1.72";
 		output = real(input);
-		assert_equals(output, 1.72, "#4 real ( bool:local ), should be the parsed input value");
-		assert_typeof(output, "number", "#4.1 real ( bool:local ), should return number type");
+		assert_equals(output, 1.72, "#7 real ( string - real:local ), should be converted and floored");
+		assert_typeof(output, "number", "#7.1 real ( string - real:local ), should return number type");
 					
-		//#5 real ( string ), with real value, should be converted and floored
+		//#8 real ( string ), with real value, should be converted and floored
 		input = "-21233.223";
 		output = real(input);
-		assert_equals(output, -21233.223, "#5 real ( string:local ), should be the parsed input value");
-		assert_typeof(output, "number", "#5.1 real ( string:local ), should return number type");
+		assert_equals(output, -21233.223, "#8 real ( string - negative real:local ), should be converted and floored");
+		assert_typeof(output, "number", "#8.1 real ( string - neative real:local ), should return number type");
 
-		//#6 real ( string ), with real value, should be converted and floored
+		//#9 real ( string ), with real value, should be converted and floored
 		input = "+21233.223";
 		output = real(input);
-		assert_equals(output, 21233.223, "#6 real ( string:local ), should be the parsed input value");
-		assert_typeof(output, "number", "#6.1 real ( string:local ), should return number type");
+		assert_equals(output, 21233.223, "#9 real ( string - positive real:local ), should be converted and floored");
+		assert_typeof(output, "number", "#9.1 real ( string - positive real:local ), should return number type");
+		
+		//#10 real ( enum.0 ), should equal to 0
+		input = RainbowColors.Red;
+		output = real(input);
+		assert_equals(output, 0, "#10 real ( enum.0:local ), should equal to 0");
+		assert_typeof(output, "number", "#10.1 real ( enum0:local ), should return number type");
+		
+		//#11 real ( enum.1 ), should equal to 1
+		input = RainbowColors.Orange;
+		output = real(input);
+		assert_equals(output, 1, "#11 real ( enum.1:local ), should equal to 1");
+		assert_typeof(output, "number", "#11.1 real ( enum1:local ), should return number type");
 
-		//#7 real ( nan ), should be false
+		//#12 real ( NaN ), should be NaN
 		input = NaN;
 		output = real(input);
-		assert_nan(output, "#7 real ( nan:local ), should be NaN");
-		assert_typeof(output, "number", "#7.1 real ( nan:local ), should return number type");
+		assert_nan(output, "#12 real ( nan:local ), should be NaN");
+		assert_typeof(output, "number", "#12.1 real ( nan:local ), should return number type");
 			
-		//#8 real ( infinity ), should be false
+		//#13 real ( infinity ), should equal infinity
 		input = infinity;
 		output = real(input);
-		assert_equals(output, infinity, "#8 real ( infinity:local ), should equal infinity");
-		assert_typeof(output, "number", "#8.1 real ( infinity:local ), should return number type");
+		assert_equals(output, infinity, "#13 real ( infinity:local ), should equal infinity");
+		assert_typeof(output, "number", "#13.1 real ( infinity:local ), should return number type");
 
-		//#9 real ( struct ), should be false
+		//#14 real ( struct ), should be NaN
 		input = { key: "value" };
 		output = real(input);
-		assert_nan(output, "#9 real ( struct:local ), should be NaN");
-		assert_typeof(output, "number", "#9.1 real ( struct:local ), should return number type");
+		assert_nan(output, "#14 real ( struct:local ), should be NaN");
+		assert_typeof(output, "number", "#14.1 real ( struct:local ), should return number type");
 
-		//#10 int64 ( function ), should be NaN
+		//#15 int64 ( function ), should be NaN
 		input = function() {};
 		output = real(input);
-		assert_nan(output, "#10 real ( function:local ), should be NaN");
-		assert_typeof(output, "number", "#10.1 real ( function:local ), should return number type");
+		assert_nan(output, "#15 real ( function:local ), should be NaN");
+		assert_typeof(output, "number", "#15.1 real ( function:local ), should return number type");
 
-		//#11 real ( string ) that is not a number, should throw error
+		//#16 real ( string ) that is not a number, should throw error
 		assert_throw(function() {
 			var input = "string";
 			return real(input);
-		}, "#11 real ( 'string' ), should throw error");
+		}, "#16 real ( 'string' ), should throw error");
+		
+		//#17 real ( empty string ) should throw an error
+		assert_throw(function() {
+			var input = "";
+			return real(input);
+		}, "#17 real ( empty string ), should throw error");
 
-		//#12 real ( array ), should throw error
+		//#18 real ( array ), should throw error
 		assert_throw(function() {
 			var input = [];
 			return real(input);
-		}, "#12 real ( array ), should throw error");
+		}, "#18 real ( array ), should throw error");
 		
-		//#13 real ( undefined ), should throw error
+		//#19 real ( undefined ), should throw error
 		assert_throw(function() {
 			var input = undefined
 			return real(input);
-		}, "#13 real ( undefined ), should throw error");
+		}, "#19 real ( undefined ), should throw error");
 			
-		//#14 real ( undefined ), should throw error
+		//#20 real ( ptr({}) ), should throw error
 		assert_throw(function() {
 			var input = ptr({});
 			return real(input);
-		}, "#14 real ( ptr ), should throw error");
+		}, "#20 real ( ptr ), should throw error");
 			
-		//#15 real ( undefined ), should throw error
+		//#21 real ( pointer_null ), should throw error
 		assert_throw(function() {
 			var input = pointer_null;
 			return real(input);
-		}, "#15 real ( pointer_null ), should throw error");
+		}, "#21 real ( pointer_null ), should throw error");
 
-		//#16 real ( undefined ), should throw error
+		//#22 real ( pointer_invalid ), should throw error
 		assert_throw(function() {
 			var input = pointer_invalid;
 			return real(input);
-		}, "#16 real ( pointer_invalid ), should throw error");
+		}, "#22 real ( pointer_invalid ), should throw error");
+		
+		//#23 real ( any ) should throw error
+		assert_throw(function() {
+			var input;
+			return real(input);
+		}, "#23 real ( any ), should throw error");
 			
 	})
 
