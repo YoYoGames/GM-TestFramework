@@ -288,7 +288,6 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	})
 
-
 	addFact("string_test", function() {
 	
 		var input, output;
@@ -298,6 +297,12 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		output = string(input);
 		assert_not_undefined(output, "#1 string ( pointer:local ), should not be undefined");
 		assert_typeof(output, "string", "#1.1 string ( pointer:local ), should be of type string");
+		
+		//#2 string ( pointer_invalid ), should not be undefined
+		input = pointer_invalid;
+		output = string(input);
+		assert_not_undefined(output, "#2 string ( pointer_invalid:local ), should not be undefined");
+		assert_typeof(output, "string", "#2.1 string ( pointer_invalid:local ), should be of type string");
 			
 		//#3 string ( pointer_null ), should be 'null'
 		input = pointer_null;
@@ -320,50 +325,92 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		//#6 string ( int64 ), should be the equivalent string value
 		input = int64(223231);
 		output = string(input);
-		assert_equals(output, "223231", "#6 string ( int32:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#6.1 string ( int32:local ), should return string type");
+		assert_equals(output, "223231", "#6 string ( int64:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "#6.1 string ( int64:local ), should return string type");
+		
+		//#7 string ( bool - true ), should equal to 1
+		input = true;
+		output = string(input);
+		assert_equals(output, "1", "#7 string ( bool - true:local ), should equal 1");
+		assert_typeof(output, "string", "#7.1 string ( bool - true:local ), should return string type");
+		
+		//#8 string ( bool - false ), should equal to 0
+		input = false;
+		output = string(input);
+		assert_equals(output, "0", "#8 string ( bool - false:local ), should equal 0");
+		assert_typeof(output, "string", "#8.1 string ( bool - false:local ), should return string type");
 					
-		//#7 string ( string ), should be the input value
+		//#9 string ( string - real ), should be the input value
 		input = "-21233.223";
 		output = string(input);
-		assert_equals(output, input, "#7 string ( string:local ), should be the input value");
-		assert_typeof(output, "string", "#7.1 string ( string:local ), should return string type");
+		assert_equals(output, input, "#9 string ( string - real:local ), should be the input value");
+		assert_typeof(output, "string", "#9.1 string ( string - real:local ), should return string type");
+		
+		//10 string ( string ) should be the input value
+		input = "input string";
+		output = string(input);
+		assert_equals(output, input, "#10 string ( string:local ), should be the input value");
+		assert_typeof(output, "string", "#10.9 string ( string:local ), should return string type");
+		
+		//#11 string ( empty string ) should be input value
+		input = "";
+		output = string(input);
+		assert_equals(output, input, "#11 string ( empty string:local ), should be the input value");
+		assert_typeof(output, "string", "#11.1 string ( empty string:local ), should return string type");
+		
+		//#12 string ( enum.0:local ) should equal to "0"
+		input = RainbowColors.Red;
+		output = string(input);
+		assert_equals(output, "0", "#12 string ( enum.0:local ), should be '0'");
+		assert_typeof(output, "string", "#12.1 string ( enum.0:local ), should return string type");
+		
+		//#13 string ( enum.1:local ) should equal to "1"
+		input = RainbowColors.Orange;
+		output = string(input);
+		assert_equals(output, "1", "#13 string ( enum.1:local ), should be '1'");
+		assert_typeof(output, "string", "13.1 string ( enum.1:local ), should return string type");
 			
-		//#8 string ( nan ), should be 'NaN'
+		//#14 string ( nan ), should be 'NaN'
 		input = NaN;
 		output = string(input);
-		assert_equals(output, "NaN", "#8 string ( nan:local ), should be 'NaN'");
-		assert_typeof(output, "string", "#8.1 string ( nan:local ), should return string type");
+		assert_equals(output, "NaN", "#14 string ( nan:local ), should be 'NaN'");
+		assert_typeof(output, "string", "#14.1 string ( nan:local ), should return string type");
 			
-		//#9 string ( infinity ), should be 'inf'
+		//#15 string ( infinity ), should be 'inf'
 		input = infinity;
 		output = string(input);
-		assert_equals(output, "inf", "#9 string ( infinity:local ), should be 'inf'");
-		assert_typeof(output, "string", "#9.1 string ( infinity:local ), should return string type");
+		assert_equals(output, "inf", "#15 string ( infinity:local ), should be 'inf'");
+		assert_typeof(output, "string", "#15.1 string ( infinity:local ), should return string type");
 
-		//#10 string ( struct ), should be 'undefined'
+		//#16 string ( undefined ), should be 'undefined'
 		input = undefined;
 		output = string(input);
-		assert_equals(output, "undefined", "#10 string ( undefined:local ), should be 'undefined'");
-		assert_typeof(output, "string", "#10.1 string ( undefined:local ), should return string type");
+		assert_equals(output, "undefined", "#16 string ( undefined:local ), should be 'undefined'");
+		assert_typeof(output, "string", "#16.1 string ( undefined:local ), should return string type");
 
-		//#11 string ( struct ), should be the equivalent string value
+		//#17 string ( struct ), should be the equivalent string value
 		input = { key: "value" };
 		output = string(input);
-		assert_equals(output, @'{ key : "value" }', "#11 string ( struct:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#11.1 string ( struct:local ), should return string type");
+		assert_equals(output, @'{ key : "value" }', "#17 string ( struct:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "#17.1 string ( struct:local ), should return string type");
 
-		//#12 string ( array ), should be the equivalent string value
+		//#18 string ( array ), should be the equivalent string value
 		input = [1, 2, 3];
 		output = string(input);
-		assert_equals(output, @'[ 1,2,3 ]', "#12 string ( array:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#12.1 string ( array:local ), should return string type");
+		assert_equals(output, @'[ 1,2,3 ]', "#18 string ( array:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "#18.1 string ( array:local ), should return string type");
 			
-		//#13 string ( method ), should not throw error
+		//#19 string ( method ), should not throw error
 		assert_not_throws(function() {
 			var input = function() {};
 			return string(input);
-		}, "#13 string ( method ), should not throw error");
+		}, "#19 string ( method ), should not throw error");
+		
+		//#20 string (any ) should throw error
+		assert_throw(function() {
+			var input;
+			return string(input);
+		}, "#20 string ( any ), should throw error");
 		
 	})
 
