@@ -8,13 +8,13 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 		var input, output;
 			
-		//#1 bool(pointer)
+		//#1 bool(pointer) should be true
 		input = ptr({});
 		output = bool(input);
 		assert_true(output, "#1 bool ( pointer:local ), should return true");
 		assert_typeof(output, "bool", "#1.1 bool ( pointer:local ), should be of type bool");
 			
-		//#2 bool(pointer_invalid)
+		//#2 bool(pointer_invalid) should be true
 		input = pointer_invalid;
 		output = bool(input);
 		assert_true(output, "#2 bool ( pointer_invalid:local ), should be true");
@@ -150,95 +150,144 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	addFact("int64_test", function() {
 		
-		var _input, _output;
+		var input, output;
 		
 		var i = 0;
 		
-		//#1 int64 ( pointer )
-		_input = ptr({});
-		_output = int64(_input);
-		assert_not_null(_output, "#1 int64 ( pointer:local ), should not be null");
-		assert_typeof(_output, "int64", "#1.1 int64 ( pointer:local ), should be of type int64");
-			
-		//#4 int64 ( real ) should be true
-		_input = 32.33;
-		_output = int64(_input);
-		assert_equals(_output, round(_input), "#4 int64 ( real:local ), should be rounded value");
-		assert_typeof(_output, "int64", "#4.1 int64 ( real:local ), should return int64 type");
-			
-		//#5 int64 ( int32 ) should be true
-		_input = int32(22);
-		_output = int64(_input);
-		assert_equals(_output, _input, "#5 int64 ( int32:local ), should be equal to _input");
-		assert_typeof(_output, "int64", "#5.1 int64 ( int32:local ), should return int64 type");
-			
-		//#6 int64 ( int64 ), should be true
-		_input = int64(12);
-		_output = int64(_input);
-		assert_equals(_output, _input, "#6 int64 ( int64:local ), should be equal to _input");
-		assert_typeof(_output, "int64", "#6.1 int64 ( int64:local ), should return int64 type");
-					
-		//#7 int64 ( string ), with real value, should be converted and floored
-		_input = "1.72";
-		_output = int64(_input);
-		assert_equals(_output, 1, "#7 int64 ( string:local ), with real value, should be rounded value");
-		assert_typeof(_output, "int64", "#7.1 int64 ( string:local ), should return int64 type");
-					
-		//#8 int64 ( string ), with real value, should be converted and floored
-		_input = "-21233.223";
-		_output = int64(_input);
-		assert_equals(_output, -21233, "#8 int64 ( string:local ), with real negative value, should be rounded value");
-		assert_typeof(_output, "int64", "#8.1 int64 ( string:local ), should return int64 type");
-
-		//#9 int64 ( string ), with real value, should be converted and floored
-		_input = "+21233.223";
-		_output = int64(_input);
-		assert_equals(_output, 21233, "#9 int64 ( string:local ), with real signed positive value, should be rounded value");
-		assert_typeof(_output, "int64", "#9.1 int64 ( string:local ), should return int64 type");
-
-		//#10 int64 ( nan ), should be NaN
-		_input = NaN;
-		_output = int64(_input);
-		assert_equals(_output, 0, "#10 int64 ( nan:local ), should be 0");
-		assert_typeof(_output, "int64", "#10.1 int64 ( nan:local ), should return number type");
-			
-		//#11 int64 ( infinity ), should be infinity
-		_input = infinity;
-		_output = int64(_input);
-		assert_equals(_output, 9223372036854775807, "#11 int64 ( infinity:local ), should equal to infinity");
-		assert_typeof(_output, "int64", "#11.1 int64 ( infinity:local ), should return number type");
-
-		//#12 int64 ( struct ), should be NaN
-		_input = { key: "value" };
-		_output = int64(_input);
-		assert_equals(_output, 0, "#12 int64 ( struct:local ), should be 0");
-		assert_typeof(_output, "int64", "#12.1 int64 ( struct:local ), should return number type");
-
-		//#13 int64 ( function ), should be NaN
-		_input = function() {};
-		_output = int64(_input);
-		assert_equals(_output, 0, "#13 int64 ( function:local ), should be NaN 0");
-		assert_typeof(_output, "int64", "#13.1 int64 ( function:local ), should return number type");
-
-		//#14 int64 ( string ) that is not a number, should throw error
-		assert_throw(function() {
-			var _input = "string";
-			return int64(_input);
-		}, "#14 int64 ( string ), should throw error");
-
-		//#15 int64 ( array ), should throw error
-		assert_throw(function() {
-			var _input = [];
-			return int64(_input);
-		}, "#15 int64 ( array ), should throw error");
+		//#1 int64 ( pointer ) should not be null
+		input = ptr({});
+		output = int64(input);
+		assert_not_null(output, "#1 int64 ( pointer:local ), should not be null");
+		assert_typeof(output, "int64", "#1.1 int64 ( pointer:local ), should be of type int64");
 		
-		//#16 int64 ( undefined ), should throw error
+		//#2 int64 ( pointer_invalid ) should equal to -1
+		input = pointer_invalid;
+		output = int64(input);
+		assert_equals(output, -1, "#2 int64 ( pointer_invalid:local ), should be -1");
+		assert_typeof(output, "int64", "#2.1 int64 ( pointer_invalid:local ), should be of type int64");
+			
+		//#3 int64 ( pointer_null ) should equal to 0
+		input = pointer_null;
+		output = int64(input);
+		assert_equals(output, 0, "#3 int64 ( pointer_null:local ), should be 0");
+		assert_typeof(output, "int64", "#3.1 int64 ( pointer_null:local ), should be of type int64");
+		
+		//#4 int64 ( real ) should equal to the rounded value
+		input = 32.33;
+		output = int64(input);
+		assert_equals(output, round(input), "#4 int64 ( real:local ), should be rounded value");
+		assert_typeof(output, "int64", "#4.1 int64 ( real:local ), should return int64 type");
+			
+		//#5 int64 ( int32 ) should equal to the input
+		input = int32(22);
+		output = int64(input);
+		assert_equals(output, input, "#5 int64 ( int32:local ), should be equal to input");
+		assert_typeof(output, "int64", "#5.1 int64 ( int32:local ), should return int64 type");
+			
+		//#6 int64 ( int64 ) should equal to the input
+		input = int64(12);
+		output = int64(input);
+		assert_equals(output, input, "#6 int64 ( int64:local ), should be equal to input");
+		assert_typeof(output, "int64", "#6.1 int64 ( int64:local ), should return int64 type");
+		
+		//#7 int64 ( bool - true ) should equal to 1
+		input = true;
+		output = int64(input);
+		assert_equals(output, 1, "#7 int64 ( bool - true:local ), should equal to 1");
+		assert_typeof(output, "int64", "#7.1 int64 ( bool - true:local ), should return in64 type");
+		
+		//#8 int64 ( bool - false ) should equal to false
+		input = false;
+		output = int64(input);
+		assert_equals(output, 0, "#8 int64 ( bool - false:local), should equal to 0");
+		assert_typeof(output, "int64", "#8.1 int64 ( bool - false:local ), should return int64 type");
+		
+		//#9 int64 ( string ), with real value, should be converted and floored
+		input = "1.72";
+		output = int64(input);
+		assert_equals(output, 1, "#9 int64 ( string:local ), with real value, should be rounded value");
+		assert_typeof(output, "int64", "#9.1 int64 ( string:local ), should return int64 type");
+					
+		//#10 int64 ( string ), with real negative value, should be converted and floored
+		input = "-21233.223";
+		output = int64(input);
+		assert_equals(output, -21233, "#10 int64 ( string:local ), with real negative value, should be rounded value");
+		assert_typeof(output, "int64", "#10.1 int64 ( string:local ), should return int64 type");
+
+		//#11 int64 ( string ), with real signed positive value, should be converted and floored
+		input = "+21233.223";
+		output = int64(input);
+		assert_equals(output, 21233, "#11 int64 ( string:local ), with real signed positive value, should be rounded value");
+		assert_typeof(output, "int64", "#11.1 int64 ( string:local ), should return int64 type");
+		
+		//#12 int64 ( enum.0 ) should equal to 0
+		input = RainbowColors.Red;
+		output = int64(input);
+		assert_equals(output, 0, "#12 int64 ( enum.0:local ), should equal to 0");
+		assert_typeof(output, "int64", "#12.1 int64 ( enum.0:local ), should return int64 type");
+			
+		//#13 int64 ( enum.1 ) should equal to 1
+		input = RainbowColors.Orange;
+		output = int64(input);
+		assert_equals(output, 1, "#13 int64 ( enum.1:local ), should equal to 1");
+		assert_typeof(output, "int64", "#13.1 int64 ( enum.1:local ), should return int64 type");
+
+		//#14 int64 ( nan ), should be NaN
+		input = NaN;
+		output = int64(input);
+		assert_equals(output, 0, "#14 int64 ( nan:local ), should be 0");
+		assert_typeof(output, "int64", "#14.1 int64 ( nan:local ), should return int64 type");
+			
+		//#15 int64 ( infinity ), should be infinity
+		input = infinity;
+		output = int64(input);
+		assert_equals(output, 9223372036854775807, "#15 int64 ( infinity:local ), should equal to infinity");
+		assert_typeof(output, "int64", "#15.1 int64 ( infinity:local ), should return int64 type");
+
+		//#16 int64 ( struct ), should be NaN
+		input = { key: "value" };
+		output = int64(input);
+		assert_equals(output, 0, "#16 int64 ( struct:local ), should be 0");
+		assert_typeof(output, "int64", "#16.1 int64 ( struct:local ), should return int64 type");
+
+		//#17 int64 ( function ), should be NaN
+		input = function() {};
+		output = int64(input);
+		assert_equals(output, 0, "#17 int64 ( function:local ), should be NaN 0");
+		assert_typeof(output, "int64", "#17.1 int64 ( function:local ), should return int64 type");
+
+		//#18 int64 ( string ) that is not a number, should throw error
 		assert_throw(function() {
-			var _input = undefined
-			return int64(_input);
-		}, "#16 int64 ( undefined ), should throw error");
+			var input = "string";
+			return int64(input);
+		}, "#18 int64 ( string ), should throw error");
+		
+		//#19 int64 ( empty string ) should throw error
+		assert_throw(function() {
+			var input = "";
+			return int64(input);
+		}, "#19 int64 ( empty string ) should throw error");
+
+		//#20 int64 ( array ), should throw error
+		assert_throw(function() {
+			var input = [];
+			return int64(input);
+		}, "#20 int64 ( array ), should throw error");
+		
+		//#20 int64 ( undefined ), should throw error
+		assert_throw(function() {
+			var input = undefined
+			return int64(input);
+		}, "#20 int64 ( undefined ), should throw error");
+		
+		//#21 int64 ( any ) should throw error
+		assert_throw(function() {
+			var input;
+			return int64(input);
+		}, "#21 int64 ( any ) should throw error");
 		
 	})
+
 
 	addFact("string_test", function() {
 	
