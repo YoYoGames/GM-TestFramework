@@ -889,6 +889,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_method ( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_method ( int64:local ), should be false"],
 		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		
 		["-21233.223",		assert_false,	"#7 is_method ( string:local ), numeric string should be false"],
 		[true,				assert_false,	"#8 is_method ( bool:local ), should be false"],
 		[NaN,				assert_false,	"#9 is_method ( NaN:local ), should be false"],
@@ -920,6 +922,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[32.33,				assert_false,	"#4 is_nan ( real:local ), should be false"],
 		[int32(22),			assert_false,	"#5 is_nan ( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_nan ( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 		
 		["-21233.223",		assert_false,	"#7 is_nan ( string:local ), numeric string should be false"],
 		["",				assert_true,	"#8 is_nan ( string:local ), empty string should be true"],
@@ -962,6 +966,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_true,	"#5 is_numeric ( int32:local ), should be true"],
 		[int64(12),			assert_true,	"#6 is_numeric ( int64:local ), should be true"],
 		
+		[RainbowColors.Orange,	assert_true,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		
 		["-21233.223",		assert_false,	"#7 is_numeric ( string:local ), numeric string should be false"],
 		["",				assert_false,	"#8 is_numeric ( string:local ), empty string should be false"],
 		["abc",				assert_false,	"#9 is_numeric ( string:local ), non-numeric string should be false"],
@@ -998,6 +1004,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_ptr ( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_ptr ( int64:local ), should be false"],
 		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		
 		["-21233.223",		assert_false,	"#7 is_ptr ( string:local ), numeric string should be false"],
 		["",				assert_false,	"#8 is_ptr ( string:local ), empty string should be false"],
 		["abc",				assert_false,	"#9 is_ptr ( string:local ), non-numeric string should be false"],
@@ -1033,6 +1041,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[32.33,				assert_true,	"#4 is_real( real:local ), should be true"],
 		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
 		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_false,	"#7 is_real( string:local ), numeric string should be false"],
 		["",				assert_false,	"#8 is_real( string:local ), empty string should be false"],
@@ -1059,6 +1069,42 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	})
 
+	addTheory("is_string_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_real( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_real( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_real( pointer_null:local ), should be false"],
+
+		[32.33,				assert_false,	"#4 is_real( real:local ), should be false"],
+		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
+		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+
+		["-21233.223",		assert_true,	"#7 is_real( string:local ), numeric string should be true"],
+		["",				assert_true,	"#8 is_real( string:local ), empty string should be true"],
+		["abc",				assert_true,	"#9 is_real( string:local ), non-numeric string should be true"],
+
+		[true,				assert_false,	"#10 is_real ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#11 is_real ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#12 is_real ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#13 is_real ( undefined:local ), should be false"],
+
+		[[],				assert_false,	"#14 is_real ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#15 is_real ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#16 is_real ( method:local ), should be false"],
+		[get_timer,			assert_false,	"#17 is_real ( function:local ), should be false", platform_not_browser],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_string(_input)
+		_test_func(_output, _desc);
+		
+	})
 
 	addTheory("is_struct_test", [
 	
@@ -1069,6 +1115,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[32.33,				assert_false,	"#4 is_struct( real:local ), should be false"],
 		[int32(22),			assert_false,	"#5 is_struct( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_struct( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_false,	"#7 is_struct( string:local ), numeric string should be false"],
 		["",				assert_false,	"#8 is_struct( string:local ), empty string should be false"],
@@ -1095,7 +1143,6 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	})
 	
-	
 	addTheory("typeof_test", [
 	
 		[ptr({}),			"ptr",			"#1 typeof( pointer:local )"],
@@ -1105,6 +1152,8 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[32.33,				"number",		"#4 typeof( real:local )"],
 		[int32(22),			"int32",		"#5 typeof( int32:local )",	platform_not_browser],
 		[int64(12),			"int64",		"#6 typeof( int64:local )"],
+		
+		[RainbowColors.Orange,	"int64",	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		"string",		"#7 typeof( string:local )"],
 		["",				"string",		"#8 typeof( string:local )"],
