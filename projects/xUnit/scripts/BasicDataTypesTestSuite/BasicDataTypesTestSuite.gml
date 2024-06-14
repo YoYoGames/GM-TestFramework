@@ -562,13 +562,13 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		var input, output;
 			
-		//#1 ptr ( pointer )
+		//#1 ptr ( pointer ) should be valid
 		input = ptr({});
 		output = ptr(input);
 		assert_not_null(output, "#1 ptr ( pointer:local ), should not be null");
 		assert_typeof(output, "ptr", "#1.1 ptr ( pointer:local ), should be of type ptr");
 			
-		//#2 ptr ( pointer_invalid )
+		//#2 ptr ( pointer_invalid ) should be valid
 		input = pointer_invalid;
 		output = ptr(input);
 		assert_not_null(output, "#2 ptr ( pointer_invalid:local ), should not be null");
@@ -580,7 +580,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		assert_null(output, "#3 ptr ( pointer_null:local ), should be null");
 		assert_typeof(output, "ptr", "#3.1 ptr ( pointer_null:local ), should be of ptr type");
 			
-		//#4 ptr ( ptr ) should be valid
+		//#4 ptr ( real ) should be valid
 		input = 32.33;
 		output = ptr(input);
 		assert_not_null(output, "#4 ptr ( real:local ), should not be null");
@@ -591,65 +591,112 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		output = ptr(input);
 		assert_not_null(output, "#5 ptr ( int32:local ), should not be null");
 		assert_typeof(output, "ptr", "#5.1 ptr ( int32:local ), should return ptr type");
+		
+		//#6 ptr ( int64 ) should be valid
+		input = int64(12);
+		output = ptr(input);
+		assert_not_null(output, "#6 ptr ( int64:local ) should not be null");
+		assert_typeof(output, "ptr", "#6.1 ptr ( int64:local ) should return ptr type");
+		
+		//#7 ptr ( true )
+		input = true;
+		output = ptr(input);
+		assert_not_null(output, "#7 ptr ( bool - true:local ) should not be null");
+		assert_typeof(output, "ptr", "#7.1 ptr ( bool - true:local ) should return ptr type");
+		
+		//#8 ptr ( false )
+		input = false;
+		output = ptr(input);
+		assert_null(output, "#8 ptr ( bool - true:local ) should not be null");
+		assert_typeof(output, "ptr", "#8.1 ptr ( bool - false:local ) should return ptr type");
 					
-		//#6 ptr ( string ), should be valid
+		//#9 ptr ( string ), with real value should be valid
 		input = "1.72";
 		output = ptr(input);
-		assert_not_null(output, "#6 ptr ( string:local ), should not be null");
-		assert_typeof(output, "ptr", "#6.1 ptr ( string:local ), should return ptr type");
+		assert_not_null(output, "#9 ptr ( string:local ), should not be null");
+		assert_typeof(output, "ptr", "#9.1 ptr ( string:local ), should return ptr type");
+		
+		//#10 ptr ( string ) should be null
+		input = "input string";
+		output = ptr(input);
+		assert_null(output, "#10 ptr ( string:local ), should be null");
+		assert_typeof(output, "ptr", "#10.1 ptr ( string:local ), should return ptr type");
+		
+		//#11 ptr ( empty string ) should be null
+		input = "";
+		output = ptr(input);
+		assert_null(output, "#11 ptr ( empty string:local ), should be null");
+		assert_typeof(output, "ptr", "#11.1 ptr ( string:local ), should return ptr type");
+		
+		//#12 ptr ( enum.0 ) shold be null
+		input = RainbowColors.Red;
+		output = ptr(input);
+		assert_null(output, "#12 ptr ( enum.0:local ), should be null");
+		assert_typeof(output, "ptr", "#12.1 ptr ( enum.0:local ), should return ptr type");
+		
+		//#13 ptr ( enum.1 ) should be valid
+		input = RainbowColors.Orange;
+		output = ptr(input);
+		assert_not_null(output, "#13 ptr ( enum.1:local ), should not be null");
+		assert_typeof(output, "ptr", "#13.1 ptr ( enum.1:local ), should return ptr type");
 			
-		//#7 ptr ( nan ), valid convertion
+		//#14 ptr ( nan ), valid convertion
 		assert_not_throws(function() {
-				
 			var input = NaN;
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#7.1 ptr ( nan:local ), should return ptr type");
-				
-		}, "#7 ptr ( nan:local ), should not throw an error, valid convertion" );
+			assert_typeof(output, "ptr", "#14.1 ptr ( nan:local ), should return ptr type");
+		}, "#14 ptr ( nan:local ), should not throw an error, valid convertion" );
 
-		//#8 ptr ( infinity ), valid convertion
+		//#15 ptr ( infinity ), valid convertion
 		assert_not_throws(function() {
-				
 			var input = infinity;
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#8.1 ptr ( infinity:local ), should return ptr type");
-				
-		}, "#8 ptr ( infinity:local ), should not throw an error, valid convertion" );
+			assert_typeof(output, "ptr", "#15.1 ptr ( infinity:local ), should return ptr type");
+		}, "#15 ptr ( infinity:local ), should not throw an error, valid convertion" );
 			
-		//#9 ptr ( struct ), valid convertion
+		//#16 ptr ( struct ), valid convertion
 		assert_not_throws(function() {
 				
 			var input = { key: "value" };
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#9.1 ptr ( struct:local ), should return ptr type");
+			assert_typeof(output, "ptr", "#16.1 ptr ( struct:local ), should return ptr type");
 				
-		}, "#9 ptr ( struct:local ), should not throw an error, valid convertion" );
+		}, "#16 ptr ( struct:local ), should not throw an error, valid convertion" );
 			
-		//#10 ptr ( method ), valid convertion
+		//#17 ptr ( method ), valid convertion
 		assert_not_throws(function() {
 				
 			var input = function() {};
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#10.1 ptr ( method:local ), should return ptr type");
+			assert_typeof(output, "ptr", "#17.1 ptr ( method:local ), should return ptr type");
 				
-		}, "#10 ptr ( method:local ), should not throw an error, valid convertion" );
+		}, "#17 ptr ( method:local ), should not throw an error, valid convertion" );
 		
 		if (platform_not_browser()) {
-			//#11 ptr ( array ), valid convertion
+			//#18 ptr ( array ), valid convertion
 			assert_not_throws(function() {
 				var input = [];
-				return ptr(input);
-			}, "#11 ptr ( array ), should not throw an error, valid convertion");
+				var output = ptr(input);
+				assert_typeof(output, "ptr", "#18.1 ptr ( array:local ), should return ptr type");
+				
+			}, "#18 ptr ( array:local ), should not throw an error, valid convertion");
 		}
 		
-		//#12 ptr ( undefined )
+		//#19 ptr ( undefined ), should throw error
 		assert_throw(function() {
 			var input = undefined
 			return ptr(input);
-		}, "#12 ptr ( undefined ), should throw error");
+		}, "#19 ptr ( undefined:local ), should throw error");
+		
+		//#20 ptr ( any ), should throw error
+		assert_throw(function() {
+			var input;
+			return ptr(input);
+		}, "#20 ptr ( any ) should throw error");
 			
 	})
 
+	
 	// TYPE CHECKING
 	
 	addTheory("is_array_test", [
