@@ -891,16 +891,16 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 		
-		["-21233.223",		assert_false,	"#7 is_method ( string:local ), numeric string should be false"],
-		[true,				assert_false,	"#8 is_method ( bool:local ), should be false"],
-		[NaN,				assert_false,	"#9 is_method ( NaN:local ), should be false"],
-		[infinity,			assert_false,	"#10 is_method ( infinity:local ), should be false"],
-		[undefined,			assert_false,	"#11 is_method ( undefined:local ), should be true"],
+		["-21233.223",		assert_false,	"#8 is_method ( string:local ), numeric string should be false"],
+		[true,				assert_false,	"#9 is_method ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#10 is_method ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#11 is_method ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#12 is_method ( undefined:local ), should be true"],
 		
-		[[],				assert_false,	"#12 is_method ( array:local ), should be false"],
-		[{ key: "value" },	assert_false,	"#13 is_method ( struct:local ), should be false"],
-		[function() {},		assert_true,	"#14 is_method ( method:local ), should be true"],
-		[get_timer,			assert_false,	"#15 is_method ( function:local ), should be false", platform_not_browser],
+		[[],				assert_false,	"#13 is_method ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#14 is_method ( struct:local ), should be false"],
+		[function() {},		assert_true,	"#15 is_method ( method:local ), should be true"],
+		[get_timer,			assert_false,	"#16 is_method ( function:local ), should be false", platform_not_browser],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -925,25 +925,25 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 		
-		["-21233.223",		assert_false,	"#7 is_nan ( string:local ), numeric string should be false"],
-		["",				assert_true,	"#8 is_nan ( string:local ), empty string should be true"],
-		["abc",				assert_true,	"#9 is_nan ( string:local ), non-numeric string should be true"],
+		["-21233.223",		assert_false,	"#8 is_nan ( string:local ), numeric string should be false"],
+		["",				assert_true,	"#9 is_nan ( string:local ), empty string should be true"],
+		["abc",				assert_true,	"#10 is_nan ( string:local ), non-numeric string should be true"],
 		
-		[true,				assert_false,	"#10 is_nan ( bool:local ), should be false"],
-		[NaN,				assert_true,	"#11 is_nan ( NaN:local ), should be true"],
-		[infinity,			assert_false,	"#12 is_nan ( infinity:local ), should be false"],
-		[undefined,			assert_true,	"#13 is_nan ( undefined:local ), should be true"],
+		[true,				assert_false,	"#11 is_nan ( bool:local ), should be false"],
+		[NaN,				assert_true,	"#12 is_nan ( NaN:local ), should be true"],
+		[infinity,			assert_false,	"#13 is_nan ( infinity:local ), should be false"],
+		[undefined,			assert_true,	"#14 is_nan ( undefined:local ), should be true"],
 		
-		[[],				assert_true,	"#14 is_nan ( array:local ), should be true"],
-		[{ key: "value" },	assert_true,	"#15 is_nan ( struct:local ), should be true"],
-		[function() {},		assert_true,	"#16 is_nan ( method:local ), should be true"],
-		[get_timer,			assert_false,	"#17 is_nan ( function:local ), should be false", platform_not_browser],
+		[[],				assert_true,	"#15 is_nan ( array:local ), should be true"],
+		[{ key: "value" },	assert_true,	"#16 is_nan ( struct:local ), should be true"],
+		[function() {},		assert_true,	"#17 is_nan ( method:local ), should be true"],
+		[get_timer,			assert_false,	"#18 is_nan ( function:local ), should be false", platform_not_browser],
 		
-		[NaN + 300,			assert_true,	"#18 is_nan ( NaN + value ), should be true"],
-		[NaN - 300,			assert_true,	"#19 is_nan ( NaN - value ), should be true"],
-		[NaN * 300,			assert_true,	"#20 is_nan ( NaN * value ), should be true"],
-		[NaN / 300,			assert_true,	"#21 is_nan ( NaN / value ), should be true"],
-		[300 / NaN,			assert_true,	"#22 is_nan ( value / NaN ), should be true"],
+		[NaN + 300,			assert_true,	"#19 is_nan ( NaN + value ), should be true"],
+		[NaN - 300,			assert_true,	"#20 is_nan ( NaN - value ), should be true"],
+		[NaN * 300,			assert_true,	"#21 is_nan ( NaN * value ), should be true"],
+		[NaN / 300,			assert_true,	"#22 is_nan ( NaN / value ), should be true"],
+		[300 / NaN,			assert_true,	"#23 is_nan ( value / NaN ), should be true"],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -968,19 +968,19 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_true,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 		
-		["-21233.223",		assert_false,	"#7 is_numeric ( string:local ), numeric string should be false"],
-		["",				assert_false,	"#8 is_numeric ( string:local ), empty string should be false"],
-		["abc",				assert_false,	"#9 is_numeric ( string:local ), non-numeric string should be false"],
+		["-21233.223",		assert_false,	"#8 is_numeric ( string:local ), numeric string should be false"],
+		["",				assert_false,	"#9 is_numeric ( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#10 is_numeric ( string:local ), non-numeric string should be false"],
 		
-		[true,				assert_true,	"#10 is_numeric ( bool:local ), should be true"],
-		[NaN,				assert_true,	"#11 is_numeric ( NaN:local ), should be false"],
-		[infinity,			assert_true,	"#12 is_numeric ( infinity:local ), should be true"],
-		[undefined,			assert_false,	"#13 is_numeric ( undefined:local ), should be false"],
+		[true,				assert_true,	"#11 is_numeric ( bool:local ), should be true"],
+		[NaN,				assert_true,	"#12 is_numeric ( NaN:local ), should be false"],
+		[infinity,			assert_true,	"#13 is_numeric ( infinity:local ), should be true"],
+		[undefined,			assert_false,	"#14 is_numeric ( undefined:local ), should be false"],
 		
-		[[],				assert_false,	"#14 is_numeric ( array:local ), should be false"],
-		[{ key: "value" },	assert_false,	"#15 is_numeric ( struct:local ), should be false"],
-		[function() {},		assert_false,	"#16 is_numeric ( method:local ), should be false"],
-		[get_timer,			assert_true,	"#17 is_numeric ( function:local ), should be true", platform_not_browser],
+		[[],				assert_false,	"#15 is_numeric ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#16 is_numeric ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#17 is_numeric ( method:local ), should be false"],
+		[get_timer,			assert_true,	"#18 is_numeric ( function:local ), should be true", platform_not_browser],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1006,19 +1006,19 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 		
-		["-21233.223",		assert_false,	"#7 is_ptr ( string:local ), numeric string should be false"],
-		["",				assert_false,	"#8 is_ptr ( string:local ), empty string should be false"],
-		["abc",				assert_false,	"#9 is_ptr ( string:local ), non-numeric string should be false"],
-		
-		[true,				assert_false,	"#10 is_ptr ( bool:local ), should be false"],
-		[NaN,				assert_false,	"#11 is_ptr ( NaN:local ), should be false"],
-		[infinity,			assert_false,	"#12 is_ptr ( infinity:local ), should be false"],
-		[undefined,			assert_false,	"#13 is_ptr ( undefined:local ), should be false"],
-		
-		[[],				assert_false,	"#14 is_ptr ( array:local ), should be false"],
-		[{ key: "value" },	assert_false,	"#15 is_ptr ( struct:local ), should be false"],
-		[function() {},		assert_false,	"#16 is_ptr ( method:local ), should be false"],
-		[get_timer,			assert_false,	"#17 is_ptr ( function:local ), should be false"],
+		["-21233.223",		assert_false,	"#8 is_ptr ( string:local ), numeric string should be false"],
+		["",				assert_false,	"#9 is_ptr ( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#10 is_ptr ( string:local ), non-numeric string should be false"],
+											  
+		[true,				assert_false,	"#11 is_ptr ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#12 is_ptr ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#13 is_ptr ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#14 is_ptr ( undefined:local ), should be false"],
+											  
+		[[],				assert_false,	"#15 is_ptr ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#16 is_ptr ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#17 is_ptr ( method:local ), should be false"],
+		[get_timer,			assert_false,	"#18 is_ptr ( function:local ), should be false"],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1044,19 +1044,19 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
-		["-21233.223",		assert_false,	"#7 is_real( string:local ), numeric string should be false"],
-		["",				assert_false,	"#8 is_real( string:local ), empty string should be false"],
-		["abc",				assert_false,	"#9 is_real( string:local ), non-numeric string should be false"],
-
-		[true,				assert_false,	"#10 is_real ( bool:local ), should be true"],
-		[NaN,				assert_true,	"#11 is_real ( NaN:local ), should be true"],
-		[infinity,			assert_true,	"#12 is_real ( infinity:local ), should be true"],
-		[undefined,			assert_false,	"#13 is_real ( undefined:local ), should be false"],
-
-		[[],				assert_false,	"#14 is_real ( array:local ), should be false"],
-		[{ key: "value" },	assert_false,	"#15 is_real ( struct:local ), should be false"],
-		[function() {},		assert_false,	"#16 is_real ( method:local ), should be false"],
-		[get_timer,			assert_true,	"#17 is_real ( function:local ), should be true", platform_not_browser],
+		["-21233.223",		assert_false,	"#8 is_real( string:local ), numeric string should be false"],
+		["",				assert_false,	"#9 is_real( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#10 is_real( string:local ), non-numeric string should be false"],
+											  
+		[true,				assert_false,	"#11 is_real ( bool:local ), should be true"],
+		[NaN,				assert_true,	"#12 is_real ( NaN:local ), should be true"],
+		[infinity,			assert_true,	"#13 is_real ( infinity:local ), should be true"],
+		[undefined,			assert_false,	"#14 is_real ( undefined:local ), should be false"],
+											  
+		[[],				assert_false,	"#15 is_real ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#16 is_real ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#17 is_real ( method:local ), should be false"],
+		[get_timer,			assert_true,	"#18 is_real ( function:local ), should be true", platform_not_browser],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1081,19 +1081,19 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
-		["-21233.223",		assert_true,	"#7 is_real( string:local ), numeric string should be true"],
-		["",				assert_true,	"#8 is_real( string:local ), empty string should be true"],
-		["abc",				assert_true,	"#9 is_real( string:local ), non-numeric string should be true"],
-
-		[true,				assert_false,	"#10 is_real ( bool:local ), should be false"],
-		[NaN,				assert_false,	"#11 is_real ( NaN:local ), should be false"],
-		[infinity,			assert_false,	"#12 is_real ( infinity:local ), should be false"],
-		[undefined,			assert_false,	"#13 is_real ( undefined:local ), should be false"],
-
-		[[],				assert_false,	"#14 is_real ( array:local ), should be false"],
-		[{ key: "value" },	assert_false,	"#15 is_real ( struct:local ), should be false"],
-		[function() {},		assert_false,	"#16 is_real ( method:local ), should be false"],
-		[get_timer,			assert_false,	"#17 is_real ( function:local ), should be false", platform_not_browser],
+		["-21233.223",		assert_true,	"#8 is_real( string:local ), numeric string should be true"],
+		["",				assert_true,	"#9 is_real( string:local ), empty string should be true"],
+		["abc",				assert_true,	"#10 is_real( string:local ), non-numeric string should be true"],
+											  
+		[true,				assert_false,	"#11 is_real ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#12 is_real ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#13 is_real ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#14 is_real ( undefined:local ), should be false"],
+											  
+		[[],				assert_false,	"#15 is_real ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#16 is_real ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#17 is_real ( method:local ), should be false"],
+		[get_timer,			assert_false,	"#18 is_real ( function:local ), should be false", platform_not_browser],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1118,19 +1118,19 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
-		["-21233.223",		assert_false,	"#7 is_struct( string:local ), numeric string should be false"],
-		["",				assert_false,	"#8 is_struct( string:local ), empty string should be false"],
-		["abc",				assert_false,	"#9 is_struct( string:local ), non-numeric string should be false"],
-
-		[true,				assert_false,	"#10 is_struct ( bool:local ), should be false"],
-		[NaN,				assert_false,	"#11 is_struct ( NaN:local ), should be false"],
-		[infinity,			assert_false,	"#12 is_struct ( infinity:local ), should be false"],
-		[undefined,			assert_false,	"#13 is_struct ( undefined:local ), should be false"],
-
-		[[],				assert_false,	"#14 is_struct ( array:local ), should be false"],
-		[{ key: "value" },	assert_true,	"#15 is_struct ( struct:local ), should be true"],
-		[function() {},		assert_true,	"#16 is_struct ( method:local ), should be true", platform_not_browser],
-		[get_timer,			assert_false,	"#17 is_struct ( function:local ), should be false"],
+		["-21233.223",		assert_false,	"#8 is_struct( string:local ), numeric string should be false"],
+		["",				assert_false,	"#9 is_struct( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#10 is_struct( string:local ), non-numeric string should be false"],
+											  
+		[true,				assert_false,	"#11 is_struct ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#12 is_struct ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#13 is_struct ( infinity:local ), should be false"],
+		[undefined,			assert_false,	"#14 is_struct ( undefined:local ), should be false"],
+											  
+		[[],				assert_false,	"#15 is_struct ( array:local ), should be false"],
+		[{ key: "value" },	assert_true,	"#16 is_struct ( struct:local ), should be true"],
+		[function() {},		assert_true,	"#17 is_struct ( method:local ), should be true", platform_not_browser],
+		[get_timer,			assert_false,	"#18 is_struct ( function:local ), should be false"],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1142,6 +1142,44 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		_test_func(_output, _desc);
 		
 	})
+
+	addTheory("is_undefined_test", [
+	
+		[ptr({}),			assert_false,	"#1 is_struct( pointer:local ), should be false"],
+		[pointer_invalid,	assert_false,	"#2 is_struct( pointer_invalid:local ), should be false"],
+		[pointer_null,		assert_false,	"#3 is_struct( pointer_null:local ), should be false"],
+
+		[32.33,				assert_false,	"#4 is_struct( real:local ), should be false"],
+		[int32(22),			assert_false,	"#5 is_struct( int32:local ), should be false"],
+		[int64(12),			assert_false,	"#6 is_struct( int64:local ), should be false"],
+		
+		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+
+		["-21233.223",		assert_false,	"#8 is_struct( string:local ), numeric string should be false"],
+		["",				assert_false,	"#9 is_struct( string:local ), empty string should be false"],
+		["abc",				assert_false,	"#10 is_struct( string:local ), non-numeric string should be false"],
+											  
+		[true,				assert_false,	"#11 is_struct ( bool:local ), should be false"],
+		[NaN,				assert_false,	"#12 is_struct ( NaN:local ), should be false"],
+		[infinity,			assert_false,	"#13 is_struct ( infinity:local ), should be false"],
+		[undefined,			assert_true,	"#14 is_struct ( undefined:local ), should be true"],
+											  
+		[[],				assert_false,	"#15 is_struct ( array:local ), should be false"],
+		[{ key: "value" },	assert_false,	"#16 is_struct ( struct:local ), should be false"],
+		[function() {},		assert_false,	"#17 is_struct ( method:local ), should be false", platform_not_browser],
+		[get_timer,			assert_false,	"#18 is_struct ( function:local ), should be false"],
+		
+	], function(_input, _test_func, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _output = is_undefined(_input)
+		_test_func(_output, _desc);
+		
+	})
+
 	
 	addTheory("typeof_test", [
 	
@@ -1155,19 +1193,19 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		[RainbowColors.Orange,	"int64",	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
 
-		["-21233.223",		"string",		"#7 typeof( string:local )"],
-		["",				"string",		"#8 typeof( string:local )"],
-		["abc",				"string",		"#9 typeof( string:local )"],
-
-		[true,				"bool",			"#10 typeof ( bool:local )"],
-		[NaN,				"number",		"#11 typeof ( NaN:local )"],
-		[infinity,			"number",		"#12 typeof ( infinity:local )"],
-		[undefined,			"undefined",	"#13 typeof ( undefined:local )"],
-
-		[[],				"array",		"#14 typeof ( array:local )"],
-		[{ key: "value" },	"struct",		"#15 typeof ( struct:local )"],
-		[function() {},		"method",		"#16 typeof ( method:local )"],
-		[get_timer,			"number",		"#17 typeof ( function:local )", platform_not_browser],
+		["-21233.223",		"string",		"#8 typeof( string:local )"],
+		["",				"string",		"#9 typeof( string:local )"],
+		["abc",				"string",		"#10 typeof( string:local )"],
+											  
+		[true,				"bool",			"#11 typeof ( bool:local )"],
+		[NaN,				"number",		"#12 typeof ( NaN:local )"],
+		[infinity,			"number",		"#13 typeof ( infinity:local )"],
+		[undefined,			"undefined",	"#14 typeof ( undefined:local )"],
+											  
+		[[],				"array",		"#15 typeof ( array:local )"],
+		[{ key: "value" },	"struct",		"#16 typeof ( struct:local )"],
+		[function() {},		"method",		"#17 typeof ( method:local )"],
+		[get_timer,			"number",		"#18 typeof ( function:local )", platform_not_browser],
 		
 	], function(_input, _expected, _desc, _condition = undefined) {
 		
