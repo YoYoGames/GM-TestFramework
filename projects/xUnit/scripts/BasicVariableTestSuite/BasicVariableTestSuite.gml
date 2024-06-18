@@ -180,10 +180,16 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			value = valueType[0];
 			details = valueType[1];
 			
+			// check that global variable does NOT exist before adding it
+			output = variable_global_exists("variable");
+			assert_false(output, "#1 variable_global_exists():" + details + ", detected a nonexistent variable");
+			
+			// set global variables here
 			variable_global_set("variable", value);
 			output = variable_global_exists("variable");
-					
-			assert_true(output, "variable_global_exists():" + details + ", failed to detect existing variable");
+			// check if they exist
+			assert_true(output, "#1.1 variable_global_exists():" + details + ", failed to detect existing variable");
+			// delete variable
 			variable_struct_remove(global, "variable");
 		}
 
@@ -191,11 +197,13 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			
 		details = "nan"
 		value = NaN;
-			
+		
+		// set global variable here
 		variable_global_set("variable", value);
 		output = variable_global_exists("variable");
-					
-		assert_true(output, "variable_global_exists():" + details + ", failed to detect existing variable");
+		// check if it exists
+		assert_true(output, "#1.3 variable_global_exists():" + details + ", failed to detect existing variable");
+		// delete variable
 		variable_struct_remove(global, "variable");
 			
 	})
@@ -229,11 +237,14 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 					
 			type = typeof(value);
 			
+			// set global variables here
 			variable_global_set("variable", value);
 			output = variable_global_get("variable");
-					
-			assert_equals(output, value, "variable_global_set/get():" + details + ", failed to maintain value consistency");
-			assert_typeof(output, type, "variable_global_set/get():" + details + ", failed to maintain type consistency");
+			// check if the values and the data types are correct
+			assert_equals(output, value, "#1 variable_global_set/get():" + details + ", failed to maintain value consistency");
+			assert_typeof(output, type, "#1.1 variable_global_set/get():" + details + ", failed to maintain type consistency");
+			// delete variables
+			variable_struct_remove(global, "variable");
 			
 		}
 
@@ -241,13 +252,80 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			
 		type = "number"
 		value = NaN;
-			
+		
+		// set global variable here
 		variable_global_set("variable", value);
 		output = variable_global_get("variable");
-					
-		assert_nan(output, "variable_struct_set/get():" + type + ", failed to maintain value consistency");
-		assert_typeof(output, type, "variable_struct_set/get():" + type + ", failed to maintain type consistency");
+		// check if the value and data type is correct
+		assert_nan(output, "#1.3 variable_struct_set/get():" + type + ", failed to maintain value consistency");
+		assert_typeof(output, type, "#1.4 variable_struct_set/get():" + type + ", failed to maintain type consistency");
+		// delete variable
+		variable_struct_remove(global, "variable");
+	})
+	
+	addFact("variable_global_get_names_tests", function() { 
 			
+		var iterations = 100;
+			
+		var output, expected = array_create(iterations);
+			
+		for (var i = 0; i < iterations; i++) {
+			expected[i] = "variable" + string(i);
+		}
+		
+		// create a bunch of global variables with different names
+		var length = array_length(expected);
+		for (var i = 0; i < length; i++) {
+			variable_global_set(expected[i], i);
+		}
+		
+		// get list of global variables
+		output = variable_instance_get_names(global);
+		// check if they contain all expected names
+		assert_array_contains_all(output, expected, "#1 variable_global_get_names(), failed to return the correct variable names.");
+		
+		// remove variables
+		for (var i = 0; i < length; i++) {
+			variable_struct_remove(global, expected[i]);
+		}
+			
+	})
+	
+	addFact("variable_global_names_count_tests", function() {
+
+		var iterations = 100;
+			
+		var output, globalNames, expected = array_create(iterations);
+			
+		for (var i = 0; i < iterations; i++) {
+			expected[i] = "variable" + string(i);
+		}
+		
+		// create a bunch of global variables with different names
+		var length = array_length(expected);
+		for (var i = 0; i < length; i++) {
+			variable_global_set(expected[i], i);
+		}
+		
+		// get list of global variables
+		globalNames = variable_instance_get_names(global);
+		output = 0;
+		
+		// get the number of variables that were added
+		for (var i = 0; i < length; i++) {
+			if (array_contains(globalNames, expected[i])) {
+				output++;
+			}
+		}
+		
+		// check if it is the expected number of variables
+		assert_equals(output, length, "#1 variable_global_names_count, failed to return the correct variable number.");
+		
+		// delete variables
+		for (var i = 0; i < length; i++) {
+			variable_struct_remove(global, expected[i]);
+		}
+		
 	})
 
 	// INSTANCES
@@ -295,15 +373,19 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				name = "variable" + string(j);
-					
+				
+				// check that variable does NOT exist before adding it
 				output = variable_instance_exists(target, name);
 				assert_false(output, "#1 variable_instance_exists("+ info +"):" + details + ", detected a nonexistent variable");
-					
+				
+				// add instance variable
 				variable_instance_set(target, name, value);
-					
+				
+				// check that variable exists after adding it
 				output = variable_instance_exists(target, name);
 				assert_true(output, "#1.1 variable_instance_exists("+ info +"):" + details + ", failed to detect an existing variable");
-					
+				
+				// delete variable
 				variable_struct_remove(target, name);
 			}
 		}
@@ -323,18 +405,21 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				name = "variable" + string(j);
-					
+				
+				// check that variable does NOT exist before adding it
 				output = variable_instance_exists(self, name);
 				assert_false(output, "#2 variable_instance_exists(self):" + details + ", detected a nonexistent variable");
-					
+				
+				// add instance variable
 				variable_instance_set(self, name, value);
 					
+				// check that variable exists after adding it
 				output = variable_instance_exists(self, name);
 				assert_true(output, "#2.1 variable_instance_exists(self):" + details + ", failed to detect an existing variable");
-
+				
 			}
 		}
-			
+		
 		instance_destroy(instance);
 
 		// ##### WITH + WITH + OTHER ####
@@ -352,14 +437,17 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 						
 					name = "variable" + string(j);
 					
+					// check that variable does NOT exist before adding it
 					output = variable_instance_exists(other, name);
 					assert_false(output, "#3 variable_instance_exists(other):" + details + ", detected a nonexistent variable");
 					
+					// add instance variable
 					variable_instance_set(other, name, value);
 					
+					// check that variable exists ater adding it
 					output = variable_instance_exists(other, name);
 					assert_true(output, "#3.1 variable_instance_exists(other):" + details + ", failed to detect an existing variable");
-
+					
 				}
 			}
 		}
@@ -401,15 +489,18 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}
 			
 		// ##### GENERAL ####
-			
+		
+		// add a bunch of variables with different names
 		var length = array_length(expected);
 		for (var i = 0; i < length; i++) {
 			variable_instance_set(instance, expected[i], i);
 		}
 
+		// get array of instance variable names
 		output = variable_instance_get_names(instance);
+		// check if the added variable names are in the array
 		assert_array_contains_all(output, expected, "#1 variable_instance_get_names(instance), failed to return the correct variable names.");
-			
+		
 		instance_destroy(instance);
 			
 		// ##### WITH + SELF ####
@@ -417,12 +508,15 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		instance = instance_create_depth(0, 0, 0, oEmpty);
 	
 		with (instance) {
-	
+			
+			// add a bunch of variables with different names
 			for (var i = 0; i < length; i++) {
 				variable_instance_set(self, expected[i], i);
 			}
-
+			
+			// get array of instance variable names
 			output = variable_instance_get_names(self);
+			// check if the added variable names are in the array
 			assert_array_contains_all(output, expected, "#2 variable_instance_get_names(self), failed to return the correct variable names.");
 		}
 			
@@ -435,12 +529,15 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 	
 		with (instance1) {
 			with(instance2) {
-
+				
+				// add a bunch of variables with different names
 				for (var i = 0; i < length; i++) {
 					variable_instance_set(other, expected[i], i);
 				}
-
+				
+				// get array of instance variable names
 				output = variable_instance_get_names(other);
+				// check if the added variable names are in the array
 				assert_array_contains_all(output, expected, "#3 variable_instance_get_names(self), failed to return the correct variable names.");
 			}
 		}
@@ -482,13 +579,16 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}
 			
 		// ##### GENERAL ####
-			
+		
+		// add a bunch of variables to the instance with different names
 		var length = array_length(expected);
 		for (var i = 0; i < length; i++) {
 			variable_instance_set(instance, expected[i], i);
 		}
-
+		
+		// get the array of instance variable names
 		output = variable_instance_get_names(instance);
+		// check if the number of variables is the expected number
 		assert_array_length(output, length, "#1 variable_instance_names_count(instance), failed to return the correct variable number.");
 			
 		instance_destroy(instance);
@@ -498,12 +598,15 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		instance = instance_create_depth(0, 0, 0, oEmpty);
 	
 		with (instance) {
-	
+			
+			// add a bunch of variables to the instance with different names
 			for (var i = 0; i < length; i++) {
 				variable_instance_set(self, expected[i], i);
 			}
-
+			
+			// get the array of instance variable names
 			output = variable_instance_names_count(self);
+			// check if the number of variables is the expected number
 			assert_array_length(output, length, "#2 variable_instance_names_count(self), failed to return the correct variable number.");
 		}
 			
@@ -516,12 +619,15 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 	
 		with (instance1) {
 			with(instance2) {
-
+				
+				// add a bunch of variables to the instance with different names
 				for (var i = 0; i < length; i++) {
 					variable_instance_set(other, expected[i], i);
 				}
-
+				
+				// get the array of instance variable names
 				output = variable_instance_names_count(other);
+				// check if the number of variables is the expected number
 				assert_array_length(output, length, "#3 variable_instance_names_count(other), failed to return the correct variable number.");
 			}
 		}
@@ -591,13 +697,18 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				type = typeof(value);
+				// set instance variable
 				variable_instance_set(target, "variable", value);
+				// get instance variable
 				output = variable_instance_get(target, "variable");
 				
+				// check if the type and value of variable is the expected one
 				assert_equals(output, value, "variable_instance_set/get("+ info +"):" + details + ", failed to maintain value consistency");
 				assert_typeof(output, type, "variable_instance_set/get("+ info +"):" + details + ", failed to maintain type consistency");
 			}
 		}
+		
+		// ##### NAN #####
 		
 		type = "number"
 		value = NaN;
@@ -608,9 +719,12 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			target = targetInfo[0];
 			info = targetInfo[1];
 			
+			// set instance variable
 			variable_instance_set(target, "variable", value);
+			// get instance variable
 			output = variable_instance_get(target, "variable");
-					
+			
+			// check if the type and value of variable is the expected one
 			assert_nan(output, "variable_instance_set/get("+ info +"):" + type + ", failed to maintain value consistency");
 			assert_typeof(output, type, "variable_instance_set/get("+ info +"):" + type + ", failed to maintain type consistency");
 
@@ -631,9 +745,12 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				type = typeof(value);
+				// set instance variable
 				variable_instance_set(self, "variable", value);
+				// get instance variable
 				output = variable_instance_get(self, "variable");
-					
+				
+				// check if the type and value of variable is the expeceted one
 				assert_equals(output, value, "variable_instance_set/get(self):" + details + ", failed to maintain value consistency");
 				assert_typeof(output, type, "variable_instance_set/get(self):" + details + ", failed to maintain type consistency");
 			}
@@ -655,9 +772,12 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 					details = valueType[1];
 					
 					type = typeof(value);
+					// set instance variable
 					variable_instance_set(other, "variable", value);
+					// get instance variable
 					output = variable_instance_get(other, "variable");
 					
+					// check if the type and value of variable is the expected one
 					assert_equals(output, value, "variable_instance_set/get(other):" + details + ", failed to maintain value consistency");
 					assert_typeof(output, type, "variable_instance_set/get(other):" + details + ", failed to maintain type consistency");
 				}
@@ -739,15 +859,19 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				name = "variable" + string(j);
-					
+				
+				// check that struct does NOT exist before adding it
 				output = variable_struct_exists(target, name);
 				assert_false(output, "#1 variable_struct_exists("+ info +"):" + details + ", detected a nonexistent variable");
-					
+				
+				// set struct here
 				variable_instance_set(target, name, value);
-					
+				
+				// check if it exists
 				output = variable_struct_exists(target, name);
 				assert_true(output, "#1.1 variable_struct_exists("+ info +"):" + details + ", failed to detect an existing variable");
-					
+				
+				// delete struct
 				variable_struct_remove(target, name);
 			}
 		}
@@ -766,15 +890,19 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				name = "variable" + string(j);
-					
+				
+				// check that struct does NOT exist before adding it
 				output = variable_struct_exists(target, name);
 				assert_false(output, "#2 variable_struct_exists(self):" + details + ", detected a nonexistent variable");
-					
+				
+				// set struct here
 				variable_instance_set(target, name, value);
-					
+				
+				// check if it exists
 				output = variable_struct_exists(target, name);
 				assert_true(output, "#2.1 variable_struct_exists(self):" + details + ", failed to detect an existing variable");
-					
+				
+				// delete struct
 				variable_struct_remove(target, name);
 			}
 		}
@@ -796,14 +924,18 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 						
 					name = "variable" + string(j);
 					
+					// check that struct does NOT exist before adding it
 					output = variable_struct_exists(target, name);
 					assert_false(output, "#3 variable_struct_exists(other):" + details + ", detected a nonexistent variable");
 					
+					// set struct here
 					variable_instance_set(target, name, value);
 					
+					// check if it exists
 					output = variable_struct_exists(target, name);
 					assert_true(output, "#3.1 variable_struct_exists(other):" + details + ", failed to detect an existing variable");
-						
+					
+					// delete struct
 					variable_struct_remove(target, name);
 				}
 			}
@@ -833,11 +965,13 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 	addFact("variable_struct_remove_tests", function() {
 			
 		var output, input = { text : "world", number: 10 };
-			
+		
+		// remove variable from struct, and check that it does NOT exist anymore
 		variable_struct_remove(input, "text");
 		output = variable_struct_exists(input, "text");
 		assert_false(output, "#1 variable_struct_remove(...), detected unexistent variable");
-			
+		
+		// remove variable from struct, and check that it does NOT exist anymore
 		variable_struct_remove(input, "number");
 		output = variable_struct_exists(input, "number");
 		assert_false(output, "#2 variable_struct_remove(...), detected unexistent variable");
@@ -866,15 +1000,18 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 	addFact("variable_struct_get_names_tests", function() {
 			
 		var output, input = { text : "world", number: 10 };
-			
+		
+		// get array of variable names
 		output = variable_struct_get_names(input);
 
+		// check that they are all there
 		assert_array_length(output, 2, "#1 variable_struct_get_names(), failed to detect all names");
 		assert_array_contains_all(output, ["text", "number"], "#1.1 variable_struct_get_names(), failed to detect the correct names");
-			
+		// remove variables from the struct
 		variable_struct_remove(input, "text");
 		variable_struct_remove(input, "number");
-			
+		
+		// check that they were removed
 		output = variable_struct_get_names(input);
 		assert_array_length(output, 0, "#2 variable_struct_get_names(), failed to detect names on empty struct");
 			
@@ -906,19 +1043,22 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		var struct = {}
 			
 		var output, expected = array_create(iterations);
-			
+		
 		for (var i = 0; i < iterations; i++) {
 			expected[i] = "variable" + string(i);
 		}
 			
 		// ##### GENERAL ####
-			
+		
+		// add a bunch of variables to the struct with different names
 		var length = array_length(expected);
 		for (var i = 0; i < length; i++) {
 			variable_struct_set(struct, expected[i], i);
 		}
-
+		
+		// get list of variable names
 		output = variable_struct_get_names(struct);
+		// check the number of variables is the expected one
 		assert_array_length(output, length, "#1 variable_struct_names_count(struct), failed to return the correct variable number.");
 			
 			
@@ -927,12 +1067,15 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		struct = {};
 	
 		with (struct) {
-	
+			
+			// add a bunch of variables to the struct with different names
 			for (var i = 0; i < length; i++) {
 				variable_instance_set(self, expected[i], i);
 			}
 
+			// get list of variable names
 			output = variable_struct_names_count(self);
+			// check the number of variables is the expected one
 			assert_array_length(output, length, "#2 variable_struct_names_count(self), failed to return the correct variable number.");
 		}
 			
@@ -944,11 +1087,14 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		with (struct1) {
 			with(struct2) {
 
+				// add a bunch of variables to the struct with different names
 				for (var i = 0; i < length; i++) {
 					variable_instance_set(other, expected[i], i);
 				}
 
+				// get list of variable names
 				output = variable_struct_names_count(other);
+				// check the number of variables is the expected one
 				assert_array_length(output, length, "#3 variable_struct_names_count(other), failed to return the correct variable number.");
 			}
 		}
@@ -1015,9 +1161,12 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 					
 				type = typeof(value);
 			
+				// set struct variable
 				variable_struct_set(target, "variable", value);
+				// get struct variable
 				output = variable_struct_get(target, "variable");
-					
+				
+				// check if the value and type is correct
 				assert_equals(output, value, "variable_struct_set/get("+ info +"):" + details + ", failed to maintain value consistency");
 				assert_typeof(output, type, "variable_struct_set/get("+ info +"):" + details + ", failed to maintain type consistency");
 			
@@ -1037,9 +1186,13 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 				details = valueType[1];
 					
 				type = typeof(value);
+				
+				// set struct variable
 				variable_struct_set(self, "variable", value);
+				// get struct variable
 				output = variable_struct_get(self, "variable");
-					
+				
+				// check if the value and type is correct
 				assert_equals(output, value, "variable_struct_set/get(self):" + details + ", failed to maintain value consistency");
 				assert_typeof(output, type, "variable_struct_set/get(self):" + details + ", failed to maintain type consistency");
 			}
@@ -1059,9 +1212,13 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 					details = valueType[1];
 					
 					type = typeof(value);
+					
+					// set struct variable
 					variable_struct_set(other, "variable", value);
+					// get struct variable
 					output = variable_struct_get(other, "variable");
 					
+					// check if the value and type is correct
 					assert_equals(output, value, "variable_struct_set/get(other):" + details + ", failed to maintain value consistency");
 					assert_typeof(output, type, "variable_struct_set/get(other):" + details + ", failed to maintain type consistency");
 				}
@@ -1069,7 +1226,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}
 
 		// ##### NAN #####
-			
+		
 		type = "number"
 		value = NaN;
 			
@@ -1079,9 +1236,12 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			target = targetInfo[0];
 			info = targetInfo[1];
 			
+			// set struct variable
 			variable_struct_set(target, "variable", value);
+			// get struct variable
 			output = variable_struct_get(target, "variable");
-					
+			
+			// check if the value and type is correct
 			assert_nan(output, "variable_struct_set/get("+ info +"):" + type + ", failed to maintain value consistency");
 			assert_typeof(output, type, "variable_struct_set/get("+ info +"):" + type + ", failed to maintain type consistency");
 
@@ -1114,7 +1274,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}, "#18 variable_struct_set/get( string, ... ), should throw error");
 			
 	})
-/*
+
 	addFact("builtin_instance_varnames_test", function() {
 
 		var value = function() {};
@@ -1143,6 +1303,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			layer: value,
 
 			in_sequence: value, sequence_instance: value 
+			
 		}
 					
 		var type = typeof(value);
@@ -1153,25 +1314,25 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			var name = names[--count];
 					
 			output = input[$ name];
+			// check if each built-in instance variable value and type is correct
 			assert_equals(output, value, "#1 struct[$ "+ name +"], failed to maintain value consistency");
 			assert_typeof(output, type, "#1.1 struct[$ "+ name +"], failed to maintain type consistency");
 		}
 	})
-*/
-/*
+
 	addFact("builtin_constant_varnames_test", function() {
 
 		var value = function() {};
 			
 		var output, input = {
-			self: value,
+			//self: value, // <------ Cannot set a constant to a value
 			other: value,
 			all: value,
 			noone: value,
 			global: value,
-			//undefined: value, // <----- completly corrupts the game YYC BUG
-			//pointer_invalid: value, // <----- completly corrupts the game YYC BUG
-			//pointer_null: value, // <----- completly corrupts the game YYC BUG
+			undefined: value,
+			pointer_invalid: value,
+			pointer_null: value,
 
 			path_action_stop: value,
 			path_action_restart: value,
@@ -1182,10 +1343,11 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			false: value,
 			pi: value,
 			NaN: value,
-			//infinity: value, // <----- completly corrupts the game YYC BUG
+			infinity: value,
 			//GM_build_date: value,
 			//GM_version: value,
 			//GM_runtime_version: value,
+
 
 			ev_create: value,
 			ev_pre_create: value,
@@ -1253,6 +1415,14 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			ev_joystick2_button8: value,
 			ev_outside: value,
 			ev_boundary: value,
+			ev_boundary_view0: value,
+			ev_boundary_view1: value,
+			ev_boundary_view2: value,
+			ev_boundary_view3: value,
+			ev_boundary_view4: value,
+			ev_boundary_view5: value,
+			ev_boundary_view6: value,
+			ev_boundary_view7: value,
 			ev_game_start: value,
 			ev_game_end: value,
 			ev_room_start: value,
@@ -1358,6 +1528,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			ev_async_save_load: value,
 			ev_async_audio_recording: value,
 			ev_async_audio_playback: value,
+			ev_async_audio_playback_ended: value,
 			ev_async_system_event: value,
 
 			vk_nokey: value,
@@ -1467,9 +1638,11 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			bm_normal: value,
 			bm_add: value,
 			bm_max: value,
+			bm_min: value,
 			bm_subtract: value,
 			bm_zero: value,
 			bm_one: value,
+			bm_reverse_subtract: value,
 
 			bm_src_colour: value,
 			bm_inv_src_colour: value,
@@ -1503,7 +1676,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 
 			audio_mono: value,
 			audio_stereo: value,
-			audio_3d: value,
+			audio_3D: value,
 
 			cr_default: value,
 			cr_none: value,
@@ -1584,6 +1757,8 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			ps_shape_ellipse: value,
 			ps_shape_diamond: value,
 			ps_shape_line: value,
+			ps_mode_burst: value,
+			ps_mode_stream: value,
 
 			os_windows: value,
 			os_macosx: value,
@@ -1693,6 +1868,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			gp_axislv: value,
 			gp_axisrh: value,
 			gp_axisrv: value,
+			gp_touchpadbutton: value,
 
 			gp_axis_acceleration_x: value,
 			gp_axis_acceleration_y: value,
@@ -1738,7 +1914,6 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			layerelementtype_particlesystem: value,
 			layerelementtype_tile: value,
 			layerelementtype_sequence: value,
-
 
 			kbv_type_default: value,
 			kbv_type_ascii: value,
@@ -1815,22 +1990,187 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			seqaudiokey_oneshot: value,
 
 			animcurvetype_linear: value,
-			animcurvetype_catmullrom: value
+			animcurvetype_catmullrom: value,
+			
+			bboxkind_diamond: value,
+			bboxkind_ellipse: value,
+			bboxkind_precise: value,
+			bboxkind_rectangular: value,
+			
+			bboxmode_automatic: value,
+			bboxmode_fullimage: value,
+			bboxmode_manual: value,
+			
+			dll_cdecl: value,
+			dll_stdcall: value,
+			
+			gamespeed_fps: value,
+			gamespeed_microseconds: value,
+			
+			m_axisx: value,
+			m_axisx_gui: value,
+			m_axisy: value,
+			m_axisy_gui: value,
+			m_scroll_down: value,
+			m_scroll_up: value,
+			
+			matrix_projection: value,
+			matrix_view: value,
+			matrix_world: value,
+			
+			network_config_avoid_time_wait: value,
+			network_config_connect_timeout: value,
+			network_config_disable_multicast: value,
+			network_config_disable_reliable_udp: value,
+			network_config_enable_multicast: value,
+			network_config_enable_reliable_udp: value,
+			network_config_use_non_blocking_socket: value,
+			network_config_websocket_protocol: value,
+			network_connect_active: value,
+			network_connect_blocking: value,
+			network_connect_nonblocking: value,
+			network_connect_none: value,
+			network_connect_passive: value,
+			network_send_binary: value,
+			network_send_text: value,
+			network_socket_bluetooth: value,
+			network_socket_tcp: value,
+			network_socket_udp: value,
+			network_socket_ws: value,
+			network_type_connect: value,
+			network_type_data: value,
+			network_type_disconnect: value,
+			network_type_down: value,
+			network_type_non_blocking_connect: value,
+			network_type_up: value,
+			network_type_up_failed: value,
+			
+			phy_debug_render_aabb: value,
+			phy_debug_render_collision_pairs: value,
+			phy_debug_render_coms: value,
+			phy_debug_render_core_shapes: value,
+			phy_debug_render_joints: value,
+			phy_debug_render_obb: value,
+			phy_debug_render_shapes: value,
+			phy_joint_anchor_1_x: value,
+			phy_joint_anchor_1_y: value,
+			phy_joint_anchor_2_x: value,
+			phy_joint_anchor_2_y: value,
+			phy_joint_angle: value,
+			phy_joint_angle_limits: value,
+			phy_joint_damping_ratio: value,
+			phy_joint_frequency: value,
+			phy_joint_length_1: value,
+			phy_joint_length_2: value,
+			phy_joint_lower_angle_limit: value,
+			phy_joint_max_force: value,
+			phy_joint_max_length: value,
+			phy_joint_max_motor_force: value,
+			phy_joint_max_motor_torque: value,
+			phy_joint_motor_force: value,
+			phy_joint_motor_speed: value,
+			phy_joint_motor_torque: value,
+			phy_joint_reaction_force_x: value,
+			phy_joint_reaction_force_y: value,
+			phy_joint_reaction_torque: value,
+			phy_joint_speed: value,
+			phy_joint_translation: value,
+			phy_joint_upper_angle_limit: value,
+			phy_particle_data_flag_category: value,
+			phy_particle_data_flag_color: value,
+			phy_particle_data_flag_position: value,
+			phy_particle_data_flag_typeflags: value,
+			phy_particle_data_flag_velocity: value,
+			phy_particle_flag_colormixing: value,
+			phy_particle_flag_elastic: value,
+			phy_particle_flag_powder: value,
+			phy_particle_flag_spring: value,
+			phy_particle_flag_tensile: value,
+			phy_particle_flag_viscous: value,
+			phy_particle_flag_wall: value,
+			phy_particle_flag_water: value,
+			phy_particle_flag_zombie: value,
+			phy_particle_group_flag_rigid: value,
+			phy_particle_group_flag_solid: value,
+			
+			seqtextkey_bottom: value,
+			seqtextkey_center: value,	
+			seqtextkey_justify: value,
+			seqtextkey_left: value,
+			seqtextkey_middle: value,
+			seqtextkey_right: value,
+			seqtextkey_top: value,
+			
+			spritespeed_framespergameframe: value,
+			spritespeed_framespersecond: value,
+			
+			surface_r16float: value,	  
+			surface_r32float: value,	  
+			surface_r8unorm: value,
+			surface_rg8unorm: value,
+			surface_rgba16float: value,
+			surface_rgba32float: value,
+			surface_rgba4unorm: value,
+			surface_rgba8unorm: value,
+			
+			texturegroup_status_fetched: value,
+			texturegroup_status_loaded: value,
+			texturegroup_status_loading: value,
+			texturegroup_status_unloaded: value,
+			
+			tile_flip: value,
+			tile_index_mask: value,
+			tile_mirror: value,
+			tile_rotate: value,
+			
+			time_source_expire_after: value,
+			time_source_expire_nearest: value,
+			time_source_game: value,
+			time_source_global: value,
+			time_source_state_active: value,
+			time_source_state_initial: value,
+			time_source_state_paused: value,
+			time_source_state_stopped: value,
+			time_source_units_frames: value,
+			time_source_units_seconds: value,
+			
+			timezone_local: value,
+			timezone_utc: value,
+			
+			tm_countvsyncs: value,
+			tm_sleep: value,
+			tm_systemtiming: value,
+			
+			ty_real: value,
+			ty_string: value,
+			
+			video_format_rgba: value,
+			video_format_yuv: value,
+			
+			video_status_closed: value,
+			video_status_paused: value,
+			video_status_playing: value,
+			video_status_preparing: value
+			
+			
 		}
 					
 		var type = typeof(value);
 			
 		var names = variable_struct_get_names(input);
 		var count = array_length(names);
+		
 		repeat (count) {
 			var name = names[--count];
 					
 			output = input[$ name];
+			// check if each built-in constant variable value and type is correct
 			assert_equals(output, value, "#1 struct[$ "+ name +"], failed to maintain value consistency");
 			assert_typeof(output, type, "#1.1 struct[$ "+ name +"], failed to maintain type consistency");
+			
 		}
+		
 	})
-*/
 
 }
 
