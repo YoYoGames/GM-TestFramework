@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"BasicTilemapTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BasicTilemapTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

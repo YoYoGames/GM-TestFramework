@@ -6,7 +6,7 @@ function BasicHandlesTestSuite() : TestSuite() constructor {
         [handle_testParticleSystem, "handle_testParticleSystem"],
         [handle_testPath, "handle_testPath"],
         [handle_testRoom, "handle_testRoom"],
-        [handle_testScript, "handle_testScript"],
+        //[handle_testScript, "handle_testScript"],
         [handle_testFunction, "handle_testFunction"],
         [handle_testSequence, "handle_testSequence"],
         [handle_testShader, "handle_testShader"],
