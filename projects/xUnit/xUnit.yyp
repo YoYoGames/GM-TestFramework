@@ -125,6 +125,7 @@
     {"id":{"name":"ConfigAPI","path":"scripts/ConfigAPI/ConfigAPI.yy",},},
     {"id":{"name":"ConfigManager","path":"scripts/ConfigManager/ConfigManager.yy",},},
     {"id":{"name":"constants","path":"scripts/constants/constants.yy",},},
+    {"id":{"name":"draw_test_utils","path":"scripts/draw_test_utils/draw_test_utils.yy",},},
     {"id":{"name":"ds_grid_to_array","path":"scripts/ds_grid_to_array/ds_grid_to_array.yy",},},
     {"id":{"name":"ds_list_to_array","path":"scripts/ds_list_to_array/ds_list_to_array.yy",},},
     {"id":{"name":"ds_map_to_array","path":"scripts/ds_map_to_array/ds_map_to_array.yy",},},

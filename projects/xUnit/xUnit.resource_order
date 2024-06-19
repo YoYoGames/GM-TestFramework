@@ -89,6 +89,7 @@
     {"name":"BasicWeakRefsTestSuite","order":23,"path":"scripts/BasicWeakRefsTestSuite/BasicWeakRefsTestSuite.yy",},
     {"name":"channel_get_name","order":5,"path":"scripts/channel_get_name/channel_get_name.yy",},
     {"name":"ConfigAPI","order":3,"path":"scripts/ConfigAPI/ConfigAPI.yy",},
+    {"name":"draw_test_utils","order":2,"path":"scripts/draw_test_utils/draw_test_utils.yy",},
     {"name":"ds_list_to_array","order":1,"path":"scripts/ds_list_to_array/ds_list_to_array.yy",},
     {"name":"ds_map_to_array","order":2,"path":"scripts/ds_map_to_array/ds_map_to_array.yy",},
     {"name":"ds_queue_to_array","order":3,"path":"scripts/ds_queue_to_array/ds_queue_to_array.yy",},

@@ -22,8 +22,8 @@ function CreateTestLayer()
 /// @description Creates a new tilemap on the specified layer, optionally with a specific a tileSet and size. Returns undefined and fails the test if the tilemap has not been created correctly.
 /// @param {Id.layer} testLayer The layer to create the tilemap on.
 /// @param {Asset.GMTileSet} tileSet The tileset to use for the tilemap. defaults to tilesAuto.
-/// @param {int32} width Width of the tilemap. defaults to 10.
-/// @param {int32} height Height of the tilemap. defaults to 10.
+/// @param {Real} width Width of the tilemap in cells. defaults to 10.
+/// @param {Real} height Height of the tilemap in cells. defaults to 10.
 /// @return {Id.tilemap} 
 function CreateTestTilemap(testLayer, tileSet = tilesAuto, width = 10, height = 10)
 {
@@ -132,7 +132,7 @@ function TestInvalidArgs(func, numArgs = 1, validArgTypes = [])
 			// Put the function with the invalid args into an assert_throw to make sure it throws an exception as expected
 			assert_throw(method({targetFunc: func, args: values}, function() {
 					
-				method_call(targetFunc, args)
+				method_call(targetFunc, args);
 
 			}), funcDesc+"("+ details +"):, failed to detect invalid arguments");
 		}
@@ -316,7 +316,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			assert_equals(output, 0, "#tilemap_get_frame(), failed to get the correct value on first frame");
 			
 			// Test tilemap_get_frame() with invalid args
-			TestInvalidArgs(tilemap_get_frame)
+			TestInvalidArgs(tilemap_get_frame);
 			
 		},
 		// This happens every step event
@@ -343,7 +343,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			// If test has timed out, it means that a change in frame was never detected past the first frame
 			if (test_has_expired())
 			{
-				assert_true(false, "tilemap_get_frame(), failed to get the correct value beyond first frame")
+				assert_true(false, "tilemap_get_frame(), failed to get the correct value beyond first frame");
 			}
 			
 			// Find layer and tilemap
@@ -744,9 +744,9 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			{
 				// Place them onto the tilemap, as they are arranged on the tileset (14 tiles per row)
 				// (i mod 14 increments the x coord every loop until 14, then resets)
-				var cell_x = i mod 14
+				var cell_x = i mod 14;
 				// (i div 14 increments the y coord every 14th tile)
-				var cell_y = i div 14
+				var cell_y = i div 14;
 				tilemap_set(layerTilemap, i, cell_x, cell_y);
 			}
 			
@@ -754,7 +754,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 		// This happens every draw event
 		ev_draw: function() {
 			
-			var testLayer, layerTilemap, testSurface, testBuffer, expectedBuffer, output;
+			var testLayer, layerTilemap, testSurface, testBuffer, expectedBuffer;
 			
 			// Find layer and tilemap
 			testLayer = layer_get_id("testLayer");
@@ -762,14 +762,14 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			
 			// Test that draw_tilemap() draws the tilemap correctly using the draw comparison functions in objTestAsyncDraw:
 			// Start drawing to a test surface
-			StartDrawComparison("drawTilemapTest", "draw_tilemap(), failed to draw tilemap correctly");
+			testSurface = start_draw_comparison();
 			// draw the tilemap at 0,0
 			draw_tilemap(layerTilemap, 0, 0);
 			// Stop drawing to the test surface, store it as a buffer, then compare it against the drawTilemapTestExpectedBuffer file
-			EndDrawComparison();
+			end_draw_comparison(testSurface, "drawTilemapTest", "draw_tilemap(), failed draw buffer comparison");
 			
 			// Test draw_tilemap() with invalid args
-			TestInvalidArgs(draw_tilemap, 3)
+			TestInvalidArgs(draw_tilemap, 3);
 			
 			// End test after first draw event
 			test_end();
@@ -807,15 +807,15 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			return;
 		}
 		// Set tile at cell 1,0 to index 1 for testing
-		tilemap_set(layerTilemap, 1, 1, 0)
+		tilemap_set(layerTilemap, 1, 1, 0);
 		
 		// Test that tile_get_empty() returns true as expected for the empty tile at 0,0
-		testTile = tilemap_get(layerTilemap, 0, 0)
+		testTile = tilemap_get(layerTilemap, 0, 0);
 		output = tile_get_empty(testTile);
 		assert_true(output, "#tile_get_empty(), failed to get the correct value for empty tile");
 		
 		// Test that tile_get_empty() returns false as expected for the tile that was set to index 1 at 1,0
-		testTile = tilemap_get(layerTilemap, 1, 0)
+		testTile = tilemap_get(layerTilemap, 1, 0);
 		output = tile_get_empty(testTile);
 		assert_false(output, "#tile_get_empty(), failed to get the correct value for non-empty tile");
 		
@@ -823,7 +823,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 		TestInvalidArgs(tile_get_empty);
 		
 		// Test that tile_set_empty() turns the index 1 tile data from 1,0 to an empty tile as expected
-		testTile = tilemap_get(layerTilemap, 1, 0)
+		testTile = tilemap_get(layerTilemap, 1, 0);
 		testTile = tile_set_empty(testTile);
 		output = tile_get_empty(testTile);
 		assert_true(output, "#tile_set_empty(), failed to set the correct value");
@@ -852,7 +852,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 		}
 		
 		// Test that tile_get_index() returns 0 as expected for the empty tile at 0,0
-		testTile = tilemap_get(layerTilemap, 0, 0)
+		testTile = tilemap_get(layerTilemap, 0, 0);
 		output = tile_get_index(testTile);
 		assert_equals(output, 0, "#tile_get_index(), failed to get the correct value");
 		
@@ -1001,7 +1001,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 		// This happens every draw event
 		ev_draw: function() {
 			
-			var testLayer, layerTilemap, testSurface, output;
+			var testLayer, layerTilemap, testSurface = undefined;
 			
 			// Find layer and tilemap
 			testLayer = layer_get_id("testLayer");
@@ -1009,14 +1009,14 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			
 			// Test that draw_tile() draws a tile correctly using the draw comparison functions in objTestAsyncDraw:
 			// Start drawing to a test surface
-			StartDrawComparison("drawTileTest", "draw_tile(), failed to draw tile correctly");
+			testSurface = start_draw_comparison();
 			// draw tile with index 1 from tilesAuto at 0,0
 			draw_tile(tilesAuto, 1, 0, 0, 0);
 			// Stop drawing to the test surface, store it as a buffer, then compare it against the drawTileTestExpectedBuffer file
-			EndDrawComparison();
+			end_draw_comparison(testSurface, "drawTileTest", "draw_tile(), failed draw buffer comparison");
 			
 			// Test draw_tile() with invalid args
-			TestInvalidArgs(draw_tile, 5)
+			TestInvalidArgs(draw_tile, 5);
 			
 			// End test after first draw event
 			test_end();
