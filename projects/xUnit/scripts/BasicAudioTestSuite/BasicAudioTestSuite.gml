@@ -1,5 +1,15 @@
 
+global.soundsToTest = array_create(6, [
+	snd_coinpickup_MP3,
+	snd_coinpickup_OGG,
+	snd_coinpickup_WAV,
+	snd_jump_MP3,
+	snd_jump_OGG,
+	snd_jump_WAV
+	]);
+
 function BasicAudioTestSuite() : TestSuite() constructor {
+
 
 	addFact("Audio initialized", function(){
 		
@@ -17,16 +27,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		
 		// tests for multiple sound formats
 		
-		var soundsToTest = array_create(6, [
-			snd_coinpickup_MP3,
-			snd_coinpickup_OGG,
-			snd_coinpickup_WAV,
-			snd_jump_MP3,
-			snd_jump_OGG,
-			snd_jump_WAV
-			]);
-		
-		for (var i = 0; i <= array_length(soundsToTest); i++) {
+		for (var i = 0; i <= array_length(global.soundsToTest); i++) {
 			
 			// test audio name
 			var audioName = audio_get_name(i);
@@ -124,17 +125,8 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 	
 	addFact("Single audio playback functions", function() {
 		
-		var soundsToTest = array_create(6, [
-			snd_coinpickup_MP3,
-			snd_coinpickup_OGG,
-			snd_coinpickup_WAV,
-			snd_jump_MP3,
-			snd_jump_OGG,
-			snd_jump_WAV
-			]);
-		
 		// test audio playback functions that handle single sound
-		for (var i = 0; i <= array_length(soundsToTest); i++) {
+		for (var i = 0; i <= array_length(global.soundsToTest); i++) {
 			
 			// check if audio is playable
 			var playable = audio_sound_is_playable(i);
@@ -247,19 +239,10 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 	
 	addFact("Multiple audio playback functions", function() {
 		
-		var soundsToTest = array_create(6, [
-			snd_coinpickup_MP3,
-			snd_coinpickup_OGG,
-			snd_coinpickup_WAV,
-			snd_jump_MP3,
-			snd_jump_OGG,
-			snd_jump_WAV
-			]);
-		
 		// test audio playback functions that handle multiple sounds
 		
 		// start all sounds and check if they are all playing
-		for (var i = 0; i <= array_length(soundsToTest); i++) {
+		for (var i = 0; i <= array_length(global.soundsToTest); i++) {
 			audio_play_sound(i, 1, false);
 			var isPlaying = audio_is_playing(i);
 			assert_true(isPlaying, "#1." + string(i) + " audio should be playing");
@@ -268,7 +251,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		// pause all audio and check that they are still playing and are paused
 		audio_pause_all();
 		
-		for (var i = 0; i <= array_length(soundsToTest); i++) {
+		for (var i = 0; i <= array_length(global.soundsToTest); i++) {
 			var isPlaying = audio_is_playing(i);
 			assert_true(isPlaying, "#2.1." + string(i) + " audio should be playing");
 			var isPaused = audio_is_paused(i);
@@ -278,7 +261,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		// resume all audio and check that they are playing and are not paused
 		audio_resume_all();
 		
-		for (var i = 0; i <= array_length(soundsToTest); i++) {
+		for (var i = 0; i <= array_length(global.soundsToTest); i++) {
 			var isPlaying = audio_is_playing(i);
 			assert_true(isPlaying, "#3.1." + string(i) + " audio should be playing");
 			var isPaused = audio_is_paused(i);
@@ -288,7 +271,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		// stop all audio and check that they have stopped playing
 		audio_stop_all();
 		
-		for (var i = 0; i <= array_length(soundsToTest); i++) {
+		for (var i = 0; i <= array_length(global.soundsToTest); i++) {
 			var isPlaying = audio_is_playing(i);
 			assert_false(isPlaying, "#4." + string(i) + " audio should not be playing");
 		}
@@ -380,6 +363,6 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 			
 		},
 		
-	});	
+	});
 
 }
