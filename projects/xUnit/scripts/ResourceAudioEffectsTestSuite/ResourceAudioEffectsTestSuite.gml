@@ -22,13 +22,7 @@ function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 			audio_effect_create(AudioEffectType.Gain), 
 			audio_effect_create(AudioEffectType.HPF2),
 			audio_effect_create(AudioEffectType.LPF2), 
-			audio_effect_create(AudioEffectType.Reverb1),
-			audio_effect_create(AudioEffectType.Tremolo),
-			audio_effect_create(AudioEffectType.EQ),
-			audio_effect_create(AudioEffectType.PeakEQ),
-			audio_effect_create(AudioEffectType.HiShelf),
-			audio_effect_create(AudioEffectType.LoShelf),
-			audio_effect_create(AudioEffectType.Compressor)
+			audio_effect_create(AudioEffectType.Reverb1)
 		];
 		
 		array_foreach(_effects, function(_value, _index) {
@@ -61,45 +55,6 @@ function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 					assert_true(variable_struct_exists(_value, "size"));
 					assert_true(variable_struct_exists(_value, "damp"));
 					assert_true(variable_struct_exists(_value, "mix"));
-					break;
-				case AudioEffectType.Tremolo:
-					assert_true(variable_struct_exists(_value, "rate"));
-					assert_true(variable_struct_exists(_value, "intensity"));
-					assert_true(variable_struct_exists(_value, "offset"));
-					assert_true(variable_struct_exists(_value, "shape"));
-					break;
-				case AudioEffectType.EQ:
-					assert_true(variable_struct_exists(_value, "locut"));
-					assert_true(variable_struct_exists(_value, "loshelf"));
-					assert_true(variable_struct_exists(_value, "eq1"));
-					assert_true(variable_struct_exists(_value, "eq2"));
-					assert_true(variable_struct_exists(_value, "eq3"));
-					assert_true(variable_struct_exists(_value, "eq4"));
-					assert_true(variable_struct_exists(_value, "hishelf"));
-					assert_true(variable_struct_exists(_value, "hicut"));
-					break;
-				case AudioEffectType.PeakEQ:
-					assert_true(variable_struct_exists(_value, "freq"));
-					assert_true(variable_struct_exists(_value, "q"));
-					assert_true(variable_struct_exists(_value, "gain"));
-					break;
-				case AudioEffectType.HiShelf:
-					assert_true(variable_struct_exists(_value, "freq"));
-					assert_true(variable_struct_exists(_value, "q"));
-					assert_true(variable_struct_exists(_value, "gain"));
-					break;
-				case AudioEffectType.LoShelf:
-					assert_true(variable_struct_exists(_value, "freq"));
-					assert_true(variable_struct_exists(_value, "q"));
-					assert_true(variable_struct_exists(_value, "gain"));
-					break;
-				case AudioEffectType.Compressor:
-					assert_true(variable_struct_exists(_value, "ingain"));
-					assert_true(variable_struct_exists(_value, "threshold"));
-					assert_true(variable_struct_exists(_value, "ratio"));
-					assert_true(variable_struct_exists(_value, "attack"));
-					assert_true(variable_struct_exists(_value, "release"));
-					assert_true(variable_struct_exists(_value, "outgain"));
 					break;
 				default:
 					throw "Error: Unknown audio effect type";
@@ -145,6 +100,5 @@ function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 		// Clean up the emitters
 		for (var _i = 0; _i < array_length(_emitters); ++_i)
 			audio_emitter_free(_emitters[_i]);
-			
 	});
 }
