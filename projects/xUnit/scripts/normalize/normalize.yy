@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"normalize",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"normalize",
+  "parent":{
+    "name":"Vectors",
+    "path":"folders/Tests/Utils/ShaderTests/Vectors.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

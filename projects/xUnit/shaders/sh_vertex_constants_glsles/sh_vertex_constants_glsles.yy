@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_vertex_constants_glsles",
+  "name":"sh_vertex_constants_glsles",
+  "parent":{
+    "name":"GLSLES",
+    "path":"folders/Tests/TestResources/shaders/GLSLES.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

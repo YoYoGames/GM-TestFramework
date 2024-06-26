@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"cross_product",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"cross_product",
+  "parent":{
+    "name":"Vectors",
+    "path":"folders/Tests/Utils/ShaderTests/Vectors.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

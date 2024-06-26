@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"generate_centred_rect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"generate_centred_rect",
+  "parent":{
+    "name":"Rects",
+    "path":"folders/Tests/Utils/ShaderTests/Rects.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

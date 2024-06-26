@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_vertex_constants_hlsl",
+  "name":"sh_vertex_constants_hlsl",
+  "parent":{
+    "name":"HLSL",
+    "path":"folders/Tests/TestResources/shaders/HLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}
