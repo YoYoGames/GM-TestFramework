@@ -96,4 +96,21 @@ function ResourceAudioListenersTestSuite() : TestSuite() constructor {
 			
 		});
 		
+		addFact("Listener mask test", function() {
+			
+			// Get listener count
+			var listenerCount = audio_get_listener_count();
+			
+			for (var i = 0; i < listenerCount; i++) {
+				
+				// Test listener mask
+				audio_set_listener_mask(i);
+				
+				var mask = audio_get_listener_mask();
+				assert_equals(mask, i, "#1." + string(i) + " Audio listener mask should be " + string(i));
+				
+			}
+			
+		});
+		
 }
