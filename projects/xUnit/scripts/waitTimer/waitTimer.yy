@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"waitTimer",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"waitTimer",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Tests/Utils.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
