@@ -1,4 +1,4 @@
-
+	
 function getGroupSoundsToTest() {
 	
 	return [
@@ -20,7 +20,7 @@ function getAudioGroups() {
 		];
 	
 }
-
+	
 function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 	
 	addTestAsync("Audio groups loading", objTestAsync, {
@@ -30,44 +30,41 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 			// Start loading audio groups
 			audioGroups = getAudioGroups();
 			
-			loaded = array_create(array_length(audioGroups));
-			
 			for (var i = 0; i < array_length(audioGroups); i++){
-				loaded[i] = false;
-				audio_group_load(i);
+				var group = audioGroups[i];
+				audio_group_load(group);
 			}
-			
-			frame = 0;
 			
 		},
 		
 		ev_step: function() {
 			
+			var loadedNum = 0;
+			
 			// Check if audio groups have been loaded
 			for (var i = 0; i < array_length(audioGroups); i++) {
 				
-				loaded[i] = audio_group_is_loaded(i);
+				var group = audioGroups[i];
 				
-				var progress = audio_group_load_progress(i);
-				
-				show_debug_message("audio group " + string(i) + ", frame " + string(frame) + ", load progress " + string(progress) + "%");
-				
-			}
-			
-			// If all audio groups have been loaded, end the test
-			var loadedNum = 0;
-			
-			for (var i = 0; i < array_length(loaded); i++) {
-				if (loaded[i]) {
+				if (audio_group_is_loaded(group)) {
 					loadedNum++;
 				}
+				
 			}
 			
-			if (loadedNum == array_length(loaded)) {
+			// If all audi groups have been loaded, end test
+			if (loadedNum == array_length(audioGroups)) {
+				
+				// Check that loading progress is at 100%
+				for (var i = 0; i < array_length(audioGroups); i++) {
+					
+					var group = audioGroups[i];
+					var loadProgress = audio_group_load_progress(group);
+					assert_equals(loadProgress, 100, "Load progress should be at 100% after loading in");
+					
+				}
+				
 				test_end();
-			}
-			else {
-				frame++;
 			}
 			
 		},
@@ -160,5 +157,157 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 	});
 
+	addFact("Audio group names test", function() {
+		
+		var groupsToTest = getAudioGroups();
+		
+		for (var i = 0; i < array_length(groupsToTest); i++) {
+			
+			var group = groupsToTest[i];
+			
+			var groupName = audio_group_name(group);
+			
+			switch (group) {
+				
+				case audiogroup_default:
+					assert_equals(groupName, "audiogroup_default", "audiogroup_default's name should match the variable name");
+					break;
+					
+				case audiogroup_MP3:
+					assert_equals(groupName, "audiogroup_MP3", "audiogroup_MP3's name should match the variable name");
+					break;
+					
+				case audiogroup_OGG:
+					assert_equals(groupName, "audiogroup_OGG", "audiogroup_OGG's name should match the variable name");
+					break;
+					
+				case audiogroup_WAV:
+					assert_equals(groupName, "audiogroup_WAV", "audiogroup_WAV's name should match the variable name");
+					break;
+					
+			}
+			
+		}
+		
+	});
+	
+	addFact("Audiogroup stop sounds", function() {
+		
+		// Start playing sound from audiogroup_OGG
+		var sound = audio_play_sound(snd_OGG, 1, false);
+		// Check if it is playing
+		var isPlaying = audio_is_playing(sound);
+		assert_true(isPlaying, "Sound should be playing");
+		
+		// Stop all sounds in audiogroup_OGG
+		audio_group_stop_all(audiogroup_OGG);
+		// Check that sound has stopped playing
+		isPlaying = audio_is_playing(sound);
+		assert_false(isPlaying, "Sound should not be playing");
+		
+	});
+	
+	addFact("Audiogroup gain instant", function() {
+		
+		// Get gain of audiogroup and test that it's 1 by default
+		var gain = audio_group_get_gain(audiogroup_OGG);
+		assert_equals(gain, 1, "The gain of audiogroups should be 1 by default");
+		
+		// Set gain of audiogroup to 0.1 and test if it has been set correctly
+		audio_group_set_gain(audiogroup_OGG, 0.1, 0);
+		gain = audio_group_get_gain(audiogroup_OGG);
+		assert_equals(gain, 0.1, "Gain should be 0.1");
+		
+		// Set gain back to 1
+		audio_group_set_gain(audiogroup_OGG, 1, 0);
+		
+	});
+	
+	addTestAsync("Audiogroup gain over time", objTestAsync, {
+		
+		ev_create: function() {
+			
+			// Set gain of auio group to 1
+			audio_group_set_gain(audiogroup_OGG, 1, 0);
+			
+			gain = audio_group_get_gain(audiogroup_OGG);
+			assert_equals(gain, 1, "Gain should be 1 before test starts");
+			
+			// Set audio group's gain to 0.1 over 0.25 seconds and start a timer
+			audio_group_set_gain(audiogroup_OGG, 0.1, 0.25);
+			
+			startTime = get_timer() / 1000000; // microseconds --> seconds
+			
+		},
+		
+		ev_step: function() {
+			
+			// After 0.25 seconds, check if the gain is the expected value
+			var timeSpent = (get_timer() / 1000000) - startTime; // in seconds
+			
+			if (timeSpent >= 0.25) {
+				
+				gain = audio_group_get_gain(audiogroup_OGG);
+				
+				assert_equals(gain, 0.1, "Gain should be 0.1 after 0.25 seconds");
+				
+				test_end();
+				
+			}
+			
+		}
+		
+	});
+	
+	addTestAsync("Audio group unloading", objTestAsync, {
+		
+		ev_create: function() {
+			
+			// Start unloading audio groups
+			audioGroups = getAudioGroups();
+			
+			// Remove default audio group from the array as we don't want to unload that
+			array_delete(audioGroups, 0, 1);
+			
+			for (var i = 0; i < array_length(audioGroups); i++){
+				var group = audioGroups[i];
+				audio_group_unload(group);
+			}
+			
+		},
+		
+		ev_step: function() {
+			
+			var unloadedNum = 0;
+			
+			// Check if audio groups have been unloaded
+			for (var i = 0; i < array_length(audioGroups); i++) {
+				
+				var group = audioGroups[i];
+				
+				if (!audio_group_is_loaded(group)) {
+					unloadedNum++;
+				}
+				
+			}
+			
+			// If all audio groups have been unloaded, end test
+			if (unloadedNum == array_length(audioGroups)) {
+				
+				// Check that loading progress is at 0% for unloaded audiogroups
+				for (var i = 0; i < array_length(audioGroups); i++) {
+					
+					var group = audioGroups[i];
+					var loadProgress = audio_group_load_progress(group);
+					assert_equals(loadProgress, 0, "Load progress should be at 0% after loading in");
+					
+				}
+				
+				test_end();
+			}
+			
+		},
+		
+	});
 	
 }
