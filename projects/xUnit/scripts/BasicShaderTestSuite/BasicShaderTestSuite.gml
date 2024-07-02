@@ -68,7 +68,7 @@ function create_vertex_shader_test_shape(_square_size = 10, _square_amount = 10)
 // Test suite for all basic shader functionality
 function BasicShaderTestSuite() : TestSuite() constructor {
 	
-	addTestAsync("primitive_drawing", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("primitive_drawing", objTestAsyncDraw, { // PROGRESS STATE - Finished (crop draw tests)
 		
 		ev_create: function() {
 			// Generate rect data to draw
@@ -93,7 +93,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_is_compiled", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("shader_is_compiled", objTestAsyncDraw, { // PROGRESS STATE - Finished (crop draw tests)
 		
 		ev_create: function() {
 			// Create array to store whether or not shaders have been compiled
@@ -161,12 +161,52 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		var _output;
 		_output = shaders_are_supported();
+		
+		// If the function detects the current platform as not supporting shaders..
+		if (_output == false)
+		{
+			// If the current platform is a browser (uses HTML5)..
+			if (os_browser != browser_not_a_browser)
+			{
+				// Check that WebGL is disabled (because only non-WebGL HTML builds should lack shader support)
+				assert_false(webgl_enabled, test_current().name +", failed to detect lack of shader support on non-WebGL HTML5 build");
+			}
+			// If the current platform is android..
+			else if (os_type == os_android)
+			{
+				// Get OS info map
+				var _info = os_get_info()
+				// If info map contains an entry with information about the platform's supported shader language..
+				if (ds_map_exists(_info, "GL_SHADING_LANGUAGE_VERSION"))
+				{
+					// If the shader language entry has a valid value (not undefined or empty string)
+					shader_language = _info[? "GL_SHADING_LANGUAGE_VERSION"];
+					if (!is_undefined(shader_language) && shader_language != "")
+					{
+						// Check that the shader language name doesn't have "GLSL ES" in it (because if it uses any version of GLSL ES then shaders should be supported)
+						assert_string_contains(shader_language, "OpenGL ES")
+					}
+				}
+				ds_map_destroy(_info);
+			}
+		}
+		
+		// If the current platform is a browser (uses HTML5)..
+		if (os_browser != browser_not_a_browser)
+		{
+			// And if WebGL is disabled..
+			if (!webgl_enabled)
+			{
+				// Shaders should not be supported
+				assert_false(_output, test_current().name +", failed to detect lack of shader support on non-WebGL HTML5 build");
+				return;
+			}
+		}
 
-		show_debug_message("THIS TEST HAS NOT BEEN IMPLEMENTED YET");
 	});
 	
 	
-	addTestAsync("shader_current", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("shader_current", objTestAsyncDraw, { // PROGRESS STATE - Finished (crop draw tests)
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
@@ -192,7 +232,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("passthrough_shader", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("passthrough_shader", objTestAsyncDraw, { // PROGRESS STATE - Finished (crop draw tests)
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
@@ -226,7 +266,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
@@ -298,7 +338,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_f_array", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_set_uniform_f_array", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -367,7 +407,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_f_buffer", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_set_uniform_f_buffer", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -449,7 +489,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_i", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_set_uniform_i", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -522,7 +562,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("shader_set_uniform_i_array", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_set_uniform_i_array", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -590,7 +630,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("shader_get_sampler_index", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_get_sampler_index", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -658,7 +698,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -721,7 +761,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_matrix_array", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_set_uniform_matrix_array", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -782,11 +822,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_enable_corner_id", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("shader_enable_corner_id", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = generate_centred_rect(200, 200);
 			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_enable_corner_id_glsles, sh_enable_corner_id_hlsl, sh_enable_corner_id_glsles);
@@ -826,7 +864,146 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("alpha_test", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("gl_frag_coord", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (doesn't cover gl_fragCoord.z or gl_FragCoord.w - not sure if these are implemented in GM?)
+		
+		ev_create: function() {
+			// Generate data for rect
+			rect = new Rect(0, 0, window_get_width(), window_get_height());
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_frag_coord_glsles, sh_enable_corner_id_hlsl, sh_frag_coord_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			u_resolution = shader_get_uniform(test_shader, "u_resolution");
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/FragCoord/";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison();
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				shader_set_uniform_f(u_resolution, window_get_width(), window_get_height());
+				// Draw rect
+				draw_rect(rect);
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
+			
+			test_end();
+			
+		},
+		ev_cleanup: function() {
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gl_max_draw_buffers", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate data for rect
+			rect = new Rect(0, 0, 200, 200);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_max_draw_buffers_glsles, sh_passthrough_hlsl, sh_max_draw_buffers_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/MaxDrawBuffers/";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(200, 200);
+			
+			
+			// Start using shader
+			shader_set(test_shader);
+				// Draw rect
+				draw_rect(rect);
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
+			
+			test_end();
+			
+		},
+		ev_cleanup: function() {
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gl_frag_data", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate data for rect
+			rect = new Rect(0, 0, 64, 64);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_passthrough_hlsl, sh_frag_data_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/FragData/";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+			
+			// Start draw buffer comparison
+			var _test_surfaces = [];
+			array_resize(_test_surfaces, 4);
+			_test_surfaces[0] = start_draw_comparison_ext(0, 64, 64);
+			_test_surfaces[1] = start_draw_comparison_ext(1, 64, 64);
+			_test_surfaces[2] = start_draw_comparison_ext(2, 64, 64);
+			_test_surfaces[3] = start_draw_comparison_ext(3, 64, 64);
+			
+			
+			// Start using shader
+			shader_set(test_shader);
+				// Draw rect
+				draw_rect(rect);
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison_ext(_test_surfaces, _test_path, _test_fail_message);
+			
+			test_end();
+			
+		},
+		ev_cleanup: function() {
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("alpha_test", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -903,12 +1080,450 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
+	addTestAsync("gm_matrix_view", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate a grid of rects to display matrix data
+			rects = generate_rect_grid(100, 100, 4, 4);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_matrix_view_glsles, sh_enable_corner_id_hlsl, sh_matrix_view_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// get shader uniforms
+			u_expected_matrix = shader_get_uniform(test_shader, "u_expected_matrix");
+			u_initial_matrix_world_view_projection = shader_get_uniform(test_shader, "u_initial_matrix_world_view_projection");
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/MatrixView/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default unchanged value";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with changed value";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+				
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 400);
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				var _world_view_projection = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _world_view_projection);
+				var _expected_matrix = matrix_get(matrix_view);
+				
+				if (_set_value)
+				{
+					_expected_matrix = [ 1, 0, 1, 0,
+										 0, 0, 0, 1,
+										 0, 0, 0, 1,
+										 1, 0, 1, 0]
+					matrix_set(matrix_view, _expected_matrix);
+				}
+				
+				
+				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
+				// Draw rects
+				for (i = 0; i < 16; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		}
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
 	
-	addTestAsync("gm_vs_fog_enabled", objTestAsyncDraw, { // PROGRESS STATE - WIP
+	addTestAsync("gm_matrix_projection", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate a grid of rects to display matrix data
+			rects = generate_rect_grid(100, 100, 4, 4);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_matrix_projection_glsles, sh_enable_corner_id_hlsl, sh_matrix_projection_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// get shader uniforms
+			u_expected_matrix = shader_get_uniform(test_shader, "u_expected_matrix");
+			u_initial_matrix_world_view_projection = shader_get_uniform(test_shader, "u_initial_matrix_world_view_projection");
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/MatrixProjection/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default unchanged value";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with changed value";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+				
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 400);
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				var _world_view_projection = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _world_view_projection);
+				var _expected_matrix = matrix_get(matrix_projection);
+				
+				if (_set_value)
+				{
+					_expected_matrix = [ 1, 0, 1, 0,
+										 0, 0, 0, 1,
+										 0, 0, 0, 1,
+										 1, 0, 1, 0 ]
+					matrix_set(matrix_projection, _expected_matrix);
+				}
+				
+				
+				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
+				// Draw rect
+				for (i = 0; i < 16; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		}
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_matrix_world", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate a grid of rects to display matrix data
+			rects = generate_rect_grid(100, 100, 4, 4);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_matrix_world_glsles, sh_enable_corner_id_hlsl, sh_matrix_world_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// get shader uniforms
+			u_expected_matrix = shader_get_uniform(test_shader, "u_expected_matrix");
+			u_initial_matrix_world_view_projection = shader_get_uniform(test_shader, "u_initial_matrix_world_view_projection");
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/MatrixWorld/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default unchanged value";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with changed value";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+				
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 400);
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				var _world_view_projection = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _world_view_projection);
+				var _expected_matrix = matrix_get(matrix_world);
+				
+				if (_set_value)
+				{
+					_expected_matrix = [ 1, 0, 1, 0,
+										 0, 0, 0, 1,
+										 0, 0, 0, 1,
+										 1, 0, 1, 0 ]
+					matrix_set(matrix_world, _expected_matrix);
+				}
+				
+				
+				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
+				// Draw rect
+				for (i = 0; i < 16; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		}
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	
+	addTestAsync("gm_matrix_world_view", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate a grid of rects to display matrix data
+			rects = generate_rect_grid(100, 100, 4, 4);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_matrix_world_view_glsles, sh_enable_corner_id_hlsl, sh_matrix_world_view_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// get shader uniforms
+			u_expected_matrix = shader_get_uniform(test_shader, "u_expected_matrix");
+			u_initial_matrix_world_view_projection = shader_get_uniform(test_shader, "u_initial_matrix_world_view_projection");
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/MatrixWorldView/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default unchanged value";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with changed value";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+				
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 400);
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				var _world_view_projection = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _world_view_projection);
+				var _expected_matrix = matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view));
+				
+				if (_set_value)
+				{
+					_expected_matrix = [ 1, 0, 1, 0,
+										 0, 0, 0, 1,
+										 0, 0, 0, 1,
+										 1, 0, 1, 0 ]
+					matrix_set(matrix_world, _expected_matrix);
+					matrix_set(matrix_view, _expected_matrix);
+					_expected_matrix = matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view))
+				}
+				
+				
+				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
+				// Draw rect
+				for (i = 0; i < 16; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		}
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_matrix_world_view_projection", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate a grid of rects to display matrix data
+			rects = generate_rect_grid(100, 100, 4, 4);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_matrix_world_view_projection_glsles, sh_enable_corner_id_hlsl, sh_matrix_world_view_projection_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// get shader uniforms
+			u_expected_matrix = shader_get_uniform(test_shader, "u_expected_matrix");
+			u_initial_matrix_world_view_projection = shader_get_uniform(test_shader, "u_initial_matrix_world_view_projection");
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/MatrixWorldViewProjection/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default unchanged value";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with changed value";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+				
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 400);
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				var _world_view_projection = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _world_view_projection);
+				var _expected_matrix =  matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				
+				if (_set_value)
+				{
+					_expected_matrix = [ 1, 0, 1, 0,
+										 0, 0, 0, 1,
+										 0, 0, 0, 1,
+										 1, 0, 1, 0 ]
+					matrix_set(matrix_world, _expected_matrix);
+					matrix_set(matrix_view, _expected_matrix);
+					matrix_set(matrix_projection, _expected_matrix);
+					_expected_matrix = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+				}
+				
+				
+				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
+				// Draw rect
+				for (i = 0; i < 16; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		}
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("matrix_max", objTestAsyncDraw, { // PROGRESS STATE - needs more specific comments (crop draw tests)
 		
 		ev_create: function() {
 			// Generate rect data to draw
-			rect = generate_centred_rect(200, 200);
+			rect = new Rect(0, 0, 64, 64);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_matrix_max_glsles, sh_passthrough_hlsl, sh_matrix_max_glsles);
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+		},
+		ev_draw: function() {
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(64, 64);
+			
+			// Start using shader
+			shader_set(test_shader);
+				// Draw rect
+				draw_rect(rect);
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, "ShaderTests/MatrixMax/", test_current().name +", failed draw buffer comparison");
+			// End test at end of first draw frame
+			test_end();
+		},
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_vs_fog_enabled", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying 
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0,0,200,200);
 			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_vs_fog_enabled_glsles, sh_passthrough_hlsl, sh_vs_fog_enabled_glsles);
@@ -924,35 +1539,38 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			var _test_path = "ShaderTests/VSFogEnabled/";
 			
-			var _test_prefix = "Off";
-			var _test_fail_message = test_current().name + ", failed draw buffer comparison with fog disabled";
-			var _fog_enabled = false;
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value of disabled";
+			var _set_value = false;
+			var _input = true;
 			
 			switch (draw_frame)
 			{
 				case 1:
-					_test_prefix = "On";
+					_test_prefix = "Set";
 					_test_fail_message = test_current().name + ", failed draw buffer comparison with fog enabled";
-					_fog_enabled = true;
+					_set_value = true;
 					break;
 				case 2:
 					test_end();
 					return;
 			}
 			
-			// Enable fog if _fog_enabled is set
-			if (_fog_enabled == true)
-			{
-				gpu_set_fog(true, c_black, 0, 1);
-			}
-			
 			// Start draw buffer comparison
-			var _test_surface = start_draw_comparison();
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
 			
 			// Start using shader
 			shader_set(test_shader);
+			
+				// Enable fog if _fog_enabled is set
+				if (_set_value == true)
+				{
+					gpu_set_fog(_input, c_black, 0, 1);
+				}
+			
 				// Draw rect
-				draw_rect(rect)
+				draw_rect(rect);
+				
 			// Stop using shader
 			shader_reset();
 			
@@ -963,6 +1581,286 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 		},
 		ev_cleanup: function() {
+			gpu_set_fog(false, c_black, 0, 1);
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_ps_fog_enabled", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0,0,200,200);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_ps_fog_enabled_glsles, sh_passthrough_hlsl, sh_ps_fog_enabled_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/PSFogEnabled/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value of disabled";
+			var _set_value = false;
+			var _input = true;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with fog enabled";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
+			
+			// Start using shader
+			shader_set(test_shader);
+			
+				// Enable fog if _fog_enabled is set
+				if (_set_value == true)
+				{
+					gpu_set_fog(_input, c_black, 0, 1);
+				}
+			
+				// Draw rect
+				draw_rect(rect);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			gpu_set_fog(false, c_black, 0, 1);
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_fog_colour", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0,0,200,200);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_fog_colour_glsles, sh_passthrough_hlsl, sh_fog_colour_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/FogColour/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value of c_black";
+			var _set_value = false;
+			var _input = c_white;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with set value of c_white";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
+			
+			// Start using shader - which will set the colour of anything rendered to the fog colour
+			shader_set(test_shader);
+				
+				if (_set_value == true)
+				{
+					// Set fog to be enabled and coloured white
+					gpu_set_fog(true, _input, 0, 1);
+				}
+				// Draw rect
+				draw_rect(rect);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			gpu_set_fog(false, c_black, 0, 1);
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_fog_start", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0,0,200,200);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_fog_start_glsles, sh_passthrough_hlsl, sh_fog_start_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/FogStart/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value of 0";
+			var _set_value = false;
+			var _input = 10;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with set value of 10";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
+			
+			// Start using shader - which will set the colour of anything rendered to the fog colour
+			shader_set(test_shader);
+				
+				if (_set_value == true)
+				{
+					// Set fog to be enabled and coloured white
+					gpu_set_fog(true, c_black, _input, 100);
+				}
+			
+				// Draw rect
+				draw_rect(rect);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			gpu_set_fog(false, c_black, 0, 1);
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_rcp_fog_range", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0,0,200,200);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_rcp_fog_range_glsles, sh_passthrough_hlsl, sh_rcp_fog_range_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/RcpFogRange/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value of 1";
+			var _set_value = false;
+			var _input = 100;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with set value of 100";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
+			
+			// Start using shader - which will set the colour of anything rendered to the fog colour
+			shader_set(test_shader);
+				
+				if (_set_value == true)
+				{
+					// Set fog to be enabled and coloured white
+					gpu_set_fog(true, c_black, 0, _input);
+				}
+			
+				// Draw rect
+				draw_rect(rect);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			gpu_set_fog(false, c_black, 0, 1);
 		}
 	
 	},
@@ -970,8 +1868,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 
-	
-	addTestAsync("3d_rendering", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying
+	addTestAsync("3d_rendering", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
 		
 		ev_create: function() {
 			
@@ -1019,6 +1916,577 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		ev_cleanup: function() {
 			camera_destroy(camera);
 			vertex_delete_buffer(cube_mesh)
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("normals_test", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
+		
+		ev_create: function() {
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_normals_glsles, sh_passthrough_hlsl,  sh_normals_glsles);
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Generate cube data to draw
+			cube_mesh = generate_cube();
+			// Generate 3D camera, positioned to see the cube
+			camera = generate_3d_camera();
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/NormalsTest/";
+			
+			var _test_prefix = "Angle1";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 1";
+			
+			switch (draw_frame)
+			{
+				case 1:
+					// Set prefix and fail message for 2nd part of the test
+					_test_prefix = "Angle2";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 2";
+					
+					// destroy current camera and generate a new one viewing the cube from the opposite direction
+					camera_destroy(camera);
+					camera = generate_3d_camera(new Vector3(200, 200, 300));
+					break;
+				case 2:
+					// End test and return to avoid any further code being run
+					test_end();
+					return;
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison();
+			
+			// Start using shader
+			shader_set(test_shader);
+			
+				gpu_set_zwriteenable(true);
+				gpu_set_ztestenable(true);
+				
+				camera_apply(camera)
+				draw_clear_alpha(c_black, 0)
+			
+				vertex_submit(cube_mesh, pr_trianglelist, -1);
+				
+				gpu_set_zwriteenable(false);
+				gpu_set_ztestenable(false);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			camera_destroy(camera);
+			vertex_delete_buffer(cube_mesh)
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gl_front_facing", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (& crop draw tests)
+		
+		ev_create: function() {
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_passthrough_hlsl,  sh_front_facing_glsles);
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Generate cube data to draw
+			plane_mesh = generate_plane();
+			// Generate 3D camera, positioned to see the cube
+			camera = generate_3d_camera();
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/FrontFacing/";
+			
+			var _test_prefix = "Angle1";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+			
+			switch (draw_frame)
+			{
+				case 1:
+					// Set prefix and fail message for 2nd part of the test
+					_test_prefix = "Angle2";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 2";
+					
+					// destroy current camera and generate a new one viewing the cube from the opposite direction
+					camera_destroy(camera);
+					camera = generate_3d_camera(new Vector3(200, 200, 300));
+					break;
+				case 2:
+					// End test and return to avoid any further code being run
+					test_end();
+					return;
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison();
+			
+			// Start using shader
+			shader_set(test_shader);
+			
+				gpu_set_zwriteenable(true);
+				gpu_set_ztestenable(true);
+				
+				camera_apply(camera)
+				draw_clear_alpha(c_black, 0)
+				
+				vertex_submit(plane_mesh, pr_trianglelist, -1);
+				
+				gpu_set_zwriteenable(false);
+				gpu_set_ztestenable(false);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			camera_destroy(camera);
+			vertex_delete_buffer(plane_mesh)
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("max_vs_lights", objTestAsyncDraw, { // PROGRESS STATE - needs more specific comments (crop draw tests)
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0, 0, 64, 64);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_max_vs_lights_glsles, sh_passthrough_hlsl, sh_max_vs_lights_glsles);
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+		},
+		ev_draw: function() {
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(64, 64);
+			
+			// Start using shader
+			shader_set(test_shader);
+				// Draw rect
+				draw_rect(rect);
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, "ShaderTests/MaxVSLights/", test_current().name +", failed draw buffer comparison");
+			// End test at end of first draw frame
+			test_end();
+		},
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_lighting_enabled", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying 
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0,0,200,200);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_lighting_enabled_glsles, sh_passthrough_hlsl, sh_lighting_enabled_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/LightingEnabled/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value of disabled";
+			var _set_value = false;
+			var _input = true;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with lighting enabled";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+			
+			// Enable lighting if _set_value is set
+			if (_set_value == true)
+			{
+				draw_set_lighting(true);
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
+			
+			// Start using shader
+			shader_set(test_shader);
+			
+				// Enable lighting if _set_value is set
+				//if (_set_value == true)
+				//{
+				//	draw_set_lighting(true);
+				//}
+			
+				// Draw rect
+				draw_rect(rect);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+			draw_set_lighting(false);
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_lights_direction", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (seems to invert directions? and w component doesn't seem to work)
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rects = generate_rect_grid(100, 100, 4, 2);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_lights_direction_glsles, sh_passthrough_hlsl, sh_lights_direction_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/LightsDirection/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with no lights set";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with 8 directional lights set";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+		
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 200);
+			
+			if (_set_value == true)
+			{
+				draw_light_define_direction(0, 1, 0, 0, c_white);
+				draw_light_define_direction(1, 0, 1, 0, c_white);
+				draw_light_define_direction(2, 0, 0, 1, c_white);
+				draw_light_define_direction(3, 0.3, 0.3, 0.3, c_white);
+				draw_light_define_direction(4, -1, 0, 0, c_white);
+				draw_light_define_direction(5, 0, -1, 0, c_white);
+				draw_light_define_direction(6, 0, 0, -1, c_white);
+				draw_light_define_direction(7, -0.3, -0.3, -0.3, c_white);
+				draw_light_enable(7, false)
+			}
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				
+				// Draw rectangles
+				for (i = 0; i < 8; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_lights_pos_range", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (docs say w is 0 when disabled, but this is untrue)
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rects = generate_rect_grid(100, 100, 4, 2);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_lights_pos_range_glsles, sh_passthrough_hlsl, sh_lights_pos_range_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/LightsPosRange/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with no lights set";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with 8 point lights set";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+		
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 200);
+			
+			if (_set_value == true)
+			{
+				draw_light_define_point(0, 1, 0, 0, 1, c_white);
+				draw_light_define_point(1, 0, 1, 0, 1, c_white);
+				draw_light_define_point(2, 0, 0, 1, 1, c_white);
+				draw_light_define_point(3, 1, 1, 1, 1, c_white);
+				draw_light_define_point(4, -1, 0, 0, 0.7, c_white);
+				draw_light_define_point(5, 0, -1, 0, 0.7, c_white);
+				draw_light_define_point(6, 0, 0, -1, 0.7, c_white);
+				draw_light_define_point(7, -1, -1, -1, 1, c_white);
+				draw_light_enable(7, false)
+			}
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				
+				// Draw rectangles
+				for (i = 0; i < 8; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_lights_colour", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (docs are missing a [] and this doesn't work at all)
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rects = generate_rect_grid(100, 100, 4, 2);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_lights_colour_glsles, sh_passthrough_hlsl, sh_lights_colour_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/LightsColour/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with no lights set";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with 8 lights set";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+		
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(400, 200);
+			
+			if (_set_value == true)
+			{
+				draw_set_lighting(true)
+				draw_light_define_point(0, 0, 0, 0, 1, $FF0000FF);
+				draw_light_define_point(1, 0, 0, 0, 1, $FF00FF00);
+				draw_light_define_point(2, 0, 0, 0, 1, $FFFF0000);
+				draw_light_define_point(3, 0, 0, 0, 1, $77FFFFFF);
+				draw_light_define_direction(4, 1, 0, 0, $FFFFFF00);
+				draw_light_define_direction(5, 1, 0, 0, $FFFF00FF);
+				draw_light_define_direction(6, 1, 0, 0, $FF00FFFF);
+				draw_light_define_direction(7, 1, 0, 0, $FF000000);
+			}
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				
+				// Draw rectangles
+				for (i = 0; i < 8; i++)
+				{
+					draw_rect(rects[i], i * 16, 1);
+				}
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
+		}
+	
+	},
+	{ 
+		test_timeout_millis: 3000
+	});
+	
+	addTestAsync("gm_ambient_colour", objTestAsyncDraw, { // PROGRESS STATE - Needs HLSL, comments & tidying (uses $AABBGGRR, but docs don't mention this)
+		
+		ev_create: function() {
+			// Generate rect data to draw
+			rect = new Rect(0, 0, 64, 64);
+			
+			// Set shader to use depending on platform
+			test_shader = pick_shader_for_platform(sh_ambient_colour_glsles, sh_passthrough_hlsl, sh_ambient_colour_glsles);
+
+			// Check that the shader has been compiled
+			verify_shader_compiled(test_shader);
+			
+			// Stores which frame of the draw event we're on
+			draw_frame = 0;
+			
+		},
+		ev_draw: function() {
+			
+			var _test_path = "ShaderTests/AmbientColour/";
+			
+			var _test_prefix = "Unset";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with default value";
+			var _set_value = false;
+			
+			switch (draw_frame)
+			{
+				case 1:
+					_test_prefix = "Set";
+					_test_fail_message = test_current().name + ", failed draw buffer comparison with a value of $FFFF00FF (magenta)";
+					_set_value = true;
+					break;
+				case 2:
+					test_end();
+					return;
+			}
+			
+			if (_set_value == true)
+			{
+				draw_light_define_ambient($FFFF00FF);
+			}
+			
+			// Start draw buffer comparison
+			var _test_surface = start_draw_comparison(64, 64);
+			
+			// Start using shader
+			shader_set(test_shader);
+				
+				draw_rect(rect);
+				
+			// Stop using shader
+			shader_reset();
+			
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			// Update frame counter
+			draw_frame++;
+			
+		},
+		ev_cleanup: function() {
 		}
 	
 	},

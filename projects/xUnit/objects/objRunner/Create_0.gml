@@ -1,6 +1,7 @@
 /// @description Start Framework
 /// This is the entry point for the frameowork execution.
-
+show_debug_message(webgl_enabled);
+show_debug_message(shaders_are_supported());
 testFramework = new TestFrameworkRun();
 
 // ################# TEST SUITE REGISTRATION #################

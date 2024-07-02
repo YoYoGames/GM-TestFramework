@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_frag_data_glsles",
+  "name":"sh_frag_data_glsles",
+  "parent":{
+    "name":"GLSLES",
+    "path":"folders/Tests/TestResources/shaders/GLSLES.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}
