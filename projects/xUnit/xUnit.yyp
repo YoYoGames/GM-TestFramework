@@ -49,7 +49,6 @@
     {"$GMFolder":"","%Name":"Utils","folderPath":"folders/Tests/Utils.yy","name":"Utils","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -61,7 +60,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.600.0.585",
+    "IDEVersion":"2024.800.0.586",
   },
   "name":"xUnit",
   "resources":[

@@ -201,6 +201,8 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 			assert_true(isPlaying, "#8.2." + string(i) + " audio should be playing");
 			audio_stop_sound(i);
 			
+			audio_emitter_free(audioEmitter);
+			
 			//#3
 			var _sound_params =
 			{
