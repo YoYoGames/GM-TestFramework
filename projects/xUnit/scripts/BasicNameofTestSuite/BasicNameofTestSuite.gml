@@ -10,24 +10,24 @@ global.NAMEOF_GLOBAL_TEST_STRING = "foobar";
 function BasicNameofTestSuite() : TestSuite() constructor {
 	
 	addFact("nameof_macro_test", function() {
-		assert_equals("NAMEOF_TEST_REAL", nameof(NAMEOF_TEST_REAL), "#1 nameof of macro which holds real value");
-		assert_equals("NAMEOF_TEST_STRING", nameof(NAMEOF_TEST_STRING), "#2 nameof of macro which holds string value");
+		assert_equals(nameof(NAMEOF_TEST_REAL), "NAMEOF_TEST_REAL", "#1 nameof of macro which holds real value");
+		assert_equals(nameof(NAMEOF_TEST_STRING), "NAMEOF_TEST_STRING", "#2 nameof of macro which holds string value");
 	});
 	
 	addFact("nameof_enum_test", function() {
-		assert_equals("nameof_test.entry_1", nameof(nameof_test.entry_1), "#3 nameof of enum which holds real value");
-		assert_equals("nameof_test.entry_2", nameof(nameof_test.entry_2), "#4 nameof of enum which holds string value");
+		assert_equals(nameof(nameof_test.entry_1), "nameof_test.entry_1", "#3 nameof of enum which holds real value");
+		assert_equals(nameof(nameof_test.entry_2), "nameof_test.entry_2", "#4 nameof of enum which holds string value");
 	});
 	
 	addFact("nameof_global_test", function() {
-		assert_equals("global.NAMEOF_GLOBAL_TEST_REAL", nameof(global.NAMEOF_GLOBAL_TEST_REAL), "#5 nameof of global which holds real value");
-		assert_equals("global.NAMEOF_GLOBAL_TEST_STRING", nameof(global.NAMEOF_GLOBAL_TEST_STRING), "#6 nameof of global which holds string value");
+		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_REAL), "global.NAMEOF_GLOBAL_TEST_REAL", "#5 nameof of global which holds real value");
+		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_STRING), "global.NAMEOF_GLOBAL_TEST_STRING", "#6 nameof of global which holds string value");
 	});
 	
-	var _real = 21.37, _string = "foobar";
-	
 	addFact("nameof_localvar_test", function() {
-		assert_equals("_real", nameof(_real), "#6 nameof of localvar which holds real value");
-		assert_equals("_string", nameof(_string), "#6 nameof of localvar which holds string value");
+		var _real = 21.37, _string = "foobar";
+		
+		assert_equals(nameof(_real), "_real", "#7 nameof of localvar which holds real value");
+		assert_equals(nameof(_string), "_string", "#8 nameof of localvar which holds string value");
 	});
 }
