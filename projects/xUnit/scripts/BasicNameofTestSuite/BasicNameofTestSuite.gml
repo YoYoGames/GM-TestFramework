@@ -23,4 +23,11 @@ function BasicNameofTestSuite() : TestSuite() constructor {
 		assert_equals("global.NAMEOF_GLOBAL_TEST_REAL", nameof(global.NAMEOF_GLOBAL_TEST_REAL), "#5 nameof of global which holds real value");
 		assert_equals("global.NAMEOF_GLOBAL_TEST_STRING", nameof(global.NAMEOF_GLOBAL_TEST_STRING), "#6 nameof of global which holds string value");
 	});
+	
+	var _real = 21.37, _string = "foobar";
+	
+	addFact("nameof_localvar_test", function() {
+		assert_equals("_real", nameof(_real), "#6 nameof of localvar which holds real value");
+		assert_equals("_string", nameof(_string), "#6 nameof of localvar which holds string value");
+	});
 }
