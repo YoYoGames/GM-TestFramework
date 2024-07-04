@@ -1,6 +1,8 @@
 
 function BasicArrayTestSuite() : TestSuite() constructor {
 
+show_debug_message("Hello World!");
+
 	addFact("array_copy_test", function() {
 		
 		var _largeArrayDimensions = 32000;
