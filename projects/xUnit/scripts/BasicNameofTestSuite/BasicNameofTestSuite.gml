@@ -21,6 +21,7 @@ function BasicNameofTestSuite() : TestSuite() constructor {
 		assert_equals(nameof(nameof_test.entry_2), "nameof_test.entry_2", "#4 nameof of enum which holds string value");
 	});
 	
+	// Test names of global variables
 	addFact("nameof_global_test", function() {
 		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_REAL), "global.NAMEOF_GLOBAL_TEST_REAL", "#5 nameof of global which holds real value");
 		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_STRING), "global.NAMEOF_GLOBAL_TEST_STRING", "#6 nameof of global which holds string value");
