@@ -8,7 +8,8 @@ global.NAMEOF_GLOBAL_TEST_REAL = 21.37;
 global.NAMEOF_GLOBAL_TEST_STRING = "foobar";
 
 function BasicNameofTestSuite() : TestSuite() constructor {
-	
+
+	// Test names of macros
 	addFact("nameof_macro_test", function() {
 		assert_equals(nameof(NAMEOF_TEST_REAL), "NAMEOF_TEST_REAL", "#1 nameof of macro which holds real value");
 		assert_equals(nameof(NAMEOF_TEST_STRING), "NAMEOF_TEST_STRING", "#2 nameof of macro which holds string value");
