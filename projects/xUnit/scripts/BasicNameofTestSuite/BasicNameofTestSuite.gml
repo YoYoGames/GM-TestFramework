@@ -15,6 +15,7 @@ function BasicNameofTestSuite() : TestSuite() constructor {
 		assert_equals(nameof(NAMEOF_TEST_STRING), "NAMEOF_TEST_STRING", "#2 nameof of macro which holds string value");
 	});
 	
+	// Test names of enums
 	addFact("nameof_enum_test", function() {
 		assert_equals(nameof(nameof_test.entry_1), "nameof_test.entry_1", "#3 nameof of enum which holds real value");
 		assert_equals(nameof(nameof_test.entry_2), "nameof_test.entry_2", "#4 nameof of enum which holds string value");
