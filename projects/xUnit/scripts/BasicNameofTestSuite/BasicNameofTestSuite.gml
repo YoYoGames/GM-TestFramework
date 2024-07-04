@@ -1,3 +1,4 @@
+// Add variables to test names of
 #macro NAMEOF_TEST_REAL 21.37
 #macro NAMEOF_TEST_STRING "foobar"
 enum nameof_test {
