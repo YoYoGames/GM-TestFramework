@@ -2105,6 +2105,14 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_concat("🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎👣💎🎤🌊💎🕥🌑👵🎿🎐📪👺🌸🍓💎", "#3 string_concat : failed to correctly concat a string with emoji characters");		
 
+		var _string = "foo";
+		
+		_result = string_concat(_string, " bar");
+		assert_equals(_result, "foo bar", "#4 string_concat : failed to correctly concat a string when arguments are variable and string");
+		
+		_result = string_concat("bar ", _string);
+		assert_equals(_result, "bar foo", "#5 string_concat : failed to correctly concat a string when arguments are string and variable");
+		
 	})
 	
 	addFact("string_concat_ext", function() {
@@ -2117,6 +2125,14 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		
 		_result = string_concat_ext(["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎👣💎🎤🌊💎🕥🌑👵🎿🎐📪👺🌸🍓💎", "#3 string_concat_ext : failed to correctly concat a string with emoji characters");		
+		
+		var _string = "foo";
+		
+		_result = string_concat_ext([_string, " bar"]);
+		assert_equals(_result, "foo bar", "#4 string_concat_ext : failed to correctly concat a string when arguments are variable and string");
+		
+		_result = string_concat_ext(["bar ", _string]);
+		assert_equals(_result, "bar foo", "#5 string_concat_ext : failed to correctly concat a string when arguments are string and variable");
 
 	})
 	
@@ -2149,6 +2165,14 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_join("🙂", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎🙂👣💎🎤🌊💎🕥🌑👵🎿🙂🎐📪👺🌸🍓🙂💎", "#9 string_join : failed to correctly join a string with emoji characters, using an emoji character.");
 		
+		var _string = "foo";
+		
+		_result = string_join(",", _string, "bar");
+		assert_equals(_result, "foo,bar", "#10 string_join : failed to correctly concat a string when arguments are variable and string");
+		
+		_result = string_join(",", "bar", _string);
+		assert_equals(_result, "bar,foo", "#11 string_join : failed to correctly concat a string when arguments are string and variable");
+		
 	})
 	
 	addFact("string_join_ext", function() {
@@ -2180,6 +2204,14 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		_result = string_join_ext("🙂", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
 		assert_equals(_result, "🏡🔠👸👟🕔🕝💎🙂👣💎🎤🌊💎🕥🌑👵🎿🙂🎐📪👺🌸🍓🙂💎", "#9 string_join_ext : failed to correctly join a string with emoji characters, using an emoji character.");
 
+		var _string = "foo";
+		
+		_result = string_join_ext(",", [_string, "bar"]);
+		assert_equals(_result, "foo,bar", "#10 string_join_ext : failed to correctly concat a string when arguments are variable and string");
+		
+		_result = string_join_ext(",", ["bar", _string]);
+		assert_equals(_result, "bar,foo", "#11 string_join_ext : failed to correctly concat a string when arguments are string and variable");
+		
 	})
 	
 	addFact("string_split", function() {
