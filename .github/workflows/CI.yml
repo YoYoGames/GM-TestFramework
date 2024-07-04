@@ -28,12 +28,12 @@ jobs:
         shell: cmd          
       - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
         if: github.event_name == 'workflow_dispatch'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
+        run: python framework_launcher.py -cf C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
         working-directory: GM-TF  
         shell: cmd         
       - name: Testing on PR
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: python framework_launcher.py -cf ${{ secrets.CONFIG_FOLDER }}\config_ci.json -f ${{ vars.RED_RSS_FEED }}            
+        run: python framework_launcher.py -cf C:\GM-TestFramework\configs\config_ci.json -f "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"            
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts
