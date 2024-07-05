@@ -15,7 +15,6 @@ struct VertexShaderOutput {
     float2 vTexcoord : TEXCOORD0;
 };
 
-uniform sampler sample;
 
 VertexShaderOutput main(VertexShaderInput INPUT) {
     VertexShaderOutput OUTPUT;

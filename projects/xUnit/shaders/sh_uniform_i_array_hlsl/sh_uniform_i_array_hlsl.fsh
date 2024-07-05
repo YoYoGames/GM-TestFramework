@@ -15,5 +15,5 @@ float4 main(PixelShaderInput INPUT) : SV_TARGET {
 	
 	float4 vModColor = float4(color[0], color[1], color[2], color[3]);
 	
-    return INPUT.vColor * diffuseTexture;
+    return vModColor;
 }

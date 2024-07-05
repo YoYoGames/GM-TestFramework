@@ -17,4 +17,6 @@ void main()
 	{
 		v_vColour = vec4(1.0, 1.0, 1.0, 1.0);
 	}
+	
+	//v_vColour = vec4(1.0, 1.0, 1.0, 1.0); // Used to create expected image/buffer with fog enabled
 }

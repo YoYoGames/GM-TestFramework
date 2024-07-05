@@ -22,6 +22,12 @@ void main()
 	
 	vec4 value = gm_Lights_PosRange[rect_index];
 	
+	//// Used to create expected image/buffer with lights set
+	//if (rect_index == 7)
+	//{
+	//	value.w = 0.0;
+	//}
+	
 	v_vColour = vec4((value.x * 2.0) + 0.5, (value.y * 2.0) + 0.5, (value.z * 2.0) + 0.5, value.w);
 		
     v_vTexcoord = in_TextureCoord;

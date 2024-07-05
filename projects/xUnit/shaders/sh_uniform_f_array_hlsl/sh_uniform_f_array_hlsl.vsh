@@ -15,6 +15,8 @@ struct VertexShaderOutput {
     float2 vTexcoord : TEXCOORD0;
 };
 
+uniform float color[4];
+
 VertexShaderOutput main(VertexShaderInput INPUT) {
     VertexShaderOutput OUTPUT;
 

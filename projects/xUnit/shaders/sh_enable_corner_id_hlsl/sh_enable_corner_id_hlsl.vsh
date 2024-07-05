@@ -1,6 +1,3 @@
-//
-// Simple passthrough vertex shader (HLSL 11)
-//
 
 struct VertexShaderInput {
     float4 vPosition : POSITION;
@@ -20,8 +17,8 @@ VertexShaderOutput main(VertexShaderInput INPUT) {
 
     float4 matrixWVP = mul(gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION], INPUT.vPosition);
 
-	float2 rem = mod(float2(INPUT.vColor.x, INPUT.vColor.z) * 255., 2.);
-	int corner_id = int(dot(float2(1., 2.), rem));
+	float2 rem = (float2(INPUT.vColor.x, INPUT.vColor.z) * 255.0) % 2.0;
+	int corner_id = int(dot(float2(1.0, 2.0), rem));
 	
 	if (corner_id == 0) {
 		OUTPUT.vColor = float4(1,0,0,1);

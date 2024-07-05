@@ -1,12 +1,12 @@
 {
   "$GMShader":"",
-  "%Name":"sh_fragment_constants_hlsl",
-  "name":"sh_fragment_constants_hlsl",
+  "%Name":"sh_alpha_test_hlsl",
+  "name":"sh_alpha_test_hlsl",
   "parent":{
     "name":"HLSL",
     "path":"folders/Tests/TestResources/shaders/HLSL.yy",
   },
   "resourceType":"GMShader",
   "resourceVersion":"2.0",
-  "type":1,
+  "type":3,
 }

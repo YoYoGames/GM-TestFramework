@@ -29,4 +29,14 @@ void main()
 	{
 		gl_FragColor.r = 0.5;
 	}
+	
+
+
+	//// Used to create expected image/buffer with alpha testing enabled
+	//if (gl_FragColor.a < 0.95)
+	//{
+	//	gl_FragColor.a = 0.0;
+	//}
+	//gl_FragColor.b = 0.5;
+	//gl_FragColor.r = 0.5;
 }

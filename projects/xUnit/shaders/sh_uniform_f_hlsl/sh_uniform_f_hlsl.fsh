@@ -8,12 +8,12 @@ struct PixelShaderInput {
     float2 vTexcoord : TEXCOORD0;
 };
 
-float4 color;
+uniform float4 color;
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
     float4 diffuseTexture = gm_BaseTextureObject.Sample(gm_BaseTexture, INPUT.vTexcoord);
 	
 	float4 vModColor = color;
 	
-    return INPUT.vColor * diffuseTexture;
+    return vModColor;
 }

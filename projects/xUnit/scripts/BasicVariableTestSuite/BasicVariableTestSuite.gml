@@ -1324,7 +1324,8 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 
 		var value = function() {};
 			
-		var output, input = {
+		var output, input =
+			false
 			//self: value, // <------ Cannot set a constant to a value
 			other: value,
 			all: value,
@@ -1337,10 +1338,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			path_action_stop: value,
 			path_action_restart: value,
 			path_action_continue: value,
-			path_action_reverse: value,
-
-			true: value,
-			false: value,
+			path_action_reverse: value,: value,: value,
 			pi: value,
 			NaN: value,
 			infinity: value,

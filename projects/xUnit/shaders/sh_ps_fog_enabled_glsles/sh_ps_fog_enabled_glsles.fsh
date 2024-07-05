@@ -11,5 +11,7 @@ void main()
 		fragColour = vec4(1.0, 1.0, 1.0, 1.0);
 	}
 	
+	//fragColour = vec4(1.0, 1.0, 1.0, 1.0); // Used to create expected image/buffer with fog enabled
+	
 	gl_FragColor = fragColour;
 }

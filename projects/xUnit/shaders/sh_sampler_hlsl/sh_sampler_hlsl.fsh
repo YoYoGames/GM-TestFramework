@@ -1,6 +1,3 @@
-//
-// Simple passthrough pixel shader (HLSL 11)
-//
 
 struct PixelShaderInput {
     float4 vPosition : SV_POSITION;
@@ -8,10 +5,17 @@ struct PixelShaderInput {
     float2 vTexcoord : TEXCOORD0;
 };
 
-uniform sampler sample;
+Texture2D g_Texture;
+
+SamplerState sample
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
-    float4 diffuseTexture = gm_BaseTextureObject.Sample(sample, INPUT.vTexcoord);
+    float4 diffuseTexture = g_Texture.Sample(sample, INPUT.vTexcoord);
   
     return INPUT.vColor * diffuseTexture;
 }

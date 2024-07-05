@@ -22,6 +22,7 @@ void main()
 	
 	vec4 value = gm_Lights_Colour[rect_index];
 	
+	//// Used to create expected image/buffer with lights set
 	//if (rect_index == 0) {
 	//	value = vec4(1.0,0.0,0.0,1.0);
 	//} else if (rect_index == 1) {
