@@ -42,14 +42,14 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	addTestAsync("primitive_drawing", objTestAsyncDraw, { // PROGRESS STATE - Finished
 		
 		ev_create: function() {
-			// Generate rect data to draw
+			// Generate rectangle data to draw
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 		},
 		ev_draw: function() {
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
-			// Draw rect
+			// Draw rectangle
 			draw_rect(rect)
 			
 			// End draw buffer comparison
@@ -213,7 +213,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Generate rect data to draw
+			// Generate rectangle data to draw
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 		},
 		ev_draw: function() {
@@ -222,7 +222,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
-				// Draw rect
+				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
@@ -248,12 +248,12 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Generate rect data to draw
+			// Generate rectangle data to draw
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle")
+			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
@@ -288,7 +288,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				// On the fourth frame, end the test
 				case 3:
 					test_end();
-					break;
+					return;
 			}
 			
 			// Start draw buffer comparison
@@ -296,10 +296,10 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
-			// Set the uniform
+				// Set the color uniform
 				shader_set_uniform_f(uni_color, _red, _green, _blue, _alpha);
-				// Draw rect
-				draw_rect(rect)
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
@@ -317,17 +317,16 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	
 	addTestAsync("shader_set_uniform_f_array", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
-		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
+		ev_create: function() {	
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get uniform handle
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			
+			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
 			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
 			
@@ -335,49 +334,51 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
+			// Initialise variable to set color uniform with
+			var _color = [1,1,1,1];
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformFArray/Control";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			var _color = [1,1,1,1];
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, make RGB values 0 to make sure they can be modified correctly
 				case 1:
 					_test_path = "ShaderTests/SetUniformFArray/SetRGB";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
 					_color = [0,0,0,1];
 					break;
+				// On the third frame, make alpha value 0 to make sure it can be modified correctly
 				case 2:
 					_test_path = "ShaderTests/SetUniformFArray/SetAlpha";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
 					_color = [1,1,1,0];
 					break;
+				// On the fourth frame, end the test
 				case 3:
 					test_end();
-					break;
+					return;
 			}
+			
+			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Start using shader
 			shader_set(test_shader);
-			// Set the uniform
+				// Set the color uniform
 				shader_set_uniform_f_array(uni_color, _color);
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_color(rect.left, rect.top, c_white, 1);
-				draw_vertex_color(rect.right, rect.top, c_white, 1);
-				draw_vertex_color(rect.left, rect.bottom, c_white, 1);
-				draw_vertex_color(rect.right, rect.bottom, c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// Increment frame counter
 			draw_frame++;
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -387,20 +388,19 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	addTestAsync("shader_set_uniform_f_buffer", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get uniform handle
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			
+			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
 			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
 			
-			// Create a buffer to store our color value in
+			// Create a buffer to store the color value in
 			var _values = 4;
 			var _size = buffer_sizeof(buffer_f32);
 			color_buffer = buffer_create(_values * _size, buffer_fixed, 1);
@@ -409,17 +409,20 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
+			// Initialise buffer values to set color uniform with
 			buffer_seek(color_buffer, buffer_seek_start, 0);
 			buffer_write(color_buffer, buffer_f32, 1);
 			buffer_write(color_buffer, buffer_f32, 1);
 			buffer_write(color_buffer, buffer_f32, 1);
 			buffer_write(color_buffer, buffer_f32, 1);
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformFBuffer/Control";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, make RGB values 0 to make sure they can be modified correctly
 				case 1:
 					_test_path = "ShaderTests/SetUniformFBuffer/SetRGB";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
@@ -428,38 +431,37 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 					buffer_write(color_buffer, buffer_f32, 0);
 					buffer_write(color_buffer, buffer_f32, 0);
 					break;
+				// On the third frame, make alpha value 0 to make sure it can be modified correctly
 				case 2:
 					_test_path = "ShaderTests/SetUniformFBuffer/SetAlpha";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
 					buffer_seek(color_buffer, buffer_seek_start, 12);
 					buffer_write(color_buffer, buffer_f32, 0);
 					break;
+				// On the fourth frame, end the test
 				case 3:
 					test_end();
-					break;
+					return;
 			}
+			
+			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Start using shader
 			shader_set(test_shader);
-			// Set the uniform
+				// Set the color uniform
 				shader_set_uniform_f_buffer(uni_color, color_buffer, 0, 4);
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_color(rect.left, rect.top, c_white, 1);
-				draw_vertex_color(rect.right, rect.top, c_white, 1);
-				draw_vertex_color(rect.left, rect.bottom, c_white, 1);
-				draw_vertex_color(rect.right, rect.bottom, c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// Increment frame counter
 			draw_frame++;
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -468,17 +470,16 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	
 	addTestAsync("shader_set_uniform_i", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
-		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
+		ev_create: function() {			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get uniform handle
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			
+			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
 			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle")
 			
@@ -486,16 +487,19 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
+			// Initialise variables to set color uniform with
 			var _red = 1;
 			var _green = 1;
 			var _blue = 1;
 			var _alpha = 1;
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformI/Control";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, make RGB values 0 to make sure they can be modified correctly
 				case 1:
 					_test_path = "ShaderTests/SetUniformI/SetRGB";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
@@ -503,37 +507,36 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 					_green = 0;
 					_blue = 0;
 					break;
+				// On the third frame, make alpha value 0 to make sure it can be modified correctly
 				case 2:
 					_test_path = "ShaderTests/SetUniformI/SetAlpha";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
 					_alpha = 0;
 					break;
+				// On the fourth frame, end the test
 				case 3:
 					test_end();
-					break;
+					return;
 			}
+			
+			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Start using shader
 			shader_set(test_shader);
-			// Set the uniform
+				// Set the color uniform
 				shader_set_uniform_i(uni_color, _red, _green, _blue, _alpha);
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_color(rect.left, rect.top, c_white, 1);
-				draw_vertex_color(rect.right, rect.top, c_white, 1);
-				draw_vertex_color(rect.left, rect.bottom, c_white, 1);
-				draw_vertex_color(rect.right, rect.bottom, c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// Increment frame counter
 			draw_frame++;
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -541,17 +544,16 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	
 	addTestAsync("shader_set_uniform_i_array", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
-		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
+		ev_create: function() {			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get uniform handle
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			
+			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
 			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
 			
@@ -559,49 +561,51 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
+			// Initialise variable to set color uniform with
+			var _color = [1,1,1,1];
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformIArray/Control";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			var _color = [1,1,1,1];
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, make RGB values 0 to make sure they can be modified correctly
 				case 1:
 					_test_path = "ShaderTests/SetUniformIArray/SetRGB";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
 					_color = [0,0,0,1];
 					break;
+				// On the third frame, make alpha value 0 to make sure it can be modified correctly
 				case 2:
 					_test_path = "ShaderTests/SetUniformIArray/SetAlpha";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
 					_color = [1,1,1,0];
 					break;
+				// On the fourth frame, end the test
 				case 3:
 					test_end();
-					break;
+					return;
 			}
+			
+			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Start using shader
 			shader_set(test_shader);
-			// Set the uniform
+				// Set the color uniform
 				shader_set_uniform_i_array(uni_color, _color);
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_color(rect.left, rect.top, c_white, 1);
-				draw_vertex_color(rect.right, rect.top, c_white, 1);
-				draw_vertex_color(rect.left, rect.bottom, c_white, 1);
-				draw_vertex_color(rect.right, rect.bottom, c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// Increment frame counter
 			draw_frame++;
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -609,17 +613,16 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	
 	addTestAsync("shader_get_sampler_index", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
-		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
+		ev_create: function() {			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get uniform handle
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			
+			// Get sampler handle
 			sampler = shader_get_sampler_index(test_shader, "sample");
 			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
 			
@@ -627,48 +630,47 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
-			var _test_path = "ShaderTests/GetSamplerIndex/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			// set texture to use with sampler
+			// Initilise texture to set sampler with
 			var _texture = sprite_get_texture(sprCircle, 0);
 			var _uvs = sprite_get_uvs(sprCircle, 0);
+			// Initialise test name and fail message to use in buffer comparison
+			var _test_path = "ShaderTests/GetSamplerIndex/Control";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, change the texture to use with the sampler to make sure it can be changed correctly
 				case 1:
 					_test_path = "ShaderTests/GetSamplerIndex/SetTexture";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing texture";
 					_texture = sprite_get_texture(sprSquare, 0);
 					_uvs = sprite_get_uvs(sprSquare, 0);
 					break;
+				// On the third frame, end the test
 				case 2:
 					test_end();
-					break;
+					return;
 			}
+			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Start using shader
 			shader_set(test_shader);
-			// Set the uniform
+				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_texture_color(rect.left, rect.top, _uvs[0], _uvs[1], c_white, 1);
-				draw_vertex_texture_color(rect.right, rect.top, _uvs[2], _uvs[1], c_white, 1);
-				draw_vertex_texture_color(rect.left, rect.bottom, _uvs[0], _uvs[3], c_white, 1);
-				draw_vertex_texture_color(rect.right, rect.bottom, _uvs[2], _uvs[3], c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// Increment frame counter
 			draw_frame++;
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -678,16 +680,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE*1.5, SHADER_TEST_DEFAULT_SIZE*1.5);
-			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get sampler uniform handle
+			// Generate rectangle data to draw (centred in the test area)
+			rect = new Rect(SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE*1.5, SHADER_TEST_DEFAULT_SIZE*1.5);
+			
+			// Get sampler handle
 			sampler = shader_get_sampler_index(test_shader, "sample");
 			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
 			// Get matrix uniform handle
@@ -695,43 +696,37 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			assert_typeof(shader_matrix, "number", test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
-			
+			// Initilise texture to set sampler with
+			var _texture = sprite_get_texture(sprCircle, 0);
+			var _uvs = sprite_get_uvs(sprCircle, 0);
+			// Initilise x2 scaling matrix to set matrix uniform with
+			var _matrix = matrix_build(0,0,0,0,0,0,2,2,2);
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformMatrix/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			// Get texture to use with sampler
-			var _texture = sprite_get_texture(sprCircle, 0);
-			// Get texture UVs
-			var _uvs = sprite_get_uvs(sprCircle, 0);
-			// Build a matrix to scale everything by x2
-			var _matrix = matrix_build(0,0,0,0,0,0,2,2,2);
 			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 2, SHADER_TEST_DEFAULT_SIZE * 2);
 			
 			// Start using shader
 			shader_set(test_shader);
-				// Set the texture uniform
+				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
 				// Set the matrix uniform
 				matrix_set(matrix_world, _matrix);
 				shader_set_uniform_matrix(shader_matrix);
 				matrix_set(matrix_world, matrix_build_identity());
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_texture_color(rect.left, rect.top, _uvs[0], _uvs[1], c_white, 1);
-				draw_vertex_texture_color(rect.right, rect.top, _uvs[2], _uvs[1], c_white, 1);
-				draw_vertex_texture_color(rect.left, rect.bottom, _uvs[0], _uvs[3], c_white, 1);
-				draw_vertex_texture_color(rect.right, rect.bottom, _uvs[2], _uvs[3], c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// End test at end of first draw frame
 			test_end();
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -741,16 +736,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	addTestAsync("shader_set_uniform_matrix_array", objTestAsyncDraw, { // PROGRESS STATE - Needscomments & tidying
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE*1.5, SHADER_TEST_DEFAULT_SIZE*1.5);
-			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			// Get sampler uniform handle
+			// Generate rectangle data to draw (centred in the test area)
+			rect = new Rect(SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE*1.5, SHADER_TEST_DEFAULT_SIZE*1.5);
+			
+			// Get sampler handle
 			sampler = shader_get_sampler_index(test_shader, "sample");
 			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
 			// Get matrix uniform handle
@@ -758,41 +752,35 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			assert_typeof(shader_matrix, "number", test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
-			
+			// Initilise texture to set sampler with
+			var _texture = sprite_get_texture(sprCircle, 0);
+			var _uvs = sprite_get_uvs(sprCircle, 0);
+			// Initilise x2 scaling matrix to set matrix uniform with
+			var _matrix = matrix_build(0,0,0,0,0,0,2,2,2);
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformMatrixArray/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			// Get texture to use with sampler
-			var _texture = sprite_get_texture(sprCircle, 0);
-			// Get texture UVs
-			var _uvs = sprite_get_uvs(sprCircle, 0);
-			// Build a matrix to scale everything by x2
-			var _matrix = matrix_build(0,0,0,0,0,0,2,2,2);
 			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 2, SHADER_TEST_DEFAULT_SIZE * 2);
 			
 			// Start using shader
 			shader_set(test_shader);
-				// Set the texture uniform
+				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
 				// Set the matrix uniform
 				shader_set_uniform_matrix_array(shader_matrix, _matrix);
-				// Draw rect
-				draw_primitive_begin(pr_trianglestrip);
-				draw_vertex_texture_color(rect.left, rect.top, _uvs[0], _uvs[1], c_white, 1);
-				draw_vertex_texture_color(rect.right, rect.top, _uvs[2], _uvs[1], c_white, 1);
-				draw_vertex_texture_color(rect.left, rect.bottom, _uvs[0], _uvs[3], c_white, 1);
-				draw_vertex_texture_color(rect.right, rect.bottom, _uvs[2], _uvs[3], c_white, 1);
-				draw_primitive_end();
+				// Draw rectangle
+				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// End test at end of first draw frame
 			test_end();
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -802,18 +790,16 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	addTestAsync("shader_enable_corner_id", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
 		ev_create: function() {
-			
 			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_enable_corner_id_glsles, sh_enable_corner_id_hlsl, sh_enable_corner_id_glsles);
-
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
+			// Enable shader corner ids
 			shader_enable_corner_id(true);
-			
 		},
 		ev_draw: function() {
-			
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/EnableCornerID/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
@@ -822,6 +808,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Draw a sprite (a sprite is used instead of a rectangle because primitives can't have corner ids)
 				draw_sprite(sprSquare, 0, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2)
 			// Stop using shader
 			shader_reset();
@@ -829,13 +816,14 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// End test at end of first draw frame
 			test_end();
 			
 		},
 		ev_cleanup: function() {
+			// Disable shader corner ids
 			shader_enable_corner_id(false);
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
