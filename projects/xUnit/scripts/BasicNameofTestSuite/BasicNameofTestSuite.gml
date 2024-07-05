@@ -1,6 +1,7 @@
 // Add variables to test names of
 #macro NAMEOF_TEST_REAL 21.37
 #macro NAMEOF_TEST_STRING "foobar"
+	#macro NAMEOF_TEST_TABBED_MACRO "test" // this is important that \t character is in this line before #macro
 enum nameof_test {
 	entry_1,
 	entry_2,
@@ -12,20 +13,21 @@ function BasicNameofTestSuite() : TestSuite() constructor {
 
 	// Test names of macros
 	addFact("nameof_macro_test", function() {
-		assert_equals(nameof(NAMEOF_TEST_REAL), "NAMEOF_TEST_REAL", "#1 nameof of macro which holds real value");
-		assert_equals(nameof(NAMEOF_TEST_STRING), "NAMEOF_TEST_STRING", "#2 nameof of macro which holds string value");
+		assert_equals(nameof(NAMEOF_TEST_REAL), "NAMEOF_TEST_REAL", "nameof of macro which holds real value");
+		assert_equals(nameof(NAMEOF_TEST_STRING), "NAMEOF_TEST_STRING", "nameof of macro which holds string value");
+		assert_equals(nameof(NAMEOF_TEST_TABBED_MACRO), "NAMEOF_TEST_STRING", "nameof of macro which have \\t character before keyword");
 	});
 	
 	// Test names of enums
 	addFact("nameof_enum_test", function() {
-		assert_equals(nameof(nameof_test.entry_1), "nameof_test.entry_1", "#3 nameof of enum which holds real value");
-		assert_equals(nameof(nameof_test.entry_2), "nameof_test.entry_2", "#4 nameof of enum which holds string value");
+		assert_equals(nameof(nameof_test.entry_1), "nameof_test.entry_1", "nameof of enum which holds real value");
+		assert_equals(nameof(nameof_test.entry_2), "nameof_test.entry_2", "nameof of enum which holds string value");
 	});
 	
 	// Test names of global variables
 	addFact("nameof_global_test", function() {
-		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_REAL), "global.NAMEOF_GLOBAL_TEST_REAL", "#5 nameof of global which holds real value");
-		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_STRING), "global.NAMEOF_GLOBAL_TEST_STRING", "#6 nameof of global which holds string value");
+		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_REAL), "global.NAMEOF_GLOBAL_TEST_REAL", "nameof of global which holds real value");
+		assert_equals(nameof(global.NAMEOF_GLOBAL_TEST_STRING), "global.NAMEOF_GLOBAL_TEST_STRING", "nameof of global which holds string value");
 	});
 	
 	// Test names of local variables
