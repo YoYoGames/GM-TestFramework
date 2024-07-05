@@ -1,8 +1,13 @@
 #macro SHADER_TEST_DEFAULT_SIZE 64
 
 
-// Utility function for picking which shader to use based on the current platform the test is being run on
-function pick_shader_for_platform(_glsl_shader, _hlsl_shader, _glsles_shader) { // PROGRESS STATE - Needs function description stuff
+/// @function pick_shader_for_platform()
+/// @description Will determine which shader to use based on the current platform the test is being run on
+/// @param {Asset.GMShader} glsl_shader GLSL version of the shader
+/// @param {Asset.GMShader} hlsl_shader HLSL version of the shader
+/// @param {Asset.GMShader} glsles_shader GLSL ES version of the shader
+/// @returns {Asset.GMShader}
+function pick_shader_for_platform(_glsl_shader, _hlsl_shader, _glsles_shader) { // PROGRESS STATE - Finished
 	// If OS is linux or mac, return the GLSL shader
 	if(os_type == os_linux || os_type == os_macosx){
 		return _glsl_shader;
@@ -17,8 +22,10 @@ function pick_shader_for_platform(_glsl_shader, _hlsl_shader, _glsles_shader) { 
 	}
 }
 
-// Asserts and ends the current test early if the shader has not been compiled 
-function verify_shader_compiled(_shader) { // PROGRESS STATE - Needs function description stuff
+/// @function verify_shader_compiled()
+/// @description Utility function to Assert and ends the current test early if the shader has not been compiled 
+/// @param {Asset.GMShader} shader Shader to check
+function verify_shader_compiled(_shader) { // PROGRESS STATE - Finished
 	// Check that the shader has been compiled
 	var _is_compiled = assert_true(shader_is_compiled(_shader), test_current().name + ", failed to compile shader necessary for test");
 	if (!_is_compiled)
@@ -114,8 +121,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addFact("shader_get_name", function() { // PROGRESS STATE - Needs comments
+	addFact("shader_get_name", function() { // PROGRESS STATE - Finished
 		
+		// Check that shader_get_name correctly gets the name of sh_passthrough_glsles
 		var _output;
 		_output = shader_get_name(sh_passthrough_glsles);
 		assert_equals(_output, "sh_passthrough_glsles", test_current().name +", failed to get name of shader" );
@@ -186,6 +194,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				assert_true(shader_current() == test_shader, test_current().name +", failed to get current shader")
 			// Stop using shader
 			shader_reset();
+			
 			// End test at end of first draw frame
 			test_end();
 		},
@@ -220,6 +229,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, "ShaderTests/PassthroughShader/", test_current().name +", shader failed to produce expected result");
+			
 			// End test at end of first draw frame
 			test_end();
 		},
@@ -230,7 +240,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, { // PROGRESS STATE - Finished
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
@@ -249,18 +259,19 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// initialise variables to be set to color uniform
+			// Initialise variables to set color uniform with
 			var _red = 1;
 			var _green = 1;
 			var _blue = 1;
 			var _alpha = 1;
-			// initialise test name and fail message to use in buffer comparison
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/SetUniformF/Control";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
-			// Set test variables based on step
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, make RGB values 0 to make sure they can be modified correctly
 				case 1:
 					_test_path = "ShaderTests/SetUniformF/SetRGB";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb value";
@@ -268,11 +279,13 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 					_green = 0;
 					_blue = 0;
 					break;
+				// On the third frame, make alpha value 0 to make sure it can be modified correctly
 				case 2:
 					_test_path = "ShaderTests/SetUniformF/SetAlpha";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
 					_alpha = 0;
 					break;
+				// On the fourth frame, end the test
 				case 3:
 					test_end();
 					break;
@@ -293,9 +306,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// Increment frame counter
 			draw_frame++;
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
@@ -828,7 +841,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gl_frag_coord/sv_position", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying (doesn't cover gl_fragCoord.z or gl_FragCoord.w - not sure if these are implemented in GM?)
+	addTestAsync("gl_frag_coord/sv_position", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
 		
 		ev_create: function() {
 			// Generate data for rect
@@ -916,7 +929,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	},
 	{ 
 		test_timeout_millis: 3000,
-		// there's no hlsl equivalent 
+		// gl_max_draw_buffers is only present in glsl, so no need to do this test on platforms that use hlsl
 		test_filter: platform_windows,
 		test_filter: platform_console
 	});
