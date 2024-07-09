@@ -9,17 +9,17 @@
 /// @returns {Asset.GMShader}
 function pick_shader_for_platform(_glsl_shader, _hlsl_shader, _glsles_shader) {
 	// If OS is linux or mac, return the GLSL shader
-	//if(os_type == os_linux || os_type == os_macosx){
+	if(os_type == os_linux || os_type == os_macosx){
 		return _glsl_shader;
-	//}
+	}
 	// If OS is windows or xbox, return the HLSL shader
-	//else if(os_type == os_uwp || os_type == os_windows || os_type == os_xboxone){
-	//	return _hlsl_shader;
-	//}
+	else if(os_type == os_uwp || os_type == os_windows || os_type == os_xboxone){
+		return _hlsl_shader;
+	}
 	// If OS is anything else, return the GLSLES shader
-	//else {
-	//	return _glsles_shader;
-	//}
+	else {
+		return _glsles_shader;
+	}
 }
 
 /// @function verify_shader_compiled()
