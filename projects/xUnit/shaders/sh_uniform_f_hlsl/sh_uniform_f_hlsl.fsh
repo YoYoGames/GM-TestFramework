@@ -1,19 +1,19 @@
-//
-// Simple passthrough pixel shader (HLSL 11)
-//
+// This shader tests shader_set_uniform_f() by outputting the floats passed into the shader as the RGBA values of the fragment colour
+// Fragment Shader
 
+// Input values
 struct PixelShaderInput {
     float4 vPosition : SV_POSITION;
     float4 vColor    : COLOR0;
     float2 vTexcoord : TEXCOORD0;
 };
 
-uniform float4 color;
+// Uniforms
+uniform float4 color; // Floats passed into the shader
+
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
-    float4 diffuseTexture = gm_BaseTextureObject.Sample(gm_BaseTexture, INPUT.vTexcoord);
-	
-	float4 vModColor = color;
-	
-    return vModColor;
+	// Set the fragment colour to the uniform floats passed into the shader
+	float4 modColor = color;
+    return modColor;
 }

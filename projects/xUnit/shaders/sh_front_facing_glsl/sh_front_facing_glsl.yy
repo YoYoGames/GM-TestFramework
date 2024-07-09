@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_front_facing_glsl",
+  "name":"sh_front_facing_glsl",
+  "parent":{
+    "name":"GLSL",
+    "path":"folders/Tests/TestResources/shaders/GLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":2,
+}

@@ -1,4 +1,10 @@
-// Adds a coloured triangle to a vector buffer
+/// @function vertex_triangle_color()
+/// @description Adds the data for a colored triangle to the specified vertex buffer
+/// @param {Id.VertexBuffer} v_buffer Vertex buffer to write triangle data to
+/// @param {Real} color Color of the triangle
+/// @param {Struct.Vector2} p1 First point of the triangle
+/// @param {Struct.Vector2} p2 Second point of the triangle
+/// @param {Struct.Vector2} p3 Third point of the triangle
 function vertex_triangle_color(_v_buffer, _color, _p1, _p2, _p3) {
 
 	// Set the normal of the triangle
@@ -24,7 +30,16 @@ function vertex_triangle_color(_v_buffer, _color, _p1, _p2, _p3) {
 	
 }
 
-// Adds a coloured triangle to a vector buffer
+/// @function vertex_triangle_texture()
+/// @description Adds the data for a colored triangle with texture coordinates to the specified vertex buffer
+/// @param {Id.VertexBuffer} v_buffer Vertex buffer to write triangle data to
+/// @param {Real} color Color of the triangle
+/// @param {Struct.Vector2} p1 First point of the triangle
+/// @param {Struct.Vector2} p2 Second point of the triangle
+/// @param {Struct.Vector2} p3 Third point of the triangle
+/// @param {Struct.Vector2} uv1 First UV coordinate of the triangle
+/// @param {Struct.Vector2} uv2 Second UV coordinate of the triangle
+/// @param {Struct.Vector2} uv3 Third UV coordinate of the triangle
 function vertex_triangle_texture(_v_buffer, _color, _p1, _p2, _p3, _uv1, _uv2, _uv3) {
 
 	// Set the normal of the triangle

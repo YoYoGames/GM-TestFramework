@@ -1,13 +1,14 @@
-//
-// Simple passthrough pixel shader (HLSL 11)
-//
+// This shader tests SV_Target by attempting to use it to render to 4 targets at once
+// Fragment Shader
 
+// Input values
 struct PixelShaderInput {
     float4 vPosition : SV_POSITION;
     float4 vColor    : COLOR0;
     float2 vTexcoord : TEXCOORD0;
 };
 
+// Output values
 struct PixelShaderOutput{
 	float4 color0 : SV_Target0;
 	float4 color1 : SV_Target1;
@@ -17,9 +18,9 @@ struct PixelShaderOutput{
 
 
 PixelShaderOutput main(PixelShaderInput INPUT) : SV_TARGET {
-	
 	PixelShaderOutput output;
 	
+	// Set the fragment colour for the 4 draw targets to the vertex colour
 	output.color0 = INPUT.vColor;
 	output.color1 = INPUT.vColor;
 	output.color2 = INPUT.vColor;

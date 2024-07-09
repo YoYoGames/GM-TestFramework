@@ -2,8 +2,8 @@
 
 /// @function start_draw_comparison()
 /// @description Creates a surface and sets it as the current draw target, capturing the resulting image of any subsequent draw calls. Returns a reference to the surface to pass into end_draw_comparison once finished drawing. 
-/// @param {Real} width The width of the surface to creeate for the comparison
-/// @param {Real} height The height of the surface to creeate for the comparison
+/// @param {Real} width The width of the surface to create for the comparison
+/// @param {Real} height The height of the surface to create for the comparison
 /// @return {Id.Surface} The created surface, to be used in end_draw_comparison()
 function start_draw_comparison(_width = room_width, _height = room_height) {
 	
@@ -27,8 +27,8 @@ function start_draw_comparison(_width = room_width, _height = room_height) {
 /// @function start_draw_comparison_ext()
 /// @description Creates a surface and sets it as one of the current MRT draw targets, capturing the resulting image of any subsequent draw calls. Returns a reference to the surface to pass into end_draw_comparison_ext once finished drawing. 
 /// @param {Real} index The render target index to use (from 0 to 3).
-/// @param {Real} width The width of the surface to creeate for the comparison
-/// @param {Real} height The height of the surface to creeate for the comparison
+/// @param {Real} width The width of the surface to create for the comparison
+/// @param {Real} height The height of the surface to create for the comparison
 /// @return {Id.Surface} The created surface, to be used in end_draw_comparison_ext()
 function start_draw_comparison_ext(_index, _width = room_width, _height = room_height) {
 	

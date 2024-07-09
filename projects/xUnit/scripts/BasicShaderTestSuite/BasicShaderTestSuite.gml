@@ -7,25 +7,25 @@
 /// @param {Asset.GMShader} hlsl_shader HLSL version of the shader
 /// @param {Asset.GMShader} glsles_shader GLSL ES version of the shader
 /// @returns {Asset.GMShader}
-function pick_shader_for_platform(_glsl_shader, _hlsl_shader, _glsles_shader) { // PROGRESS STATE - Finished
+function pick_shader_for_platform(_glsl_shader, _hlsl_shader, _glsles_shader) {
 	// If OS is linux or mac, return the GLSL shader
-	if(os_type == os_linux || os_type == os_macosx){
+	//if(os_type == os_linux || os_type == os_macosx){
 		return _glsl_shader;
-	}
+	//}
 	// If OS is windows or xbox, return the HLSL shader
-	else if(os_type == os_uwp || os_type == os_windows || os_type == os_xboxone){
-		return _hlsl_shader;
-	}
+	//else if(os_type == os_uwp || os_type == os_windows || os_type == os_xboxone){
+	//	return _hlsl_shader;
+	//}
 	// If OS is anything else, return the GLSLES shader
-	else {
-		return _glsles_shader;
-	}
+	//else {
+	//	return _glsles_shader;
+	//}
 }
 
 /// @function verify_shader_compiled()
 /// @description Utility function to Assert and ends the current test early if the shader has not been compiled 
 /// @param {Asset.GMShader} shader Shader to check
-function verify_shader_compiled(_shader) { // PROGRESS STATE - Finished
+function verify_shader_compiled(_shader) {
 	// Check that the shader has been compiled
 	var _is_compiled = assert_true(shader_is_compiled(_shader), test_current().name + ", failed to compile shader necessary for test");
 	if (!_is_compiled)
@@ -39,7 +39,7 @@ function verify_shader_compiled(_shader) { // PROGRESS STATE - Finished
 // Test suite for all basic shader functionality
 function BasicShaderTestSuite() : TestSuite() constructor {
 	
-	addTestAsync("primitive_drawing", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("primitive_drawing", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Generate rectangle data to draw
@@ -56,15 +56,14 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			end_draw_comparison(_test_surface, "ShaderTests/PrimitiveDrawing/", test_current().name + ", failed draw buffer comparison");
 			// End test at end of first draw frame
 			test_end();
-		},
-	
+		}
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
 	
-	addTestAsync("shader_is_compiled", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("shader_is_compiled", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Create array to store whether or not shaders have been compiled
@@ -113,15 +112,14 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			}
 			// End test at end of first draw frame
 			test_end();
-		},
-	
+		}
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
 	
-	addFact("shader_get_name", function() { // PROGRESS STATE - Finished
+	addFact("shader_get_name", function() {
 		
 		// Check that shader_get_name correctly gets the name of sh_passthrough_glsles
 		var _output;
@@ -129,7 +127,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		assert_equals(_output, "sh_passthrough_glsles", test_current().name +", failed to get name of shader" );
 	});
 	
-	addFact("shaders_are_supported", function() { // PROGRESS STATE - Finished
+	addFact("shaders_are_supported", function() {
 		
 		var _output;
 		_output = shaders_are_supported();
@@ -178,11 +176,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_current", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("shader_current", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsles);
+			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -197,19 +195,18 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// End test at end of first draw frame
 			test_end();
-		},
-	
+		}
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
 	
-	addTestAsync("passthrough_shader", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("passthrough_shader", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsles);
+			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -232,19 +229,18 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// End test at end of first draw frame
 			test_end();
-		},
-	
+		}
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
 	
-	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, { // PROGRESS STATE - Finished
+	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -315,11 +311,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_f_array", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_set_uniform_f_array", objTestAsyncDraw, {
 		
 		ev_create: function() {	
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -385,11 +381,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_f_buffer", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_set_uniform_f_buffer", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -468,11 +464,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_i", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_set_uniform_i", objTestAsyncDraw, {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -542,11 +538,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("shader_set_uniform_i_array", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_set_uniform_i_array", objTestAsyncDraw, {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -611,11 +607,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("shader_get_sampler_index", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_get_sampler_index", objTestAsyncDraw, {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsles);
+			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -660,8 +656,8 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			shader_set(test_shader);
 				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
-				// Draw rectangle
-				draw_rect(rect);
+				// Draw rectangle with correct uvs for the sample texture
+				draw_texture_rect(rect, _uvs);
 			// Stop using shader
 			shader_reset();
 			
@@ -677,11 +673,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -692,7 +688,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			sampler = shader_get_sampler_index(test_shader, "sample");
 			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
 			// Get matrix uniform handle
-			shader_matrix = shader_get_uniform(test_shader, "u_vMatrix");
+			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
 			assert_typeof(shader_matrix, "number", test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
@@ -716,8 +712,8 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				matrix_set(matrix_world, _matrix);
 				shader_set_uniform_matrix(shader_matrix);
 				matrix_set(matrix_world, matrix_build_identity());
-				// Draw rectangle
-				draw_rect(rect);
+				// Draw rectangle with correct uvs for the sample texture
+				draw_texture_rect(rect, _uvs);
 			// Stop using shader
 			shader_reset();
 			
@@ -733,11 +729,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_set_uniform_matrix_array", objTestAsyncDraw, { // PROGRESS STATE - Needscomments & tidying
+	addTestAsync("shader_set_uniform_matrix_array", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsles);
+			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -748,7 +744,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			sampler = shader_get_sampler_index(test_shader, "sample");
 			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
 			// Get matrix uniform handle
-			shader_matrix = shader_get_uniform(test_shader, "u_vMatrix");
+			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
 			assert_typeof(shader_matrix, "number", test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
@@ -770,8 +766,8 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				texture_set_stage(sampler, _texture);
 				// Set the matrix uniform
 				shader_set_uniform_matrix_array(shader_matrix, _matrix);
-				// Draw rectangle
-				draw_rect(rect);
+				// Draw rectangle with correct uvs for the sample texture
+				draw_texture_rect(rect, _uvs);
 			// Stop using shader
 			shader_reset();
 			
@@ -787,11 +783,11 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	});
 	
 	
-	addTestAsync("shader_enable_corner_id", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("shader_enable_corner_id", objTestAsyncDraw, {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_enable_corner_id_glsles, sh_enable_corner_id_hlsl, sh_enable_corner_id_glsles);
+			test_shader = pick_shader_for_platform(sh_enable_corner_id_glsles, sh_enable_corner_id_hlsl, sh_enable_corner_id_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -808,7 +804,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
-				// Draw a sprite (a sprite is used instead of a rectangle because primitives can't have corner ids)
+				// Draw a sprite (a sprite is used instead of a rectangle because drawn primitives can't have corner ids)
 				draw_sprite(sprSquare, 0, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2)
 			// Stop using shader
 			shader_reset();
@@ -818,10 +814,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// End test at end of first draw frame
 			test_end();
-			
 		},
 		ev_cleanup: function() {
-			// Disable shader corner ids
+			// Disable shader corner ids once the test is done
 			shader_enable_corner_id(false);
 		}
 	},
@@ -829,23 +824,22 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gl_frag_coord/sv_position", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("gl_frag_coord/sv_position", objTestAsyncDraw, {
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, window_get_width(), window_get_height());
-			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_frag_coord_glsles, sh_sv_position_hlsl, sh_frag_coord_glsles);
-
+			test_shader = pick_shader_for_platform(sh_frag_coord_glsles, sh_sv_position_hlsl, sh_frag_coord_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			u_resolution = shader_get_uniform(test_shader, "u_resolution");
+			// Generate rectangle data to draw, filling the window
+			rect = new Rect(0, 0, window_get_width(), window_get_height());
 			
+			// Get window resolution uniform handle
+			u_resolution = shader_get_uniform(test_shader, "u_resolution");
 		},
 		ev_draw: function() {
-			
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/FragCoord/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
@@ -854,9 +848,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
-				
+				// Set the resolution uniform
 				shader_set_uniform_f(u_resolution, window_get_width(), window_get_height());
-				// Draw rect
+				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
@@ -864,43 +858,36 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// End test at end of first draw frame
 			test_end();
-			
-		},
-		ev_cleanup: function() {
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gl_max_draw_buffers", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("gl_max_draw_buffers", objTestAsyncDraw, {
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_max_draw_buffers_glsles, undefined, sh_max_draw_buffers_glsles);
-			
+			test_shader = pick_shader_for_platform(sh_max_draw_buffers_glsles, undefined, sh_max_draw_buffers_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 		},
 		ev_draw: function() {
-			
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/MaxDrawBuffers/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
-			
 			// Start using shader
 			shader_set(test_shader);
-				// Draw rect
+				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
@@ -908,12 +895,10 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// End test at end of first draw frame
 			test_end();
 			
-		},
-		ev_cleanup: function() {
-		}
-	
+		}	
 	},
 	{ 
 		test_timeout_millis: 3000,
@@ -922,26 +907,23 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_filter: platform_console
 	});
 	
-	addTestAsync("gl_frag_data/sv_target", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("gl_frag_data/sv_target", objTestAsyncDraw, {
 		
 		ev_create: function() {
-			// Generate data for rect
-			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsles);
-
+			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			
+			// Generate rectangle data to draw
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 		},
 		ev_draw: function() {
-			
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/FragData/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
-			// Start draw buffer comparison
+			// Start draw buffer comparisons for 4 surfaces, testing drawing to multiple render targets at once
 			var _test_surfaces = [];
 			array_resize(_test_surfaces, 4);
 			_test_surfaces[0] = start_draw_comparison_ext(0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
@@ -949,34 +931,29 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			_test_surfaces[2] = start_draw_comparison_ext(2, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			_test_surfaces[3] = start_draw_comparison_ext(3, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
-			
 			// Start using shader
 			shader_set(test_shader);
-				// Draw rect
+				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
 			
-			// End draw buffer comparison
+			// End draw buffer comparisons
 			end_draw_comparison_ext(_test_surfaces, _test_path, _test_fail_message);
 			
-			test_end();
-			
-		},
-		ev_cleanup: function() {
+			// End test at end of first draw frame
+			test_end();	
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 
-	addTestAsync("3d_rendering", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("3d_rendering", objTestAsyncDraw, {
 		
 		ev_create: function() {
-			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl,  sh_passthrough_glsles);
+			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -986,7 +963,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			camera = generate_3d_camera();
 		},
 		ev_draw: function() {
-			
+			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/3DRendering/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
@@ -995,15 +972,19 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
-			
+				
+				// Enable Z writing and testing for 3D rendering
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
 				
+				// Apply camera settings and clear the surface
 				camera_apply(camera)
 				draw_clear_alpha(c_black, 0)
 				
+				// Draw cube
 				vertex_submit(cube_mesh, pr_trianglelist, -1);
 				
+				// Disable Z writing and testing
 				gpu_set_zwriteenable(false);
 				gpu_set_ztestenable(false);
 				
@@ -1013,25 +994,24 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
+			// End test at end of first draw frame
 			test_end();
-			
 		},
 		ev_cleanup: function() {
+			//Distroy camera and cube mesh buffer once the test is done
 			camera_destroy(camera);
-			vertex_delete_buffer(cube_mesh)
+			vertex_delete_buffer(cube_mesh);
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("normals_test", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("normals_test", objTestAsyncDraw, {
 		
 		ev_create: function() {
-			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_normals_glsles, sh_normals_hlsl,  sh_normals_glsles);
+			test_shader = pick_shader_for_platform(sh_normals_glsles, sh_normals_hlsl, sh_normals_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -1044,43 +1024,43 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
-			var _test_path = "ShaderTests/NormalsTest/";
-			
-			var _test_prefix = "Angle1";
+			// Initialise test name and fail message to use in buffer comparison
+			var _test_path = "ShaderTests/NormalsTest/Angle1";
 			var _test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 1";
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, destroy current camera and generate a new one viewing the cube from the opposite direction, to get a view of all sides
 				case 1:
-					// Set prefix and fail message for 2nd part of the test
-					_test_prefix = "Angle2";
+					_test_path = "ShaderTests/NormalsTest/Angle2";
 					_test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 2";
-					
-					// destroy current camera and generate a new one viewing the cube from the opposite direction
 					camera_destroy(camera);
-					camera = generate_3d_camera(new Vector3(200, 200, 300));
+					camera = generate_3d_camera(200, 200, 300);
 					break;
+				// On the third frame, end the test
 				case 2:
-					// End test and return to avoid any further code being run
 					test_end();
 					return;
 			}
-			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison();
 			
 			// Start using shader
 			shader_set(test_shader);
-			
+				
+				// Enable Z writing and testing for 3D rendering
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
 				
+				// Apply camera settings and clear the surface
 				camera_apply(camera)
 				draw_clear_alpha(c_black, 0)
-			
+				
+				// Draw cube
 				vertex_submit(cube_mesh, pr_trianglelist, -1);
 				
+				// Disable Z writing and testing
 				gpu_set_zwriteenable(false);
 				gpu_set_ztestenable(false);
 				
@@ -1088,28 +1068,26 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			shader_reset();
 			
 			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
 			// Update frame counter
 			draw_frame++;
-			
 		},
 		ev_cleanup: function() {
+			//Distroy camera and cube mesh buffer once the test is done
 			camera_destroy(camera);
 			vertex_delete_buffer(cube_mesh)
 		}
-	
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gl_front_facing/sv_is_front_face", objTestAsyncDraw, { // PROGRESS STATE - Needs comments & tidying
+	addTestAsync("gl_front_facing/sv_is_front_face", objTestAsyncDraw, {
 		
 		ev_create: function() {
-			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_is_front_face_hlsl,  sh_front_facing_glsles);
+			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_is_front_face_hlsl, sh_front_facing_glsl);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -1122,43 +1100,43 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
-			
-			var _test_path = "ShaderTests/FrontFacing/";
-			
-			var _test_prefix = "Angle1";
+			// Initialise test name and fail message to use in buffer comparison
+			var _test_path = "ShaderTests/FrontFacing/Angle1";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
+			// Set test variables based on which draw frame we're on
 			switch (draw_frame)
 			{
+				// On the second frame, destroy current camera and generate a new one viewing the cube from the opposite direction, to check the back side
 				case 1:
-					// Set prefix and fail message for 2nd part of the test
-					_test_prefix = "Angle2";
+					_test_path = "ShaderTests/FrontFacing/Angle2";
 					_test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 2";
-					
-					// destroy current camera and generate a new one viewing the cube from the opposite direction
 					camera_destroy(camera);
-					camera = generate_3d_camera(new Vector3(200, 200, 300));
+					camera = generate_3d_camera(200, 200, 300);
 					break;
+				// On the third frame, end the test
 				case 2:
-					// End test and return to avoid any further code being run
 					test_end();
 					return;
 			}
-			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison();
 			
 			// Start using shader
 			shader_set(test_shader);
-			
+				
+				// Enable Z writing and testing for 3D rendering
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
 				
+				// Apply camera settings and clear the surface
 				camera_apply(camera)
 				draw_clear_alpha(c_black, 0)
 				
+				// Draw cube
 				vertex_submit(plane_mesh, pr_trianglelist, -1);
 				
+				// Disable Z writing and testing
 				gpu_set_zwriteenable(false);
 				gpu_set_ztestenable(false);
 				
@@ -1166,15 +1144,16 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			shader_reset();
 			
 			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
 			
 			// Update frame counter
 			draw_frame++;
 			
 		},
 		ev_cleanup: function() {
+			//Distroy camera and cube mesh buffer once the test is done
 			camera_destroy(camera);
-			vertex_delete_buffer(plane_mesh)
+			vertex_delete_buffer(plane_mesh);
 		}
 	
 	},

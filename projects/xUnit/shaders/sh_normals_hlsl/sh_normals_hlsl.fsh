@@ -1,7 +1,7 @@
-//
-// Simple passthrough pixel shader (HLSL 11)
-//
+// This shader tests NORMAL by colouring each vertex based on its normal value
+// Fragment Shader
 
+// Input values
 struct PixelShaderInput {
     float4 vPosition : SV_POSITION;
     float4 vColor    : COLOR0;
@@ -10,7 +10,6 @@ struct PixelShaderInput {
 
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
-    float4 diffuseTexture = gm_BaseTextureObject.Sample(gm_BaseTexture, INPUT.vTexcoord);
-  
-    return INPUT.vColor * diffuseTexture;
+	// Set the fragment colour to the colour outputted by the vertex shader
+    return INPUT.vColor;
 }

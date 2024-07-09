@@ -1,3 +1,7 @@
+/// @function cross_product()
+/// @description Returns the cross product of two Vector3s
+/// @param {Struct.Vector3} a The first vector
+/// @param {Struct.Vector3} b The second vector
 function cross_product(_a, _b) {
 
 	var _result = new Vector3();

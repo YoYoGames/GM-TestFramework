@@ -1,7 +1,7 @@
-//
-// Simple passthrough pixel shader (HLSL 11)
-//
+// This shader tests general shader usage by outputting all input values unchanged
+// Fragment Shader
 
+// Input values
 struct PixelShaderInput {
     float4 vPosition : SV_POSITION;
     float4 vColor    : COLOR0;
@@ -10,7 +10,7 @@ struct PixelShaderInput {
 
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
+	// Set the fragment colour to the vertex colour multiplied by its texture at the current texture coordinate
     float4 diffuseTexture = gm_BaseTextureObject.Sample(gm_BaseTexture, INPUT.vTexcoord);
-  
     return INPUT.vColor * diffuseTexture;
 }
