@@ -4,7 +4,7 @@
   "name":"sh_uniform_f_array_hlsl",
   "parent":{
     "name":"HLSL",
-    "path":"folders/Tests/TestResources/shaders/HLSL.yy",
+    "path":"folders/Tests/TestResources/shaders/ShaderTests/HLSL.yy",
   },
   "resourceType":"GMShader",
   "resourceVersion":"2.0",

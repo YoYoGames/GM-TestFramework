@@ -4,7 +4,7 @@
   "name":"sh_enable_corner_id_glsles",
   "parent":{
     "name":"GLSLES",
-    "path":"folders/Tests/TestResources/shaders/GLSLES.yy",
+    "path":"folders/Tests/TestResources/shaders/ShaderTests/GLSLES.yy",
   },
   "resourceType":"GMShader",
   "resourceVersion":"2.0",
