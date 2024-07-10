@@ -49,7 +49,6 @@
     {"$GMFolder":"","%Name":"Utils","folderPath":"folders/Tests/Utils.yy","name":"Utils","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -61,7 +60,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.600.0.585",
+    "IDEVersion":"2024.800.0.587",
   },
   "name":"xUnit",
   "resources":[
@@ -72,7 +71,9 @@
     {"id":{"name":"objRunner","path":"objects/objRunner/objRunner.yy",},},
     {"id":{"name":"objTest","path":"objects/objTest/objTest.yy",},},
     {"id":{"name":"objTestAsync","path":"objects/objTestAsync/objTestAsync.yy",},},
+    {"id":{"name":"objTestAsyncAudioPlayback","path":"objects/objTestAsyncAudioPlayback/objTestAsyncAudioPlayback.yy",},},
     {"id":{"name":"objTestAsyncAudioPlaybackEnded","path":"objects/objTestAsyncAudioPlaybackEnded/objTestAsyncAudioPlaybackEnded.yy",},},
+    {"id":{"name":"objTestAsyncAudioRecording","path":"objects/objTestAsyncAudioRecording/objTestAsyncAudioRecording.yy",},},
     {"id":{"name":"objTestAsyncDraw","path":"objects/objTestAsyncDraw/objTestAsyncDraw.yy",},},
     {"id":{"name":"objTestAsyncNetworking","path":"objects/objTestAsyncNetworking/objTestAsyncNetworking.yy",},},
     {"id":{"name":"objTestAsyncRoomChange","path":"objects/objTestAsyncRoomChange/objTestAsyncRoomChange.yy",},},
@@ -151,6 +152,7 @@
     {"id":{"name":"Property","path":"scripts/Property/Property.yy",},},
     {"id":{"name":"PropertyHolder","path":"scripts/PropertyHolder/PropertyHolder.yy",},},
     {"id":{"name":"PublisherAPI","path":"scripts/PublisherAPI/PublisherAPI.yy",},},
+    {"id":{"name":"ResourceAudioBuffersTestSuite","path":"scripts/ResourceAudioBuffersTestSuite/ResourceAudioBuffersTestSuite.yy",},},
     {"id":{"name":"ResourceAudioEffectsTestSuite","path":"scripts/ResourceAudioEffectsTestSuite/ResourceAudioEffectsTestSuite.yy",},},
     {"id":{"name":"ResourceAudioEmittersTestSuite","path":"scripts/ResourceAudioEmittersTestSuite/ResourceAudioEmittersTestSuite.yy",},},
     {"id":{"name":"ResourceAudioListenersTestSuite","path":"scripts/ResourceAudioListenersTestSuite/ResourceAudioListenersTestSuite.yy",},},
