@@ -3,6 +3,9 @@
   "%Name":"xUnit",
   "AudioGroups":[
     {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"","%Name":"audiogroup_MP3","name":"audiogroup_MP3","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"","%Name":"audiogroup_OGG","name":"audiogroup_OGG","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"","%Name":"audiogroup_WAV","name":"audiogroup_WAV","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[],
@@ -152,6 +155,7 @@
     {"id":{"name":"PublisherAPI","path":"scripts/PublisherAPI/PublisherAPI.yy",},},
     {"id":{"name":"ResourceAudioEffectsTestSuite","path":"scripts/ResourceAudioEffectsTestSuite/ResourceAudioEffectsTestSuite.yy",},},
     {"id":{"name":"ResourceAudioEmittersTestSuite","path":"scripts/ResourceAudioEmittersTestSuite/ResourceAudioEmittersTestSuite.yy",},},
+    {"id":{"name":"ResourceAudioGroupsTestSuite","path":"scripts/ResourceAudioGroupsTestSuite/ResourceAudioGroupsTestSuite.yy",},},
     {"id":{"name":"ResourceAudioListenersTestSuite","path":"scripts/ResourceAudioListenersTestSuite/ResourceAudioListenersTestSuite.yy",},},
     {"id":{"name":"ResourceCameraTestSuite","path":"scripts/ResourceCameraTestSuite/ResourceCameraTestSuite.yy",},},
     {"id":{"name":"ResourceEventsTestSuite","path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},},
@@ -181,6 +185,9 @@
     {"id":{"name":"snd_jump_MP3","path":"sounds/snd_jump_MP3/snd_jump_MP3.yy",},},
     {"id":{"name":"snd_jump_OGG","path":"sounds/snd_jump_OGG/snd_jump_OGG.yy",},},
     {"id":{"name":"snd_jump_WAV","path":"sounds/snd_jump_WAV/snd_jump_WAV.yy",},},
+    {"id":{"name":"snd_MP3","path":"sounds/snd_MP3/snd_MP3.yy",},},
+    {"id":{"name":"snd_OGG","path":"sounds/snd_OGG/snd_OGG.yy",},},
+    {"id":{"name":"snd_WAV","path":"sounds/snd_WAV/snd_WAV.yy",},},
     {"id":{"name":"handle_testSprite","path":"sprites/handle_testSprite/handle_testSprite.yy",},},
     {"id":{"name":"sprCircle","path":"sprites/sprCircle/sprCircle.yy",},},
     {"id":{"name":"sprSquare","path":"sprites/sprSquare/sprSquare.yy",},},
