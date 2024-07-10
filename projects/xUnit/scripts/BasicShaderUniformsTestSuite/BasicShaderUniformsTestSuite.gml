@@ -12,9 +12,6 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
-			u_expected_alpha_test_enabled = shader_get_uniform(test_shader, "u_expected_alpha_test_enabled");
-			u_expected_alpha_ref_value = shader_get_uniform(test_shader, "u_expected_alpha_ref_value");
-			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
 			
@@ -49,9 +46,6 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 					gpu_set_alphatestenable(true);
 					gpu_set_alphatestref(254);
 				}
-				
-				shader_set_uniform_i(u_expected_alpha_test_enabled, gpu_get_alphatestenable());
-				shader_set_uniform_i(u_expected_alpha_ref_value, gpu_get_alphatestref());
 				
 				draw_sprite(sprSquare, 0, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2)
 				draw_sprite(sprAlphaTest, 0, 0, 0)
@@ -904,7 +898,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			rect = new Rect(0,0,SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_lights_colour_glsles, sh_passthrough_hlsl, sh_lights_colour_glsles);
+			test_shader = pick_shader_for_platform(sh_lighting_enabled_glsles, sh_passthrough_hlsl, sh_lighting_enabled_glsles);
 
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
@@ -945,12 +939,6 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
-			
-				// Enable lighting if _set_value is set
-				//if (_set_value == true)
-				//{
-				//	draw_set_lighting(true);
-				//}
 			
 				// Draw rect
 				draw_rect(rect);
