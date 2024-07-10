@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ResourceAudioGroupsTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ResourceAudioGroupsTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

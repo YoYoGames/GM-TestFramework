@@ -403,12 +403,24 @@ By organizing the xUnit (TestFramework) project into these modules, it becomes e
 
 ---
 
-## Contributions
+# Contributions
 
-We welcome and appreciate contributions to the project, which can be made in two key areas:
+We welcome and appreciate well-documented contributions to the project, which can be made in two key areas:
 
 * **Framework Modules**: You can contribute by improving or adding to the framework modules themselves, making them more powerful, versatile, and user-friendly.
 
 * **Unit Tests**: Enhance the existing collection of unit tests by contributing new tests that cover different aspects of the GameMaker engine and ensure the reliability of the framework.
 
-To contribute, please follow the standard Git workflow: fork the repository, make your changes, and submit a pull request. Be sure to test your changes thoroughly and provide clear documentation or comments as necessary. Your contributions will help make the framework more robust and valuable for the GameMaker community.
+To contribute to this repo, please follow the standard Git workflow:
+
+1. Write up an issue _in our repo_, using the templates we have provided, so you can document your proposed changes and accordingly everyone else knows what you're changing and therefore your changes can be reviewed properly later on
+2. Fork the repository into your own GitHub space (if you have not already done so)
+3. Back on your issue in _our_ repository, set the branch in the right-hand side to be a new branch back on your own fork
+4. Make your changes on that branch in your own repo - be sure to test your changes thoroughly and provide clear comments in yur code as necessary!
+5. When you are done, update your issue with any final information/known issues/etc.
+6. Submit a pull request and ensure the title says "Fixes #_your issue number_ - _Some comment_" or that your issue is clearly linked in the right-hand panel of the PR - note that you should not need to add much further documentation into the PR, as you should have _already_ added final info into the original issue!
+7. Your PR will then be reviewed in conjunction with the original issue and approved/rejected accordingly
+
+If in any doubt about the flow above, please refer to https://github.com/YoYoGames/GM-TestFramework/issues/51 for an example of writing a detailed issue and linking it to a new branch, then you can click the link in the issue's side bar to see its accompanying https://github.com/YoYoGames/GM-TestFramework/pull/56 for the PR and review steps which came later on.
+
+Thanks! Your contributions will help make the framework more robust and valuable for the entire GameMaker community.
