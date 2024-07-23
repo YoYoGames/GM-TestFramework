@@ -63,7 +63,7 @@ function ResourceAudioSynchronisationTestSuite() : TestSuite() constructor {
 			var sound1 = audio_play_in_sync_group(syncGroup, snd_compressed);
 			
 			// Play audio sync group and start a timer
-			audio_start_sync_group(syncGroup)
+			audio_start_sync_group(syncGroup);
 			
 			startTime = get_timer() / 1000000; // microseconds --> seconds
 			
