@@ -490,7 +490,6 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	// (broken code in HLSL shader is commented out to avoid messing up subsequent tests - should be uncommented once fixed)
 	addTestAsync("matrix_max", objTestAsyncDraw, {
 		
 		ev_create: function() {		
