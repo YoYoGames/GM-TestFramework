@@ -24,7 +24,8 @@ float4 main(PixelShaderInput INPUT) : SV_TARGET {
 	}
 	
 	// If the fragment's alpha is under gm_AlphaRefValue (divided by 255 to scale it to between 1 and 0), set its alpha to 0
-	if (outputColour.a < gm_AlphaRefValue / 255.0)
+	float alpha_ref_value = gm_AlphaRefValue;
+	if (outputColour.a < alpha_ref_value / 255.0)
 	{
 		outputColour.a = 0.0;
 	}
