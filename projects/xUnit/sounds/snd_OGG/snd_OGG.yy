@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_OGG",
+  "audioGroupId":{
+    "name":"audiogroup_OGG",
+    "path":"audiogroups/audiogroup_OGG",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.862041,
+  "name":"snd_OGG",
+  "parent":{
+    "name":"sounds",
+    "path":"folders/Tests/TestResources/sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_OGG.ogg",
+  "type":0,
+  "volume":1.0,
+}
