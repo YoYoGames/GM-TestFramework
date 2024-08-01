@@ -169,7 +169,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 		
 		_map = ds_map_create();
 		
-		_output = ds_map_empty(_map)
+		_output = ds_map_empty(_map);
 		assert_true(_output, "ds_map_clear(), failed to clear map contents");
 			
 		// Clean up
@@ -185,7 +185,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 			
 		ds_map_add_map(_map, "Map", ds_map_create());
 		
-		_output = ds_map_empty(_map)
+		_output = ds_map_empty(_map);
 		assert_false(_output, "ds_map_empty(), detected empty map when it shouldn't");
 			
 		// Clean up
@@ -316,7 +316,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 		_output = ds_map_empty(_map);
 		assert_false(_output, "ds_map_secure_load_buffer(), loaded empty map (could be a ds_map_secure_save_buffer problem)");
 		assert_map_size(_map, 1, "ds_map_secure_load_buffer(), loaded wrong number of elements (could be a ds_map_secure_save_buffer problem)");
-		_output = ds_map_exists(_map, "Three")
+		_output = ds_map_exists(_map, "Three");
 		assert_true(_output, "ds_map_secure_load_buffer(), failed to load correct data (could be a ds_map_secure_save_buffer problem)");
 			
 		// Clean up
