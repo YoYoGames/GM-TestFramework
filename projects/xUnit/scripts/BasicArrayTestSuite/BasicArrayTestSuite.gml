@@ -1004,7 +1004,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 
 		//#1 array_resize, array must be resized (shrink)
 		var _array = [ 1, 2, 3, 4];
-		var _newSize = 2
+		var _newSize = 2;
 		array_resize(_array, _newSize);
 		assert_array_length(_array, _newSize, "array_resize, array must be resized (shrink)" );
 			
@@ -1103,7 +1103,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 		//#6 array_sort, method based struct array sorting (strings)
 		array_sort(_array, function(_s1, _s2) {
 			return _s1.value1 > _s2.value1 ? -1 : 1;
-		})
+		});
 			
 		var _sortedByValue = [];
 		for (var _i = array_length(_array) - 1; _i >= 0; _i--) {
@@ -1441,7 +1441,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 	// ARRAY FILTER EXT TESTS
 	
-	addFact("array_filter_ext test #", function() {
+	addFact("array_filter_ext test #1", function() {
 	
 		var _even = function(_value, _index) { return _value % 2 == 0; }
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -1573,7 +1573,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		
-		var _result = array_map(_array, function(_value) { return _value * 2; })
+		var _result = array_map(_array, function(_value) { return _value * 2; });
 		assert_array_equals(_result, [2, 4, 6, 8, 10, 12, 14, 16, 18, 20], "array_map should produce the correct output");
 	
 	});
@@ -1593,7 +1593,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		
-		var _result = array_map_ext(_array, function(_value) { return _value * 2; }, 3, 4)
+		var _result = array_map_ext(_array, function(_value) { return _value * 2; }, 3, 4);
 		assert_equals(_result, 4, "array_map_ext should return the correct number of mutated elements");
 	
 	});
@@ -1602,7 +1602,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		
-		var _result = array_map_ext(_array, function(_value) { return _value * 2; }, 3, 4)
+		var _result = array_map_ext(_array, function(_value) { return _value * 2; }, 3, 4);
 		assert_array_equals(_array, [1, 2, 3, 8, 10, 12, 14, 8, 9, 10], "array_map_ext should correctly mutate the array");
 	
 	});
@@ -1678,7 +1678,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 
 	// ARRAY SHUFFLE TESTS
 	
-	addFact("array_shuffle test #", function() {
+	addFact("array_shuffle test #1", function() {
 	
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		
@@ -1687,7 +1687,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 	});
 	
-	addFact("array_shuffle test #", function() {
+	addFact("array_shuffle test #2", function() {
 	
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		
@@ -1696,7 +1696,7 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 	});
 
-	addFact("array_shuffle test #", function() {
+	addFact("array_shuffle test #3", function() {
 	
 		var _array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 		
