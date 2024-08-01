@@ -2,699 +2,1325 @@
 
 function BasicDataTypesTestSuite() : TestSuite() constructor {
 
-	// TYPE CONVERSION
-
-	addFact("bool_test", function() {
+	// BOOL TYPE CONVERSION TESTS
+	
+	addFact("bool_test #1", function() {
 
 		var input, output;
 			
 		//#1 bool(pointer) should be true
 		input = ptr({});
 		output = bool(input);
-		assert_true(output, "#1 bool ( pointer:local ), should return true");
-		assert_typeof(output, "bool", "#1.1 bool ( pointer:local ), should be of type bool");
+		assert_true(output, "bool ( pointer:local ), should return true");
+		assert_typeof(output, "bool", "bool ( pointer:local ), should be of type bool");
+		
+	});
+	
+	addFact("bool_test #2", function() {
+
+		var input, output;
 			
 		//#2 bool(pointer_invalid) should be true
 		input = pointer_invalid;
 		output = bool(input);
-		assert_true(output, "#2 bool ( pointer_invalid:local ), should be true");
-		assert_typeof(output, "bool", "#2.1 bool ( pointer_invalid:local ), should return bool type");
+		assert_true(output, "bool ( pointer_invalid:local ), should be true");
+		assert_typeof(output, "bool", "bool ( pointer_invalid:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #2", function() {
+
+		var input, output;
 			
 		//#3 bool(pointer_null) should be false
 		input = pointer_null;
 		output = bool(input);
-		assert_false(output, "#3 bool ( pointer_null:local ), should be false");
-		assert_typeof(output, "bool", "#3.1 bool ( pointer_null:local ), should be of type bool");
+		assert_false(output, "bool ( pointer_null:local ), should be false");
+		assert_typeof(output, "bool", "bool ( pointer_null:local ), should be of type bool");
+		
+	});
+	
+	addFact("bool_test #3", function() {
+
+		var input, output;
 			
 		//#4 bool(real) should be true
 		input = 32.33;
 		output = bool(input);
-		assert_true(output, "#4 bool ( real:local ), should be true");
-		assert_typeof(output, "bool", "#4.1 bool ( real:local ), should return bool type");
+		assert_true(output, "bool ( real:local ), should be true");
+		assert_typeof(output, "bool", "bool ( real:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #4", function() {
+
+		var input, output;
 			
 		//#5 bool(real) <= 0.5 should be false
 		input = 0.5;
 		output = bool(input);
-		assert_false(output, "#5 bool ( real:local ), <= 0.5 should be false");
-		assert_typeof(output, "bool", "#5.1 bool ( real:local ), should return bool type");
+		assert_false(output, "bool ( real:local ), <= 0.5 should be false");
+		assert_typeof(output, "bool", "bool ( real:local ), should return bool type");	
+		
+	});
+	
+	addFact("bool_test #5", function() {
+
+		var input, output;
 			
 		//#6 bool(real) > 0.5 should be true
 		input = 0.55;
 		output = bool(input);
-		assert_true(output, "#6 bool ( real:local ), > 0.5 should be true");
-		assert_typeof(output, "bool", "#6.1 bool ( real:local ), should return bool type");
+		assert_true(output, "bool ( real:local ), > 0.5 should be true");
+		assert_typeof(output, "bool", "bool ( real:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #6", function() {
+
+		var input, output;
 			
 		//#7 bool(int32) should be true
 		input = int32(12);
 		output = bool(input);
-		assert_true(output, "#7 bool ( int32:local ), should be true");
-		assert_typeof(output, "bool", "#7.1 bool ( int32:local ), should return bool type");
+		assert_true(output, "bool ( int32:local ), should be true");
+		assert_typeof(output, "bool", "bool ( int32:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #7", function() {
+
+		var input, output;
 			
 		//#8 bool(int64) should be true
 		input = int64(32);
 		output = bool(input);
-		assert_true(output, "#8 bool ( int64:local ), should be true");
-		assert_typeof(output, "bool", "#8.1 bool ( int64:local ), should return bool type");
+		assert_true(output, "bool ( int64:local ), should be true");
+		assert_typeof(output, "bool", "bool ( int64:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #8", function() {
+
+		var input, output;
 			
 		//#9 bool('true') should be true
 		input = "true";
 		output = bool(input);
-		assert_true(output, "#9 bool ( 'true':local ), should be true");
-		assert_typeof(output, "bool", "#9.1 bool ( 'true':local ), should return bool type");
+		assert_true(output, "bool ( 'true':local ), should be true");
+		assert_typeof(output, "bool", "bool ( 'true':local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #9", function() {
+
+		var input, output;
 			
 		//#10 bool('false') should be false
 		input = "false";
 		output = bool(input);
-		assert_false(output, "#10 bool ( 'false':local ), should be false");
-		assert_typeof(output, "bool", "#10.1 bool ( 'false':local ), should return bool type");
+		assert_false(output, "bool ( 'false':local ), should be false");
+		assert_typeof(output, "bool", "bool ( 'false':local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #10", function() {
+
+		var input, output;
 			
 		//#11 bool(bool - true) should be true
 		input = true;
 		output = bool(input);
-		assert_true(output, "#11 bool ( bool - true:local ), should be true");
-		assert_typeof(output, "bool", "#11.1 bool ( bool - true:local ), should return bool type");
+		assert_true(output, "bool ( bool - true:local ), should be true");
+		assert_typeof(output, "bool", "bool ( bool - true:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #11", function() {
+
+		var input, output;
 		
 		//#12 bool(bool - false) should be false
 		input = false;
 		output	= bool(input);
-		assert_false(output, "#12 bool ( bool - false:local ), should be false" );
-		assert_typeof(output, "bool", "#12.1 bool ( bool - true:local ), should return bool type");
+		assert_false(output, "bool ( bool - false:local ), should be false" );
+		assert_typeof(output, "bool", "bool ( bool - true:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #12", function() {
+
+		var input, output;
 		
 		//#13 bool(enum.0) should be false
 		input = RainbowColors.Red;
 		output = bool(input);
-		assert_false(output, "#13 bool (enum.0:local), should be false");
-		assert_typeof(output, "bool", "#13.1 bool (enum.0:local), should return bool type");
+		assert_false(output, "bool (enum.0:local), should be false");
+		assert_typeof(output, "bool", "bool (enum.0:local), should return bool type");
+		
+	});
+	
+	addFact("bool_test #13", function() {
+
+		var input, output;
 		
 		//#14 bool(enum.1) should be true
 		input = RainbowColors.Orange;
 		output = bool(input);
-		assert_true(output, "#14 bool (enum.1:local), should be true");
-		assert_typeof(output, "bool", "#14.1 bool (enum.1:local), should return bool type");
+		assert_true(output, "bool (enum.1:local), should be true");
+		assert_typeof(output, "bool", "bool (enum.1:local), should return bool type");
+		
+	});
+	
+	addFact("bool_test #14", function() {
+
+		var input, output;
 			
 		//#15 bool(nan) should be false
 		input = NaN;
 		output = bool(input);
-		assert_false(output, "#15 bool ( nan:local ), should be false");
-		assert_typeof(output, "bool", "#15.1 bool ( nan:local ), should return bool type");
+		assert_false(output, "bool ( nan:local ), should be false");
+		assert_typeof(output, "bool", "bool ( nan:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #15", function() {
+
+		var input, output;
 			
 		//#16 bool(infinity) should be false
 		input = infinity;
 		output = bool(input);
-		assert_true(output, "#16 bool ( infinity:local ), should be true");
-		assert_typeof(output, "bool", "#16.1 bool ( infinity:local ), should return bool type");
+		assert_true(output, "bool ( infinity:local ), should be true");
+		assert_typeof(output, "bool", "bool ( infinity:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #16", function() {
+
+		var input, output;
 			
 		//#17 bool(undefined) should be false
 		input = undefined;
 		output = bool(input);
-		assert_false(output, "#17 bool ( undefined:local ), should be false");
-		assert_typeof(output, "bool", "#17.1 bool ( undefined:local ), should return bool type");
+		assert_false(output, "bool ( undefined:local ), should be false");
+		assert_typeof(output, "bool", "bool ( undefined:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #17", function() {
+
+		var input, output;
 
 		//#18 bool(struct) should be true
 		input = {};
 		output = bool(input);
-		assert_true(output, "#18 bool ( struct:local ), should be true");
-		assert_typeof(output, "bool", "#18.1 bool ( struct:local ), should return bool type");
+		assert_true(output, "bool ( struct:local ), should be true");
+		assert_typeof(output, "bool", "bool ( struct:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #18", function() {
+
+		var input, output;
 			
 		//#19 bool(method) should be true
 		input = function() {};
 		output = bool(input);
-		assert_true(output, "#19 bool ( method:local ), should be true");
-		assert_typeof(output, "bool", "#19.1 bool ( method:local ), should return bool type");
+		assert_true(output, "bool ( method:local ), should be true");
+		assert_typeof(output, "bool", "bool ( method:local ), should return bool type");
+		
+	});
+	
+	addFact("bool_test #19", function() {
+
+		var input, output;
 
 		//#20 bool(array) should throw error
 		assert_throw(function() {
 			var input = [];
 			return bool(input);
-		}, "#20 bool ( array ), should throw error");
+		}, "bool ( array ), should throw error");
+		
+	});
+	
+	addFact("bool_test #20", function() {
+
+		var input, output;
 		
 		//#21 bool (string), where string is not 'true'/'false', should throw error
 		assert_throw(function() {
 			var input = "string";
 			return bool(input);
-		}, "#21 bool ( string ), where string is not 'true'/'false', should throw error");
+		}, "bool ( string ), where string is not 'true'/'false', should throw error");
+		
+	});
+	
+	addFact("bool_test #21", function() {
+
+		var input, output;
 		
 		//#22 bool (empty string) should throw error
 		assert_throw(function() {
 			var input = "";
 			return bool(input);
-		}, "#22 bool (empty string), should throw error");
+		}, "bool (empty string), should throw error");
+		
+	});
+
+	addFact("bool_test #22", function() {
+
+		var input, output;
 		
 		//#23 bool (any) should throw error
 		assert_throw(function() {
 			var input;
 			return bool(input);
-		}, "#23 bool (any), should throw error");
+		}, "bool (any), should throw error");
 			
-	})
-
-	addFact("int64_test", function() {
+	});
+	
+	// INT64
+	
+	addFact("int64_test #1", function() {
 		
 		var input, output;
-		
-		var i = 0;
 		
 		//#1 int64 ( pointer ) should not be null
 		input = ptr({});
 		output = int64(input);
-		assert_not_null(output, "#1 int64 ( pointer:local ), should not be null");
-		assert_typeof(output, "int64", "#1.1 int64 ( pointer:local ), should be of type int64");
+		assert_not_null(output, "int64 ( pointer:local ), should not be null");
+		assert_typeof(output, "int64", "int64 ( pointer:local ), should be of type int64");
+			
+	});
+	
+	addFact("int64_test #2", function() {
+		
+		var input, output;
 		
 		//#2 int64 ( pointer_invalid ) should equal to -1
 		input = pointer_invalid;
 		output = int64(input);
-		assert_equals(output, -1, "#2 int64 ( pointer_invalid:local ), should be -1");
-		assert_typeof(output, "int64", "#2.1 int64 ( pointer_invalid:local ), should be of type int64");
+		assert_equals(output, -1, "int64 ( pointer_invalid:local ), should be -1");
+		assert_typeof(output, "int64", "int64 ( pointer_invalid:local ), should be of type int64");
+			
+	});
+	
+	addFact("int64_test #3", function() {
+		
+		var input, output;
 			
 		//#3 int64 ( pointer_null ) should equal to 0
 		input = pointer_null;
 		output = int64(input);
-		assert_equals(output, 0, "#3 int64 ( pointer_null:local ), should be 0");
-		assert_typeof(output, "int64", "#3.1 int64 ( pointer_null:local ), should be of type int64");
+		assert_equals(output, 0, "int64 ( pointer_null:local ), should be 0");
+		assert_typeof(output, "int64", "int64 ( pointer_null:local ), should be of type int64");
+			
+	});
+	
+	addFact("int64_test #4", function() {
+		
+		var input, output;
 		
 		//#4 int64 ( real ) should equal to the rounded value
 		input = 32.33;
 		output = int64(input);
-		assert_equals(output, round(input), "#4 int64 ( real:local ), should be rounded value");
-		assert_typeof(output, "int64", "#4.1 int64 ( real:local ), should return int64 type");
+		assert_equals(output, round(input), "int64 ( real:local ), should be rounded value");
+		assert_typeof(output, "int64", "int64 ( real:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #5", function() {
+		
+		var input, output;
 			
 		//#5 int64 ( int32 ) should equal to the input
 		input = int32(22);
 		output = int64(input);
-		assert_equals(output, input, "#5 int64 ( int32:local ), should be equal to input");
-		assert_typeof(output, "int64", "#5.1 int64 ( int32:local ), should return int64 type");
+		assert_equals(output, input, "int64 ( int32:local ), should be equal to input");
+		assert_typeof(output, "int64", "int64 ( int32:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #6", function() {
+		
+		var input, output;
 			
 		//#6 int64 ( int64 ) should equal to the input
 		input = int64(12);
 		output = int64(input);
-		assert_equals(output, input, "#6 int64 ( int64:local ), should be equal to input");
-		assert_typeof(output, "int64", "#6.1 int64 ( int64:local ), should return int64 type");
+		assert_equals(output, input, "int64 ( int64:local ), should be equal to input");
+		assert_typeof(output, "int64", "int64 ( int64:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #7", function() {
+		
+		var input, output;
 		
 		//#7 int64 ( bool - true ) should equal to 1
 		input = true;
 		output = int64(input);
-		assert_equals(output, 1, "#7 int64 ( bool - true:local ), should equal to 1");
-		assert_typeof(output, "int64", "#7.1 int64 ( bool - true:local ), should return in64 type");
+		assert_equals(output, 1, "int64 ( bool - true:local ), should equal to 1");
+		assert_typeof(output, "int64", "int64 ( bool - true:local ), should return in64 type");
+			
+	});
+	
+	addFact("int64_test #8", function() {
+		
+		var input, output;
 		
 		//#8 int64 ( bool - false ) should equal to false
 		input = false;
 		output = int64(input);
-		assert_equals(output, 0, "#8 int64 ( bool - false:local), should equal to 0");
-		assert_typeof(output, "int64", "#8.1 int64 ( bool - false:local ), should return int64 type");
+		assert_equals(output, 0, "int64 ( bool - false:local), should equal to 0");
+		assert_typeof(output, "int64", "int64 ( bool - false:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #9", function() {
+		
+		var input, output;
 		
 		//#9 int64 ( string ), with real value, should be converted and floored
 		input = "1.72";
 		output = int64(input);
-		assert_equals(output, 1, "#9 int64 ( string:local ), with real value, should be rounded value");
-		assert_typeof(output, "int64", "#9.1 int64 ( string:local ), should return int64 type");
+		assert_equals(output, 1, "int64 ( string:local ), with real value, should be rounded value");
+		assert_typeof(output, "int64", "int64 ( string:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #10", function() {
+		
+		var input, output;
 					
 		//#10 int64 ( string ), with real negative value, should be converted and floored
 		input = "-21233.223";
 		output = int64(input);
-		assert_equals(output, -21233, "#10 int64 ( string:local ), with real negative value, should be rounded value");
-		assert_typeof(output, "int64", "#10.1 int64 ( string:local ), should return int64 type");
+		assert_equals(output, -21233, "int64 ( string:local ), with real negative value, should be rounded value");
+		assert_typeof(output, "int64", "int64 ( string:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #11", function() {
+		
+		var input, output;
 
 		//#11 int64 ( string ), with real signed positive value, should be converted and floored
 		input = "+21233.223";
 		output = int64(input);
-		assert_equals(output, 21233, "#11 int64 ( string:local ), with real signed positive value, should be rounded value");
-		assert_typeof(output, "int64", "#11.1 int64 ( string:local ), should return int64 type");
+		assert_equals(output, 21233, "int64 ( string:local ), with real signed positive value, should be rounded value");
+		assert_typeof(output, "int64", "int64 ( string:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #12", function() {
+		
+		var input, output;
 		
 		//#12 int64 ( enum.0 ) should equal to 0
 		input = RainbowColors.Red;
 		output = int64(input);
-		assert_equals(output, 0, "#12 int64 ( enum.0:local ), should equal to 0");
-		assert_typeof(output, "int64", "#12.1 int64 ( enum.0:local ), should return int64 type");
+		assert_equals(output, 0, "int64 ( enum.0:local ), should equal to 0");
+		assert_typeof(output, "int64", "int64 ( enum.0:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #13", function() {
+		
+		var input, output;
 			
 		//#13 int64 ( enum.1 ) should equal to 1
 		input = RainbowColors.Orange;
 		output = int64(input);
-		assert_equals(output, 1, "#13 int64 ( enum.1:local ), should equal to 1");
-		assert_typeof(output, "int64", "#13.1 int64 ( enum.1:local ), should return int64 type");
+		assert_equals(output, 1, "int64 ( enum.1:local ), should equal to 1");
+		assert_typeof(output, "int64", "int64 ( enum.1:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #14", function() {
+		
+		var input, output;
 
 		//#14 int64 ( nan ), should be NaN
 		input = NaN;
 		output = int64(input);
-		assert_equals(output, 0, "#14 int64 ( nan:local ), should be 0");
-		assert_typeof(output, "int64", "#14.1 int64 ( nan:local ), should return int64 type");
+		assert_equals(output, 0, "int64 ( nan:local ), should be 0");
+		assert_typeof(output, "int64", "int64 ( nan:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #15", function() {
+		
+		var input, output;
 			
 		//#15 int64 ( infinity ), should be infinity
 		input = infinity;
 		output = int64(input);
-		assert_equals(output, 9223372036854775807, "#15 int64 ( infinity:local ), should equal to infinity");
-		assert_typeof(output, "int64", "#15.1 int64 ( infinity:local ), should return int64 type");
+		assert_equals(output, 9223372036854775807, "int64 ( infinity:local ), should equal to infinity");
+		assert_typeof(output, "int64", "int64 ( infinity:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #16", function() {
+		
+		var input, output;
 
 		//#16 int64 ( struct ), should be NaN
 		input = { key: "value" };
 		output = int64(input);
-		assert_equals(output, 0, "#16 int64 ( struct:local ), should be 0");
-		assert_typeof(output, "int64", "#16.1 int64 ( struct:local ), should return int64 type");
+		assert_equals(output, 0, "int64 ( struct:local ), should be 0");
+		assert_typeof(output, "int64", "int64 ( struct:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #17", function() {
+		
+		var input, output;
 
 		//#17 int64 ( function ), should be NaN
 		input = function() {};
 		output = int64(input);
-		assert_equals(output, 0, "#17 int64 ( function:local ), should be NaN 0");
-		assert_typeof(output, "int64", "#17.1 int64 ( function:local ), should return int64 type");
+		assert_equals(output, 0, "int64 ( function:local ), should be NaN 0");
+		assert_typeof(output, "int64", "int64 ( function:local ), should return int64 type");
+			
+	});
+	
+	addFact("int64_test #18", function() {
+		
+		var input, output;
 
 		//#18 int64 ( string ) that is not a number, should throw error
 		assert_throw(function() {
 			var input = "string";
 			return int64(input);
-		}, "#18 int64 ( string ), should throw error");
+		}, "int64 ( string ), should throw error");
+			
+	});
+	
+	addFact("int64_test #19", function() {
+		
+		var input, output;
 		
 		//#19 int64 ( empty string ) should throw error
 		assert_throw(function() {
 			var input = "";
 			return int64(input);
-		}, "#19 int64 ( empty string ) should throw error");
+		}, "int64 ( empty string ) should throw error");
+			
+	});
+	
+	addFact("int64_test #20", function() {
+		
+		var input, output;
 
 		//#20 int64 ( array ), should throw error
 		assert_throw(function() {
 			var input = [];
 			return int64(input);
-		}, "#20 int64 ( array ), should throw error");
+		}, "int64 ( array ), should throw error");
+			
+	});
+	
+	addFact("int64_test #21", function() {
 		
-		//#20 int64 ( undefined ), should throw error
+		var input, output;
+		
+		//#21 int64 ( undefined ), should throw error
 		assert_throw(function() {
 			var input = undefined
 			return int64(input);
-		}, "#20 int64 ( undefined ), should throw error");
+		}, "int64 ( undefined ), should throw error");
+			
+	});
+
+	addFact("int64_test #22", function() {
 		
-		//#21 int64 ( any ) should throw error
+		var input, output;
+		
+		//#22 int64 ( any ) should throw error
 		assert_throw(function() {
 			var input;
 			return int64(input);
-		}, "#21 int64 ( any ) should throw error");
+		}, "int64 ( any ) should throw error");
 		
-	})
+	});
 
-	addFact("string_test", function() {
+	// STRING
+	
+	addFact("string_test #1", function() {
 	
 		var input, output;
 			
 		//#1 string ( pointer ), should not be undefined
 		input = ptr({});
 		output = string(input);
-		assert_not_undefined(output, "#1 string ( pointer:local ), should not be undefined");
-		assert_typeof(output, "string", "#1.1 string ( pointer:local ), should be of type string");
+		assert_not_undefined(output, "string ( pointer:local ), should not be undefined");
+		assert_typeof(output, "string", "string ( pointer:local ), should be of type string");
+		
+	});
+	
+	addFact("string_test #2", function() {
+	
+		var input, output;
 		
 		//#2 string ( pointer_invalid ), should not be undefined
 		input = pointer_invalid;
 		output = string(input);
-		assert_not_undefined(output, "#2 string ( pointer_invalid:local ), should not be undefined");
-		assert_typeof(output, "string", "#2.1 string ( pointer_invalid:local ), should be of type string");
+		assert_not_undefined(output, "string ( pointer_invalid:local ), should not be undefined");
+		assert_typeof(output, "string", "string ( pointer_invalid:local ), should be of type string");
+		
+	});
+	
+	addFact("string_test #3", function() {
+	
+		var input, output;
 			
 		//#3 string ( pointer_null ), should be 'null'
 		input = pointer_null;
 		output = string(input);
-		assert_equals(output, "null", "#3 string ( pointer_null:local ), should be 'null'");
-		assert_typeof(output, "string", "#3.1 string ( pointer_null:local ), should be of type string");
+		assert_equals(output, "null", "string ( pointer_null:local ), should be 'null'");
+		assert_typeof(output, "string", "string ( pointer_null:local ), should be of type string");
+		
+	});
+	
+	addFact("string_test #4", function() {
+	
+		var input, output;
 			
 		//#4 string ( real ), should be the equivalent string value
 		input = 32.33;
 		output = string(input);
-		assert_equals(output, "32.33", "#4 string ( real:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#4.1 string ( real:local ), should return string type");
+		assert_equals(output, "32.33", "string ( real:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "string ( real:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #5", function() {
+	
+		var input, output;
 			
 		//#5 string ( int32 ), should be the equivalent string value
 		input = int32(22);
 		output = string(input);
-		assert_equals(output, "22", "#5 string ( int32:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#5.1 string ( int32:local ), should return string type");
+		assert_equals(output, "22", "string ( int32:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "string ( int32:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #6", function() {
+	
+		var input, output;
 			
 		//#6 string ( int64 ), should be the equivalent string value
 		input = int64(223231);
 		output = string(input);
-		assert_equals(output, "223231", "#6 string ( int64:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#6.1 string ( int64:local ), should return string type");
+		assert_equals(output, "223231", "string ( int64:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "string ( int64:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #7", function() {
+	
+		var input, output;
 		
 		//#7 string ( bool - true ), should equal to 1
 		input = true;
 		output = string(input);
-		assert_equals(output, "1", "#7 string ( bool - true:local ), should equal 1");
-		assert_typeof(output, "string", "#7.1 string ( bool - true:local ), should return string type");
+		assert_equals(output, "1", "string ( bool - true:local ), should equal 1");
+		assert_typeof(output, "string", "string ( bool - true:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #8", function() {
+	
+		var input, output;
 		
 		//#8 string ( bool - false ), should equal to 0
 		input = false;
 		output = string(input);
-		assert_equals(output, "0", "#8 string ( bool - false:local ), should equal 0");
-		assert_typeof(output, "string", "#8.1 string ( bool - false:local ), should return string type");
+		assert_equals(output, "0", "string ( bool - false:local ), should equal 0");
+		assert_typeof(output, "string", "string ( bool - false:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #9", function() {
+	
+		var input, output;
 					
 		//#9 string ( string - real ), should be the input value
 		input = "-21233.223";
 		output = string(input);
-		assert_equals(output, input, "#9 string ( string - real:local ), should be the input value");
-		assert_typeof(output, "string", "#9.1 string ( string - real:local ), should return string type");
+		assert_equals(output, input, "string ( string - real:local ), should be the input value");
+		assert_typeof(output, "string", "string ( string - real:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #10", function() {
+	
+		var input, output;
 		
 		//10 string ( string ) should be the input value
 		input = "input string";
 		output = string(input);
-		assert_equals(output, input, "#10 string ( string:local ), should be the input value");
-		assert_typeof(output, "string", "#10.9 string ( string:local ), should return string type");
+		assert_equals(output, input, "string ( string:local ), should be the input value");
+		assert_typeof(output, "string", "string ( string:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #11", function() {
+	
+		var input, output;
 		
 		//#11 string ( empty string ) should be input value
 		input = "";
 		output = string(input);
-		assert_equals(output, input, "#11 string ( empty string:local ), should be the input value");
-		assert_typeof(output, "string", "#11.1 string ( empty string:local ), should return string type");
+		assert_equals(output, input, "string ( empty string:local ), should be the input value");
+		assert_typeof(output, "string", "string ( empty string:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #12", function() {
+	
+		var input, output;
 		
 		//#12 string ( enum.0:local ) should equal to "0"
 		input = RainbowColors.Red;
 		output = string(input);
-		assert_equals(output, "0", "#12 string ( enum.0:local ), should be '0'");
-		assert_typeof(output, "string", "#12.1 string ( enum.0:local ), should return string type");
+		assert_equals(output, "0", "string ( enum.0:local ), should be '0'");
+		assert_typeof(output, "string", "string ( enum.0:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #13", function() {
+	
+		var input, output;
 		
 		//#13 string ( enum.1:local ) should equal to "1"
 		input = RainbowColors.Orange;
 		output = string(input);
-		assert_equals(output, "1", "#13 string ( enum.1:local ), should be '1'");
-		assert_typeof(output, "string", "13.1 string ( enum.1:local ), should return string type");
+		assert_equals(output, "1", "string ( enum.1:local ), should be '1'");
+		assert_typeof(output, "string", "string ( enum.1:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #14", function() {
+	
+		var input, output;
 			
 		//#14 string ( nan ), should be 'NaN'
 		input = NaN;
 		output = string(input);
-		assert_equals(output, "NaN", "#14 string ( nan:local ), should be 'NaN'");
-		assert_typeof(output, "string", "#14.1 string ( nan:local ), should return string type");
+		assert_equals(output, "NaN", "string ( nan:local ), should be 'NaN'");
+		assert_typeof(output, "string", "string ( nan:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #15", function() {
+	
+		var input, output;
 			
 		//#15 string ( infinity ), should be 'inf'
 		input = infinity;
 		output = string(input);
-		assert_equals(output, "inf", "#15 string ( infinity:local ), should be 'inf'");
-		assert_typeof(output, "string", "#15.1 string ( infinity:local ), should return string type");
+		assert_equals(output, "inf", "string ( infinity:local ), should be 'inf'");
+		assert_typeof(output, "string", "string ( infinity:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #16", function() {
+	
+		var input, output;
 
 		//#16 string ( undefined ), should be 'undefined'
 		input = undefined;
 		output = string(input);
-		assert_equals(output, "undefined", "#16 string ( undefined:local ), should be 'undefined'");
-		assert_typeof(output, "string", "#16.1 string ( undefined:local ), should return string type");
+		assert_equals(output, "undefined", "string ( undefined:local ), should be 'undefined'");
+		assert_typeof(output, "string", "string ( undefined:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #17", function() {
+	
+		var input, output;
 
 		//#17 string ( struct ), should be the equivalent string value
 		input = { key: "value" };
 		output = string(input);
-		assert_equals(output, @'{ key : "value" }', "#17 string ( struct:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#17.1 string ( struct:local ), should return string type");
+		assert_equals(output, @'{ key : "value" }', "string ( struct:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "string ( struct:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #18", function() {
+	
+		var input, output;
 
 		//#18 string ( array ), should be the equivalent string value
 		input = [1, 2, 3];
 		output = string(input);
-		assert_equals(output, @'[ 1,2,3 ]', "#18 string ( array:local ), should be the equivalent string value");
-		assert_typeof(output, "string", "#18.1 string ( array:local ), should return string type");
+		assert_equals(output, @'[ 1,2,3 ]', "string ( array:local ), should be the equivalent string value");
+		assert_typeof(output, "string", "string ( array:local ), should return string type");
+		
+	});
+	
+	addFact("string_test #19", function() {
+	
+		var input, output;
 			
 		//#19 string ( method ), should not throw error
 		assert_not_throws(function() {
 			var input = function() {};
 			return string(input);
-		}, "#19 string ( method ), should not throw error");
+		}, "string ( method ), should not throw error");
+		
+	});
+
+	addFact("string_test #20", function() {
+	
+		var input, output;
 		
 		//#20 string (any ) should throw error
 		assert_throw(function() {
 			var input;
 			return string(input);
-		}, "#20 string ( any ), should throw error");
+		}, "string ( any ), should throw error");
 		
-	})
-
-	addFact("real_test", function() {
+	});
+	
+	// REAL
+	
+	addFact("real_test #1", function() {
 			
 		var input, output;
 			
 		//#1 real ( real ) should be the input value
 		input = 32.33;
 		output = real(input);
-		assert_equals(output, input, "#1 real ( real:local ), should be the input value");
-		assert_typeof(output, "number", "#1.1 real ( real:local ), should return number type");
+		assert_equals(output, input, "real ( real:local ), should be the input value");
+		assert_typeof(output, "number", "real ( real:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #2", function() {
+			
+		var input, output;
 			
 		//#2 real ( int32 ) should be the input value
 		input = int32(22);
 		output = real(input);
-		assert_equals(output, input, "#2 real ( int32:local ), should be the input value");
-		assert_typeof(output, "number", "#2.1 real ( int32:local ), should return number type");
+		assert_equals(output, input, "real ( int32:local ), should be the input value");
+		assert_typeof(output, "number", "real ( int32:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #3", function() {
+			
+		var input, output;
 		
 		//#3 real ( int64 ) should be the input value
 		input = int64(32);
 		output = real(input);
-		assert_equals(output, input, "#3 real ( int64:local ), should be the input value");
-		assert_typeof(output, "number", "#3.1 real ( int64:local ), should return number type");
+		assert_equals(output, input, "real ( int64:local ), should be the input value");
+		assert_typeof(output, "number", "real ( int64:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #4", function() {
+			
+		var input, output;
 			
 		//#4 real ( real ), should be the input value
 		input = real(12);
 		output = real(input);
-		assert_equals(output, input, "#4 real ( real:local ), should be the input value");
-		assert_typeof(output, "number", "#4.1 real ( real:local ), should return number type");
+		assert_equals(output, input, "real ( real:local ), should be the input value");
+		assert_typeof(output, "number", "real ( real:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #5", function() {
+			
+		var input, output;
 		
 		//#5 real ( bool - true ) should equal to 1
 		input = true;
 		output = real(input);
-		assert_equals(output, 1, "#5 real ( bool - true:local ), should equal to 1");
-		assert_typeof(output, "number", "#5.1 real ( bool - true:local ) should return number type");
+		assert_equals(output, 1, "real ( bool - true:local ), should equal to 1");
+		assert_typeof(output, "number", "real ( bool - true:local ) should return number type");
+		
+	});
+	
+	addFact("real_test #6", function() {
+			
+		var input, output;
 		
 		//#6 real ( bool - false ) should equal to 0
 		input = false;
 		output = real(input);
-		assert_equals(output, 0, "#6 real ( bool - false:local ), should equal to 0");
-		assert_typeof(output, "number", "#6.1 real ( bool - false:local ) should return number type");
+		assert_equals(output, 0, "real ( bool - false:local ), should equal to 0");
+		assert_typeof(output, "number", "real ( bool - false:local ) should return number type");
+		
+	});
+	
+	addFact("real_test #7", function() {
+			
+		var input, output;
 					
 		//#7 real ( string ), with real value, should be converted and floored
 		input = "1.72";
 		output = real(input);
-		assert_equals(output, 1.72, "#7 real ( string - real:local ), should be converted and floored");
-		assert_typeof(output, "number", "#7.1 real ( string - real:local ), should return number type");
+		assert_equals(output, 1.72, "real ( string - real:local ), should be converted and floored");
+		assert_typeof(output, "number", "real ( string - real:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #8", function() {
+			
+		var input, output;
 					
 		//#8 real ( string ), with real value, should be converted and floored
 		input = "-21233.223";
 		output = real(input);
-		assert_equals(output, -21233.223, "#8 real ( string - negative real:local ), should be converted and floored");
-		assert_typeof(output, "number", "#8.1 real ( string - neative real:local ), should return number type");
+		assert_equals(output, -21233.223, "real ( string - negative real:local ), should be converted and floored");
+		assert_typeof(output, "number", "real ( string - neative real:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #9", function() {
+			
+		var input, output;
 
 		//#9 real ( string ), with real value, should be converted and floored
 		input = "+21233.223";
 		output = real(input);
-		assert_equals(output, 21233.223, "#9 real ( string - positive real:local ), should be converted and floored");
-		assert_typeof(output, "number", "#9.1 real ( string - positive real:local ), should return number type");
+		assert_equals(output, 21233.223, "real ( string - positive real:local ), should be converted and floored");
+		assert_typeof(output, "number", "real ( string - positive real:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #10", function() {
+			
+		var input, output;
 		
 		//#10 real ( enum.0 ), should equal to 0
 		input = RainbowColors.Red;
 		output = real(input);
-		assert_equals(output, 0, "#10 real ( enum.0:local ), should equal to 0");
-		assert_typeof(output, "number", "#10.1 real ( enum0:local ), should return number type");
+		assert_equals(output, 0, "real ( enum.0:local ), should equal to 0");
+		assert_typeof(output, "number", "real ( enum0:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #11", function() {
+			
+		var input, output;
 		
 		//#11 real ( enum.1 ), should equal to 1
 		input = RainbowColors.Orange;
 		output = real(input);
-		assert_equals(output, 1, "#11 real ( enum.1:local ), should equal to 1");
-		assert_typeof(output, "number", "#11.1 real ( enum1:local ), should return number type");
+		assert_equals(output, 1, "real ( enum.1:local ), should equal to 1");
+		assert_typeof(output, "number", "real ( enum1:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #12", function() {
+			
+		var input, output;
 
 		//#12 real ( NaN ), should be NaN
 		input = NaN;
 		output = real(input);
-		assert_nan(output, "#12 real ( nan:local ), should be NaN");
-		assert_typeof(output, "number", "#12.1 real ( nan:local ), should return number type");
+		assert_nan(output, "real ( nan:local ), should be NaN");
+		assert_typeof(output, "number", "real ( nan:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #13", function() {
+			
+		var input, output;
 			
 		//#13 real ( infinity ), should equal infinity
 		input = infinity;
 		output = real(input);
-		assert_equals(output, infinity, "#13 real ( infinity:local ), should equal infinity");
-		assert_typeof(output, "number", "#13.1 real ( infinity:local ), should return number type");
+		assert_equals(output, infinity, "real ( infinity:local ), should equal infinity");
+		assert_typeof(output, "number", "real ( infinity:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #14", function() {
+			
+		var input, output;
 
 		//#14 real ( struct ), should be NaN
 		input = { key: "value" };
 		output = real(input);
-		assert_nan(output, "#14 real ( struct:local ), should be NaN");
-		assert_typeof(output, "number", "#14.1 real ( struct:local ), should return number type");
+		assert_nan(output, "real ( struct:local ), should be NaN");
+		assert_typeof(output, "number", "real ( struct:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #15", function() {
+			
+		var input, output;
 
 		//#15 int64 ( function ), should be NaN
 		input = function() {};
 		output = real(input);
-		assert_nan(output, "#15 real ( function:local ), should be NaN");
-		assert_typeof(output, "number", "#15.1 real ( function:local ), should return number type");
+		assert_nan(output, "real ( function:local ), should be NaN");
+		assert_typeof(output, "number", "real ( function:local ), should return number type");
+		
+	});
+	
+	addFact("real_test #16", function() {
+			
+		var input, output;
 
 		//#16 real ( string ) that is not a number, should throw error
 		assert_throw(function() {
 			var input = "string";
 			return real(input);
-		}, "#16 real ( 'string' ), should throw error");
+		}, "real ( 'string' ), should throw error");
+		
+	});
+	
+	addFact("real_test #17", function() {
+			
+		var input, output;
 		
 		//#17 real ( empty string ) should throw an error
 		assert_throw(function() {
 			var input = "";
 			return real(input);
-		}, "#17 real ( empty string ), should throw error");
+		}, "real ( empty string ), should throw error");
+		
+	});
+	
+	addFact("real_test #18", function() {
+			
+		var input, output;
 
 		//#18 real ( array ), should throw error
 		assert_throw(function() {
 			var input = [];
 			return real(input);
-		}, "#18 real ( array ), should throw error");
+		}, "real ( array ), should throw error");
+		
+	});
+	
+	addFact("real_test #19", function() {
+			
+		var input, output;
 		
 		//#19 real ( undefined ), should throw error
 		assert_throw(function() {
 			var input = undefined
 			return real(input);
-		}, "#19 real ( undefined ), should throw error");
+		}, "real ( undefined ), should throw error");
+		
+	});
+	
+	addFact("real_test #20", function() {
+			
+		var input, output;
 			
 		//#20 real ( ptr({}) ), should throw error
 		assert_throw(function() {
 			var input = ptr({});
 			return real(input);
-		}, "#20 real ( ptr ), should throw error");
+		}, "real ( ptr ), should throw error");
+		
+	});
+	
+	addFact("real_test #21", function() {
+			
+		var input, output;
 			
 		//#21 real ( pointer_null ), should throw error
 		assert_throw(function() {
 			var input = pointer_null;
 			return real(input);
-		}, "#21 real ( pointer_null ), should throw error");
+		}, "real ( pointer_null ), should throw error");
+		
+	});
+	
+	addFact("real_test #22", function() {
+			
+		var input, output;
 
 		//#22 real ( pointer_invalid ), should throw error
 		assert_throw(function() {
 			var input = pointer_invalid;
 			return real(input);
-		}, "#22 real ( pointer_invalid ), should throw error");
+		}, "real ( pointer_invalid ), should throw error");
+		
+	});
+
+	addFact("real_test #23", function() {
+			
+		var input, output;
 		
 		//#23 real ( any ) should throw error
 		assert_throw(function() {
 			var input;
 			return real(input);
-		}, "#23 real ( any ), should throw error");
+		}, "real ( any ), should throw error");
 			
-	})
-
-	addFact("ptr_test", function() {
+	});
+	
+	// PTR
+	
+	addFact("ptr_test #1", function() {
 		
 		var input, output;
 			
 		//#1 ptr ( pointer ) should be valid
 		input = ptr({});
 		output = ptr(input);
-		assert_not_null(output, "#1 ptr ( pointer:local ), should not be null");
-		assert_typeof(output, "ptr", "#1.1 ptr ( pointer:local ), should be of type ptr");
+		assert_not_null(output, "ptr ( pointer:local ), should not be null");
+		assert_typeof(output, "ptr", "ptr ( pointer:local ), should be of type ptr");
+			
+	});
+	
+	addFact("ptr_test #2", function() {
+		
+		var input, output;
 			
 		//#2 ptr ( pointer_invalid ) should be valid
 		input = pointer_invalid;
 		output = ptr(input);
-		assert_not_null(output, "#2 ptr ( pointer_invalid:local ), should not be null");
-		assert_typeof(output, "ptr", "#2.1 ptr ( pointer_invalid:local ), should return ptr type");
+		assert_not_null(output, "ptr ( pointer_invalid:local ), should not be null");
+		assert_typeof(output, "ptr", "ptr ( pointer_invalid:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #3", function() {
+		
+		var input, output;
 			
 		//#3 ptr ( pointer_null ) should be null
 		input = pointer_null;
 		output = ptr(input);
-		assert_null(output, "#3 ptr ( pointer_null:local ), should be null");
-		assert_typeof(output, "ptr", "#3.1 ptr ( pointer_null:local ), should be of ptr type");
+		assert_null(output, "ptr ( pointer_null:local ), should be null");
+		assert_typeof(output, "ptr", "ptr ( pointer_null:local ), should be of ptr type");
+			
+	});
+	
+	addFact("ptr_test #4", function() {
+		
+		var input, output;
 			
 		//#4 ptr ( real ) should be valid
 		input = 32.33;
 		output = ptr(input);
-		assert_not_null(output, "#4 ptr ( real:local ), should not be null");
-		assert_typeof(output, "ptr", "#4.1 ptr ( real:local ), should return ptr type");
+		assert_not_null(output, "ptr ( real:local ), should not be null");
+		assert_typeof(output, "ptr", "ptr ( real:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #5", function() {
+		
+		var input, output;
 			
 		//#5 ptr ( int32 ) should be valid
 		input = int32(22);
 		output = ptr(input);
-		assert_not_null(output, "#5 ptr ( int32:local ), should not be null");
-		assert_typeof(output, "ptr", "#5.1 ptr ( int32:local ), should return ptr type");
+		assert_not_null(output, "ptr ( int32:local ), should not be null");
+		assert_typeof(output, "ptr", "ptr ( int32:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #6", function() {
+		
+		var input, output;
 		
 		//#6 ptr ( int64 ) should be valid
 		input = int64(12);
 		output = ptr(input);
-		assert_not_null(output, "#6 ptr ( int64:local ) should not be null");
-		assert_typeof(output, "ptr", "#6.1 ptr ( int64:local ) should return ptr type");
+		assert_not_null(output, "ptr ( int64:local ) should not be null");
+		assert_typeof(output, "ptr", "ptr ( int64:local ) should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #7", function() {
+		
+		var input, output;
 		
 		//#7 ptr ( true )
 		input = true;
 		output = ptr(input);
-		assert_not_null(output, "#7 ptr ( bool - true:local ) should not be null");
-		assert_typeof(output, "ptr", "#7.1 ptr ( bool - true:local ) should return ptr type");
+		assert_not_null(output, "ptr ( bool - true:local ) should not be null");
+		assert_typeof(output, "ptr", "ptr ( bool - true:local ) should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #8", function() {
+		
+		var input, output;
 		
 		//#8 ptr ( false )
 		input = false;
 		output = ptr(input);
-		assert_null(output, "#8 ptr ( bool - true:local ) should not be null");
-		assert_typeof(output, "ptr", "#8.1 ptr ( bool - false:local ) should return ptr type");
+		assert_null(output, "ptr ( bool - true:local ) should not be null");
+		assert_typeof(output, "ptr", "ptr ( bool - false:local ) should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #9", function() {
+		
+		var input, output;
 					
 		//#9 ptr ( string ), with real value should be valid
 		input = "1.72";
 		output = ptr(input);
-		assert_not_null(output, "#9 ptr ( string:local ), should not be null");
-		assert_typeof(output, "ptr", "#9.1 ptr ( string:local ), should return ptr type");
+		assert_not_null(output, "ptr ( string:local ), should not be null");
+		assert_typeof(output, "ptr", "ptr ( string:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #10", function() {
+		
+		var input, output;
 		
 		//#10 ptr ( string ) should be null
 		input = "input string";
 		output = ptr(input);
-		assert_null(output, "#10 ptr ( string:local ), should be null");
-		assert_typeof(output, "ptr", "#10.1 ptr ( string:local ), should return ptr type");
+		assert_null(output, "ptr ( string:local ), should be null");
+		assert_typeof(output, "ptr", "ptr ( string:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #11", function() {
+		
+		var input, output;
 		
 		//#11 ptr ( empty string ) should be null
 		input = "";
 		output = ptr(input);
-		assert_null(output, "#11 ptr ( empty string:local ), should be null");
-		assert_typeof(output, "ptr", "#11.1 ptr ( string:local ), should return ptr type");
+		assert_null(output, "ptr ( empty string:local ), should be null");
+		assert_typeof(output, "ptr", "ptr ( string:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #12", function() {
+		
+		var input, output;
 		
 		//#12 ptr ( enum.0 ) shold be null
 		input = RainbowColors.Red;
 		output = ptr(input);
-		assert_null(output, "#12 ptr ( enum.0:local ), should be null");
-		assert_typeof(output, "ptr", "#12.1 ptr ( enum.0:local ), should return ptr type");
+		assert_null(output, "ptr ( enum.0:local ), should be null");
+		assert_typeof(output, "ptr", "ptr ( enum.0:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #13", function() {
+		
+		var input, output;
 		
 		//#13 ptr ( enum.1 ) should be valid
 		input = RainbowColors.Orange;
 		output = ptr(input);
-		assert_not_null(output, "#13 ptr ( enum.1:local ), should not be null");
-		assert_typeof(output, "ptr", "#13.1 ptr ( enum.1:local ), should return ptr type");
+		assert_not_null(output, "ptr ( enum.1:local ), should not be null");
+		assert_typeof(output, "ptr", "ptr ( enum.1:local ), should return ptr type");
+			
+	});
+	
+	addFact("ptr_test #14", function() {
+		
+		var input, output;
 			
 		//#14 ptr ( nan ), valid convertion
 		assert_not_throws(function() {
 			var input = NaN;
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#14.1 ptr ( nan:local ), should return ptr type");
-		}, "#14 ptr ( nan:local ), should not throw an error, valid convertion" );
+			assert_typeof(output, "ptr", "ptr ( nan:local ), should return ptr type");
+		}, "ptr ( nan:local ), should not throw an error, valid convertion" );
+			
+	});
+	
+	addFact("ptr_test #15", function() {
+		
+		var input, output;
 
 		//#15 ptr ( infinity ), valid convertion
 		assert_not_throws(function() {
 			var input = infinity;
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#15.1 ptr ( infinity:local ), should return ptr type");
-		}, "#15 ptr ( infinity:local ), should not throw an error, valid convertion" );
+			assert_typeof(output, "ptr", "ptr ( infinity:local ), should return ptr type");
+		}, "ptr ( infinity:local ), should not throw an error, valid convertion" );
+			
+	});
+	
+	addFact("ptr_test #16", function() {
+		
+		var input, output;
 			
 		//#16 ptr ( struct ), valid convertion
 		assert_not_throws(function() {
 				
 			var input = { key: "value" };
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#16.1 ptr ( struct:local ), should return ptr type");
+			assert_typeof(output, "ptr", "ptr ( struct:local ), should return ptr type");
 				
-		}, "#16 ptr ( struct:local ), should not throw an error, valid convertion" );
+		}, "ptr ( struct:local ), should not throw an error, valid convertion" );
+			
+	});
+	
+	addFact("ptr_test #17", function() {
+		
+		var input, output;
 			
 		//#17 ptr ( method ), valid convertion
 		assert_not_throws(function() {
 				
 			var input = function() {};
 			var output = ptr(input);
-			assert_typeof(output, "ptr", "#17.1 ptr ( method:local ), should return ptr type");
+			assert_typeof(output, "ptr", "ptr ( method:local ), should return ptr type");
 				
-		}, "#17 ptr ( method:local ), should not throw an error, valid convertion" );
+		}, "ptr ( method:local ), should not throw an error, valid convertion" );
+			
+	});
+	
+	addFact("ptr_test #18", function() {
 		
-		if (platform_not_browser()) {
-			//#18 ptr ( array ), valid convertion
-			assert_not_throws(function() {
-				var input = [];
-				var output = ptr(input);
-				assert_typeof(output, "ptr", "#18.1 ptr ( array:local ), should return ptr type");
-				
-			}, "#18 ptr ( array:local ), should not throw an error, valid convertion");
-		}
+		var input, output;
+		
+		//#18 ptr ( array ), valid convertion
+		assert_not_throws(function() {
+			var input = [];
+			var output = ptr(input);
+			assert_typeof(output, "ptr", "ptr ( array:local ), should return ptr type");
+			
+		}, "ptr ( array:local ), should not throw an error, valid convertion");
+			
+	}, {
+		test_filter: platform_not_browser
+		
+	});
+	
+	addFact("ptr_test #19", function() {
+		
+		var input, output;
 		
 		//#19 ptr ( undefined ), should throw error
 		assert_throw(function() {
 			var input = undefined
 			return ptr(input);
-		}, "#19 ptr ( undefined:local ), should throw error");
+		}, "ptr ( undefined:local ), should throw error");
+		
+	});
+	
+
+	addFact("ptr_test #20", function() {
+		
+		var input, output;
 		
 		//#20 ptr ( any ), should throw error
 		assert_throw(function() {
 			var input;
 			return ptr(input);
-		}, "#20 ptr ( any ) should throw error");
-			
-	})
+		}, "ptr ( any ) should throw error");
+		
+	});
 
 	
 	// TYPE CHECKING
