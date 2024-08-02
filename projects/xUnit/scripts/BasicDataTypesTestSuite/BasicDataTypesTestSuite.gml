@@ -1012,7 +1012,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		//#19 real ( undefined ), should throw error
 		assert_throw(function() {
-			var input = undefined
+			var input = undefined;
 			return real(input);
 		}, "real ( undefined ), should throw error");
 		
@@ -1303,7 +1303,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 		//#19 ptr ( undefined ), should throw error
 		assert_throw(function() {
-			var input = undefined
+			var input = undefined;
 			return ptr(input);
 		}, "ptr ( undefined:local ), should throw error");
 		
