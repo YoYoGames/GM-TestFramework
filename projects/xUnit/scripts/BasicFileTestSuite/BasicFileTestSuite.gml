@@ -870,7 +870,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		input = "🙂";
 		_file = file_text_open_from_string(input);
 		_output = file_text_read_string(_file);
-		assert_equals(_output, "🙂", "#ile_text_open_from_string( string:local ), failed to read single 4-byte utf-8 char")
+		assert_equals(_output, "🙂", "#file_text_open_from_string( string:local ), failed to read single 4-byte utf-8 char")
 		file_text_close(_file);
 
 	});
@@ -882,7 +882,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		//#4 file_text_open_from_string( string const ) - complex utf-8 string
 		_file = file_text_open_from_string("!£水🙂");
 		_output = file_text_read_string(_file);
-		assert_equals(_output, "!£水🙂", "#ile_text_open_from_string( string:local), failed to read complex utf-8 string")
+		assert_equals(_output, "!£水🙂", "#file_text_open_from_string( string:local), failed to read complex utf-8 string")
 		file_text_close(_file);
 			
 	});
@@ -975,7 +975,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		var _output, filename = @"\foo\bar\pathname\to\the\fileTest.txt";
 			
 		_output = filename_ext(filename);
-		assert_equals(_output, ".txt", "#2.3 filename_ext ( backslash_path ) failed");
+		assert_equals(_output, ".txt", "filename_ext ( backslash_path ) failed");
 			
 	});
 
