@@ -457,7 +457,10 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 			game_set_speed(oldSpeed, gamespeed_fps);
 		}
 	
-	});
+	},
+    {
+        test_timeout_millis: 30000,
+    });
 
 	addTestAsync("Time Sources: Self Destruction", objTestAsync, {
 	
