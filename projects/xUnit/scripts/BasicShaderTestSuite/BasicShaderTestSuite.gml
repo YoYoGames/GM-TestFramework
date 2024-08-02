@@ -154,7 +154,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 					if (!is_undefined(shader_language) && shader_language != "")
 					{
 						// Check that the shader language name doesn't have "GLSL ES" in it (because if it uses any version of GLSL ES then shaders should be supported)
-						assert_string_contains(shader_language, "OpenGL ES")
+						assert_string_contains(shader_language, "OpenGL ES");
 					}
 				}
 				ds_map_destroy(_info);
@@ -189,7 +189,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// Start using shader
 			shader_set(test_shader);
 				// Test that shader_current() returns the shader we're currently using
-				assert_true(shader_current() == test_shader, test_current().name +", failed to get current shader")
+				assert_true(shader_current() == test_shader, test_current().name +", failed to get current shader");
 			// Stop using shader
 			shader_reset();
 			

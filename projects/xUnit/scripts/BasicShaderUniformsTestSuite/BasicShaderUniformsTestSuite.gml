@@ -378,7 +378,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 										 1, 0, 1, 0 ]
 					matrix_set(matrix_world, _expected_matrix);
 					matrix_set(matrix_view, _expected_matrix);
-					_expected_matrix = matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view))
+					_expected_matrix = matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view));
 				}
 				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
 				
