@@ -3,26 +3,26 @@ function BasicFileTestSuite() : TestSuite() constructor {
 	
 	// DIRECTORY & FILES TESTS
 
-	addFact("directory_test", function() {
+	addFact("directory_test #1", function() {
 			
 		var value, directory = working_directory + "NONEXISTENT_DIRECTORY";
 			
 		// Test directory_exists
 		value = directory_exists(directory);
-		assert_false(value, "#1 directory_exists( 'NONEXISTENT_DIRECTORY' ), should not exist");
+		assert_false(value, "directory_exists( 'NONEXISTENT_DIRECTORY' ), should not exist");
 		
 	}, { test_filter: platform_not_browser });
 
-	addFact("directory_test", function() {
+	addFact("directory_test #2", function() {
 			
 		var value, directory = working_directory + "NONEXISTENT_DIRECTORY";
 			
 		value = directory_exists(working_directory);
-		assert_true(value, "#1 directory_exists( working_directory ), should exist");
+		assert_true(value, "directory_exists( working_directory ), should exist");
 		
 	}, { test_filter: platform_not_browser });
 
-	addFact("directory_test", function() {
+	addFact("directory_test #3", function() {
 			
 		var value, directory = working_directory + "NONEXISTENT_DIRECTORY";
 			
@@ -31,11 +31,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		// Test directory_create simple
 		directory_create(directory);
 		value = directory_exists(directory);
-		assert_true(value, "#2 directory_create( directory ), failed to create simple directory");
+		assert_true(value, "directory_create( directory ), failed to create simple directory");
 		
 	}, { test_filter: platform_not_browser });
 
-	addFact("directory_test", function() {
+	addFact("directory_test #4", function() {
 			
 		var value, directory = working_directory + "NONEXISTENT_DIRECTORY";
 			
@@ -44,11 +44,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		// Test directory_destroy simple
 		directory_destroy(directory);
 		value = directory_exists(directory);
-		assert_false(value, "#3 directory_destroy( directory ), failed to destroy simple directory");
+		assert_false(value, "directory_destroy( directory ), failed to destroy simple directory");
 		
 	}, { test_filter: platform_not_browser });
 
-	addFact("directory_test", function() {
+	addFact("directory_test #5", function() {
 			
 		var value, directory = working_directory + "NONEXISTENT_DIRECTORY";
 			
@@ -57,11 +57,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		// Test directory_create nested
 		directory_create(directory);
 		value = directory_exists(directory);
-		assert_true(value, "#4 directory_create( direcotry ), failed to create nested directory");
+		assert_true(value, "directory_create( direcotry ), failed to create nested directory");
 		
 	}, { test_filter: platform_not_browser });
 
-	addFact("directory_test", function() {
+	addFact("directory_test #6", function() {
 			
 		var value, directory = working_directory + "NONEXISTENT_DIRECTORY";
 			
@@ -70,13 +70,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		// Test directory_destroy nested
 		directory_destroy(directory);
 		value = directory_exists(directory);
-		assert_false(value, "#5 directory_destroy( directory ), failed to destroy nested directory");
+		assert_false(value, "directory_destroy( directory ), failed to destroy nested directory");
 			
 	}, { test_filter: platform_not_browser });
 	
 	// FILE TESTS
 	
-	addFact("file_test", function() {
+	addFact("file_test #1", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -90,13 +90,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// Test file_exists on non existing files
 		value = file_exists(firstPath);
-		assert_false(value, "#1.1 file_exists( filepath ), file should not exist yet");
+		assert_false(value, "file_exists( filepath ), file should not exist yet");
 		
 		if (platform_not_browser()) directory_destroy(directory);
 			
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #2", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -110,13 +110,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// Test file_exists on non existing files
 		value = file_exists(secondPath);
-		assert_false(value, "#1.2 file_exists( filepath ), file should not exist yet");
+		assert_false(value, "file_exists( filepath ), file should not exist yet");
 		
 		if (platform_not_browser()) directory_destroy(directory);
 			
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #3", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -136,13 +136,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// Test file_exists on existing files
 		value = file_exists(firstPath);
-		assert_true(value, "#2.1 file_text_open_write ( filepath ), failed creating file");
+		assert_true(value, "file_text_open_write ( filepath ), failed creating file");
 		
 		if (platform_not_browser()) directory_destroy(directory);
 			
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #4", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -162,13 +162,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// Test file_exists on existing files
 		value = file_exists(secondPath);
-		assert_true(value, "#2.2 file_text_open_write ( filepath ), failed creating file");
+		assert_true(value, "file_text_open_write ( filepath ), failed creating file");
 		
 		if (platform_not_browser()) directory_destroy(directory);
 			
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #5", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -200,9 +200,9 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		var second = file_find_next();
 		var third = file_find_next();
 		
-		assert_equals(first, firstFilename, "#3.1 file_find_first ( filename_pattern ), failed to identify first file");
-		assert_equals(second, secondFilename, "#3.2 file_find_next (), failed to identify second file");
-		assert_equals(third, "", "#3.3 file_find_next (), there are no more files");
+		assert_equals(first, firstFilename, "file_find_first ( filename_pattern ), failed to identify first file");
+		assert_equals(second, secondFilename, "file_find_next (), failed to identify second file");
+		assert_equals(third, "", "file_find_next (), there are no more files");
 		file_find_close();
 		
 		// There is no good way to test this
@@ -218,7 +218,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #6", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -238,13 +238,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		// Test file_delete
 		file_delete(firstFile);
 		value = file_exists(firstFile);
-		assert_false(value, "#5 file_delete ( filepath ), failed to delete (file still exists after deletion)");
+		assert_false(value, "file_delete ( filepath ), failed to delete (file still exists after deletion)");
 		
 		if (platform_not_browser()) directory_destroy(directory);
 
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #7", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -265,9 +265,9 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		var renamedPath = string("{0}\\{1}", directory, "renamed.txt");
 		file_rename(firstPath, renamedPath);
 		value = file_exists(firstPath);
-		assert_false(value, "#6.1 file_rename ( oldName, newName ), failed to rename (old file still exists)");
+		assert_false(value, "file_rename ( oldName, newName ), failed to rename (old file still exists)");
 		value = file_exists(renamedPath);
-		assert_true(value, "#6.2 file_rename ( oldName, newName ), failed to rename (new file doesn't exist)");
+		assert_true(value, "file_rename ( oldName, newName ), failed to rename (new file doesn't exist)");
 		
 		file_delete(firstPath);
 		
@@ -275,7 +275,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_test", function() {
+	addFact("file_test #8", function() {
 
 		var value, directory = working_directory + "testDir";
 
@@ -296,9 +296,9 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		var copiedPath = string("{0}\\{1}", directory, "copied.txt");
 		file_copy(firstPath, copiedPath);
 		value = file_exists(firstPath);
-		assert_true(value, "#7.1 file_copy ( oldName, newName ), failed to copy (old file doesn't exist)");
+		assert_true(value, "file_copy ( oldName, newName ), failed to copy (old file doesn't exist)");
 		value = file_exists(copiedPath);
-		assert_true(value, "#7.2 file_copy ( oldName, newName ), failed to rename (new file doesn't exist)");
+		assert_true(value, "file_copy ( oldName, newName ), failed to rename (new file doesn't exist)");
 		
 		// Clean up
 		
@@ -320,18 +320,18 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	// FILE EXISTS TESTS
 
-	addFact("file_exists_not_sandboxed", function() {
+	addFact("file_exists_not_sandboxed test #1", function() {
 
 		var _output = file_exists("c:\\windows\\explorer.exe");
 			
 		// Check if not running on HTML5 runner.
 		if (os_browser == browser_not_a_browser)
 		{
-			assert_true(_output, "#1 file_exists( 'c:/windows/explorer.exe' ), failed to find a file outside of the sandbox");
+			assert_true(_output, "file_exists( 'c:/windows/explorer.exe' ), failed to find a file outside of the sandbox");
 		}
 		else
 		{
-			assert_false(_output, "#1 file_exists( 'c:/windows/explorer.exe' ), should not find the file on HTML5");
+			assert_false(_output, "file_exists( 'c:/windows/explorer.exe' ), should not find the file on HTML5");
 		}			
 			
 
@@ -339,7 +339,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	// BINARY FILES TESTS
 	
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #1", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -353,14 +353,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 		//#1 file_bin_open ( filename, write )
 		_fileHandle = file_bin_open(filePath, 1);
-		assert_greater(_fileHandle, 0, "#1 file_bin_open ( filename, write ), was unable to open file.");
+		assert_greater(_fileHandle, 0, "file_bin_open ( filename, write ), was unable to open file.");
 		
 		file_bin_close(_fileHandle);
 		directory_destroy(directory);
 		
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #2", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -384,14 +384,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		//#2 file_bin_open ( filename, read )
 		_fileHandle = file_bin_open(filePath, 0);
-		assert_greater(_fileHandle, 0, "#2 file_bin_open ( filename, read ), was unable to open file.");
+		assert_greater(_fileHandle, 0, "file_bin_open ( filename, read ), was unable to open file.");
 		
 		file_bin_close(_fileHandle);
 		directory_destroy(directory);
 		
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #3", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -419,14 +419,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		//#3 file_bin_size ( file )
 		_output = file_bin_size(_fileHandle);
-		assert_equals(_output, 4, "#3 file_bin_size ( file ), wrong file size.");
+		assert_equals(_output, 4, "file_bin_size ( file ), wrong file size.");
 		
 		file_bin_close(_fileHandle);
 		directory_destroy(directory);
 		
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #4", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -453,14 +453,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		//#4 file_bin_read_byte ( file )
 		_output = file_bin_read_byte(_fileHandle)
-		assert_equals(_output, 0101, "#4 file_bin_read_byte ( file ), wrong data read/write");
+		assert_equals(_output, 0101, "file_bin_read_byte ( file ), wrong data read/write");
 		
 		file_bin_close(_fileHandle);
 		directory_destroy(directory);
 		
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #5", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -488,14 +488,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		//#5 file_bin_read_seek/position ( file )
 		file_bin_seek(_fileHandle, 3);
 		_output = file_bin_position(_fileHandle)
-		assert_equals(_output, 3, "#5 file_bin_read_seek/position ( file ), failed to seek or get position");
+		assert_equals(_output, 3, "file_bin_read_seek/position ( file ), failed to seek or get position");
 			
 		file_bin_close(_fileHandle);
 		directory_destroy(directory);
 		
 	}, { test_filter: platform_not_browser });
 	
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #6", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -523,14 +523,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		//#7 file_bin_rewrite ( file )
 		file_bin_rewrite(_fileHandle);
 		_output = file_bin_size(_fileHandle)
-		assert_equals(_output, 0, "#7 file_bin_rewrite ( file ), file size should be zero");
+		assert_equals(_output, 0, "file_bin_rewrite ( file ), file size should be zero");
 		
 		file_bin_close(_fileHandle);
 		directory_destroy(directory);
 		
 	}, { test_filter: platform_not_browser });
 
-	addFact("file_bin_test", function() {
+	addFact("file_bin_test #7", function() {
 
 		var _output, directory = working_directory + "testDir";
 			
@@ -566,7 +566,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 				
 			file_bin_write_byte(handle, 1010);
 				
-		}), "#8 file_bin_close ( file ), didn't manage to close the file (can still read/write)");
+		}), "file_bin_close ( file ), didn't manage to close the file (can still read/write)");
 			
 		directory_destroy(directory);
 	
@@ -574,7 +574,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	// TEXT FILES TESTS
 	
-	addFact("file_text_test", function() {
+	addFact("file_text_test #1", function() {
 
 		//SB: file_text_open_write/read/append/from_string, file_text_write_string/real/ln, file_text_close, file_delete/copy/exists/rename
 			
@@ -595,14 +595,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		file_text_close(_fileHandle);
 			
 		value = file_exists(filePath);
-		assert_true(value, "#1 file_text_open_write( filename ), failed to create a file.");
+		assert_true(value, "file_text_open_write( filename ), failed to create a file.");
 		
 		file_delete(filePath);
 		if (platform_not_browser()) directory_destroy(directory);
 		
 	});
 	
-	addFact("file_text_test", function() {
+	addFact("file_text_test #2", function() {
 
 		//SB: file_text_open_write/read/append/from_string, file_text_write_string/real/ln, file_text_close, file_delete/copy/exists/rename
 			
@@ -623,7 +623,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		file_text_close(_fileHandle);
 			
 		value = file_exists(filePath);
-		assert_true(value, "#1 file_text_open_write( filename ), failed to create a file.");
+		assert_true(value, "file_text_open_write( filename ), failed to create a file.");
 			
 		_fileHandle = file_text_open_write(filePath);
 			
@@ -641,23 +641,23 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		while (!file_text_eof(_fileHandle)) {
 				
 			value = file_text_read_string(_fileHandle);
-			assert_equals(value, "Hello World", "#2.1 file_text_read_string (file), failed to read the correct string");
+			assert_equals(value, "Hello World", "file_text_read_string (file), failed to read the correct string");
 			file_text_readln(_fileHandle);
 				
 			while(!file_text_eoln(_fileHandle)) {
 					
 				value = file_text_read_real(_fileHandle);
-				assert_equals(value, 500, "#2.2 file_text_read_real (file), failed to read the correct real");
+				assert_equals(value, 500, "file_text_read_real (file), failed to read the correct real");
 					
 				file_text_readln(_fileHandle);
 					
 				value = file_text_eoln(_fileHandle);
-				assert_true(value, "#2.3 file_text_eoln (file), failed to detect the end of the line");
+				assert_true(value, "file_text_eoln (file), failed to detect the end of the line");
 			}
 		}
 			
 		value = file_text_eof(_fileHandle);
-		assert_true(value, "#2.4 file_text_eof (file), failed to detect the end of the file");
+		assert_true(value, "file_text_eof (file), failed to detect the end of the file");
 		file_text_close(_fileHandle);
 		
 		file_delete(filePath);
@@ -665,7 +665,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 	});
 		
-	addFact("file_text_test", function() {
+	addFact("file_text_test #3", function() {
 
 		//SB: file_text_open_write/read/append/from_string, file_text_write_string/real/ln, file_text_close, file_delete/copy/exists/rename
 			
@@ -708,17 +708,17 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		while (!file_text_eof(_fileHandle)) {
 				
 			value = file_text_read_string(_fileHandle);
-			assert_equals(value, "Hello World", "#3.1 file_text_read_string (file), failed to read the correct string");
+			assert_equals(value, "Hello World", "#file_text_read_string (file), failed to read the correct string");
 				
 			file_text_readln(_fileHandle);
 				
 			value = file_text_read_real(_fileHandle);
-			assert_equals(value, 500, "#3.2 file_text_read_real (file), failed to read the correct real");
+			assert_equals(value, 500, "file_text_read_real (file), failed to read the correct real");
 					
 			file_text_readln(_fileHandle);
 				
 			value = file_text_read_string(_fileHandle);
-			assert_equals(value, "Appended Text", "#3.4 file_text_open_append (file), failed to appended text correctly");
+			assert_equals(value, "Appended Text", "file_text_open_append (file), failed to appended text correctly");
 		}
 			
 		// Clean up
@@ -727,7 +727,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	});
 
-	addFact("file_text_test", function() {
+	addFact("file_text_test #4", function() {
 
 		//SB: file_text_open_write/read/append/from_string, file_text_write_string/real/ln, file_text_close, file_delete/copy/exists/rename
 			
@@ -772,7 +772,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 				
 			file_text_write_string(handle, "Some Text");
 				
-		}), "#4 file_text_close ( file ), didn't manage to close the file (can still read/write)");
+		}), "file_text_close ( file ), didn't manage to close the file (can still read/write)");
 			
 		// Clean up
 		file_delete(filePath);
@@ -782,7 +782,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 	
 	// TEXT OPEN FROM STRING TESTS
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #1", function() {
 
 		var input, _output, _file;
 				
@@ -790,11 +790,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		input = "This is a test\n30\nTo see if this works";
 			
 		_file = file_text_open_from_string(input);
-		assert_not_equals(_file, -1, "#1.0 file_text_open_from_string(), failed to create temporary file");
+		assert_not_equals(_file, -1, "file_text_open_from_string(), failed to create temporary file");
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #2", function() {
 
 		var input, _output, _file;
 				
@@ -803,11 +803,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		_file = file_text_open_from_string(input);
 			
 		_output = file_text_eof(_file);
-		assert_false(_output, "#1.1 file_text_eof (file), shouldn't be at the eof after opening a filled file");
+		assert_false(_output, "file_text_eof (file), shouldn't be at the eof after opening a filled file");
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #3", function() {
 
 		var input, _output, _file;
 				
@@ -816,11 +816,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		_file = file_text_open_from_string(input);
 			
 		_output = file_text_read_string(_file);
-		assert_equals(_output, "This is a test", "#1.2 file_text_read_string (file), failed to read string from temp file");
+		assert_equals(_output, "This is a test", "file_text_read_string (file), failed to read string from temp file");
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #4", function() {
 
 		var input, _output, _file;
 				
@@ -830,11 +830,11 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 		_output = file_text_read_string(_file);
 		_output = file_text_read_real(_file);
-		assert_equals(_output, 30, "#1.3 file_text_read_real (file), failed to read real from temp file");
+		assert_equals(_output, 30, "file_text_read_real (file), failed to read real from temp file");
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #5", function() {
 
 		var input, _output, _file;
 				
@@ -844,12 +844,12 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 		_output = file_text_read_string(_file);
 		_output = file_text_eoln(_file);
-		assert_true(_output, "#1.4 file_text_eoln (file), failed to detect end of line");
+		assert_true(_output, "file_text_eoln (file), failed to detect end of line");
 		file_text_close(_file);
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #6", function() {
 
 		var input, _output, _file;
 
@@ -857,12 +857,12 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		input = "";
 		_file = file_text_open_from_string("");
 		_output = file_text_read_string(_file);
-		assert_equals(_output, "", "#2 file_text_open_from_string( '' ), should read empty string ('')");
+		assert_equals(_output, "", "file_text_open_from_string( '' ), should read empty string ('')");
 		file_text_close(_file);
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #7", function() {
 
 		var input, _output, _file;
 
@@ -870,107 +870,107 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		input = "🙂";
 		_file = file_text_open_from_string(input);
 		_output = file_text_read_string(_file);
-		assert_equals(_output, "🙂", "#3 file_text_open_from_string( string:local ), failed to read single 4-byte utf-8 char")
+		assert_equals(_output, "🙂", "#ile_text_open_from_string( string:local ), failed to read single 4-byte utf-8 char")
 		file_text_close(_file);
 
 	});
 	
-	addFact("file_text_open_from_string_test", function() {
+	addFact("file_text_open_from_string_test #8", function() {
 
 		var input, _output, _file;
 			
 		//#4 file_text_open_from_string( string const ) - complex utf-8 string
 		_file = file_text_open_from_string("!£水🙂");
 		_output = file_text_read_string(_file);
-		assert_equals(_output, "!£水🙂", "#4 file_text_open_from_string( string:local), failed to read complex utf-8 string")
+		assert_equals(_output, "!£水🙂", "#ile_text_open_from_string( string:local), failed to read complex utf-8 string")
 		file_text_close(_file);
 			
 	});
 
-	// FILENAMES
+	// FILENAMES TESTS
 	
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated test #1", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
 		_output = filename_name(filename);
-		assert_equals(_output, "fileTest.txt", "#1.0 filename_name ( forward_path ) failed");
+		assert_equals(_output, "fileTest.txt", "filename_name ( forward_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated test #2", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
 		_output = filename_path(filename);
-		assert_equals(_output, "/foo/bar/pathname/to/the/", "#1.1 filename_path ( forward_path ) failed");
+		assert_equals(_output, "/foo/bar/pathname/to/the/", "filename_path ( forward_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated test #2", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
 		_output = filename_path("");
-		assert_equals(_output, "", "#1.15 filename_path ( '' ) failed");
+		assert_equals(_output, "", "filename_path ( '' ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated test #3", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
 		_output = filename_dir(filename);
-		assert_equals(_output, "/foo/bar/pathname/to/the", "#1.2 filename_dir ( forward_path ) failed");
+		assert_equals(_output, "/foo/bar/pathname/to/the", "filename_dir ( forward_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated test #4", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 
 		_output = filename_ext(filename);
-		assert_equals(_output, ".txt", "#1.3 filename_ext ( forward_path ) failed");
+		assert_equals(_output, ".txt", "filename_ext ( forward_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated test #5", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
 		_output = filename_change_ext(filename, ".doc");
-		assert_equals(_output, filename_path(filename) + "fileTest.doc", "#1.4 filename_change_ext ( forward_path ) failed");
+		assert_equals(_output, filename_path(filename) + "fileTest.doc", "filename_change_ext ( forward_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated #6", function() {
 
 		var _output, filename = @"\foo\bar\pathname\to\the\fileTest.txt";
 			
 		_output = filename_name(filename);
-		assert_equals(_output, "fileTest.txt", "#2.0 filename_name ( backslash_path ) failed");
+		assert_equals(_output, "fileTest.txt", "filename_name ( backslash_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated #7", function() {
 
 		var _output, filename = @"\foo\bar\pathname\to\the\fileTest.txt";
 			
 		_output = filename_path(filename);
-		assert_equals(_output, @"\foo\bar\pathname\to\the\", "#2.1 filename_path ( backslash_path ) failed");
+		assert_equals(_output, @"\foo\bar\pathname\to\the\", "filename_path ( backslash_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated #8", function() {
 
 		var _output, filename = @"\foo\bar\pathname\to\the\fileTest.txt";
 			
 		_output = filename_dir(filename);
-		assert_equals(_output, @"\foo\bar\pathname\to\the", "#2.2 filename_dir ( backslash_path ) failed");
+		assert_equals(_output, @"\foo\bar\pathname\to\the", "filename_dir ( backslash_path ) failed");
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated #9", function() {
 
 		var _output, filename = @"\foo\bar\pathname\to\the\fileTest.txt";
 			
@@ -979,18 +979,18 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated", function() {
+	addFact("filename_test_simulated #10", function() {
 
 		var _output, filename = @"\foo\bar\pathname\to\the\fileTest.txt";
 			
 		_output = filename_change_ext(filename, ".doc");
-		assert_equals(_output, filename_path(filename) + "fileTest.doc", "#2.4 filename_change_ext ( backslash_path ) failed");
+		assert_equals(_output, filename_path(filename) + "fileTest.doc", "filename_change_ext ( backslash_path ) failed");
 			
 	});
 	
 	// FILE NAME TESTS WINDOWS
 	
-	addFact("filename_test_windows", function() {
+	addFact("filename_test_windows #1", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1015,7 +1015,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 	}, { test_filter: platform_windows });
 	
-	addFact("filename_test_windows", function() {
+	addFact("filename_test_windows #2", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1040,7 +1040,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 	}, { test_filter: platform_windows });
 	
-	addFact("filename_test_windows", function() {
+	addFact("filename_test_windows #3", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1065,7 +1065,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 	}, { test_filter: platform_windows });
 	
-	addFact("filename_test_windows", function() {
+	addFact("filename_test_windows #4", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1090,7 +1090,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		
 	}, { test_filter: platform_windows });
 	
-	addFact("filename_test_windows", function() {
+	addFact("filename_test_windows #5", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1118,7 +1118,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	}, { test_filter: platform_windows });
 
-	addFact("filename_test_macos", function() {
+	addFact("filename_test_macos #1", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1145,7 +1145,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	}, { test_filter: platform_macosx });
 
-	addFact("filename_test_macos", function() {
+	addFact("filename_test_macos #2", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1172,7 +1172,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	}, { test_filter: platform_macosx });
 
-	addFact("filename_test_macos", function() {
+	addFact("filename_test_macos #3", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1199,7 +1199,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	}, { test_filter: platform_macosx });
 
-	addFact("filename_test_macos", function() {
+	addFact("filename_test_macos #4", function() {
 		
 		// RK :: directory functions not supported on HTML5
 		if (os_browser != browser_not_a_browser) return;
@@ -1231,20 +1231,20 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	// CSV FILES
 	
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #1", function() {
 
 		var _file, _output;
 			
 		// Test 6x6 grid
 
 		_file = load_csv("testTable.csv");
-		assert_not_equals(_file, -1, "#1 load_csv, failed to correctly load the file");
+		assert_not_equals(_file, -1, "load_csv, failed to correctly load the file");
 		
 		ds_grid_destroy(_file);
 
 	});
 
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #2", function() {
 
 		var _file, _output;
 			
@@ -1252,13 +1252,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 		_file = load_csv("testTable.csv");
 		_output = ds_grid_width(_file);
-		assert_equals(_output, 6, "#2 ds_grid_width, failed return the correct width of the csv file.");
+		assert_equals(_output, 6, "ds_grid_width, failed return the correct width of the csv file.");
 		
 		ds_grid_destroy(_file);
 
 	});
 
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #3", function() {
 
 		var _file, _output;
 			
@@ -1266,13 +1266,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 		_file = load_csv("testTable.csv");
 		_output = ds_grid_height(_file);
-		assert_equals(_output, 6, "#2 ds_grid_height, failed return the correct height of the csv file.");
+		assert_equals(_output, 6, "ds_grid_height, failed return the correct height of the csv file.");
 		
 		ds_grid_destroy(_file);
 
 	});
 
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #4", function() {
 
 		var _file, _output;
 			
@@ -1285,27 +1285,27 @@ function BasicFileTestSuite() : TestSuite() constructor {
 				0,  2,  4,  6,  8,  10,
 				0,  3,  6,  9,  12, 15,
 				0,  4,  8,  12, 16, 20,
-				0,  5,  10, 15, 20, 25 ], "#3 load_csv, failed to load the correct file (grid) structure.");
+				0,  5,  10, 15, 20, 25 ], "load_csv, failed to load the correct file (grid) structure.");
 			
 			
 		ds_grid_destroy(_file);
 
 	});
 
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #5", function() {
 
 		var _file, _output;
 			
 		// Test 1x36 grid
 			
 		_file = load_csv("testList.csv");
-		assert_not_equals(_file, -1, "#1 load_csv, failed to correctly load the file");
+		assert_not_equals(_file, -1, "load_csv, failed to correctly load the file");
 		
 		ds_grid_destroy(_file);
 
 	});
 
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #6", function() {
 
 		var _file, _output;
 			
@@ -1313,13 +1313,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		_file = load_csv("testList.csv");			
 		_output = ds_grid_width(_file);
-		assert_equals(_output, 36, "#2 ds_grid_width, failed return the correct width of the csv file.");
+		assert_equals(_output, 36, "ds_grid_width, failed return the correct width of the csv file.");
 		
 		ds_grid_destroy(_file);
 
 	});
 	
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #7", function() {
 
 		var _file, _output;
 			
@@ -1327,13 +1327,13 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		_file = load_csv("testList.csv");			
 		_output = ds_grid_height(_file);
-		assert_equals(_output, 1, "#2 ds_grid_height, failed return the correct height of the csv file.");
+		assert_equals(_output, 1, "ds_grid_height, failed return the correct height of the csv file.");
 		
 		ds_grid_destroy(_file);
 
 	});
 	
-	addFact("load_csv_test", function() {
+	addFact("load_csv_test #8", function() {
 
 		var _file, _output;
 			
@@ -1342,7 +1342,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		_file = load_csv("testList.csv");			
 		assert_grid_equals_array(_file,
 			[ 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 0, 2, 4, 6, 8, 10, 0, 3, 6, 9, 12, 15, 0, 4, 8, 12, 16, 20, 0, 5, 10, 15, 20, 25 ],
-			"#3 load_csv, failed to load the correct file (grid) structure.");
+			"load_csv, failed to load the correct file (grid) structure.");
 		
 		ds_grid_destroy(_file);
 
