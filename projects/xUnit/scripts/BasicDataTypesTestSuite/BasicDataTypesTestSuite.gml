@@ -28,7 +28,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #2", function() {
+	addFact("bool_test #3", function() {
 
 		var input, output;
 			
@@ -40,7 +40,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #3", function() {
+	addFact("bool_test #4", function() {
 
 		var input, output;
 			
@@ -52,7 +52,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #4", function() {
+	addFact("bool_test #5", function() {
 
 		var input, output;
 			
@@ -64,7 +64,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #5", function() {
+	addFact("bool_test #6", function() {
 
 		var input, output;
 			
@@ -76,7 +76,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #6", function() {
+	addFact("bool_test #7", function() {
 
 		var input, output;
 			
@@ -88,7 +88,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #7", function() {
+	addFact("bool_test #8", function() {
 
 		var input, output;
 			
@@ -100,7 +100,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #8", function() {
+	addFact("bool_test #9", function() {
 
 		var input, output;
 			
@@ -112,7 +112,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #9", function() {
+	addFact("bool_test #10", function() {
 
 		var input, output;
 			
@@ -124,7 +124,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #10", function() {
+	addFact("bool_test #11", function() {
 
 		var input, output;
 			
@@ -136,7 +136,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #11", function() {
+	addFact("bool_test #12", function() {
 
 		var input, output;
 		
@@ -148,7 +148,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #12", function() {
+	addFact("bool_test #13", function() {
 
 		var input, output;
 		
@@ -160,7 +160,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #13", function() {
+	addFact("bool_test #14", function() {
 
 		var input, output;
 		
@@ -172,7 +172,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #14", function() {
+	addFact("bool_test #15", function() {
 
 		var input, output;
 			
@@ -184,7 +184,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #15", function() {
+	addFact("bool_test #16", function() {
 
 		var input, output;
 			
@@ -196,7 +196,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #16", function() {
+	addFact("bool_test #17", function() {
 
 		var input, output;
 			
@@ -208,7 +208,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #17", function() {
+	addFact("bool_test #18", function() {
 
 		var input, output;
 
@@ -220,7 +220,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #18", function() {
+	addFact("bool_test #19", function() {
 
 		var input, output;
 			
@@ -232,7 +232,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #19", function() {
+	addFact("bool_test #20", function() {
 
 		var input, output;
 
@@ -244,7 +244,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #20", function() {
+	addFact("bool_test #21", function() {
 
 		var input, output;
 		
@@ -256,7 +256,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("bool_test #21", function() {
+	addFact("bool_test #22", function() {
 
 		var input, output;
 		
@@ -268,7 +268,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 
-	addFact("bool_test #22", function() {
+	addFact("bool_test #23", function() {
 
 		var input, output;
 		
