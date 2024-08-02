@@ -452,7 +452,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		_fileHandle = file_bin_open(filePath, 0);
 			
 		//#4 file_bin_read_byte ( file )
-		_output = file_bin_read_byte(_fileHandle)
+		_output = file_bin_read_byte(_fileHandle);
 		assert_equals(_output, 0101, "file_bin_read_byte ( file ), wrong data read/write");
 		
 		file_bin_close(_fileHandle);
@@ -587,7 +587,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			directory_create(directory);
 		}
 
-		var filename = "testFile.txt"	
+		var filename = "testFile.txt";
 		var filePath = string("{0}\\{1}", directory, filename);
 
 		// Test file creation (file_text_open_write + file_text_close)
@@ -678,7 +678,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			directory_create(directory);
 		}
 
-		var filename = "testFile.txt"	
+		var filename = "testFile.txt";
 		var filePath = string("{0}\\{1}", directory, filename);
 
 		// Test file creation (file_text_open_write + file_text_close)
@@ -740,7 +740,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			directory_create(directory);
 		}
 
-		var filename = "testFile.txt"	
+		var filename = "testFile.txt";
 		var filePath = string("{0}\\{1}", directory, filename);
 
 		// Test file creation (file_text_open_write + file_text_close)
