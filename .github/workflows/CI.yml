@@ -12,6 +12,10 @@ on:
          description: "RSS_Feed"
          required: false
          type: string
+       EXTRA_PARAMS:
+          description: "EXTRA_PARAMS from config"
+          required: false
+          type: string         
 
 jobs:
  
@@ -28,7 +32,7 @@ jobs:
         shell: cmd          
       - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
         if: github.event_name == 'workflow_dispatch'
-        run: python framework_launcher.py -cf C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} -f ${{ github.event.inputs.RSS_Feed }}
+        run: run_ci.bat ${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
         shell: cmd         
       - name: Testing on PR
