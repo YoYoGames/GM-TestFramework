@@ -32,7 +32,7 @@ jobs:
         shell: cmd          
       - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
         if: github.event_name == 'workflow_dispatch'
-        run: run_ci.bat ${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
         shell: cmd         
       - name: Testing on PR
