@@ -309,16 +309,22 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 			// play sound at full gain then decrease to 0 over 0.5 seconds
 			sound = audio_play_sound(snd_coinpickup_OGG, 1, false);
 			audio_sound_gain(sound, 0, 500)
+			
+			startTime = get_timer() / 1000000; // microseconds --> seconds
 		},
 		
 		ev_step: function() {
-			// when audio has stopped playing, finish test
-			if (!audio_is_playing(sound)){
+			// finish test when 0.6 second has passed (to give some leeway)
+			var timeSpent = (get_timer() / 1000000) - startTime; // in seconds
+			
+			if (timeSpent > 0.6){
 				
 				// check if audio gain has decreased over time
 				var gain = audio_sound_get_gain(sound);
 				assert_equals(gain, 0, "#1 audio gain should be decreased to 0 over 0.5 seconds");
-				audio_sound_gain(sound, 1, 0)
+				audio_sound_gain(sound, 1, 0);
+				
+				audio_stop_all();
 				
 				// end test
 				test_end();
