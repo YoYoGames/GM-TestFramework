@@ -276,7 +276,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 	
 	// IRANDOM RANGE TESTS
 	
-	addFact("irandom_range_test # #1", function() {
+	addFact("irandom_range_test #1", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -291,7 +291,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #2", function() {
+	addFact("irandom_range_test #2", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -306,7 +306,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #3", function() {
+	addFact("irandom_range_test #3", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -321,7 +321,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #4", function() {
+	addFact("irandom_range_test #4", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -336,7 +336,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #5", function() {
+	addFact("irandom_range_test #5", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -351,7 +351,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #6", function() {
+	addFact("irandom_range_test #6", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -366,7 +366,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #7", function() {
+	addFact("irandom_range_test #7", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -381,7 +381,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #8", function() {
+	addFact("irandom_range_test #8", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -396,7 +396,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #9", function() {
+	addFact("irandom_range_test #9", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -414,7 +414,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #10", function() {
+	addFact("irandom_range_test #10", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -432,7 +432,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #11", function() {
+	addFact("irandom_range_test #11", function() {
 
 		var _output, _iterations = 1000;
 		
@@ -450,7 +450,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #12", function() {
+	addFact("irandom_range_test #12", function() {
 
 		var _output, _iterations = 1000;
 		
@@ -470,7 +470,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 			
 	// test for non-identical results (this could legitimitely fail but is unlikely to)
 
-	addFact("irandom_range_test # #13", function() {
+	addFact("irandom_range_test #13", function() {
 
 		var _output, _iterations = 1000;
 			
@@ -492,7 +492,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #14", function() {
+	addFact("irandom_range_test #14", function() {
 			
 		assert_throw(function() {
 			// feather ignore once GM1041
@@ -501,7 +501,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 	});
 
-	addFact("irandom_range_test # #15", function() {
+	addFact("irandom_range_test #15", function() {
 			
 		assert_throw(function() {
 			// feather ignore once GM1041
