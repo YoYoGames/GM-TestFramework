@@ -14,7 +14,7 @@ function BasicBase64TestSuite() : TestSuite() constructor {
     
         // Encode a string and check that it has been encoded to the correct value
         var b64HW = base64_encode("Hello World!");
-        assert_equals(b64HW, "SGVsbG8gV29ybGQh", "b64HW should equal SGVsbG8gV29ybGQh")
+        assert_equals(b64HW, "SGVsbG8gV29ybGQh", "b64HW should equal SGVsbG8gV29ybGQh");
         
     });
     
@@ -40,7 +40,7 @@ function BasicBase64TestSuite() : TestSuite() constructor {
         
         // Encode a large macro string and check that it has been encoded to the correct value
         var b64BigLorem = base64_encode(kBigLorem_Base64Test);
-        assert_equals(b64BigLorem, kb64BigLorem_Base64Test, "The kBigLorem_Base64Test in base64 == kb64BigLorem_Base64Test")
+        assert_equals(b64BigLorem, kb64BigLorem_Base64Test, "The kBigLorem_Base64Test in base64 == kb64BigLorem_Base64Test");
     });
     
     addFact("base64_encode_test #5", function() {
