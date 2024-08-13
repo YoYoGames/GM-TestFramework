@@ -1,1026 +1,1695 @@
 
 function BasicStringTestSuite() : TestSuite() constructor {
+    
+    // ANSI_CHAR TESTS
+    {
+	    addFact("ansi_char_test #1", function() {
+    
+	        // Basic ASCII test
+	        var aStr = ansi_char($41);
+	        assert_equals(aStr, "A", "ASCII 65 == 'A'");
+	    });
+    
+	    addFact("ansi_char_test #2", function() {
+        
+	        // Literals
+			assert_equals(ansi_char($42), "B", "ASCII 66 == 'B'");
+	    });
+    
+	    addFact("ansi_char_test #3", function() {
+        
+	        // Hello world test
+	        var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F);
+	        var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64);
+	        assert_equals(helloStr, "Hello", "Hello str Test");
+	        assert_equals(worldStr, "world", "world str Test");
+	    });
+    
+	    addFact("ansi_char_test #4", function() {
+        
+	        var space = ansi_char($20);
+	        assert_equals(space, " ", "Space char test");
+	    });
+    
+	    addFact("ansi_char_test #5", function() {
+        
+	        var exclamation = ansi_char($21);
+	        assert_equals(exclamation, "!", "Exclamation char test");
+	    });
+    
+	    addFact("ansi_char_test #6", function() {
+        
+	        var fullStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F) + ansi_char($20) + ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64) + ansi_char($21);
+	        assert_equals(fullStr, "Hello world!", "Hello world string test");
+	    });
+    
+	    addFact("ansi_char_test #7", function() {
+        
+	        var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F);
+	        var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64);
+	        var space = ansi_char($20);
+	        var exclamation = ansi_char($21);
+        
+	        var concatTest = helloStr + space + worldStr + exclamation;
+	        assert_equals(concatTest, "Hello world!", "Concat Hello world string test");
+	    });
+    
+	    addFact("ansi_char_test #8", function() {
+        
+	        var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F);
+	        var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64);
+	        var space = ansi_char($20);
+	        var exclamation = ansi_char($21);
+        
+	        var concatQuickTest = helloStr;
+	        concatQuickTest += space;
+	        concatQuickTest += worldStr;
+	        concatQuickTest += exclamation;
+	        assert_equals(concatQuickTest, "Hello world!", "Concat hello world string test");
+	    });
+	}
 
-	addFact("ansi_char_test", function() {
-
-		// ansi_char test
-		//show_debug_message("Begin ansi_char test")
-			
-		// Basic ASCII test
-		var aStr = ansi_char($41)
-		assert_equals(aStr, "A", "ASCII 65 == 'A'")
-			
-		// Literals
-		assert_equals(ansi_char($42), "B", "ASCII 66 == 'B'")
-			
-		// Hello world test
-		var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F) 
-		var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64)
-		assert_equals(helloStr, "Hello", "Hello str Test")
-		assert_equals(worldStr, "world", "world str Test")
-			
-		var space = ansi_char($20)
-		assert_equals(space, " ", "Space char test")
-			
-		var exclamation = ansi_char($21)
-		assert_equals(exclamation, "!", "Exclamation char test")
-			
-		var fullStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F) + ansi_char($20) + ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64) + ansi_char($21)
-		assert_equals(fullStr, "Hello world!", "Hello world string test")
-			
-		var concatTest = helloStr + space + worldStr + exclamation
-		assert_equals(concatTest, "Hello world!", "Concat Hello world string test")
-			
-		var concatQuickTest = helloStr
-		concatQuickTest += space
-		concatQuickTest += worldStr 
-		concatQuickTest += exclamation
-		assert_equals(concatQuickTest, "Hello world!", "Concat hello world string test")
-			
-		//show_debug_message("End ansi_char test")
-	})
-
-	addFact("chr_test", function() {
-
-		// chr test
-		//show_debug_message("Begin chr test");
-			
-		// Basic ASCII test
-		var aStr = chr(65);
-		assert_equals(aStr, "A", "ASCII 65 == 'A'");
-			
-		// Literals
-		assert_equals(chr(66), "B", "ASCII 66 == 'B'");
-			
-		// Hello world test
-		var helloStr = chr(72) + chr(101) + chr(108) + chr(108) + chr(111);
-		var worldStr = chr(119) + chr(111) + chr(114) + chr(108) + chr(100);
-		assert_equals(helloStr, "Hello", "Hello str Test");
-		assert_equals(worldStr, "world", "world str Test");
-			
-		var space = chr(32);
-		assert_equals(space, " ", "Space char test");
-			
-		var exclamation = chr(33);
-		assert_equals(exclamation, "!", "Exclamation char test");
-			
-		var fullStr = chr(72) + chr(101) + chr(108) + chr(108) + chr(111) + chr(32) + chr(119) + chr(111) + chr(114) + chr(108) + chr(100) + chr(33);
-		assert_equals(fullStr, "Hello world!", "Hello world string test");
-			
-		var concatTest = helloStr + space + worldStr + exclamation;
-		assert_equals(concatTest, "Hello world!", "Concat Hello world string test");
-			
-		var concatQuickTest = helloStr;
-		concatQuickTest += space;
-		concatQuickTest += worldStr; 
-		concatQuickTest += exclamation;
-		assert_equals(concatQuickTest, "Hello world!", "Concat hello world string test");
-			
-		// Unicode tests
-		var euro = chr(8364); //Unicode euro test
-		assert_equals(euro, "€", "Euro sign test");
-			
-		var indianRupee = chr(8377);
-		assert_equals(indianRupee, "₹", "Indian Rupee sign test");
-			
-		var rupee = chr(8360);
-		assert_equals(rupee, "₨", "Rupee sign test");
-			
-		var theta = chr(952);
-		assert_equals(theta, "θ", "Theta test");
-			
-		var smileyFace = chr(128578);
-		assert_equals(smileyFace, "🙂", "Smiley face literal test");
-			
-		var euroOrd = 8364;
-		var euroChar = chr(euroOrd); //Unicode euro test
-		assert_equals(euroChar, "€", "Euro sign test");
-			
-		var u8001 = 32769;
-		var u8001Chr = chr(u8001);
-		assert_equals(u8001Chr, "老", "u8001 is 老");
-			
-		var u8001ChrLit = chr(32769);
-		assert_equals(u8001ChrLit, "老", "u8001 is 老");
-			
-		var indianRupeeOrd = 8377;
-		var indianRupeeChar = chr(indianRupeeOrd);
-		assert_equals(indianRupeeChar, "₹", "Indian Rupee sign test")
-			
-		var rupeeOrd = 8360;
-		var rupeeChar = chr(rupeeOrd);
-		assert_equals(rupeeChar, "₨", "Rupee sign test");
-			
-		var thetaOrd = 952;
-		var thetaChar = chr(thetaOrd)
-		assert_equals(thetaChar, "θ", "Theta test");
-			
-		var smileyFaceOrd = 128578;
-		var smileyFaceChar = chr(smileyFaceOrd);
-		assert_equals(smileyFaceChar, "🙂", "Smiley face var test");
-			
-		var aUChar = "\u41";
-		assert_equals(aUChar, "A", "A char");
-			
-		var euroUChar = "\u20AC";
-		assert_equals(euroUChar, "€", "Euro symbol");
-			
-		var u8001UChar = "\u8001";
-		assert_equals(u8001UChar, "老", "u8001 symbol");
-			
-		var u1F642UChar = "\u1F642";
-		assert_equals(u1F642UChar, "🙂", "Smiley face u char test");
-			
-		var variousChars = "\u1F642\u8001\u20AC\u41";
-		assert_equals(variousChars, "🙂老€A", "Various char string was successful");
-			
-		var smileyString = "\u1F642\u1F642\u1F642\u8001\u1F642\u1F642";
-		assert_equals(smileyString, "🙂🙂🙂老🙂🙂", "Various char string was successful");
-			
-		var smileyEuros = "\u20AC\u1F642\u20AC\u1F642\u20AC\u1F642\u20AC";
-		assert_equals(smileyEuros, "€🙂€🙂€🙂€", "Various char string was successful");
-			
-		//show_debug_message("End chr test");
-	})
-
-	addFact("ord_test", function() {
-
-		// ord test
-			
-		//show_debug_message("Begin ord test");
-			
-		// Basic test
-		{
+    // CHR TESTS
+    {
+	    addFact("chr_test #1", function() {
+        
+	        // Basic ASCII test
+	        var aStr = chr(65);
+	        assert_equals(aStr, "A", "ASCII 65 == 'A'");
+	    });
+    
+	    addFact("chr_test #2", function() {
+        
+	        // Literals
+	        assert_equals(chr(66), "B", "ASCII 66 == 'B'");
+	    });
+    
+	    addFact("chr_test #3", function() {
+        
+	        // Hello world test
+	        var helloStr = chr(72) + chr(101) + chr(108) + chr(108) + chr(111);
+	        var worldStr = chr(119) + chr(111) + chr(114) + chr(108) + chr(100);
+	        assert_equals(helloStr, "Hello", "Hello str Test");
+	        assert_equals(worldStr, "world", "world str Test");
+	    });
+    
+	    addFact("chr_test #4", function() {
+        
+	        var space = chr(32);
+	        assert_equals(space, " ", "Space char test");
+	    });
+    
+	    addFact("chr_test #5", function() {
+        
+	        var exclamation = chr(33);
+	        assert_equals(exclamation, "!", "Exclamation char test");
+	    });
+    
+	    addFact("chr_test #6", function() {
+        
+	        var fullStr = chr(72) + chr(101) + chr(108) + chr(108) + chr(111) + chr(32) + chr(119) + chr(111) + chr(114) + chr(108) + chr(100) + chr(33);
+	        assert_equals(fullStr, "Hello world!", "Hello world string test");
+	    });
+    
+	    addFact("chr_test #7", function() {
+        
+	        var helloStr = chr(72) + chr(101) + chr(108) + chr(108) + chr(111);
+	        var worldStr = chr(119) + chr(111) + chr(114) + chr(108) + chr(100);
+	        var space = chr(32);
+	        var exclamation = chr(33);
+        
+	        var concatTest = helloStr + space + worldStr + exclamation;
+	        assert_equals(concatTest, "Hello world!", "Concat Hello world string test");
+	    });
+    
+	    addFact("chr_test #8", function() {
+        
+	        var helloStr = chr(72) + chr(101) + chr(108) + chr(108) + chr(111);
+	        var worldStr = chr(119) + chr(111) + chr(114) + chr(108) + chr(100);
+	        var space = chr(32);
+	        var exclamation = chr(33);
+        
+	        var concatQuickTest = helloStr;
+	        concatQuickTest += space;
+	        concatQuickTest += worldStr; 
+	        concatQuickTest += exclamation;
+	        assert_equals(concatQuickTest, "Hello world!", "Concat hello world string test");
+	    });
+	}
+	
+    // CHR UNICODE TESTS
+    {
+	    addFact("chr_unicode_test #1", function() {
+        
+	        var euro = chr(8364); //Unicode euro test
+	        assert_equals(euro, "€", "Euro sign test");
+	    });
+    
+	    addFact("chr_unicode_test #2", function() {
+        
+	        var indianRupee = chr(8377);
+	        assert_equals(indianRupee, "₹", "Indian Rupee sign test");
+	    });
+    
+	    addFact("chr_unicode_test #3", function() {
+        
+	        var rupee = chr(8360);
+	        assert_equals(rupee, "₨", "Rupee sign test");
+	    });
+    
+	    addFact("chr_unicode_test #4", function() {
+        
+	        var theta = chr(952);
+	        assert_equals(theta, "θ", "Theta test");
+	    });
+    
+	    addFact("chr_unicode_test #5", function() {
+        
+	        var smileyFace = chr(128578);
+	        assert_equals(smileyFace, "🙂", "Smiley face literal test");
+	    });
+    
+	    addFact("chr_unicode_test #6", function() {
+        
+	        var euroOrd = 8364;
+	        var euroChar = chr(euroOrd); //Unicode euro test
+	        assert_equals(euroChar, "€", "Euro sign test");
+	    });
+    
+	    addFact("chr_unicode_test #7", function() {
+        
+	        var u8001 = 32769;
+	        var u8001Chr = chr(u8001);
+	        assert_equals(u8001Chr, "老", "u8001 is 老");
+	    });
+    
+	    addFact("chr_unicode_test #8", function() {
+        
+	        var u8001 = 32769;
+	        var u8001Chr = chr(u8001);
+	        assert_equals(u8001Chr, "老", "u8001 is 老");
+	    });
+    
+	    addFact("chr_unicode_test #9", function() {
+        
+	        var u8001ChrLit = chr(32769);
+	        assert_equals(u8001ChrLit, "老", "u8001 is 老");
+	    });
+    
+	    addFact("chr_unicode_test #10", function() {
+        
+	        var indianRupeeOrd = 8377;
+	        var indianRupeeChar = chr(indianRupeeOrd);
+	        assert_equals(indianRupeeChar, "₹", "Indian Rupee sign test")
+	    });
+    
+	    addFact("chr_unicode_test #11", function() {
+        
+	        var rupeeOrd = 8360;
+	        var rupeeChar = chr(rupeeOrd);
+	        assert_equals(rupeeChar, "₨", "Rupee sign test");
+	    });
+    
+	    addFact("chr_unicode_test #12", function() {
+        
+	        var thetaOrd = 952;
+	        var thetaChar = chr(thetaOrd);
+	        assert_equals(thetaChar, "θ", "Theta test");
+	    });
+    
+	    addFact("chr_unicode_test #14", function() {
+        
+	        var smileyFaceOrd = 128578;
+	        var smileyFaceChar = chr(smileyFaceOrd);
+	        assert_equals(smileyFaceChar, "🙂", "Smiley face var test");
+	    });
+    
+	    addFact("chr_unicode_test #14", function() {
+        
+	        var aUChar = "\u41";
+	        assert_equals(aUChar, "A", "A char");
+	    });
+    
+	    addFact("chr_unicode_test #15", function() {
+        
+	        var euroUChar = "\u20AC";
+	        assert_equals(euroUChar, "€", "Euro symbol");
+	    });
+    
+	    addFact("chr_unicode_test #16", function() {
+        
+	        var u8001UChar = "\u8001";
+	        assert_equals(u8001UChar, "老", "u8001 symbol");
+	    });
+    
+	    addFact("chr_unicode_test #17", function() {
+        
+	        var u1F642UChar = "\u1F642";
+	        assert_equals(u1F642UChar, "🙂", "Smiley face u char test");
+	    });
+    
+	    addFact("chr_unicode_test #18", function() {
+        
+	        var variousChars = "\u1F642\u8001\u20AC\u41";
+	        assert_equals(variousChars, "🙂老€A", "Various char string was successful");
+	    });
+    
+	    addFact("chr_unicode_test #19", function() {
+        
+	        var smileyString = "\u1F642\u1F642\u1F642\u8001\u1F642\u1F642";
+	        assert_equals(smileyString, "🙂🙂🙂老🙂🙂", "Various char string was successful");
+	    });
+    
+	    addFact("chr_unicode_test #20", function() {
+        
+	        var smileyEuros = "\u20AC\u1F642\u20AC\u1F642\u20AC\u1F642\u20AC";
+	        assert_equals(smileyEuros, "€🙂€🙂€🙂€", "Various char string was successful");
+	    });
+	
+		addFact("ord_test #1", function() {
+        
 			var zeroChar = ord("0");
 			assert_equals(zeroChar, 48, "ASCII Zero == 48");
-			
+	    });
+	
+		addFact("ord_test #2", function() {
+        
 			var uppercaseA = ord("A");
 			assert_equals(uppercaseA, 65, "ASCII A == 65");
-			
+	    });
+	
+		addFact("ord_test #3", function() {
+        
 			var lowercaseA = ord("a");
 			assert_equals(lowercaseA, 97, "ASCII a == 97");
-			
-			// Extended char set
+	    });
+	
+		addFact("ord_test #4", function() {
+        
 			var poundSymbol = ord("£");
 			assert_equals(poundSymbol, 163, "£ sign == 163");
-			
+	    });
+	
+		addFact("ord_test #5", function() {
+        
 			var euroSymbol = ord("€");
 			assert_equals(euroSymbol, 8364, "€ sign == 8364");
-			
+	    });
+	
+		addFact("ord_test #6", function() {
+        
 			var indianRupee = ord("₹");
 			assert_equals(indianRupee, 8377, "Indian Rupee sign test");
-			
+	    });
+	
+		addFact("ord_test #7", function() {
+        
 			var rupee = ord("₨");
 			assert_equals(rupee, 8360, "Rupee sign test");
-			
+	    });
+	
+		addFact("ord_test #8", function() {
+        
 			var theta = ord("θ");
 			assert_equals(theta, 952, "Theta test");
-			
+	    });
+	
+		addFact("ord_test #9", function() {
+        
 			var smileyOrdLit = ord("🙂");
 			assert_equals(smileyOrdLit, 128578, "Smiley face ord literal test");
-		}
-			
-		{
+	    });
+	
+		addFact("ord_test #10", function() {
+        
 			var zeroChar = "0";
 			var zeroOrd = ord(zeroChar);
 			assert_equals(zeroOrd, 48, "ASCII Zero == 48");
-			
+	    });
+	
+		addFact("ord_test #11", function() {
+        
 			var uppercaseA = "A";
 			var uppercaseAOrd = ord(uppercaseA);
 			assert_equals(uppercaseAOrd, 65, "ASCII A == 65");
-			
+	    });
+	
+		addFact("ord_test #12", function() {
+        
 			var lowercaseA = "a";
 			var lowercaseAOrd = ord(lowercaseA);
 			assert_equals(lowercaseAOrd, 97, "ASCII a == 97");
-			
-			// Extended char set
+	    });
+	
+		addFact("ord_test #13", function() {
+        
 			var poundSymbol = "£";
 			var poundSymbolOrd = ord(poundSymbol);
 			assert_equals(poundSymbolOrd, 163, "£ sign == 163");
-			
+	    });
+	
+		addFact("ord_test #14", function() {
+        
 			var euroSymbol = "€";
 			var euroSymbolOrd = ord(euroSymbol);
 			assert_equals(euroSymbolOrd, 8364, "€ sign == 8364");
-			
+	    });
+	
+		addFact("ord_test #15", function() {
+        
 			var indianRupee = "₹";
 			var indianRupeeOrd = ord(indianRupee);
 			assert_equals(indianRupeeOrd, 8377, "Indian Rupee sign test");
-			
+	    });
+	
+		addFact("ord_test #15", function() {
+        
 			var rupee = "₨";
 			var rupeeOrd = ord(rupee);
 			assert_equals(rupeeOrd, 8360, "Rupee sign test");
-			
+	    });
+	
+		addFact("ord_test #15", function() {
+        
 			var theta = "θ";
 			var thetaOrd = ord(theta);
 			assert_equals(thetaOrd, 952, "Theta test");
-			
+	    });
+	
+		addFact("ord_test #15", function() {
+        
 			var smileyVar = "🙂";
 			var smileyOrdVar = ord(smileyVar);
 			assert_equals(smileyOrdVar, 128578, "Smiley face var ord test");
-		}
-			
-		//show_debug_message("End ord test");
-	})
+	    });
+	}
+	
+	// STRING_BYTE_AT TESTS
+	{
+		addFact("string_byte_at_test #1", function() {
+        
+			var vstring = "hello World!";
+		
+			//#1 string_byte_at( string local , real const )
+			var res = string_byte_at(vstring, 7);
+			assert_equals(res, 87, "string_byte_at( string local , real const )"); // 87 = 'W'
+	    });
+	
+		addFact("string_byte_at_test #2", function() {
+        
+			var vstring = "hello World!";
+		
+			//#2 string_byte_at( string local , real const )
+			var res = string_byte_at(vstring, 7.6);
+			assert_equals(res, 87, "string_byte_at( string local , real const )"); // 87 = 'W'
+	    });
+	
+		addFact("string_byte_at_test #3", function() {
+        
+			var vstring = "hello World!";
+		
+			//#3 string_byte_at( string local , real const )
+			var res = string_byte_at(vstring, 7.2);
+			assert_equals(res, 87, "string_byte_at( string local , real const )"); // 87 = 'W'
+	    });
+	
+		addFact("string_byte_at_test #4", function() {
+        
+			var vstring = "hello World!";
+		
+			//#4 string_byte_at( string local , real const )
+			var res = string_byte_at(vstring, 0);
+			assert_equals(res, 104, "string_byte_at( string local , real const )"); // 104 = 'h'
+	    });
+	
+		addFact("string_byte_at_test #5", function() {
+        
+			var vstring = "hello World!";
+		
+			//#5 string_byte_at( string local , real const )
+			var res = string_byte_at(vstring, 100);
+			assert_equals(res, 33, "#5 string_byte_at( string local , real const )"); // 33 = '!'
+	    });
+	
+		addFact("string_byte_at_test #6", function() {
+        
+			var vstring = "hello World!";
+		
+			//#6 string_byte_at( string local , real const )
+			var res = string_byte_at(vstring, -2);
+			assert_equals(res, 104, "#6 string_byte_at( string local , real const )"); // 104 = 'h'
+	    });
+	
+		addFact("string_byte_at_test #7", function() {
+        
+			#macro kString_StringByteAtTest "Hello World!"
+		
+			//#7 string_byte_at( string macro , real const )
+			var res = string_byte_at(kString_StringByteAtTest, 7);
+			assert_equals(res, 87, "string_byte_at( string macro , real const )");
+	    });
+	
+		addFact("string_byte_at_test #8", function() {
+        
+			global.gstring = "Hello World!";
+		
+			//#8 string_byte_at( string global , real const )
+			var res = string_byte_at(global.gstring, 7);
+			assert_equals(res, 87, "string_byte_at( string global , real const )");
+	    });
+	
+		addFact("string_byte_at_test #9", function() {
+        
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
+		
+			//#9 string_byte_at( string instance , real const )
+			var res = string_byte_at(_oTest.ostring, 7);
+			assert_equals(res, 87, "string_byte_at( string instance , real const )");
+		
+			instance_destroy(_oTest);
+	    });
+	
+		addFact("string_byte_at_test #10", function() {
+        
+			//#10 string_byte_at( string const , real const )
+			var res = string_byte_at("!£水🙂a", 1); 
+			assert_equals(res, 0x21, "string_byte_at( string const , real const )"); // 0x21 = !
+	    });
+	
+		addFact("string_byte_at_test #11", function() {
+        
+			//#11 string_byte_at( string const , real const )
+			var res = string_byte_at("!£水🙂a", 2);
+			assert_equals(res, 0xc2, "string_byte_at( string const , real const )"); // 0xc2 0xa3 = '£'
+	    });
+	
+		addFact("string_byte_at_test #12", function() {
+        
+			//#12 string_byte_at( string const , real const )
+			var res = string_byte_at("!£水🙂a", 4);
+			assert_equals(res, 0xe6, "string_byte_at( string const , real const )"); // 0xe6 0xb0 0xb4 = '水'
+	    });
+	
+		addFact("string_byte_at_test #13", function() {
+        
+			//#13 string_byte_at( string const , real const )
+			var res = string_byte_at("!£水🙂a", 7);
+			assert_equals(res, 0xf0, "string_byte_at( string const , real const )"); // 0xf0 0x9f 0x99 0x82 = "🙂"
+	    });
+	
+		addFact("string_byte_at_test #14", function() {
+        
+			//#14 string_byte_at( string const , real const )
+			res = string_byte_at("!£水🙂a", 11);
+			assert_equals(res, 0x61, "#14 string_byte_at( string const , real const )"); // 0x61 = 'a'
+	    });
+	}
 
-	addFact("string_byte_at_test", function() {
-
-		//string_byte_at test
-		//show_debug_message("start string_byte_at() test");
-			
-		var vstring = "hello World!"
-			
-		var res;
-			
-		//#1 string_byte_at( string local , real const )
-		res = string_byte_at(vstring, 7);
-		assert_equals(res, 87, "#1 string_byte_at( string local , real const )") // 'W'
-			
-		//#2 string_byte_at( string local , real const )
-		res = string_byte_at(vstring, 7.6);
-		assert_equals(res, 87, "#2 string_byte_at( string local , real const )") // 'W'
-			
-		//#3 string_byte_at( string local , real const )
-		res = string_byte_at(vstring, 7.2);
-		assert_equals(res, 87, "#3 string_byte_at( string local , real const )") // 'W'
-			
-		//#4 string_byte_at( string local , real const )
-		res = string_byte_at(vstring, 0);
-		assert_equals(res, 104, "#4 string_byte_at( string local , real const )") // 'h'
-			
-		//#5 string_byte_at( string local , real const )
-		res = string_byte_at(vstring, 100);
-		assert_equals(res, 33, "#5 string_byte_at( string local , real const )") // '!'
-			
-		//#6 string_byte_at( string local , real const )
-		res = string_byte_at(vstring, -2);
-		assert_equals(res, 104, "#6 string_byte_at( string local , real const )") // 'h'
-			
-			
-		#macro kString_StringByteAtTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#7 string_byte_at( string macro , real const )
-		res = string_byte_at(kString_StringByteAtTest, 7);
-		assert_equals(res, 87, "#7 string_byte_at( string macro , real const )")
-			
-		//#8 string_byte_at( string global , real const )
-		res = string_byte_at(global.gstring, 7);
-		assert_equals(res, 87, "#8 string_byte_at( string global , real const )")
-			
-		//#9 string_byte_at( string instance , real const )
-		res = string_byte_at(_oTest.ostring, 7);
-		assert_equals(res, 87, "#9 string_byte_at( string instance , real const )")
-			
-			
-		// UTF-8 tests 2/3/4 bytes
-			
-		//#10 string_byte_at( string const , real const )
-		res = string_byte_at("!£水🙂a", 1); // ! - 0x21
-		assert_equals(res, 0x21, "#10 string_byte_at( string const , real const )")
-			
-		//#11 string_byte_at( string const , real const )
-		res = string_byte_at("!£水🙂a", 2); // £ - 0xc2 0xa3
-		assert_equals(res, 0xc2, "#11 string_byte_at( string const , real const )")
-			
-		//#12 string_byte_at( string const , real const )
-		res = string_byte_at("!£水🙂a", 4); // 水 - 0xe6 0xb0 0xb4
-		assert_equals(res, 0xe6, "#12 string_byte_at( string const , real const )")
-			
-		//#13 string_byte_at( string const , real const )
-		res = string_byte_at("!£水🙂a", 7); // 🙂 - 0xf0 0x9f 0x99 0x82
-		assert_equals(res, 0xf0, "#13 string_byte_at( string const , real const )")
-			
-		//#14 string_byte_at( string const , real const )
-		res = string_byte_at("!£水🙂a", 11); // a - 0x61
-		assert_equals(res, 0x61, "#14 string_byte_at( string const , real const )")
-			
-		instance_destroy(_oTest);
-			
-		//show_debug_message("end string_byte_at() test");
-	})
-
-	addFact("string_byte_length_test", function() {
-
-		// string_byte_length test
-		//show_debug_message("Begin string_byte_length test")
-			
-		// Hello world test
-		var helloWorldStr = "Hello world!"
-		var helloWorldByteLen = string_byte_length(helloWorldStr)
-		assert_equals(helloWorldByteLen, 12, "Hello world!, as an ascii string, is 12 bytes")
-			
-		var literalHWByteLen = string_byte_length("Hello world!")
-		assert_equals(literalHWByteLen, 12, "Literal Hello world!, as an ascii string, is 12 bytes")
-			
+	// STRING_BYTE_LENGTH TESTS
+	{
+		addFact("string_byte_length_test #1", function() {
+        
+			var helloWorldStr = "Hello world!";
+			var helloWorldByteLen = string_byte_length(helloWorldStr);
+			assert_equals(helloWorldByteLen, 12, "Hello world!, as an ascii string, is 12 bytes");
+	    });
+	
+		addFact("string_byte_length_test #2", function() {
+        
+			var literalHWByteLen = string_byte_length("Hello world!");
+			assert_equals(literalHWByteLen, 12, "Literal Hello world!, as an ascii string, is 12 bytes");
+	    });
+	
 		// UTF8 tests
-		var poundPrice = "£99.99"
-		var poundPriceLen = string_byte_length(poundPrice)
-		assert_equals(poundPriceLen, 7, "Pound price string is 7 bytes long")
-			
-		var euroPrice = "€59.99"
-		var euroPriceLen = string_byte_length(euroPrice)
-		assert_equals(euroPriceLen, 8, "Euro price string is 8 bytes long")
-			
-		var someSymbols = "‰ˆ‡†•"
-		var someSymbolsLen = string_byte_length(someSymbols)
-		assert_equals(someSymbolsLen, 14, "Byte length of someSymbols string is 14")
-			
-		var aikido = "合気道"
-		var aikidoLen = string_byte_length(aikido)
-		assert_equals(aikidoLen, 9, "Aikido is 9 bytes")
-			
-		var kotegaeshi = "小手返"
-		var kotegaeshiLen = string_byte_length(kotegaeshi)
-		assert_equals(kotegaeshiLen, 9, "kotegaeshi is 9 bytes")
-			
+		addFact("string_byte_length_test #3", function() {
+        
+			var poundPrice = "£99.99";
+			var poundPriceLen = string_byte_length(poundPrice);
+			assert_equals(poundPriceLen, 7, "Pound price string is 7 bytes long");
+	    });
+	
+		addFact("string_byte_length_test #4", function() {
+        
+			var euroPrice = "€59.99";
+			var euroPriceLen = string_byte_length(euroPrice);
+			assert_equals(euroPriceLen, 8, "Euro price string is 8 bytes long");
+	    });
+	
+		addFact("string_byte_length_test #5", function() {
+        
+			var someSymbols = "‰ˆ‡†•";
+			var someSymbolsLen = string_byte_length(someSymbols);
+			assert_equals(someSymbolsLen, 14, "Byte length of someSymbols string is 14");
+	    });
+	
+		addFact("string_byte_length_test #6", function() {
+        
+			var aikido = "合気道";
+			var aikidoLen = string_byte_length(aikido);
+			assert_equals(aikidoLen, 9, "Aikido is 9 bytes");
+	    });
+	
+		addFact("string_byte_length_test #7", function() {
+        
+			var kotegaeshi = "小手返";
+			var kotegaeshiLen = string_byte_length(kotegaeshi);
+			assert_equals(kotegaeshiLen, 9, "kotegaeshi is 9 bytes");
+	    });
+	
 		// Emoji!
-		var smileyFace = "🙂"
-		var smileyFaceLen = string_byte_length(smileyFace)
-		assert_equals(smileyFaceLen, 4, "1 Smiley face is 4 bytes")
-			
-		assert_equals(string_byte_length("🙂"), 4, "Smiley face literal")
-			
-		var emojiString = "💩👏✔"
-		var emojiLen = string_byte_length(emojiString)
-		assert_equals(emojiLen, 11, "Emoji len is 11 bytes long")
-			
-		//show_debug_message("End string_byte_length test")
-	})
-
-	addFact("string_char_at_test", function() {
-
-		//string_char_at test
-		//show_debug_message("start string_char_at() test");
-			
-		var vstring = "hello World!"
-			
-		var res;
-			
-		//#1 string_char_at( real local , real const )
-		res = string_char_at(vstring, 7);
-		assert_true(is_string(res), "#1 string_char_at( real local , real const )")
-		assert_equals(res, "W", "#1 string_char_at( real local , real const )")
-			
-		//#2 string_char_at( string local , real const )
-		res = string_char_at(vstring, 7.6);
-		assert_true(is_string(res), "#2 string_char_at( string local , real const )")
-		assert_equals(res, "W", "#2 string_char_at( string local , real const )")
-			
-		//#3 string_char_at( string local , real const )
-		res = string_char_at(vstring, 7.2);
-		assert_true(is_string(res), "#3 string_char_at( string local , real const )")
-		assert_equals(res, "W", "#3 string_char_at( string local , real const )")
-			
-		//#4 string_char_at( string local , real const )
-		res = string_char_at(vstring, 0);
-		assert_true(is_string(res), "#4 string_char_at( string local , real const )")
-		assert_equals(res, "h", "#4 string_char_at( string local , real const )")
-			
-		//#5 string_char_at( string local , real const )
-		res = string_char_at(vstring, 100);
-		assert_true(is_string(res), "#5 string_char_at( string local , real const )")
-		assert_equals(res, "", "#5 string_char_at( string local , real const )")
-			
-		//#6 string_char_at( string local , real const )
-		res = string_char_at(vstring, -2);
-		assert_true(is_string(res), "#6 string_char_at( string local , real const )")
-		assert_equals(res, "h", "#6 string_char_at( string local , real const )")
-			
-			
-		//#7 string_char_at( int64 const , real const )
-		res = string_char_at(int64(1234), 2);
-		assert_true(is_string(res), "#7 string_char_at( int64 const , real const )")
-		assert_equals(res, "2", "#7 string_char_at( int64 const , real const )")
-			
-		//#8 string_char_at( real const , real const )
-		res = string_char_at(1.234, 2);
-		assert_true(is_string(res), "#8 string_char_at( real const , real const )")
-		assert_equals(res, ".", "#8 string_char_at( real const , real const )")
-			
-		//#9 string_char_at( bool const , real const )
-		res = string_char_at(true, 1);
-		assert_true(is_string(res), "#9 string_char_at( bool const , real const )")
-		assert_equals(res, "1", "#9 string_char_at( bool const , real const )")
-			
-		#macro kString_StringCharAtTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#10 string_char_at( string macro , real const )
-		res = string_char_at(kString_StringCharAtTest, 7);
-		assert_equals(res, "W", "#10 string_char_at( string macro , real const )")
-			
-		//#11 string_char_at( string global , real const )
-		res = string_char_at(global.gstring, 7);
-		assert_equals(res, "W", "#11 string_char_at( string global , real const )")
-			
-		//#12 string_char_at( string instance , real const )
-		res = string_char_at(_oTest.ostring, 7);
-		assert_equals(res, "W", "#12 string_char_at( string instance , real const )")
-			
-			
+		addFact("string_byte_length_test #8", function() {
+        
+			var smileyFace = "🙂";
+			var smileyFaceLen = string_byte_length(smileyFace);
+			assert_equals(smileyFaceLen, 4, "1 Smiley face is 4 bytes");
+	    });
+	
+		addFact("string_byte_length_test #9", function() {
+        
+			assert_equals(string_byte_length("🙂"), 4, "Smiley face literal");
+	    });
+	
+		addFact("string_byte_length_test #10", function() {
+        
+			var emojiString = "💩👏✔";
+			var emojiLen = string_byte_length(emojiString);
+			assert_equals(emojiLen, 11, "Emoji len is 11 bytes long");
+	    });
+	}
+	
+	// STRING_CHAR_AT TESTS
+	{
+		addFact("string_char_at_test #1", function() {
+        
+			var vstring = "hello World!";
+		
+			//#1 string_char_at( real local , real const )
+			var res = string_char_at(vstring, 7);
+			assert_true(is_string(res), "string_char_at( real local , real const )");
+			assert_equals(res, "W", "string_char_at( real local , real const )");
+	    });
+	
+		addFact("string_char_at_test #2", function() {
+        
+			var vstring = "hello World!";
+		
+			//#2 string_char_at( string local , real const )
+			var res = string_char_at(vstring, 7.6);
+			assert_true(is_string(res), "string_char_at( string local , real const )");
+			assert_equals(res, "W", "string_char_at( string local , real const )");
+	    });
+	
+		addFact("string_char_at_test #3", function() {
+        
+			var vstring = "hello World!";
+		
+			//#3 string_char_at( string local , real const )
+			var res = string_char_at(vstring, 7.2);
+			assert_true(is_string(res), "string_char_at( string local , real const )");
+			assert_equals(res, "W", "string_char_at( string local , real const )");
+	    });
+	
+		addFact("string_char_at_test #4", function() {
+        
+			var vstring = "hello World!";
+		
+			//#4 string_char_at( string local , real const )
+			var res = string_char_at(vstring, 0);
+			assert_true(is_string(res), "string_char_at( string local , real const )");
+			assert_equals(res, "h", "string_char_at( string local , real const )");
+	    });
+	
+		addFact("string_char_at_test #5", function() {
+        
+			var vstring = "hello World!";
+		
+			//#5 string_char_at( string local , real const )
+			var res = string_char_at(vstring, 100);
+			assert_true(is_string(res), "string_char_at( string local , real const )");
+			assert_equals(res, "", "string_char_at( string local , real const )");
+	    });
+	
+		addFact("string_char_at_test #6", function() {
+        
+			var vstring = "hello World!";
+		
+			//#6 string_char_at( string local , real const )
+			var res = string_char_at(vstring, -2);
+			assert_true(is_string(res), "string_char_at( string local , real const )");
+			assert_equals(res, "h", "string_char_at( string local , real const )");
+	    });
+	
+		addFact("string_char_at_test #7", function() {
+        
+			var vstring = "hello World!";
+		
+			//#7 string_char_at( int64 const , real const )
+			var res = string_char_at(int64(1234), 2);
+			assert_true(is_string(res), "string_char_at( int64 const , real const )");
+			assert_equals(res, "2", "string_char_at( int64 const , real const )");
+	    });
+	
+		addFact("string_char_at_test #8", function() {
+        
+			var vstring = "hello World!";
+		
+			//#8 string_char_at( real const , real const )
+			var res = string_char_at(1.234, 2);
+			assert_true(is_string(res), "string_char_at( real const , real const )");
+			assert_equals(res, ".", "string_char_at( real const , real const )");
+	    });
+	
+		addFact("string_char_at_test #9", function() {
+        
+			var vstring = "hello World!";
+		
+			//#9 string_char_at( bool const , real const )
+			var res = string_char_at(true, 1);
+			assert_true(is_string(res), "string_char_at( bool const , real const )");
+			assert_equals(res, "1", "string_char_at( bool const , real const )");
+	    });
+	
+		addFact("string_char_at_test #10", function() {
+        
+			#macro kString_StringCharAtTest "Hello World!"
+		
+			//#10 string_char_at( string macro , real const )
+			var res = string_char_at(kString_StringCharAtTest, 7);
+			assert_equals(res, "W", "string_char_at( string macro , real const )");
+	    });
+	
+		addFact("string_char_at_test #11", function() {
+        
+			global.gstring = "Hello World!";
+		
+			//#11 string_char_at( string global , real const )
+			var res = string_char_at(global.gstring, 7);
+			assert_equals(res, "W", "string_char_at( string global , real const )");
+	    });
+	
+		addFact("string_char_at_test #12", function() {
+        
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
+		
+			//#12 string_char_at( string instance , real const )
+			var res = string_char_at(_oTest.ostring, 7);
+			assert_equals(res, "W", "string_char_at( string instance , real const )");
+		
+			instance_destroy(_oTest);
+	    });
+	
 		// UTF-8 tests 2/3/4 bytes
-			
-		//#13 string_char_at( string const , real const )
-		res = string_char_at("!£水🙂a", 1);
-		assert_equals(res, "!", "#13 string_char_at( string const , real const )")
-			
-		//#14 string_char_at( string const , real const )
-		res = string_char_at("!£水🙂a", 2);
-		assert_equals(res, "£", "#14 string_char_at( string const , real const )")
-			
-		//#15 string_char_at( string const , real const )
-		res = string_char_at("!£水🙂a", 3);
-		assert_equals(res, "水", "#15 string_char_at( string const , real const )")
-			
-		//#16 string_char_at( string const , real const )
-		res = string_char_at("!£水🙂a", 4);
-		assert_equals(res, "🙂", "#16 string_char_at( string const , real const )")
-			
-		//#17 string_char_at( string const , real const )
-		res = string_char_at("!£水🙂a", 5);
-		assert_equals(res, "a", "#17 string_char_at( string const , real const )")
-			
-		instance_destroy(_oTest);
-	})
-
-	addFact("string_copy_test", function() {
-
-		// String copy test
-		//show_debug_message("Begin string_copy test");
-			
-		var helloWorldStr = "Hello World";
-		var helloStr = string_copy(helloWorldStr, 1, 5);
-		assert_equals(helloStr, "Hello", "String copy the first five characters");
-			
-		var worldStr = string_copy(helloWorldStr, 7, 5);
-		assert_equals(worldStr, "World", "String copy the five characters from the 7th index");
-			
+		addFact("string_char_at_test #13", function() {
+        
+			//#13 string_char_at( string const , real const )
+			var res = string_char_at("!£水🙂a", 1);
+			assert_equals(res, "!", "string_char_at( string const , real const )");
+	    });
+	
+		addFact("string_char_at_test #14", function() {
+        
+			//#14 string_char_at( string const , real const )
+			var res = string_char_at("!£水🙂a", 2);
+			assert_equals(res, "£", "string_char_at( string const , real const )");
+	    });
+	
+		addFact("string_char_at_test #15", function() {
+        
+			//#15 string_char_at( string const , real const )
+			var res = string_char_at("!£水🙂a", 3);
+			assert_equals(res, "水", "string_char_at( string const , real const )");
+	    });
+	
+		addFact("string_char_at_test #16", function() {
+        
+			//#16 string_char_at( string const , real const )
+			var res = string_char_at("!£水🙂a", 4);
+			assert_equals(res, "🙂", "#tring_char_at( string const , real const )");
+	    });
+	
+		addFact("string_char_at_test #17", function() {
+        
+			//#17 string_char_at( string const , real const )
+			var res = string_char_at("!£水🙂a", 5);
+			assert_equals(res, "a", "string_char_at( string const , real const )");
+	    });
+	}
+	
+	// STRING_COPY TESTS
+	{
+		addFact("string_copy_test #1", function() {
+        
+			var helloWorldStr = "Hello World";
+			var helloStr = string_copy(helloWorldStr, 1, 5);
+			assert_equals(helloStr, "Hello", "String copy the first five characters");
+	    });
+	
+		addFact("string_copy_test #2", function() {
+        
+			var helloWorldStr = "Hello World";
+			var worldStr = string_copy(helloWorldStr, 7, 5);
+			assert_equals(worldStr, "World", "String copy the five characters from the 7th index");
+	    });
+	
 		// UTF8
-		var fullPriceStr = "£12.34";
-		var poundPriceStr = string_copy(fullPriceStr, 1, 3);
-		var pencePriceStr = string_copy(fullPriceStr, 5, 2);
-		assert_equals(poundPriceStr, "£12", "Copied three characters to make the \"£12\" string");
-		assert_equals(pencePriceStr, "34", "Copied two characters to make the \"34\" string");
-			
-		var fullEuroStr = "€56.78";
-		var euroPriceStr = string_copy(fullEuroStr, 1, 3);
-		var centsPriceStr = string_copy(fullEuroStr, 5, 2);
-		assert_equals(euroPriceStr, "€56", "Copied three characters to make the \"€56\" string");
-		assert_equals(centsPriceStr, "78", "Copied two characters to make the \"78\" string");
-			
-		var aikido = "合気道";
-		var aiki = string_copy(aikido, 1, 2);
-		assert_equals(aiki, "合気", "Copying the first two chars ai and ki");
-			
-		var kotegaeshi = "小手返 Test";
-		var kotegaeshiTestStr = string_copy(kotegaeshi, 5, 4);
-		assert_equals(kotegaeshiTestStr, "Test", "Copy \"Test\" from kotegaeshi string");
-			
+		addFact("string_copy_test #3", function() {
+        
+			var fullPriceStr = "£12.34";
+			var poundPriceStr = string_copy(fullPriceStr, 1, 3);
+			var pencePriceStr = string_copy(fullPriceStr, 5, 2);
+			assert_equals(poundPriceStr, "£12", "Copied three characters to make the \"£12\" string");
+			assert_equals(pencePriceStr, "34", "Copied two characters to make the \"34\" string");
+	    });
+	
+		addFact("string_copy_test #4", function() {
+        
+			var fullEuroStr = "€56.78";
+			var euroPriceStr = string_copy(fullEuroStr, 1, 3);
+			var centsPriceStr = string_copy(fullEuroStr, 5, 2);
+			assert_equals(euroPriceStr, "€56", "Copied three characters to make the \"€56\" string");
+			assert_equals(centsPriceStr, "78", "Copied two characters to make the \"78\" string");
+	    });
+	
+		addFact("string_copy_test #5", function() {
+        
+			var aikido = "合気道";
+			var aiki = string_copy(aikido, 1, 2);
+			assert_equals(aiki, "合気", "Copying the first two chars ai and ki");
+	    });
+	
+		addFact("string_copy_test #6", function() {
+        
+			var kotegaeshi = "小手返 Test";
+			var kotegaeshiTestStr = string_copy(kotegaeshi, 5, 4);
+			assert_equals(kotegaeshiTestStr, "Test", "Copy \"Test\" from kotegaeshi string");
+	    });
+	
 		// Emoji
-		var smileyTestString = "This is a test 🙂";
-		var smileyString = string_copy(smileyTestString, 16, 1);
-		assert_equals(smileyString, "🙂", "Copy the smiley face");
+		addFact("string_copy_test #7", function() {
+        
+			var smileyTestString = "This is a test 🙂";
+			var smileyString = string_copy(smileyTestString, 16, 1);
+			assert_equals(smileyString, "🙂", "Copy the smiley face");
+	    });
+	
+		addFact("string_copy_test #8", function() {
+        
+			var smileyPosLiteral = string_copy("This is a test 🙂", 16, 1);
+			assert_equals(smileyPosLiteral, "🙂", "Copy the smiley face from a string literal");
+	    });
+	
+		addFact("string_copy_test #9", function() {
+        
+			var emojiString = "✔✔✔💩👏";
+			var clapEmojiStr = string_copy(emojiString, 5, 1);
+			assert_equals(clapEmojiStr, "👏", "Copy the clap emoji");
+	    });
+	
+		addFact("string_copy_test #10", function() {
+        
+			var emojiString = "✔✔✔💩👏 hello world";
+			var clapEmojiStr = string_copy(emojiString, 5, 13);
+			assert_equals(clapEmojiStr, "👏 hello world", "Copy the hello world as well, after the clap emoji");
+	    });
+	}
+	
+	// STRING_COUNT TESTS
+	{
+		addFact("string_count_test #1", function() {
+        
+			var helloWorldStr = "Hello World";
+			var numLs = string_count("l", helloWorldStr);
+			var numOs = string_count("o", helloWorldStr);
+			assert_equals(numLs, 3, "3 Ls in \"Hello World\"");
+			assert_equals(numOs, 2, "2 Os in \"Hello World\"");
+	    });
+	
+		addFact("string_count_test #2", function() {
+        
+			var numHellos = string_count("Hello", helloWorldStr);
+			var numWorlds = string_count("World", helloWorldStr);
+			assert_equals(numHellos, 1, "One \"Hello\" in \"Hello World\"");
+			assert_equals(numWorlds, 1, "One \"World\" in \"Hello World\"");
+	    });
+	
+		addFact("string_count_test #3", function() {
+        
+			var poundStr = "£12.34";
+			var numPounds = string_count("£", poundStr);
+			assert_equals(numPounds, 1, "One pound glyph in poundStr");
+	    });
+	
+		addFact("string_count_test #4", function() {
+        
+			var ninesStr = "£999.99";
+			var numNines = string_count("9", ninesStr);
+			assert_equals(numNines, 5, "Five nines in ninesStr");
+	    });
+	
+		addFact("string_count_test #5", function() {
+        
+			var euroStr = "€12.34";
+			var numEuros = string_count("€", euroStr);
+			assert_equals(numEuros, 1, "One euro glyph in euroStr");
+	    });
+	
+		addFact("string_count_test #6", function() {
+        
+			var fivesStr = "€12555.55"
+			var numFives = string_count("5", fivesStr);
+			assert_equals(numFives, 5, "Five fives in fivesStr");
+	    });
+	
+		addFact("string_count_test #7", function() {
+        
+			var aikido = "合気道合気道合気道合気道";
+			var numAi = string_count("合", aikido);
+			assert_equals(numAi, 4, "Four Ai glyphs in aikido string");
+	    });
+	
+		addFact("string_count_test #7", function() {
+        
+			var smileyString = "This is a test 🙂";
+			var numSmileys = string_count("🙂", smileyString);
+			assert_equals(numSmileys, 1, "Only one smiley in smileyString");
+	    });
+	
+		addFact("string_count_test #8", function() {
+        
+			var emojiString = "🏡🔠👸👟🕔🕝💎 👣💎🎤🌊💎🕥🌑👵🎿 🎐📪👺🌸🍓 💎";
+			var numDiamonds = string_count("💎", emojiString);
+			assert_equals(numDiamonds, 4, "Four diamond emoji in emojiString");
+	    });
+	}
+	
+	// STRING_DELETE TESTS
+	{
+		addFact("string_delete_test #1", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#1 string_delete( string local , real const , real const )
+			var res = string_delete(vstring, 7, 1);
+			assert_equals(res, "Hello orld!", "string_delete( string local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #2", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#2 string_delete( string local , real const , real const )
+			var res = string_delete(vstring, 7, 2);
+			assert_equals(res, "Hello rld!", "#2 string_delete( string local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #3", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#3 string_delete( string local , real const , real const ) - delete count > ramining string length
+			var res = string_delete(vstring, 7, 50);
+			assert_equals(res, "Hello ", "#3 string_delete( string local , real const , real const ) - delete count > ramining string length");
+	    });
+	
+		addFact("string_delete_test #4", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#4 string_delete( string local , real const , real const ) - delete zero count
+			var res = string_delete(vstring, 7, 0);
+			assert_equals(res, "Hello World!", "#4 string_delete( string local , real const , real const ) - delete zero count");
+	    });
+	
+		addFact("string_delete_test #5", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#5 string_delete( string local , real const , real const ) - delete negative count
+			var res = string_delete(vstring, 7, -1);
+			assert_equals(res, "Hello orld!", "#5 string_delete( string local , real const , real const ) - delete negative count");
+	    });
+	
+		addFact("string_delete_test #6", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#6 string_delete( string local , real const , real const ) - index > string length
+			var res = string_delete(vstring, 100, 1);
+			assert_equals(res, "Hello World!", "#6 string_delete( string local , real const , real const ) - index > string length");
+	    });
+	
+		addFact("string_delete_test #7", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#7 string_delete( string local , real const , real const ) - zero index
+			var res = string_delete(vstring, 0, 1);
+			assert_equals(res, "Hello World!", "#7 string_delete( string local , real const , real const ) - zero index");
+	    });
+	
+		addFact("string_delete_test #8", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#8 string_delete( string local , real const , real const ) - negative index
+			var res = string_delete(vstring, -1, 1);
+			assert_equals(res, "Hello World", "#8 string_delete( string local , real const , real const ) - negative index");
+	    });
+	
+		addFact("string_delete_test #9", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#9 string_delete( string local , real const , real const )
+			var res = string_delete(vstring, 7, 2.4);
+			assert_equals(res, "Hello rld!", "#9 string_delete( string local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #10", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#10 string_delete( string local , real const , real const )
+			var res = string_delete(vstring, 7, 2.6);
+			assert_equals(res, "Hello rld!", "#10 string_delete( string local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #11", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#11 string_delete( string local , real const , real const )
+			var res = string_delete(vstring, 7.2, 2);
+			assert_equals(res, "Hello rld!", "#11 string_delete( string local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #12", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#12 string_delete( string local , real const , real const )
+			var res = string_delete(vstring, 7.6, 2);
+			assert_equals(res, "Hello rld!", "#12 string_delete( string local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #13", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#13 string_delete( string local , string const , real const )
+			var res = string_delete(vstring, "7", 2);
+			assert_equals(res, "Hello rld!", "#13 string_delete( string local , string const , real const )");
+	    });
+	
+		addFact("string_delete_test #14", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#14 string_delete( string local , real const , string const )
+			var res = string_delete(vstring, 7, "2");
+			assert_equals(res, "Hello rld!", "#14 string_delete( string local , real const , string const )");
+	    });
+	
+		addFact("string_delete_test #15", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#15 string_delete( string local , real const , real const ) - empty string
+			var res = string_delete("", 1, 1);
+			assert_equals(res, "", "#15 string_delete( string local , real const , real const ) - empty string");
+	    });
+	
+		addFact("string_delete_test #16", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#16 string_delete( int64 local , real const , real const )
+			var res = string_delete(int64(1234), 2, 1);
+			assert_true(is_string(res), "#16 string_delete( int64 local , real const , real const )");
+			assert_equals(res, "134", "#16 string_delete( int64 local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #17", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#17 string_delete( real local , real const , real const )
+			var res = string_delete(1.234, 2, 1);
+			assert_true(is_string(res), "#17 string_delete( real local , real const , real const )");
+			assert_equals(res, "123", "#17 string_delete( real local , real const , real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+	    });
+	
+		addFact("string_delete_test #18", function() {
+        
+			var vstring = "Hello World!";
+		
+			//#18 string_delete( bool local , real const , real const )
+			var res = string_delete(true, 1, 1);
+			assert_true(is_string(res), "#18 string_delete( bool local , real const , real const )");
+			assert_equals(res, "", "#18 string_delete( bool local , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #19", function() {
+        
+			#macro kString_StringDeleteTest "Hello World!"
+		
+			//#19 string_delete( string macro , real const , real const )
+			var res = string_delete(kString_StringDeleteTest, 7, 1);
+			assert_equals(res, "Hello orld!", "#19 string_delete( string macro , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #20", function() {
+        
+			global.gstring = "Hello World!";
+		
+			//#20 string_delete( string global , real const , real const )
+			var res = string_delete(global.gstring, 7, 1);
+			assert_equals(res, "Hello orld!", "#20 string_delete( string global , real const , real const )");
+	    });
+	
+		addFact("string_delete_test #21", function() {
+        
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
+		
+			//#21 string_delete( string instance , real const , real const )
+			var res = string_delete(_oTest.ostring, 7, 1);
+			assert_equals(res, "Hello orld!", "#21 string_delete( string instance , real const , real const )");
+		
+			instance_destroy(_oTest);
+	    });
+	
+		addFact("string_delete_test #22", function() {
+        
+			//#22 string_delete( string const , real const , real const ) - 2 byte UTF8
+			var res = string_delete("Price: £3.99", 1, 8);
+			assert_equals(res, "3.99", "#22 string_delete( string const , real const , real const ) - 2 byte UTF8");
+	    });
+	
+		addFact("string_delete_test #23", function() {
+        
+			//#23 string_delete( string const , real const , real const ) - 3 byte UTF8
+			var res = string_delete("Mizu (水)", 5, 4);
+			assert_equals(res, "Mizu", "#23 string_delete( string const , real const , real const ) - 3 byte UTF8");
+	    });
+	
+		addFact("string_delete_test #24", function() {
+        
+			//#24 string_delete( string const , real const , real const ) - 4 byte UTF8
+			var res = string_delete("🙂", 1, 1);
+			assert_equals(res, "", "#24 string_delete( string const , real const , real const ) - 4 byte UTF8");
+	    });
+	
+		addFact("string_delete_test #25", function() {
+        
+			// #25
+			var res = string_delete("🙂x🙂", 2, 1);
+			assert_equals(res, "🙂🙂", "#25 string_delete( string const , real const , real const ) - 2x4 byte UTF8");
+	    });
+	
+		addFact("string_delete_test #26", function() {
+        
+			// #26
+			var res = string_delete("🙂x🙂x🙂", 4, 1);
+			assert_equals(res, "🙂x🙂🙂", "#26 string_delete( string const , real const , real const ) - 2x4 byte UTF8");
+	    });
+	
+		addFact("string_delete_test #27", function() {
+        
+			// #27
+			var res = string_delete("🙂x🙂x🙂x🙂", 6, 1);
+			assert_equals(res, "🙂x🙂x🙂🙂", "#27 string_delete( string const , real const , real const ) - 4x4 byte UTF8");
+	    });
+	
+		addFact("string_delete_test #27", function() {
+        
+			// #28
+			var res = string_delete("🙂x🙂x🙂x🙂", 5, 1);
+			assert_equals(res, "🙂x🙂xx🙂", "#28 string_delete( string const , real const , real const ) - 4x4 byte UTF8");
+	    });
+	}
+	
+	// STRING_DIGITS TESTS
+	{
+		addFact("string_digits_test #1", function() {
+        
+			var vstring1 = "321!HeLlO WoRlD!123";
+		
+			//#1 string_digits( string local )
+			var res = string_digits(vstring1);
+			assert_equals(res, "321123", "#1 string_digits( string local )");
+	    });
+	
+		addFact("string_digits_test #2", function() {
+        
+			var vstring2 = "!£水🙂";
+		
+			//#2 string_digits( string local ) - no digits
+			var res = string_digits(vstring2);
+			assert_equals(res, "", "#2 string_digits( string local ) - no digits");
+	    });
+	
+		addFact("string_digits_test #3", function() {
+        
+			var vstring3 = "";
+		
+			//#3 string_digits( string local ) - empty string
+			var res = string_digits(vstring3);
+			assert_equals(res, "", "#3 string_digits( string local ) - empty string");
+	    });
+	
+		addFact("string_digits_test #4", function() {
+        
+			var vstring4 = "1234";
+		
+			//#4 string_digits( string local ) - all digits
+			var res = string_digits(vstring4);
+			assert_equals(res, "1234", "#4 string_digits( string local ) - all letters");
+	    });
+	
+		addFact("string_digits_test #5", function() {
+        		
+			//#5 string_digits( real const )
+			var res = string_digits(1234);
+			assert_equals(res, "1234", "#5 string_digits( real const )");
+	    });
+	
+		addFact("string_digits_test #6", function() {
+        		
+			//#6 string_digits( real const )
+			var res = string_digits(1.234);
+			assert_equals(res, "123", "#6 string_digits( real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+	    });
+	
+		addFact("string_digits_test #7", function() {
+        		
+			#macro kString_StringDigitsTest "321!Hello World!123";
+		
+			//#7 string_digits( string macro )
+			var res = string_digits(kString_StringDigitsTest);
+			assert_equals(res, "321123", "#7 string_digits( string macro )");
+	    });
+	
+		addFact("string_digits_test #8", function() {
+        		
+			global.gstring = "321!Hello World!123";
+		
+			//#8 string_digits( string global )
+			var res = string_digits(global.gstring);
+			assert_equals(res, "321123", "#8 string_digits( string global )");
+	    });
+	
+		addFact("string_digits_test #9", function() {
+        		
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "321!Hello World!123";
+		
+			//#9 string_digits( string instance )
+			var res = string_digits(_oTest.ostring);
+			assert_equals(res, "321123", "#9 string_digits( string instance )");
 			
-		var smileyPosLiteral = string_copy("This is a test 🙂", 16, 1);
-		assert_equals(smileyPosLiteral, "🙂", "Copy the smiley face from a string literal");
+			instance_destroy(_oTest);
+	    });
+	}
+	
+	// STRING_FORMAT TESTS
+	{
+		addFact("string_format_test #1", function() {
+        		
+			// With vars
+			var testNum = 123456;
+			var testStr = string_format(testNum, 6, 0);
+			assert_equals(testStr, "123456", "Simple string format test with vars");
+		});
+	
+		addFact("string_format_test #2", function() {
+        		
+			// With literals
+			var testStr2 = string_format(123456789, 9, 0);
+			assert_equals(testStr2, "123456789", "Simple string format test with literals");
+		});
+	
+		addFact("string_format_test #3", function() {
+        		
+			// Fractional formatting
+			var testStr3 = string_format(123, 3, 3);
+			assert_equals(testStr3, "123.000", "String format adding zeros to a whole number");
+		});
+	
+		addFact("string_format_test #4", function() {
+        		
+			var fracNum = 123.456;
 			
-		var emojiString = "✔✔✔💩👏";
-		var clapEmojiStr = string_copy(emojiString, 5, 1);
-		assert_equals(clapEmojiStr, "👏", "Copy the clap emoji");
+			var fracStr = string_format(fracNum, 3, 3);
+			assert_equals(fracStr, "123.456", "Simple fractional string format");
+		});
+	
+		addFact("string_format_test #5", function() {
+        		
+			var fracNum = 123.456;
 			
-		emojiString = "✔✔✔💩👏 hello world";
-		clapEmojiStr = string_copy(emojiString, 5, 13);
-		assert_equals(clapEmojiStr, "👏 hello world", "Copy the hello world as well, after the clap emoji");
+			var fracStr2 = string_format(fracNum, 6, 6);
+			assert_equals(fracStr2, "   123.456000", "Fractional string with padding on the left and right of the decimal point");
+		});
+	
+		addFact("string_format_test #6", function() {
+        		
+			var fracNum = 123.456;
 			
-		//show_debug_message("End string_copy test");
-	})
+			var fracStr3 = string_format(fracNum, 3, 0);
+			assert_equals(fracStr3, "123", "Fractional string with decimal part discarded");
+		});
+	}
+	
+	// STRING_HASH_TO_NEWLINE TESTS
+	{
+		addFact("string_hash_to_newline_test #1", function() {
 
-	addFact("string_count_test", function() {
+			var helloWorldOld = "Hello#World";
+			var helloWorldNew = string_hash_to_newline(helloWorldOld);
+			assert_equals(helloWorldNew, "Hello\r\nWorld", "Hello#World to Hello\\r\\nWorld");
+		});
+	
+		addFact("string_hash_to_newline_test #2", function() {
+        		
+			var priceString  = "£99#99";
+			var priceSplit = string_hash_to_newline(priceString);
+			assert_equals(priceSplit, "£99\r\n99", "£99#99 to £99\\r\\n99");
+		});
+	
+		addFact("string_hash_to_newline_test #3", function() {
+        		
+			var euroString = "€99#99";
+			var euroSplit = string_hash_to_newline(euroString);
+			assert_equals(euroSplit, "€99\r\n99", "€99#99 to €99\\r\\n99");
+		});
+	
+		addFact("string_hash_to_newline_test #4", function() {
+        		
+			var emojiString = "👏👏#👏";
+			var emojiSplit = string_hash_to_newline(emojiString);
+			assert_equals(emojiSplit, "👏👏\r\n👏", "👏👏#👏 to 👏👏\\r\\n👏");
+		});
+	}
+	
+	// STRING_INSERT TESTS
+	{
+		addFact("string_insert_test #1", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#1 string_insert( string const , string local , real const )
+			var res = string_insert("xx", vstring, 1);
+			assert_equals(res, "xxHello World!", "#1 string_insert( string const , string local , real const )");
+		});
+	
+		addFact("string_insert_test #2", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#2 string_insert( string const , string local , real const )
+			var res = string_insert("xx", vstring, 2);
+			assert_equals(res, "Hxxello World!", "#2 string_insert( string const , string local , real const )");
+		});
+	
+		addFact("string_insert_test #3", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#3 string_insert( string const , string local , real const ) - insert count > ramining string length
+			var res = string_insert("xx", vstring, 50);
+			assert_equals(res, "Hello World!xx", "#3 string_insert( string const , string local , real const ) - insert count > ramining string length");
+		});
+	
+		addFact("string_insert_test #4", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#4 string_insert( string const , string local , real const ) - insert zero count
+			var res = string_insert("xx", vstring, 0);
+			assert_equals(res, "xxHello World!", "#4 string_insert( string const , string local , real const ) - insert zero count");
+		});
+	
+		addFact("string_insert_test #5", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#5 string_insert( string const , string local , real const ) - insert negative count
+			var res = string_insert("xx", vstring, -1);
+			assert_equals(res, "xxHello World!", "#5 string_insert( string const , string local , real const ) - insert negative count");
+		});
+	
+		addFact("string_insert_test #6", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#6 string_insert( string const , string local , real const ) - index > string length
+			var res = string_insert("xx", vstring, 1);
+			assert_equals(res, "xxHello World!", "#6 string_insert( string const , string local , real const ) - index > string length");
+		});
+	
+		addFact("string_insert_test #7", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#7 string_insert( string const , string local , real const )
+			var res = string_insert("xx", vstring, 2.4);
+			assert_equals(res, "Hxxello World!", "#7 string_insert( string const , string local , real const )");
+		});
+	
+		addFact("string_insert_test #8", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#8 string_insert( string const , string local , real const )
+			var res = string_insert("xx", vstring, 2.6);
+			assert_equals(res, "Hxxello World!", "#8 string_insert( string const , string local , real const )");
+		});
+	
+		addFact("string_insert_test #9", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#9 string_insert( string const , string local , string const )
+			var res = string_insert("xx", vstring, "2");
+			assert_equals(res, "Hxxello World!", "#9 string_insert( string const , string local , string const )");
+		});
+	
+		addFact("string_insert_test #10", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#10 string_insert( string const , string const , real const ) - empty string
+			var res = string_insert("xx", "", 1);
+			assert_equals(res, "xx", "#10 string_insert( string const , string const , real const ) - empty string");
+		});
+	
+		addFact("string_insert_test #11", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#11 string_insert( string const , string const , real const ) - empty string
+			var res = string_insert("xx", "", 10);
+			assert_equals(res, "xx", "#11 string_insert( string const , string const , real const ) - empty string");
+		});
+	
+		addFact("string_insert_test #12", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#12 string_insert( string const , string const , real const ) - empty string
+			var res = string_insert("xx", "", -10);
+			assert_equals(res, "xx", "#12 string_insert( string const , string const , real const ) - empty string");
+		});
+	
+		addFact("string_insert_test #13", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#13 string_insert( string const , int64 local , real const )
+			var res = string_insert("xx", int64(1234), 1);
+			assert_true(is_string(res), "#13 string_insert( string const , int64 local , real const )");
+			assert_equals(res, "xx1234", "#13 string_insert( string const , int64 local , real const )");
+		});
+	
+		addFact("string_insert_test #14", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#14 string_insert( string const , real local , real const )
+			var res = string_insert("xx", 1.234, 1);
+			assert_true(is_string(res), "#14 string_insert( string const , real local , real const )");
+			assert_equals(res, "xx1.23", "#14 string_insert( string const , real local , real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+		});
+	
+		addFact("string_insert_test #15", function() {
+        		
+			var vstring = "Hello World!";
+		
+			//#15 string_insert( string const , bool local , real const )
+			var res = string_insert("xx", true, 1);
+			assert_true(is_string(res), "#15 string_insert( string const , bool local , real const )");
+			assert_equals(res, "xx1", "#15 string_insert( string const , bool local , real const )");
+		});
+	
+		addFact("string_insert_test #16", function() {
+        		
+			#macro kString_StringInsertTest "Hello World!"
+		
+			//#16 string_insert( string const , string macro , real const )
+			var res = string_insert("xx", kString_StringInsertTest, 8);
+			assert_equals(res, "Hello Wxxorld!", "#16 string_insert( string const , string macro , real const )");
+		});
+	
+		addFact("string_insert_test #17", function() {
+        		
+			global.gstring = "Hello World!";
+		
+			//#17 string_insert( string const , string global , real const )
+			var res = string_insert("xx", global.gstring, 8);
+			assert_equals(res, "Hello Wxxorld!", "#17 string_insert( string const , string global , real const )");
+		});
+	
+		addFact("string_insert_test #18", function() {
+        		
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
+		
+			//#18 string_insert( string const , string instance , real const )
+			var res = string_insert("xx", _oTest.ostring, 8);
+			assert_equals(res, "Hello Wxxorld!", "#18 string_insert( string const , string instance , real const )");
+		
+			instance_destroy(_oTest)
+		});
+	
+		addFact("string_insert_test #19", function() {
 
-		// string_count test
-		//show_debug_message("Begin string_count test");
-			
-		// Basic tests
-		var helloWorldStr = "Hello World";
-		var numLs = string_count("l", helloWorldStr);
-		var numOs = string_count("o", helloWorldStr);
-		assert_equals(numLs, 3, "3 Ls in \"Hello World\"");
-		assert_equals(numOs, 2, "2 Os in \"Hello World\"");
-			
-		var numHellos = string_count("Hello", helloWorldStr);
-		var numWorlds = string_count("World", helloWorldStr);
-		assert_equals(numHellos, 1, "One \"Hello\" in \"Hello World\"");
-		assert_equals(numWorlds, 1, "One \"World\" in \"Hello World\"");
-			
-		var poundStr = "£12.34";
-		var numPounds = string_count("£", poundStr);
-		assert_equals(numPounds, 1, "One pound glyph in poundStr");
-			
-		var ninesStr = "£999.99";
-		var numNines = string_count("9", ninesStr);
-		assert_equals(numNines, 5, "Five nines in ninesStr");
-			
-		var euroStr = "€12.34";
-		var numEuros = string_count("€", euroStr);
-		assert_equals(numEuros, 1, "One euro glyph in euroStr");
-			
-		var fivesStr = "€12555.55"
-		var numFives = string_count("5", fivesStr);
-		assert_equals(numFives, 5, "Five fives in fivesStr");
-			
-		var aikido = "合気道合気道合気道合気道";
-		var numAi = string_count("合", aikido);
-		assert_equals(numAi, 4, "Four Ai glyphs in aikido string");
-			
-		var smileyString = "This is a test 🙂";
-		var numSmileys = string_count("🙂", smileyString);
-		assert_equals(numSmileys, 1, "Only one smiley in smileyString");
-			
-		var emojiString = "🏡🔠👸👟🕔🕝💎 👣💎🎤🌊💎🕥🌑👵🎿 🎐📪👺🌸🍓 💎";
-		var numDiamonds = string_count("💎", emojiString);
-		assert_equals(numDiamonds, 4, "Four diamond emoji in emojiString");
-			
-		//show_debug_message("End string_count test");
-	})
+			//#20 string_insert( string const , string const , real const ) - 2 byte UTF8
+			var res = string_insert("£", "Price: 3.99", 8);
+			assert_equals(res, "Price: £3.99", "#20 string_insert( string const , string const , real const ) - 2 byte UTF8");
+		});
+	
+		addFact("string_insert_test #20", function() {
 
-	addFact("string_delete_test", function() {
+			//#21 string_insert( string const , string const , real const ) - 3 byte UTF8
+			var res = string_insert("水", "Mizu () is the kanji symbol for water", 7);
+			assert_equals(res, "Mizu (水) is the kanji symbol for water", "#21 string_insert( string const , string const , real const ) - 3 byte UTF8");
+		});
+	
+		addFact("string_insert_test #21", function() {
 
-		//string_delete test
-		//show_debug_message("start string_delete() test");
-			
-		var vstring = "Hello World!"
-			
-		var res;
-			
-		//#1 string_delete( string local , real const , real const )
-		res = string_delete(vstring, 7, 1);
-		assert_equals(res, "Hello orld!", "#1 string_delete( string local , real const , real const )")
-			
-		//#2 string_delete( string local , real const , real const )
-		res = string_delete(vstring, 7, 2);
-		assert_equals(res, "Hello rld!", "#2 string_delete( string local , real const , real const )")
-			
-		//#3 string_delete( string local , real const , real const ) - delete count > ramining string length
-		res = string_delete(vstring, 7, 50);
-		assert_equals(res, "Hello ", "#3 string_delete( string local , real const , real const ) - delete count > ramining string length")
-			
-		//#4 string_delete( string local , real const , real const ) - delete zero count
-		res = string_delete(vstring, 7, 0);
-		assert_equals(res, "Hello World!", "#4 string_delete( string local , real const , real const ) - delete zero count")
-			
-		//#5 string_delete( string local , real const , real const ) - delete negative count
-		res = string_delete(vstring, 7, -1);
-		assert_equals(res, "Hello orld!", "#5 string_delete( string local , real const , real const ) - delete negative count")
-			
-		//#6 string_delete( string local , real const , real const ) - index > string length
-		res = string_delete(vstring, 100, 1);
-		assert_equals(res, "Hello World!", "#6 string_delete( string local , real const , real const ) - index > string length")
-			
-		//#7 string_delete( string local , real const , real const ) - zero index
-		res = string_delete(vstring, 0, 1);
-		assert_equals(res, "Hello World!", "#7 string_delete( string local , real const , real const ) - zero index")
-			
-		//#8 string_delete( string local , real const , real const ) - negative index
-		res = string_delete(vstring, -1, 1);
-		assert_equals(res, "Hello World", "#8 string_delete( string local , real const , real const ) - negative index")
-			
-		//#9 string_delete( string local , real const , real const )
-		res = string_delete(vstring, 7, 2.4);
-		assert_equals(res, "Hello rld!", "#9 string_delete( string local , real const , real const )")
-			
-		//#10 string_delete( string local , real const , real const )
-		res = string_delete(vstring, 7, 2.6);
-		assert_equals(res, "Hello rld!", "#10 string_delete( string local , real const , real const )")
-			
-		//#11 string_delete( string local , real const , real const )
-		res = string_delete(vstring, 7.2, 2);
-		assert_equals(res, "Hello rld!", "#11 string_delete( string local , real const , real const )")
-			
-		//#12 string_delete( string local , real const , real const )
-		res = string_delete(vstring, 7.6, 2);
-		assert_equals(res, "Hello rld!", "#12 string_delete( string local , real const , real const )")
-			
-		//#13 string_delete( string local , string const , real const )
-		res = string_delete(vstring, "7", 2);
-		assert_equals(res, "Hello rld!", "#13 string_delete( string local , string const , real const )")
-			
-		//#14 string_delete( string local , real const , string const )
-		res = string_delete(vstring, 7, "2");
-		assert_equals(res, "Hello rld!", "#14 string_delete( string local , real const , string const )")
-			
-			
-		//#15 string_delete( string local , real const , real const ) - empty string
-		res = string_delete("", 1, 1);
-		assert_equals(res, "", "#15 string_delete( string local , real const , real const ) - empty string")
-			
-			
-		//#16 string_delete( int64 local , real const , real const )
-		res = string_delete(int64(1234), 2, 1);
-		assert_true(is_string(res), "#16 string_delete( int64 local , real const , real const )")
-		assert_equals(res, "134", "#16 string_delete( int64 local , real const , real const )")
-			
-		//#17 string_delete( real local , real const , real const )
-		res = string_delete(1.234, 2, 1);
-		assert_true(is_string(res), "#17 string_delete( real local , real const , real const )")
-		assert_equals(res, "123", "#17 string_delete( real local , real const , real const )") // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-		//#18 string_delete( bool local , real const , real const )
-		res = string_delete(true, 1, 1);
-		assert_true(is_string(res), "#18 string_delete( bool local , real const , real const )")
-		assert_equals(res, "", "#18 string_delete( bool local , real const , real const )")
-			
-			
-		#macro kString_StringDeleteTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#19 string_delete( string macro , real const , real const )
-		res = string_delete(kString_StringDeleteTest, 7, 1);
-		assert_equals(res, "Hello orld!", "#19 string_delete( string macro , real const , real const )")
-			
-		//#20 string_delete( string global , real const , real const )
-		res = string_delete(global.gstring, 7, 1);
-		assert_equals(res, "Hello orld!", "#20 string_delete( string global , real const , real const )")
-			
-		//#21 string_delete( string instance , real const , real const )
-		res = string_delete(_oTest.ostring, 7, 1);
-		assert_equals(res, "Hello orld!", "#21 string_delete( string instance , real const , real const )")
-			
-			
-		//#22 string_delete( string const , real const , real const ) - 2 byte UTF8
-		res = string_delete("Price: £3.99", 1, 8);
-		assert_equals(res, "3.99", "#22 string_delete( string const , real const , real const ) - 2 byte UTF8")
-			
-		//#23 string_delete( string const , real const , real const ) - 3 byte UTF8
-		res = string_delete("Mizu (水)", 5, 4);
-		assert_equals(res, "Mizu", "#23 string_delete( string const , real const , real const ) - 3 byte UTF8")
-			
-		//#24 string_delete( string const , real const , real const ) - 4 byte UTF8
-		res = string_delete("🙂", 1, 1);
-		assert_equals(res, "", "#24 string_delete( string const , real const , real const ) - 4 byte UTF8")
-			
-		// #25
-		res = string_delete("🙂x🙂", 2, 1);
-		assert_equals(res, "🙂🙂", "#25 string_delete( string const , real const , real const ) - 2x4 byte UTF8")
-			
-		// #26
-		res = string_delete("🙂x🙂x🙂", 4, 1);
-		assert_equals(res, "🙂x🙂🙂", "#26 string_delete( string const , real const , real const ) - 2x4 byte UTF8")
-			
-		// #27
-		res = string_delete("🙂x🙂x🙂x🙂", 6, 1);
-		assert_equals(res, "🙂x🙂x🙂🙂", "#27 string_delete( string const , real const , real const ) - 4x4 byte UTF8")
-			
-		// #28
-		res = string_delete("🙂x🙂x🙂x🙂", 5, 1);
-		assert_equals(res, "🙂x🙂xx🙂", "#28 string_delete( string const , real const , real const ) - 4x4 byte UTF8")
-			
-		instance_destroy(_oTest)
-	})
+			//#22 string_insert( string const , string const , real const ) - 4 byte UTF8
+			var res = string_insert("🙂", "", 1);
+			assert_equals(res, "🙂", "#22 string_insert( string const , string const , real const ) - 4 byte UTF8");
+		});
+	
+		addFact("string_insert_test #22", function() {
 
-	addFact("string_digits_test", function() {
+			var aString = "aaa";
+			var res = string_insert("🙂", aString, 2);
+			assert_equals(res, "a🙂aa", "#23");
+		});
+	
+		addFact("string_insert_test #23", function() {
 
-		//string_digits test
-		//show_debug_message("start string_digits() test");
-			
-		var vstring1 = "321!HeLlO WoRlD!123"
-		var vstring2 = "!£水🙂"
-		var vstring3 = ""
-		var vstring4 = "1234"
-			
-		var res;
-			
-		//#1 string_digits( string local )
-		res = string_digits(vstring1);
-		assert_equals(res, "321123", "#1 string_digits( string local )");
-			
-		//#2 string_digits( string local ) - no digits
-		res = string_digits(vstring2);
-		assert_equals(res, "", "#2 string_digits( string local ) - no digits");
-			
-		//#3 string_digits( string local ) - empty string
-		res = string_digits(vstring3);
-		assert_equals(res, "", "#3 string_digits( string local ) - empty string");
-			
-		//#4 string_digits( string local ) - all digits
-		res = string_digits(vstring4);
-		assert_equals(res, "1234", "#4 string_digits( string local ) - all letters");
-			
-		//#5 string_digits( real const )
-		res = string_digits(1234);
-		assert_equals(res, "1234", "#5 string_digits( real const )");
-			
-		//#6 string_digits( real const )
-		res = string_digits(1.234);
-		assert_equals(res, "123", "#6 string_digits( real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-			
-		#macro kString_StringDigitsTest "321!Hello World!123"
-		global.gstring = "321!Hello World!123";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "321!Hello World!123";
-			
-		//#7 string_digits( string macro )
-		res = string_digits(kString_StringDigitsTest);
-		assert_equals(res, "321123", "#7 string_digits( string macro )")
-			
-		//#8 string_digits( string global )
-		res = string_digits(global.gstring);
-		assert_equals(res, "321123", "#8 string_digits( string global )")
-			
-		//#9 string_digits( string instance )
-		res = string_digits(_oTest.ostring);
-		assert_equals(res, "321123", "#9 string_digits( string instance )")
-			
-			
-		instance_destroy(_oTest)
-	})
+			var smileyString = "🙂🙂🙂";
+			var res = string_insert("a", smileyString, 2);
+			assert_equals(res, "🙂a🙂🙂", "#24");
+		});
+	
+		addFact("string_insert_test #24", function() {
 
-	addFact("string_format_test", function() {
+			var res = string_insert("aa", smileyString, 3);
+			assert_equals(res, "🙂🙂aa🙂", "#25");
+		});
+	
+		addFact("string_insert_test #25", function() {
 
-		// string_format test
-		//show_debug_message("Begin string_format test")
-			
-		// Basic Test
-		// With vars
-		var testNum = 123456
-		var testStr = string_format(testNum, 6, 0)
-		assert_equals(testStr, "123456", "Simple string format test with vars")
-			
-		// With literals
-		var testStr2 = string_format(123456789, 9, 0)
-		assert_equals(testStr2, "123456789", "Simple string format test with literals")
-			
-		// Fractional formatting
-		var testStr3 = string_format(123, 3, 3)
-		assert_equals(testStr3, "123.000", "String format adding zeros to a whole number")
-			
-		var fracNum = 123.456
-			
-		var fracStr = string_format(fracNum, 3, 3)
-		assert_equals(fracStr, "123.456", "Simple fractional string format")
-			
-		var fracStr2 = string_format(fracNum, 6, 6)
-		assert_equals(fracStr2, "   123.456000", "Fractional string with padding on the left and right of the decimal point")
-			
-		var fracStr3 = string_format(fracNum, 3, 0)
-		assert_equals(fracStr3, "123", "Fractional string with decimal part discarded")
-			
-		//show_debug_message("End string_format test")
-	})
+			var res = string_insert("🙂", smileyString, 3);
+			assert_equals(res, "🙂🙂🙂🙂", "#26");
+		});
+	
+		addFact("string_insert_test #26", function() {
 
-	addFact("string_hash_to_newline_test", function() {
+			var res = string_insert("🙂🙂", smileyString, 3);
+			assert_equals(res, "🙂🙂🙂🙂🙂", "#27");
+		});
+	}
+	
+	// STRING_LAST_POS_EXT TESTS
+	{
+		addFact("string_last_pos_ext_test #1", function() {
 
-		// string_hash_to_newline test
-		//show_debug_message("Begin string_hash_to_newline test");
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
 			
-		// Basic tests
-		var helloWorldOld = "Hello#World";
-		var helloWorldNew = string_hash_to_newline(helloWorldOld);
-		assert_equals(helloWorldNew, "Hello\r\nWorld", "Hello#World to Hello\\r\\nWorld");
-			
-		var priceString  = "£99#99";
-		var priceSplit = string_hash_to_newline(priceString);
-		assert_equals(priceSplit, "£99\r\n99", "£99#99 to £99\\r\\n99");
-			
-		var euroString = "€99#99";
-		var euroSplit = string_hash_to_newline(euroString);
-		assert_equals(euroSplit, "€99\r\n99", "€99#99 to €99\\r\\n99");
-			
-		var emojiString = "👏👏#👏";
-		var emojiSplit = string_hash_to_newline(emojiString);
-		assert_equals(emojiSplit, "👏👏\r\n👏", "👏👏#👏 to 👏👏\\r\\n👏")
-			
-		//show_debug_message("End string_hash_to_newline test");
-	})
+			var helloPos = string_last_pos_ext("Hello", helloWorldStr, numChars);
+			var worldPos = string_last_pos_ext("world", helloWorldStr, numChars);
+			var exclamationPos = string_last_pos_ext("!", helloWorldStr, numChars);
+			assert_equals(helloPos, 13, "Hello Pos is 13 char in");
+			assert_equals(worldPos, 19, "World Pos is 19 char in");
+			assert_equals(exclamationPos, 24, "Exclamation is at 24 chars in");
+		});
+	
+		addFact("string_last_pos_ext_test #2", function() {
 
-	addFact("string_insert_test", function() {
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
+			
+			var helloPos = string_last_pos_ext("Hello", helloWorldStr, (numChars/2));
+			var worldPos = string_last_pos_ext("world", helloWorldStr, (numChars/2));
+			var exclamationPos = string_last_pos_ext("!", helloWorldStr, (numChars/2));
+			assert_equals(helloPos, 1, "Hello Pos is 1 char in");
+			assert_equals(worldPos, 7, "World Pos is 7 char in");
+			assert_equals(exclamationPos, 12, "Exclamation is at 12 chars in");
+		});
+	
+		addFact("string_last_pos_ext_test #3", function() {
 
-		//string_insert test
-		//show_debug_message("start string_insert() test");
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
 			
-		var vstring = "Hello World!"
-			
-		var res;
-			
-		//#1 string_insert( string const , string local , real const )
-		res = string_insert("xx", vstring, 1);
-		assert_equals(res, "xxHello World!", "#1 string_insert( string const , string local , real const )")
-			
-		//#2 string_insert( string const , string local , real const )
-		res = string_insert("xx", vstring, 2);
-		assert_equals(res, "Hxxello World!", "#2 string_insert( string const , string local , real const )")
-			
-		//#3 string_insert( string const , string local , real const ) - insert count > ramining string length
-		res = string_insert("xx", vstring, 50);
-		assert_equals(res, "Hello World!xx", "#3 string_insert( string const , string local , real const ) - insert count > ramining string length")
-			
-		//#4 string_insert( string const , string local , real const ) - insert zero count
-		res = string_insert("xx", vstring, 0);
-		assert_equals(res, "xxHello World!", "#4 string_insert( string const , string local , real const ) - insert zero count")
-			
-		//#5 string_insert( string const , string local , real const ) - insert negative count
-		res = string_insert("xx", vstring, -1);
-		assert_equals(res, "xxHello World!", "#5 string_insert( string const , string local , real const ) - insert negative count")
-			
-		//#6 string_insert( string const , string local , real const ) - index > string length
-		res = string_insert("xx", vstring, 1);
-		assert_equals(res, "xxHello World!", "#6 string_insert( string const , string local , real const ) - index > string length")
-			
-		//#7 string_insert( string const , string local , real const )
-		res = string_insert("xx", vstring, 2.4);
-		assert_equals(res, "Hxxello World!", "#7 string_insert( string const , string local , real const )")
-			
-		//#8 string_insert( string const , string local , real const )
-		res = string_insert("xx", vstring, 2.6);
-		assert_equals(res, "Hxxello World!", "#8 string_insert( string const , string local , real const )")
-			
-		//#9 string_insert( string const , string local , string const )
-		res = string_insert("xx", vstring, "2");
-		assert_equals(res, "Hxxello World!", "#9 string_insert( string const , string local , string const )")
-			
-			
-		//#10 string_insert( string const , string const , real const ) - empty string
-		res = string_insert("xx", "", 1);
-		assert_equals(res, "xx", "#10 string_insert( string const , string const , real const ) - empty string")
-			
-		//#11 string_insert( string const , string const , real const ) - empty string
-		res = string_insert("xx", "", 10);
-		assert_equals(res, "xx", "#11 string_insert( string const , string const , real const ) - empty string")
-			
-		//#12 string_insert( string const , string const , real const ) - empty string
-		res = string_insert("xx", "", -10);
-		assert_equals(res, "xx", "#12 string_insert( string const , string const , real const ) - empty string")
-			
-			
-		//#13 string_insert( string const , int64 local , real const )
-		res = string_insert("xx", int64(1234), 1);
-		assert_true(is_string(res), "#13 string_insert( string const , int64 local , real const )")
-		assert_equals(res, "xx1234", "#13 string_insert( string const , int64 local , real const )")
-			
-		//#14 string_insert( string const , real local , real const )
-		res = string_insert("xx", 1.234, 1);
-		assert_true(is_string(res), "#14 string_insert( string const , real local , real const )")
-		assert_equals(res, "xx1.23", "#14 string_insert( string const , real local , real const )") // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-		//#15 string_insert( string const , bool local , real const )
-		res = string_insert("xx", true, 1);
-		assert_true(is_string(res), "#15 string_insert( string const , bool local , real const )")
-		assert_equals(res, "xx1", "#15 string_insert( string const , bool local , real const )")
-			
-			
-		#macro kString_StringInsertTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#16 string_insert( string const , string macro , real const )
-		res = string_insert("xx", kString_StringInsertTest, 8);
-		assert_equals(res, "Hello Wxxorld!", "#16 string_insert( string const , string macro , real const )")
-			
-		//#17 string_insert( string const , string global , real const )
-		res = string_insert("xx", global.gstring, 8);
-		assert_equals(res, "Hello Wxxorld!", "#17 string_insert( string const , string global , real const )")
-			
-		//#18 string_insert( string const , string instance , real const )
-		res = string_insert("xx", _oTest.ostring, 8);
-		assert_equals(res, "Hello Wxxorld!", "#18 string_insert( string const , string instance , real const )")
-			
-			
-		//#20 string_insert( string const , string const , real const ) - 2 byte UTF8
-		res = string_insert("£", "Price: 3.99", 8);
-		assert_equals(res, "Price: £3.99", "#20 string_insert( string const , string const , real const ) - 2 byte UTF8")
-			
-		//#21 string_insert( string const , string const , real const ) - 3 byte UTF8
-		res = string_insert("水", "Mizu () is the kanji symbol for water", 7);
-		assert_equals(res, "Mizu (水) is the kanji symbol for water", "#21 string_insert( string const , string const , real const ) - 3 byte UTF8")
-			
-		//#22 string_insert( string const , string const , real const ) - 4 byte UTF8
-		res = string_insert("🙂", "", 1);
-		assert_equals(res, "🙂", "#22 string_insert( string const , string const , real const ) - 4 byte UTF8")
-			
-		var aString = "aaa";
-		res = string_insert("🙂", aString, 2);
-		assert_equals(res, "a🙂aa", "#23");
-			
-		var smileyString = "🙂🙂🙂";
-		res = string_insert("a", smileyString, 2);
-		assert_equals(res, "🙂a🙂🙂", "#24");
-			
-		res = string_insert("aa", smileyString, 3);
-		assert_equals(res, "🙂🙂aa🙂", "#25");
-			
-		res = string_insert("🙂", smileyString, 3);
-		assert_equals(res, "🙂🙂🙂🙂", "#26");
-			
-		res = string_insert("🙂🙂", smileyString, 3);
-		assert_equals(res, "🙂🙂🙂🙂🙂", "#27");
-			
-		instance_destroy(_oTest)
-	})
+			var exclamationPos = string_last_pos_ext("!", helloWorldStr, (numChars/2)-1);
+			assert_equals(exclamationPos, 0, "Exclamation not found");
+		});
+	
+		addFact("string_last_pos_ext_test #4", function() {
 
-	addFact("string_last_pos_ext_test", function() {
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
+			
+			var longPos = string_last_pos_ext(helloWorldStr, "!", numChars);
+			assert_equals(longPos, 0, "Long string not found in short one");
+		});
+	
+		addFact("string_last_pos_ext_test #5", function() {
 
-		// string_last_pos_ext test
-		//show_debug_message("Begin string_last_pos_ext test");
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
 			
-		// Basic tests
-		var helloWorldStr = "Hello world!Hello world!";
-		var numChars = string_length(helloWorldStr);
+			var samePos = string_last_pos_ext(helloWorldStr, helloWorldStr, numChars);
+			assert_equals(samePos, 1, "String found in itself");
+		});
+	
+		addFact("string_last_pos_ext_test #6", function() {
+
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
 			
-		var helloPos = string_last_pos_ext("Hello", helloWorldStr, numChars);
-		var worldPos = string_last_pos_ext("world", helloWorldStr, numChars);
-		var exclamationPos = string_last_pos_ext("!", helloWorldStr, numChars);
-		assert_equals(helloPos, 13, "Hello Pos is 13 char in");
-		assert_equals(worldPos, 19, "World Pos is 19 char in");
-		assert_equals(exclamationPos, 24, "Exclamation is at 24 chars in");
+			var zeroPos = string_last_pos_ext("Hello", helloWorldStr, 0);
+			assert_equals(zeroPos, 0, "Hello not found with start_pos zero");
+		});
+	
+		addFact("string_last_pos_ext_test #7", function() {
+
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
 			
-		helloPos = string_last_pos_ext("Hello", helloWorldStr, (numChars/2));
-		worldPos = string_last_pos_ext("world", helloWorldStr, (numChars/2));
-		exclamationPos = string_last_pos_ext("!", helloWorldStr, (numChars/2));
-		assert_equals(helloPos, 1, "Hello Pos is 1 char in");
-		assert_equals(worldPos, 7, "World Pos is 7 char in");
-		assert_equals(exclamationPos, 12, "Exclamation is at 12 chars in");
-			
-		exclamationPos = string_last_pos_ext("!", helloWorldStr, (numChars/2)-1);
-		assert_equals(exclamationPos, 0, "Exclamation not found");
-			
-		var longPos = string_last_pos_ext(helloWorldStr, "!", numChars);
-		assert_equals(longPos, 0, "Long string not found in short one");
-			
-		var samePos = string_last_pos_ext(helloWorldStr, helloWorldStr, numChars);
-		assert_equals(samePos, 1, "String found in itself");
-			
-		var zeroPos = string_last_pos_ext("Hello", helloWorldStr, 0);
-		assert_equals(zeroPos, 0, "Hello not found with start_pos zero");
-			
-		var negPos = string_last_pos_ext("Hello", helloWorldStr, -1);
-		assert_equals(negPos, 0, "Hello not found with negative start_pos");
-			
-		// Test zero
-		var helloNil = string_last_pos_ext("hello", helloWorldStr, numChars);
-		assert_equals(helloNil, 0, "hello is not featured in the Hello world! string");
-			
-		// UTF8 tests
-		var poundPrice = "£99.99";
-		numChars = string_length(poundPrice);
-		var poundPos = string_last_pos_ext("£", poundPrice, numChars);
-		assert_equals(poundPos, 1, "Pound glyph is the first char");
-		var periodCharPos = string_last_pos_ext(".", poundPrice, numChars);
-		assert_equals(periodCharPos, 4, "Period char is the fourth character in poundPrice");
-			
-		var euroPrice = "€59.99";
-		numChars = string_length(euroPrice);
-		var euroPos = string_last_pos_ext("€", euroPrice, numChars);
-		assert_equals(euroPos, 1, "Euro glyph is the first char");
-		var euroPeriodCharPos = string_last_pos_ext(".", euroPrice, numChars);
-		assert_equals(euroPeriodCharPos, 4, "Period char is the fourth character in euroPrice");
-			
-		var aikido = "合気道";
-		numChars = string_length(aikido);
-		var aiPos = string_last_pos_ext("合", aikido, numChars);
-		var kiPos = string_last_pos_ext("気", aikido, numChars);
-		var doPos = string_last_pos_ext("道", aikido, numChars);
-		assert_equals(aiPos, 1, "Ai is the first char");
-		assert_equals(kiPos, 2, "Ki is the second char");
-		assert_equals(doPos, 3, "Do is the third char");
-			
-		var kotegaeshi = "小手返 Test";
-		numChars = string_length(kotegaeshi);
-		var kotegaeshiTestPos = string_last_pos_ext("Test", kotegaeshi, numChars);
-		assert_equals(kotegaeshiTestPos, 5, "Test is 5 chars in");
-			
-		// Emoji!
-		var smileyString = "This is a test 🙂";
-		var smileyPos = string_last_pos_ext("🙂", smileyString, string_length(smileyString));
-		assert_equals(smileyPos, 16, "Smiley face is 16 chars in");
-			
-		var smileyPosLiteral = string_last_pos_ext("🙂", "This is a test 🙂", 16);
-		assert_equals(smileyPosLiteral, 16, "Smiley face is 16 chars in a literal string");
-			
-		var emojiString = "✔✔✔💩👏";
-		var res = string_last_pos_ext("👏", emojiString, string_length(emojiString));
-		assert_equals(res, 5, "Clap emoji the 5th char");
-			
-		var moreEmojiString = "✔✔✔💩😀😁😂👏";
-		res = string_last_pos_ext("👏", moreEmojiString, string_length(moreEmojiString));
-		assert_equals(res, 8, "Clap emoji the 8th char");
-			
-		var emojiString3 = "✔✔✔💩😀aa😁😂👏";
-		res = string_last_pos_ext("👏", emojiString3, string_length(emojiString3));
-		assert_equals(res, 10, "Clap emoji the 10th char");
-			
-		var emojiString4 = "✔✔✔💩😀😁😂👏aa";
-		res = string_last_pos_ext("aa", emojiString4, string_length(emojiString4));
-		assert_equals(res, 9, "\"aa\" is the 9th and 10th char");
-			
-		//show_debug_message("End string_last_pos_ext test");
-	})
+			var negPos = string_last_pos_ext("Hello", helloWorldStr, -1);
+			assert_equals(negPos, 0, "Hello not found with negative start_pos");
+		});
+	
+		addFact("string_last_pos_ext_test #8", function() {
+
+			var helloWorldStr = "Hello world!Hello world!";
+			var numChars = string_length(helloWorldStr);
+		
+			// Test zero
+			var helloNil = string_last_pos_ext("hello", helloWorldStr, numChars);
+			assert_equals(helloNil, 0, "hello is not featured in the Hello world! string");
+		});
+	
+		addFact("string_last_pos_ext_test #9", function() {
+		
+			// UTF8 tests
+			var poundPrice = "£99.99";
+			var numChars = string_length(poundPrice);
+		
+			var poundPos = string_last_pos_ext("£", poundPrice, numChars);
+			assert_equals(poundPos, 1, "Pound glyph is the first char");
+			var periodCharPos = string_last_pos_ext(".", poundPrice, numChars);
+			assert_equals(periodCharPos, 4, "Period char is the fourth character in poundPrice");
+		});
+	
+		addFact("string_last_pos_ext_test #10", function() {
+
+			var euroPrice = "€59.99";
+			var numChars = string_length(euroPrice);
+		
+			var euroPos = string_last_pos_ext("€", euroPrice, numChars);
+			assert_equals(euroPos, 1, "Euro glyph is the first char");
+			var euroPeriodCharPos = string_last_pos_ext(".", euroPrice, numChars);
+			assert_equals(euroPeriodCharPos, 4, "Period char is the fourth character in euroPrice");
+		});
+	
+		addFact("string_last_pos_ext_test #11", function() {
+
+			var aikido = "合気道";
+			var numChars = string_length(aikido);
+		
+			var aiPos = string_last_pos_ext("合", aikido, numChars);
+			var kiPos = string_last_pos_ext("気", aikido, numChars);
+			var doPos = string_last_pos_ext("道", aikido, numChars);
+			assert_equals(aiPos, 1, "Ai is the first char");
+			assert_equals(kiPos, 2, "Ki is the second char");
+			assert_equals(doPos, 3, "Do is the third char");
+		});
+	
+		addFact("string_last_pos_ext_test #12", function() {
+
+			var kotegaeshi = "小手返 Test";
+			var numChars = string_length(kotegaeshi);
+		
+			var kotegaeshiTestPos = string_last_pos_ext("Test", kotegaeshi, numChars);
+			assert_equals(kotegaeshiTestPos, 5, "Test is 5 chars in");
+		});
+	
+		addFact("string_last_pos_ext_test #13", function() {
+
+			// Emoji!
+			var smileyString = "This is a test 🙂";
+			var smileyPos = string_last_pos_ext("🙂", smileyString, string_length(smileyString));
+			assert_equals(smileyPos, 16, "Smiley face is 16 chars in");
+		});
+	
+		addFact("string_last_pos_ext_test #14", function() {
+
+			var smileyPosLiteral = string_last_pos_ext("🙂", "This is a test 🙂", 16);
+			assert_equals(smileyPosLiteral, 16, "Smiley face is 16 chars in a literal string");
+		});
+	
+		addFact("string_last_pos_ext_test #15", function() {
+
+			var emojiString = "✔✔✔💩👏";
+			var res = string_last_pos_ext("👏", emojiString, string_length(emojiString));
+			assert_equals(res, 5, "Clap emoji the 5th char");
+		});
+	
+		addFact("string_last_pos_ext_test #16", function() {
+
+			var moreEmojiString = "✔✔✔💩😀😁😂👏";
+			var res = string_last_pos_ext("👏", moreEmojiString, string_length(moreEmojiString));
+			assert_equals(res, 8, "Clap emoji the 8th char");
+		});
+	
+		addFact("string_last_pos_ext_test #17", function() {
+
+			var emojiString3 = "✔✔✔💩😀aa😁😂👏";
+			var res = string_last_pos_ext("👏", emojiString3, string_length(emojiString3));
+			assert_equals(res, 10, "Clap emoji the 10th char");
+		});
+	
+		addFact("string_last_pos_ext_test #18", function() {
+
+			var emojiString4 = "✔✔✔💩😀😁😂👏aa";
+			var res = string_last_pos_ext("aa", emojiString4, string_length(emojiString4));
+			assert_equals(res, 9, "\"aa\" is the 9th and 10th char");
+		});
+	}
+	
+	// STRING_LAST_POS TESTS
 
 	addFact("string_last_pos_test", function() {
 
