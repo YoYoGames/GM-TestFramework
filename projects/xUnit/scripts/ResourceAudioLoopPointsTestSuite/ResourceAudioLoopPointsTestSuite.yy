@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ResourceAudioLoopPointsTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ResourceAudioLoopPointsTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

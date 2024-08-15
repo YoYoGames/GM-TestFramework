@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_compressed",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":1,
+  "conversionMode":0,
+  "duration":26.592,
+  "name":"snd_compressed",
+  "parent":{
+    "name":"sounds",
+    "path":"folders/Tests/TestResources/sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_compressed.mp3",
+  "type":0,
+  "volume":1.0,
+}
