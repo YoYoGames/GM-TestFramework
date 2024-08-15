@@ -315,6 +315,7 @@
     {"id":{"name":"Property","path":"scripts/Property/Property.yy",},},
     {"id":{"name":"PropertyHolder","path":"scripts/PropertyHolder/PropertyHolder.yy",},},
     {"id":{"name":"PublisherAPI","path":"scripts/PublisherAPI/PublisherAPI.yy",},},
+    {"id":{"name":"Rect","path":"scripts/Rect/Rect.yy",},},
     {"id":{"name":"ResourceAudioEffectsTestSuite","path":"scripts/ResourceAudioEffectsTestSuite/ResourceAudioEffectsTestSuite.yy",},},
     {"id":{"name":"ResourceAudioEmittersTestSuite","path":"scripts/ResourceAudioEmittersTestSuite/ResourceAudioEmittersTestSuite.yy",},},
     {"id":{"name":"ResourceAudioGroupsTestSuite","path":"scripts/ResourceAudioGroupsTestSuite/ResourceAudioGroupsTestSuite.yy",},},
