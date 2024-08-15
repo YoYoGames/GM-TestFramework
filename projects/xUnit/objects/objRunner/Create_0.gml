@@ -16,7 +16,7 @@ testFramework.addSuite(BasicDataStructuresQueueTestSuite);
 testFramework.addSuite(BasicDataStructuresStackTestSuite);
 testFramework.addSuite(BasicDataTypesTestSuite);
 testFramework.addSuite(BasicDateTimeTestSuite);
-//testFramework.addSuite(BasicFileTestSuite);
+testFramework.addSuite(BasicFileTestSuite);
 testFramework.addSuite(BasicFiltersEffectsTestSuite);
 testFramework.addSuite(BasicHandlesTestSuite);
 testFramework.addSuite(BasicIniTestSuite);
@@ -45,7 +45,6 @@ testFramework.addSuite(ResourceEventsTestSuite);
 testFramework.addSuite(ResourceLayersTestSuite);
 testFramework.addSuite(ResourceSequenceTestSuite);
 testFramework.addSuite(ResourceTimeSourceTestSuite);
-
 
 // ###########################################################
 
