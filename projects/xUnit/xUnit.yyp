@@ -63,7 +63,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.800.0.605",
+    "IDEVersion":"2024.800.0.593",
   },
   "name":"xUnit",
   "resources":[
@@ -158,6 +158,7 @@
     {"id":{"name":"ResourceAudioEmittersTestSuite","path":"scripts/ResourceAudioEmittersTestSuite/ResourceAudioEmittersTestSuite.yy",},},
     {"id":{"name":"ResourceAudioGroupsTestSuite","path":"scripts/ResourceAudioGroupsTestSuite/ResourceAudioGroupsTestSuite.yy",},},
     {"id":{"name":"ResourceAudioListenersTestSuite","path":"scripts/ResourceAudioListenersTestSuite/ResourceAudioListenersTestSuite.yy",},},
+    {"id":{"name":"ResourceAudioLoopPointsTestSuite","path":"scripts/ResourceAudioLoopPointsTestSuite/ResourceAudioLoopPointsTestSuite.yy",},},
     {"id":{"name":"ResourceCameraTestSuite","path":"scripts/ResourceCameraTestSuite/ResourceCameraTestSuite.yy",},},
     {"id":{"name":"ResourceEventsTestSuite","path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},},
     {"id":{"name":"ResourceLayersTestSuite","path":"scripts/ResourceLayersTestSuite/ResourceLayersTestSuite.yy",},},
@@ -183,6 +184,7 @@
     {"id":{"name":"snd_coinpickup_MP3","path":"sounds/snd_coinpickup_MP3/snd_coinpickup_MP3.yy",},},
     {"id":{"name":"snd_coinpickup_OGG","path":"sounds/snd_coinpickup_OGG/snd_coinpickup_OGG.yy",},},
     {"id":{"name":"snd_coinpickup_WAV","path":"sounds/snd_coinpickup_WAV/snd_coinpickup_WAV.yy",},},
+    {"id":{"name":"snd_compressed","path":"sounds/snd_compressed/snd_compressed.yy",},},
     {"id":{"name":"snd_jump_MP3","path":"sounds/snd_jump_MP3/snd_jump_MP3.yy",},},
     {"id":{"name":"snd_jump_OGG","path":"sounds/snd_jump_OGG/snd_jump_OGG.yy",},},
     {"id":{"name":"snd_jump_WAV","path":"sounds/snd_jump_WAV/snd_jump_WAV.yy",},},
