@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_texture_rect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_texture_rect",
+  "parent":{
+    "name":"Rects",
+    "path":"folders/Tests/Utils/ShaderTests/Rects.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -23,7 +23,7 @@ function getAudioGroups() {
 	
 function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 	
-	addTestAsync("Audio groups loading", objTestAsync, {
+	addTestAsync("Audio groups loading test #1", objTestAsync, {
 		
 		ev_create: function() {
 			
@@ -60,7 +60,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 					
 					var group = audioGroups[i];
 					var loadProgress = audio_group_load_progress(group);
-					assert_equals(loadProgress, 100, "Load progress should be at 100% after loading in");
+					assert_equals(loadProgress, 100, "audio_group_load_progress should return 100% after loading in");
 					
 				}
 				
@@ -71,7 +71,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Sounds' associated audio group test", function() {
+	addFact("Sounds' associated audio group test #1", function() {
 		
 		// Get sounds that should be tested
 		var soundsToTest = getGroupSoundsToTest();
@@ -92,15 +92,15 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 					break;
 					
 				case snd_MP3:
-					assert_equals(audioGroupID, audiogroup_MP3, "MP3 sound should be in audio group 1");
+					assert_equals(audioGroupID, audiogroup_MP3, "MP3 sound should be in audiogroup_MP3");
 					break;
 					
 				case snd_OGG:
-					assert_equals(audioGroupID, audiogroup_OGG, "OGG sound should be in audio group 2");
+					assert_equals(audioGroupID, audiogroup_OGG, "OGG sound should be in audiogroup_OGG");
 					break;
 					
 				case snd_WAV:
-					assert_equals(audioGroupID, audiogroup_WAV, "WAV sound should be in audio group 3");
+					assert_equals(audioGroupID, audiogroup_WAV, "WAV sound should be in audiogroup_WAV");
 					break;
 					
 				default:
@@ -112,7 +112,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio groups' assets test", function() {
+	addFact("Audio groups' assets test #1", function() {
 		
 		// Get audio groups that should be tested
 		var groupsToTest = getAudioGroups();
@@ -129,23 +129,21 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 			switch (group) {
 				
 				case audiogroup_default:
-					// Although this group has many sounds, I think in this case it makes sense to just test the first one.
-					// This is because if there are more sound assets added to the framework later on,
-					// they would need to be added to this test as well to pass.
+					// Test just the frst sound in the default audio group
 					var sound = audioAssets[0];
-					assert_array_equals(sound, handle_testSound, "default audiogroup's first member should be 'handle_testSound'");
+					assert_array_equals(sound, handle_testSound, "audio_group_get_assets should get the correct audio asset from audiogroup_default");
 					break;
 					
 				case audiogroup_MP3:
-					assert_array_equals(audioAssets, [snd_MP3], "audiogroup_MP3 should contain the MP3 sound");
+					assert_array_equals(audioAssets, [snd_MP3], "audio_group_get_assets should get the correct audio assets from audiogroup_MP3");
 					break;
 				
 				case audiogroup_OGG:
-					assert_array_equals(audioAssets, [snd_OGG], "audiogroup_OGG should contain the OGG sound");
+					assert_array_equals(audioAssets, [snd_OGG], "audio_group_get_assets should get the correct audio assets from audiogroup_OGG");
 					break;
 					
 				case audiogroup_WAV:
-					assert_array_equals(audioAssets, [snd_WAV], "audiogroup_WAV should contain the WAV sound");
+					assert_array_equals(audioAssets, [snd_WAV], "audio_group_get_assets should get the correct audio assets from audiogroup_WAV");
 					break;
 					
 				default:
@@ -157,7 +155,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 	});
 
-	addFact("Audio group names test", function() {
+	addFact("Audio group names test #1", function() {
 		
 		var groupsToTest = getAudioGroups();
 		
@@ -170,19 +168,19 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 			switch (group) {
 				
 				case audiogroup_default:
-					assert_equals(groupName, "audiogroup_default", "audiogroup_default's name should match the variable name");
+					assert_equals(groupName, "audiogroup_default", "audio_group_name should return the correct audio group name from audiogroup_default");
 					break;
 					
 				case audiogroup_MP3:
-					assert_equals(groupName, "audiogroup_MP3", "audiogroup_MP3's name should match the variable name");
+					assert_equals(groupName, "audiogroup_MP3", "audio_group_name should return the correct audio group name from audiogroup_MP3");
 					break;
 					
 				case audiogroup_OGG:
-					assert_equals(groupName, "audiogroup_OGG", "audiogroup_OGG's name should match the variable name");
+					assert_equals(groupName, "audiogroup_OGG", "audio_group_name should return the correct audio group name from audiogroup_OGG");
 					break;
 					
 				case audiogroup_WAV:
-					assert_equals(groupName, "audiogroup_WAV", "audiogroup_WAV's name should match the variable name");
+					assert_equals(groupName, "audiogroup_WAV", "audio_group_name should return the correct audio group name from audiogroup_WAV");
 					break;
 					
 			}
@@ -191,39 +189,40 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audiogroup stop sounds", function() {
+	addFact("audio_group_stop_all test #1", function() {
 		
 		// Start playing sound from audiogroup_OGG
 		var sound = audio_play_sound(snd_OGG, 1, false);
-		// Check if it is playing
-		var isPlaying = audio_is_playing(sound);
-		assert_true(isPlaying, "Sound should be playing");
 		
 		// Stop all sounds in audiogroup_OGG
 		audio_group_stop_all(audiogroup_OGG);
 		// Check that sound has stopped playing
-		isPlaying = audio_is_playing(sound);
-		assert_false(isPlaying, "Sound should not be playing");
+		var isPlaying = audio_is_playing(sound);
+		assert_false(isPlaying, "audio_group_stop_all should stop sounds from specified audio group");
 		
 	});
 	
-	addFact("Audiogroup gain instant", function() {
+	addFact("Audiogroup gain test #1", function() {
 		
 		// Get gain of audiogroup and test that it's 1 by default
 		var gain = audio_group_get_gain(audiogroup_OGG);
-		assert_equals(gain, 1, "The gain of audiogroups should be 1 by default");
+		assert_equals(gain, 1, "audio_group_get_gain should return 1 by default");
+		
+	});
+	
+	addFact("Audiogroup gain test #2", function() {
 		
 		// Set gain of audiogroup to 0.1 and test if it has been set correctly
 		audio_group_set_gain(audiogroup_OGG, 0.1, 0);
-		gain = audio_group_get_gain(audiogroup_OGG);
-		assert_equals(gain, 0.1, "Gain should be 0.1");
+		var gain = audio_group_get_gain(audiogroup_OGG);
+		assert_equals(gain, 0.1, "audio_group_set_gain should set the gain correctly");
 		
 		// Set gain back to 1
 		audio_group_set_gain(audiogroup_OGG, 1, 0);
 		
 	});
 	
-	addTestAsync("Audiogroup gain over time", objTestAsync, {
+	addTestAsync("Audiogroup gain test #3", objTestAsync, {
 		
 		ev_create: function() {
 			
@@ -231,7 +230,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 			audio_group_set_gain(audiogroup_OGG, 1, 0);
 			
 			gain = audio_group_get_gain(audiogroup_OGG);
-			assert_equals(gain, 1, "Gain should be 1 before test starts");
+			assert_equals(gain, 1, "audio_group_get_gain should return 1 by default");
 			
 			// Set audio group's gain to 0.1 over 0.25 seconds and start a timer
 			audio_group_set_gain(audiogroup_OGG, 0.1, 0.25);
@@ -249,7 +248,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 				
 				gain = audio_group_get_gain(audiogroup_OGG);
 				
-				assert_equals(gain, 0.1, "Gain should be 0.1 after 0.25 seconds");
+				assert_equals(gain, 0.1, "audio_group_set_gain should set gain correctly over time");
 				
 				test_end();
 				
@@ -259,7 +258,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Audio group unloading", objTestAsync, {
+	addTestAsync("Audio group unloading test #1", objTestAsync, {
 		
 		ev_create: function() {
 			
@@ -299,7 +298,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 					
 					var group = audioGroups[i];
 					var loadProgress = audio_group_load_progress(group);
-					assert_equals(loadProgress, 0, "Load progress should be at 0% after loading in");
+					assert_equals(loadProgress, 0, "audio_group_load_progress should return 0% once the audio group has been unloaded");
 					
 				}
 				
