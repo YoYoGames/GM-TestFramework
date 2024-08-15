@@ -63,7 +63,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.800.0.602",
+    "IDEVersion":"2024.800.0.605",
   },
   "name":"xUnit",
   "resources":[
@@ -102,6 +102,7 @@
     {"id":{"name":"AssertAPI","path":"scripts/AssertAPI/AssertAPI.yy",},},
     {"id":{"name":"BasicArrayTestSuite","path":"scripts/BasicArrayTestSuite/BasicArrayTestSuite.yy",},},
     {"id":{"name":"BasicAudioTestSuite","path":"scripts/BasicAudioTestSuite/BasicAudioTestSuite.yy",},},
+    {"id":{"name":"BasicBase64TestSuite","path":"scripts/BasicBase64TestSuite/BasicBase64TestSuite.yy",},},
     {"id":{"name":"BasicBufferTestSuite","path":"scripts/BasicBufferTestSuite/BasicBufferTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresGridTestSuite","path":"scripts/BasicDataStructuresGridTestSuite/BasicDataStructuresGridTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresListTestSuite","path":"scripts/BasicDataStructuresListTestSuite/BasicDataStructuresListTestSuite.yy",},},
