@@ -109,6 +109,7 @@
     {"name":"ResourceAudioEmittersTestSuite","order":33,"path":"scripts/ResourceAudioEmittersTestSuite/ResourceAudioEmittersTestSuite.yy",},
     {"name":"ResourceAudioGroupsTestSuite","order":35,"path":"scripts/ResourceAudioGroupsTestSuite/ResourceAudioGroupsTestSuite.yy",},
     {"name":"ResourceAudioListenersTestSuite","order":34,"path":"scripts/ResourceAudioListenersTestSuite/ResourceAudioListenersTestSuite.yy",},
+    {"name":"ResourceAudioSynchronisationTestSuite","order":36,"path":"scripts/ResourceAudioSynchronisationTestSuite/ResourceAudioSynchronisationTestSuite.yy",},
     {"name":"ResourceAudioLoopPointsTestSuite","order":36,"path":"scripts/ResourceAudioLoopPointsTestSuite/ResourceAudioLoopPointsTestSuite.yy",},
     {"name":"ResourceCameraTestSuite","order":25,"path":"scripts/ResourceCameraTestSuite/ResourceCameraTestSuite.yy",},
     {"name":"ResourceEventsTestSuite","order":26,"path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},

@@ -158,6 +158,7 @@
     {"id":{"name":"ResourceAudioEmittersTestSuite","path":"scripts/ResourceAudioEmittersTestSuite/ResourceAudioEmittersTestSuite.yy",},},
     {"id":{"name":"ResourceAudioGroupsTestSuite","path":"scripts/ResourceAudioGroupsTestSuite/ResourceAudioGroupsTestSuite.yy",},},
     {"id":{"name":"ResourceAudioListenersTestSuite","path":"scripts/ResourceAudioListenersTestSuite/ResourceAudioListenersTestSuite.yy",},},
+    {"id":{"name":"ResourceAudioSynchronisationTestSuite","path":"scripts/ResourceAudioSynchronisationTestSuite/ResourceAudioSynchronisationTestSuite.yy",},},
     {"id":{"name":"ResourceAudioLoopPointsTestSuite","path":"scripts/ResourceAudioLoopPointsTestSuite/ResourceAudioLoopPointsTestSuite.yy",},},
     {"id":{"name":"ResourceCameraTestSuite","path":"scripts/ResourceCameraTestSuite/ResourceCameraTestSuite.yy",},},
     {"id":{"name":"ResourceEventsTestSuite","path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},},
