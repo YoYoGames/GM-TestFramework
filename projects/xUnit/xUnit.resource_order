@@ -64,6 +64,7 @@
     {"name":"rmInit","order":7,"path":"rooms/rmInit/rmInit.yy",},
     {"name":"room1","order":1,"path":"rooms/room1/room1.yy",},
     {"name":"BasicAudioTestSuite","order":32,"path":"scripts/BasicAudioTestSuite/BasicAudioTestSuite.yy",},
+    {"name":"BasicBase64TestSuite","order":36,"path":"scripts/BasicBase64TestSuite/BasicBase64TestSuite.yy",},
     {"name":"BasicBufferTestSuite","order":1,"path":"scripts/BasicBufferTestSuite/BasicBufferTestSuite.yy",},
     {"name":"BasicDataStructuresGridTestSuite","order":2,"path":"scripts/BasicDataStructuresGridTestSuite/BasicDataStructuresGridTestSuite.yy",},
     {"name":"BasicDataStructuresListTestSuite","order":3,"path":"scripts/BasicDataStructuresListTestSuite/BasicDataStructuresListTestSuite.yy",},

@@ -7,6 +7,7 @@ testFramework = new TestFrameworkRun();
 
 // Register your test suites here...
 testFramework.addSuite(BasicArrayTestSuite);
+testFramework.addSuite(BasicBase64TestSuite);
 testFramework.addSuite(BasicBufferTestSuite);
 testFramework.addSuite(BasicDataStructuresGridTestSuite);
 testFramework.addSuite(BasicDataStructuresListTestSuite);
@@ -30,7 +31,6 @@ testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);
-testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
 testFramework.addSuite(ResourceCameraTestSuite);
@@ -38,6 +38,7 @@ testFramework.addSuite(ResourceEventsTestSuite);
 testFramework.addSuite(ResourceLayersTestSuite);
 testFramework.addSuite(ResourceSequenceTestSuite);
 testFramework.addSuite(ResourceTimeSourceTestSuite);
+testFramework.addSuite(BasicVariableTestSuite);
 
 
 // ###########################################################

@@ -2,6 +2,7 @@ workspace/
 servers/node_modules/
 user/
 .env
+env/
 __pycache__/
 projects/xUnit/Build
 
