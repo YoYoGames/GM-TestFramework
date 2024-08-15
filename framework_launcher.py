@@ -281,12 +281,15 @@ def parse_arguments(defaults):
         return resolved_path
 
     # Auxiliary function that will make sure the arg exists (either from command line or from config file)
-    def ensure_argument(args, path, parsed_args, name, param, validator = None):
-        if not args[path]:
-            if not getattr(parsed_args, name):
-                parser.error(f"argument -{param}/--{param} is required or should be passed from config file (-cf/--cf) as: '{path}'")
-            value = getattr(parsed_args, name)
+    def ensure_argument(args, path, parsed_args, name, param, validator = None, allow_null = False):
+        value = getattr(parsed_args, name, None)
+
+        if not value:
+            if not args[path] and not allow_null:
+                parser.error(f"argument -{param}/--{name} is required or should be passed from config file (-cf/--configFile) as: '{path}'")
+        else:
             args[path] = value
+
         if validator:
             args[path] = validator(args[path])
 
@@ -320,6 +323,7 @@ def parse_arguments(defaults):
     ensure_argument(args, 'Launcher.feed', parsed_args, 'feed', 'f')
     ensure_argument(args, 'Launcher.userFolder', parsed_args, 'userFolder', 'uf', validate_path)
     ensure_argument(args, 'Launcher.accessKey', parsed_args, 'accessKey', 'ak')
+    ensure_argument(args, 'Launcher.runtimeVersion', parsed_args, 'runtimeVersion', 'rv', allow_null= True)
 
     return args
 

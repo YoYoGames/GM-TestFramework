@@ -23,7 +23,7 @@ function HttpPublisher(_configuration = undefined) : IPublisher() constructor {
 		
 		var _body = {};
 		_body.targetName = os_type_to_string(os_type);
-		_body.isSandboxed = filesystem_is_sandboxed();
+		_body.isSandboxed = GM_is_sandboxed;
 		_body.isCompiled = code_is_compiled();
 		_body.isBrowser = platform_browser();
 		_body.data = _data;
