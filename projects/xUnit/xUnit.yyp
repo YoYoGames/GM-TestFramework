@@ -119,6 +119,7 @@
     {"id":{"name":"BasicJsonTestSuite","path":"scripts/BasicJsonTestSuite/BasicJsonTestSuite.yy",},},
     {"id":{"name":"BasicMathTestSuite","path":"scripts/BasicMathTestSuite/BasicMathTestSuite.yy",},},
     {"id":{"name":"BasicMatrixTestSuite","path":"scripts/BasicMatrixTestSuite/BasicMatrixTestSuite.yy",},},
+    {"id":{"name":"BasicNameofTestSuite","path":"scripts/BasicNameofTestSuite/BasicNameofTestSuite.yy",},},
     {"id":{"name":"BasicNetworkTestSuite","path":"scripts/BasicNetworkTestSuite/BasicNetworkTestSuite.yy",},},
     {"id":{"name":"BasicRandomTestSuite","path":"scripts/BasicRandomTestSuite/BasicRandomTestSuite.yy",},},
     {"id":{"name":"BasicRoomTestSuite","path":"scripts/BasicRoomTestSuite/BasicRoomTestSuite.yy",},},

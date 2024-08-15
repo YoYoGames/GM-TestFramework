@@ -24,6 +24,7 @@ testFramework.addSuite(BasicIniTestSuite);
 testFramework.addSuite(BasicJsonTestSuite);
 testFramework.addSuite(BasicMathTestSuite);
 testFramework.addSuite(BasicMatrixTestSuite);
+testFramework.addSuite(BasicNameofTestSuite);
 testFramework.addSuite(BasicNetworkTestSuite);
 testFramework.addSuite(BasicRandomTestSuite);
 testFramework.addSuite(BasicRoomTestSuite);
