@@ -29,6 +29,7 @@ testFramework.addSuite(BasicRandomTestSuite);
 testFramework.addSuite(BasicRoomTestSuite);
 testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicShaderTestSuite);
+testFramework.addSuite(BasicShaderUniformsTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);

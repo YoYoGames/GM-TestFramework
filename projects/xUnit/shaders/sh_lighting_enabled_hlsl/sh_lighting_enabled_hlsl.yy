@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_lighting_enabled_hlsl",
+  "name":"sh_lighting_enabled_hlsl",
+  "parent":{
+    "name":"HLSL",
+    "path":"folders/Tests/TestResources/shaders/ShaderUniformTests/HLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":3,
+}
