@@ -2,6 +2,7 @@
 #macro NAMEOF_TEST_REAL 21.37
 #macro NAMEOF_TEST_STRING "foobar"
 	#macro NAMEOF_TEST_TABBED_MACRO "test" // this is important that \t character is in this line before #macro
+
 enum nameof_test {
 	entry_1,
 	entry_2,
