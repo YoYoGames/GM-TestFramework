@@ -31,14 +31,18 @@ testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);
+testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
+testFramework.addSuite(ResourceAudioEmittersTestSuite);
+testFramework.addSuite(ResourceAudioGroupsTestSuite);
+testFramework.addSuite(ResourceAudioListenersTestSuite);
+testFramework.addSuite(ResourceAudioLoopPointsTestSuite);
 testFramework.addSuite(ResourceCameraTestSuite);
 testFramework.addSuite(ResourceEventsTestSuite);
 testFramework.addSuite(ResourceLayersTestSuite);
 testFramework.addSuite(ResourceSequenceTestSuite);
 testFramework.addSuite(ResourceTimeSourceTestSuite);
-testFramework.addSuite(BasicVariableTestSuite);
 
 
 // ###########################################################
