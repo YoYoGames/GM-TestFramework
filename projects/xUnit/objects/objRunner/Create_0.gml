@@ -1,6 +1,5 @@
 /// @description Start Framework
 /// This is the entry point for the frameowork execution.
-
 testFramework = new TestFrameworkRun();
 
 // ################# TEST SUITE REGISTRATION #################
@@ -29,6 +28,7 @@ testFramework.addSuite(BasicNetworkTestSuite);
 testFramework.addSuite(BasicRandomTestSuite);
 testFramework.addSuite(BasicRoomTestSuite);
 testFramework.addSuite(BasicScriptTestSuite);
+testFramework.addSuite(BasicShaderTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);

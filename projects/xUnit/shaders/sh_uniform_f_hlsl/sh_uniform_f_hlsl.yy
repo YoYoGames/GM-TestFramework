@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_uniform_f_hlsl",
+  "name":"sh_uniform_f_hlsl",
+  "parent":{
+    "name":"HLSL",
+    "path":"folders/Tests/TestResources/shaders/HLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":3,
+}

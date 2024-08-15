@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"generate_rect_grid",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"generate_rect_grid",
+  "parent":{
+    "name":"Rects",
+    "path":"folders/Tests/Utils/ShaderTests/Rects.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
