@@ -7,3 +7,5 @@ __pycache__/
 projects/xUnit/Build
 
 projects/xUnit/datafiles/config.json
+
+*.resource_order

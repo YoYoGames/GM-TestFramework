@@ -50,7 +50,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Draw rectangle
-			draw_rect(rect)
+			draw_rect(rect);
 			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, "ShaderTests/PrimitiveDrawing/", test_current().name + ", failed draw buffer comparison");
@@ -477,7 +477,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle")
+			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
