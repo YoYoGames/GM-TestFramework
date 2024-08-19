@@ -1,61 +1,66 @@
 
 function BasicStringTestSuite() : TestSuite() constructor {
     
-    // ANSI_CHAR TESTS
+    // ANSI_CHAR TESTS - PROGRESS: FINISHED
     {
 	    addFact("ansi_char_test #1", function() {
     
-	        // Basic ASCII test
-	        var aStr = ansi_char($41);
-	        assert_equals(aStr, "A", "ASCII 65 == 'A'");
+	        // Check that the 'A' char can be correctly returned, with a local variable input
+	        var aStr = ansi_char($41); // Hex $41 == 65 == ASCII 'A'
+	        assert_equals(aStr, "A", "ASCII 65 (as local variable) should equal 'A'");
 	    });
     
 	    addFact("ansi_char_test #2", function() {
         
-	        // Literals
-			assert_equals(ansi_char($42), "B", "ASCII 66 == 'B'");
+	        // Check that the 'B' char can be correctly returned, with a literal input
+			assert_equals(ansi_char($42), "B", "ASCII 66 (as literal value) should equal 'B'"); // Hex $42 == 66 == ASCII 'B'
 	    });
     
 	    addFact("ansi_char_test #3", function() {
         
-	        // Hello world test
+	        // Check that all the chars in "Hello" & "world" can be correctly returned, and concatenated
 	        var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F);
 	        var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64);
-	        assert_equals(helloStr, "Hello", "Hello str Test");
-	        assert_equals(worldStr, "world", "world str Test");
+	        assert_equals(helloStr, "Hello", "String (as local variable) should equal 'Hello'");
+	        assert_equals(worldStr, "world", "String (as local variable) should equal 'world'");
 	    });
     
 	    addFact("ansi_char_test #4", function() {
-        
-	        var space = ansi_char($20);
-	        assert_equals(space, " ", "Space char test");
+			
+			// Check that the space char can be correctly returned
+	        var space = ansi_char($20); // Hex $20 == 32 == ASCII ' '
+	        assert_equals(space, " ", "ASCII 32 (as local variable) should equal ' '");
 	    });
     
 	    addFact("ansi_char_test #5", function() {
-        
-	        var exclamation = ansi_char($21);
-	        assert_equals(exclamation, "!", "Exclamation char test");
+			
+			// Check that the exclamation mark char can be correctly returned
+	        var exclamation = ansi_char($21); // Hex $21 == 33 == ASCII '!'
+	        assert_equals(exclamation, "!", "ASCII 33 (as local variable) should equal '!'");
 	    });
     
 	    addFact("ansi_char_test #6", function() {
         
+			// Check that all the chars in "Hello world!" can be correctly returned, and concatenated
 	        var fullStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F) + ansi_char($20) + ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64) + ansi_char($21);
-	        assert_equals(fullStr, "Hello world!", "Hello world string test");
+	        assert_equals(fullStr, "Hello world!", "String (as local variable) should equal 'Hello word!'");
 	    });
     
 	    addFact("ansi_char_test #7", function() {
         
+			// Check that the returned chars stored in local variables can be correctly concatenated
 	        var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F);
 	        var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64);
 	        var space = ansi_char($20);
 	        var exclamation = ansi_char($21);
         
 	        var concatTest = helloStr + space + worldStr + exclamation;
-	        assert_equals(concatTest, "Hello world!", "Concat Hello world string test");
+	        assert_equals(concatTest, "Hello world!", "String (as concatenated local variable) should equal 'Hello word!'");
 	    });
     
 	    addFact("ansi_char_test #8", function() {
-        
+			
+			// Check that the returned chars stored in local variables can be correctly concatenated using +=
 	        var helloStr = ansi_char($48) + ansi_char($65) + ansi_char($6C) + ansi_char($6C) + ansi_char($6F);
 	        var worldStr = ansi_char($77) + ansi_char($6F) + ansi_char($72) + ansi_char($6C) + ansi_char($64);
 	        var space = ansi_char($20);
@@ -65,11 +70,11 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	        concatQuickTest += space;
 	        concatQuickTest += worldStr;
 	        concatQuickTest += exclamation;
-	        assert_equals(concatQuickTest, "Hello world!", "Concat hello world string test");
+	        assert_equals(concatQuickTest, "Hello world!", "String (as concatenated local variable) should equal 'Hello word!'");
 	    });
 	}
 
-    // CHR TESTS
+    // CHR TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES
     {
 	    addFact("chr_test #1", function() {
         
@@ -137,7 +142,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-    // CHR UNICODE TESTS
+    // CHR UNICODE TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES
     {
 	    addFact("chr_unicode_test #1", function() {
         
@@ -384,7 +389,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_BYTE_AT TESTS
+	// STRING_BYTE_AT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_byte_at_test #1", function() {
         
@@ -506,7 +511,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 
-	// STRING_BYTE_LENGTH TESTS
+	// STRING_BYTE_LENGTH TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_byte_length_test #1", function() {
         
@@ -578,7 +583,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_CHAR_AT TESTS
+	// STRING_CHAR_AT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_char_at_test #1", function() {
         
@@ -737,7 +742,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_COPY TESTS
+	// STRING_COPY TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_copy_test #1", function() {
         
@@ -815,7 +820,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_COUNT TESTS
+	// STRING_COUNT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_count_test #1", function() {
         
@@ -884,7 +889,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_DELETE TESTS
+	// STRING_DELETE TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_delete_test #1", function() {
         
@@ -1131,7 +1136,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_DIGITS TESTS
+	// STRING_DIGITS TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_digits_test #1", function() {
         
@@ -1214,7 +1219,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 	    });
 	}
 	
-	// STRING_FORMAT TESTS
+	// STRING_FORMAT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_format_test #1", function() {
         		
@@ -1263,7 +1268,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		});
 	}
 	
-	// STRING_HASH_TO_NEWLINE TESTS
+	// STRING_HASH_TO_NEWLINE TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_hash_to_newline_test #1", function() {
 
@@ -1294,7 +1299,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		});
 	}
 	
-	// STRING_INSERT TESTS
+	// STRING_INSERT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_insert_test #1", function() {
         		
@@ -1518,7 +1523,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		});
 	}
 	
-	// STRING_LAST_POS_EXT TESTS
+	// STRING_LAST_POS_EXT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
 	{
 		addFact("string_last_pos_ext_test #1", function() {
 
@@ -1689,1315 +1694,2013 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		});
 	}
 	
-	// STRING_LAST_POS TESTS
-
-	addFact("string_last_pos_test", function() {
-
-		// string_last_pos test
-		//show_debug_message("Begin string_last_pos test");
-			
-		// Basic tests
-		var helloWorldStr = "Hello world!Hello world!";
-		var helloPos = string_last_pos("Hello", helloWorldStr);
-		var worldPos = string_last_pos("world", helloWorldStr);
-		var exclamationPos = string_last_pos("!", helloWorldStr);
-		assert_equals(helloPos, 13, "Hello Pos is 13 char in");
-		assert_equals(worldPos, 19, "World Pos is 19 char in");
-		assert_equals(exclamationPos, 24, "Exclamation is at 24 chars in");
-			
-		// Test zero
-		var helloNil = string_last_pos("hello", helloWorldStr);
-		assert_equals(helloNil, 0, "hello is not featured in the Hello world! string");
-			
-		// UTF8 tests
-		var poundPrice = "£99.99";
-		var poundPos = string_last_pos("£", poundPrice);
-		assert_equals(poundPos, 1, "Pound glyph is the first char");
-		var periodCharPos = string_last_pos(".", poundPrice);
-		assert_equals(periodCharPos, 4, "Period char is the fourth character in poundPrice");
-			
-		var euroPrice = "€59.99";
-		var euroPos = string_last_pos("€", euroPrice);
-		assert_equals(euroPos, 1, "Euro glyph is the first char");
-		var euroPeriodCharPos = string_last_pos(".", euroPrice);
-		assert_equals(euroPeriodCharPos, 4, "Period char is the fourth character in euroPrice");
-			
-		var aikido = "合気道";
-		var aiPos = string_last_pos("合", aikido);
-		var kiPos = string_last_pos("気", aikido);
-		var doPos = string_last_pos("道", aikido);
-		assert_equals(aiPos, 1, "Ai is the first char");
-		assert_equals(kiPos, 2, "Ki is the second char");
-		assert_equals(doPos, 3, "Do is the third char");
-			
-		var kotegaeshi = "小手返 Test";
-		var kotegaeshiTestPos = string_last_pos("Test", kotegaeshi);
-		assert_equals(kotegaeshiTestPos, 5, "Test is 5 chars in");
-			
-		// Emoji!
-		var smileyString = "This is a test 🙂";
-		var smileyPos = string_last_pos("🙂", smileyString);
-		assert_equals(smileyPos, 16, "Smiley face is 16 chars in");
-			
-		var smileyPosLiteral = string_last_pos("🙂", "This is a test 🙂");
-		assert_equals(smileyPosLiteral, 16, "Smiley face is 16 chars in a literal string");
-			
-		var emojiString = "✔✔✔💩👏";
-		var res = string_last_pos("👏", emojiString);
-		assert_equals(res, 5, "Clap emoji the 5th char");
-			
-		var moreEmojiString = "✔✔✔💩😀😁😂👏";
-		res = string_last_pos("👏", moreEmojiString);
-		assert_equals(res, 8, "Clap emoji the 8th char");
-			
-		var emojiString3 = "✔✔✔💩😀aa😁😂👏";
-		res = string_last_pos("👏", emojiString3);
-		assert_equals(res, 10, "Clap emoji the 10th char");
-			
-		var emojiString4 = "✔✔✔💩😀😁😂👏aa";
-		res = string_last_pos("aa", emojiString4);
-		assert_equals(res, 9, "\"aa\" is the 9th and 10th char");
-			
-		//show_debug_message("End string_last_pos test");
-	})
-
-	addFact("string_length_test", function() {
-
-		// string_length test
-			
-		//show_debug_message("Begin string_length test")
-			
-		// Basic ASCII tests
-			
-		var helloWorldLen = string_length("Hello world!")
-		assert_equals(helloWorldLen, 12, "Hello world! is 12 chars")
-			
-		var helloWorldStr = "Hello world!"
-		var hw2Len = string_length(helloWorldStr)
-		assert_equals(hw2Len, 12, "Hello world! as a var is 12 chars")
-			
-		var longSentence = "The quick brown fox jumped over the lazy dog!"
-		var sentenceLen = string_length(longSentence)
-		assert_equals(sentenceLen, 45, "This sentence is 45 chars long")
-			
-		// UTF8 tests
-		var poundPrice = "£99.99"
-		var poundPriceLen = string_length(poundPrice)
-		assert_equals(poundPriceLen, 6, "Pound price string is 6 chars long")
-			
-		var euroPrice = "€59.99"
-		var euroPriceLen = string_length(euroPrice)
-		assert_equals(euroPriceLen, 6, "Euro price string is 6 chars long")
-			
-		var someSymbols = "‰ˆ‡†•"
-		var someSymbolsLen = string_length(someSymbols)
-		assert_equals(someSymbolsLen, 5, "Lenght of someSymbols string is 5")
-			
-		var aikido = "合気道"
-		var aikidoLen = string_length(aikido)
-		assert_equals(aikidoLen, 3, "Aikido is 3 chars")
-			
-		var kotegaeshi = "小手返"
-		var kotegaeshiLen = string_length(kotegaeshi)
-		assert_equals(kotegaeshiLen, 3, "kotegaeshi is 3 chars")
-			
-		// Emoji!
-		var smileyFace = "🙂"
-		var smileyFaceLen = string_length(smileyFace)
-		assert_equals(smileyFaceLen, 1, "1 Smiley face is 1 char")
-			
-		assert_equals(string_length("🙂"), 1, "Smiley face literal")
-			
-		var emojiString = "💩👏✔"
-		var emojiLen = string_length(emojiString)
-		assert_equals(emojiLen, 3, "Emoji len is 3 chars long")
-			
-		//show_debug_message("End string_length test")
-	})
-
-	addFact("string_lettersdigits_test", function() {
-
-		//string_lettersdigits test
-		//show_debug_message("start string_lettersdigits() test");
-			
-		var vstring1 = "321!HeLlO WoRlD!123"
-		var vstring2 = "!£水🙂"
-		var vstring3 = ""
-		var vstring4 = "abcd"
-		var vstring5 = "1234"
-			
-		var res;
-			
-		//#1 string_lettersdigits( string local )
-		res = string_lettersdigits(vstring1);
-		assert_equals(res, "321HeLlOWoRlD123", "#1 string_lettersdigits( string local )");
-			
-		//#2 string_lettersdigits( string local ) - no letters
-		res = string_lettersdigits(vstring2);
-		assert_equals(res, "", "#2 string_lettersdigits( string local ) - no letters");
-			
-		//#3 string_lettersdigits( string local ) - empty string
-		res = string_lettersdigits(vstring3);
-		assert_equals(res, "", "#3 string_lettersdigits( string local ) - empty string");
-			
-		//#4 string_lettersdigits( string local ) - all letters
-		res = string_lettersdigits(vstring4);
-		assert_equals(res, "abcd", "#4 string_lettersdigits( string local ) - all letters");
-			
-		//#5 string_lettersdigits( string local ) - all digits
-		res = string_lettersdigits(vstring5);
-		assert_equals(res, "1234", "#5 string_lettersdigits( string local ) - all digits");
-			
-		//#6 string_lettersdigits( real const )
-		res = string_lettersdigits(1234);
-		assert_equals(res, "1234", "#6 string_lettersdigits( real const )");
-			
-		//#7 string_lettersdigits( real const )
-		res = string_lettersdigits(1.234);
-		assert_equals(res, "123", "#7 string_lettersdigits( real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-			
-		#macro kString_StringLettersdigitsTest "321!Hello World!123"
-		global.gstring = "321!Hello World!123";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "321!Hello World!123";
-			
-		//#8 string_lettersdigits( string macro )
-		res = string_lettersdigits(kString_StringLettersdigitsTest);
-		assert_equals(res, "321HelloWorld123", "#8 string_lettersdigits( string macro )")
-			
-		//#9 string_lettersdigits( string global )
-		res = string_lettersdigits(global.gstring);
-		assert_equals(res, "321HelloWorld123", "#9 string_lettersdigits( string global )")
-			
-		//#10 string_lettersdigits( string instance )
-		res = string_lettersdigits(_oTest.ostring);
-		assert_equals(res, "321HelloWorld123", "#10 string_lettersdigits( string instance )")
-			
-		instance_destroy(_oTest);
-	})
-
-	addFact("string_letters_test", function() {
-
-		//string_letters test
-		//show_debug_message("start string_letters() test");
-			
-		var vstring1 = "321!HeLlO WoRlD!123"
-		var vstring2 = "!£水🙂"
-		var vstring3 = ""
-		var vstring4 = "abcd"
-			
-		var res;
-			
-		//#1 string_letters( string local )
-		res = string_letters(vstring1);
-		assert_equals(res, "HeLlOWoRlD", "#1 string_letters( string local )");
-			
-		//#2 string_letters( string local ) - no letters
-		res = string_letters(vstring2);
-		assert_equals(res, "", "#2 string_letters( string local ) - no letters");
-			
-		//#3 string_letters( string local ) - empty string
-		res = string_letters(vstring3);
-		assert_equals(res, "", "#3 string_letters( string local ) - empty string");
-			
-		//#4 string_letters( string local ) - all letters
-		res = string_letters(vstring4);
-		assert_equals(res, "abcd", "#4 string_letters( string local ) - all letters");
-			
-		//#5 string_letters( real const )
-		res = string_letters(1234);
-		assert_equals(res, "", "#5 string_letters( real const )");
-			
-		//#6 string_letters( real const )
-		res = string_letters(1.234);
-		assert_equals(res, "", "#6 string_letters( real const )");
-			
-			
-		#macro kString_StringLettersTest "321!Hello World!123"
-		global.gstring = "321!Hello World!123";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "321!Hello World!123";
-			
-		//#7 string_letters( string macro )
-		res = string_letters(kString_StringLettersTest);
-		assert_equals(res, "HelloWorld", "#7 string_letters( string macro )")
-			
-		//#8 string_letters( string global )
-		res = string_letters(global.gstring);
-		assert_equals(res, "HelloWorld", "#8 string_letters( string global )")
-			
-		//#9 string_letters( string instance )
-		res = string_letters(_oTest.ostring);
-		assert_equals(res, "HelloWorld", "#9 string_letters( string instance )")
-			
-			
-		instance_destroy(_oTest)
-	})
-
-	addFact("string_lower_test", function() {
-
-		//string_lower test
-		//show_debug_message("start string_lower() test");
-			
-		var vstring = "HeLlO WoRlD!"
-		var vstring2 = "!£水🙂"
-			
-		var res;
-			
-		//#1 string_lower( string local )
-		res = string_lower(vstring);
-		assert_equals(res, "hello world!", "#1 string_lower( string local )");
-			
-		//#2 string_lower( string local )
-		res = string_lower(vstring2);
-		assert_equals(res, "!£水🙂", "#2 string_lower( string local )");
-			
-		//#3 string_lower( string const ) - empty string
-		res = string_lower("");
-		assert_equals(res, "", "#3 string_lower( string const ) - empty string");
-			
-		//#4 string_lower( string const ) - single uppercase character
-		res = string_lower("H");
-		assert_equals(res, "h", "#4 string_lower( string const ) - single uppercase character");
-			
-		//#5 string_lower( string const ) - single lowercase character
-		res = string_lower("h");
-		assert_equals(res, "h", "#5 string_lower( string const ) - single lowercase character");
-			
-		//#6 string_lower( real local )
-		res = string_lower(1234);
-		assert_equals(res, "1234", "#6 string_lower( real local )");
-			
-		//#7 string_lower( real local )
-		res = string_lower(1.234);
-		assert_equals(res, "1.23", "#7 string_lower( real local )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-		//#8 string_lower( real local )
-		res = string_lower(int64(1234));
-		assert_equals(res, "1234", "#8 string_lower( int64 local )");
-			
-		var u8001 = "老aA老aAa";
-		var u8001Chr = string_lower(u8001);
-		assert_equals(u8001Chr, "老aa老aaa", "#9 老aA老aAa to lower is 老aa老aaa");
-			
-		//show_debug_message("end string_lower() test");
-	})
-
-	addFact("string_ord_at_test", function() {
-
-		//string_ord_at test
-		//show_debug_message("start string_ord_at() test");
-			
-		var vstring = "hello World!"
-			
-		var res;
-			
-		//#1 string_ord_at( real local , real const )
-		res = string_ord_at(vstring, 7);
-		assert_equals(res, 87, "#1 string_ord_at( real local , real const )") // 'W'
-			
-		//#2 string_ord_at( real local , real const )
-		res = string_ord_at(vstring, 7.6);
-		assert_equals(res, 87, "#2 string_ord_at( real local , real const )") // 'W'
-			
-		//#3 string_ord_at( real local , real const )
-		res = string_ord_at(vstring, 7.2);
-		assert_equals(res, 87, "#3 string_ord_at( real local , real const )") // 'W'
-			
-		//#4 string_ord_at( real local , real const )
-		res = string_ord_at(vstring, 0);
-		assert_equals(res, 104, "#4 string_ord_at( real local , real const )") // 'h'
-			
-		//#5 string_ord_at( real local , real const )
-		res = string_ord_at(vstring, 100);
-		assert_equals(res, -1, "#5 string_ord_at( real local , real const )")
-			
-		//#6 string_ord_at( real local , real const )
-		res = string_ord_at(vstring, -2);
-		assert_equals(res, 104, "#6 string_ord_at( real local , real const )") // 'h'
-			
-			
-		//#7 string_ord_at( int64 const , real const )
-		res = string_ord_at(int64(1234), 2);
-		assert_equals(res, 50, "#7 string_ord_at( int64 const , real const )") // '2'
-			
-		//#8 string_ord_at( real const , real const )
-		res = string_ord_at(1.234, 2);
-		assert_equals(res, 46, "#8 string_ord_at( real const , real const )") // '.'
-			
-		//#9 string_ord_at( bool const , real const )
-		res = string_ord_at(true, 1);
-		assert_equals(res, 49, "#9 string_ord_at( bool const , real const )") // '1'
-			
-			
-		#macro kString_StringOrdAtTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#10 string_ord_at( string macro , real const )
-		res = string_ord_at(kString_StringOrdAtTest, 7);
-		assert_equals(res, 87, "#10 string_ord_at( string macro , real const )")
-			
-		//#11 string_ord_at( string global , real const )
-		res = string_ord_at(global.gstring, 7);
-		assert_equals(res, 87, "#11 string_ord_at( string global , real const )")
-			
-		//#12 string_ord_at( string instance , real const )
-		res = string_ord_at(_oTest.ostring, 7);
-		assert_equals(res, 87, "#12 string_ord_at( string instance , real const )")
-			
-			
-		// UTF-8 tests 2/3/4 bytes
-			
-		//#13 string_ord_at( string const , real const )
-		res = string_ord_at("!£水🙂a", 1);
-		assert_equals(res, 33, "#13 string_ord_at( string const , real const )")
-			
-		//#14 string_ord_at( string const , real const )
-		res = string_ord_at("!£水🙂a", 2);
-		assert_equals(res, 163, "#14 string_ord_at( string const , real const )")
-			
-		//#15 string_ord_at( string const , real const )
-		res = string_ord_at("!£水🙂a", 3);
-		assert_equals(res, 27700, "#15 string_ord_at( string const , real const )")
-			
-		//#16 string_ord_at( string const , real const )
-		res = string_ord_at("!£水🙂a", 4);
-		assert_equals(res, 128578, "#16 string_ord_at( string const , real const )")
-			
-		//#17 string_ord_at( string const , real const )
-		res = string_ord_at("!£水🙂a", 5);
-		assert_equals(res, 97, "#17 string_ord_at( string const , real const )")
-			
-			
-		instance_destroy(_oTest);
-	})
-
-	addFact("string_pos_ext_test", function() {
-
-		// string_pos_ext test
-		//show_debug_message("Begin string_pos_ext test");
-			
-		// Basic tests
-		var helloWorldStr = "Hello world!Hello world!";
-		var helloPos = string_pos_ext("Hello", helloWorldStr, 0);
-		var worldPos = string_pos_ext("world", helloWorldStr, 0);
-		var exclamationPos = string_pos_ext("!", helloWorldStr, 0);
-		assert_equals(helloPos, 1, "#1.0 Hello Pos is 1 char in");
-		assert_equals(worldPos, 7, "#1.1 World Pos is 7 char in");
-		assert_equals(exclamationPos, 12, "#1.2 Exclamation is at 12 chars in");
-		helloPos = string_pos_ext("Hello", helloWorldStr, 13);
-		worldPos = string_pos_ext("world", helloWorldStr, 13);
-		exclamationPos = string_pos_ext("!", helloWorldStr, 13);
-		assert_equals(helloPos, 13, "#1.3 Hello Pos is 13 char in");
-		assert_equals(worldPos, 19, "#1.4 World Pos is 19 char in");
-		assert_equals(exclamationPos, 24, "#1.5 Exclamation is at 24 chars in");
-			
-		// Test zero
-		var helloNil = string_pos_ext( "hello", helloWorldStr, 0);
-		assert_equals(helloNil, 0, "#1.6 hello is not featured in the Hello world! string");
-			
-		// UTF8 tests
-		var poundPrice = "£99.99";
-		var poundPos = string_pos_ext("£", poundPrice,0);
-		assert_equals(poundPos, 1, "#2.0 Pound glyph is the first char");
-		var periodCharPos = string_pos_ext(".", poundPrice,0);
-		assert_equals(periodCharPos, 4, "#2.1 Period char is the fourth character in poundPrice");
-			
-		var euroPrice = "€59.99";
-		var euroPos = string_pos_ext("€", euroPrice,0);
-		assert_equals(euroPos, 1, "#2.2 Euro glyph is the first char");
-		var euroPeriodCharPos = string_pos_ext(".", euroPrice,0);
-		assert_equals(euroPeriodCharPos, 4, "#2.4 Period char is the fourth character in euroPrice");
-			
-		var aikido = "合気道";
-		var aiPos = string_pos_ext("合", aikido, 0);
-		var kiPos = string_pos_ext("気", aikido, 0);
-		var doPos = string_pos_ext("道", aikido, 0);
-		assert_equals(aiPos, 1, "#2.5 Ai is the first char");
-		assert_equals(kiPos, 2, "#2.6 Ki is the second char");
-		assert_equals(doPos, 3, "#2.7 Do is the third char");
-			
-		var kotegaeshi = "小手返 Test";
-		var kotegaeshiTestPos = string_pos_ext("Test", kotegaeshi, 0);
-		assert_equals(kotegaeshiTestPos, 5, "#2.8 Test is 5 chars in");
-			
-		// Emoji!
-		var smileyString = "This is a test 🙂";
-		var smileyPos = string_pos_ext("🙂", smileyString, 0);
-		assert_equals(smileyPos, 16, "#3.0 Smiley face is 16 chars in");
-			
-		var smileyPosLiteral = string_pos_ext("🙂", "This is a test 🙂", 0);
-		assert_equals(smileyPosLiteral, 16, "#3.1 Smiley face is 16 chars in a literal string");
-			
-		var emojiString = "✔✔✔💩👏";
-		var res = string_pos_ext("👏", emojiString, 0);
-		assert_equals(res, 5, "#3.2 Clap emoji the 5th char");
-			
-		var moreEmojiString = "✔✔✔💩😀😁😂👏";
-		res = string_pos_ext("👏", moreEmojiString, 0);
-		assert_equals(res, 8, "#3.3 Clap emoji the 8th char");
-			
-		var emojiString3 = "✔✔✔💩😀aa😁😂👏";
-		res = string_pos_ext("👏", emojiString3, 0);
-		assert_equals(res, 10, "#3.4 Clap emoji the 10th char");
-			
-		var emojiString4 = "✔✔✔💩😀😁😂👏aa";
-		res = string_pos_ext("aa", emojiString4, 0);
-		assert_equals(res, 9, "#3.5 \"aa\" is the 9th and 10th char");
-			
-		//show_debug_message("End string_pos_ext test");
-	})
-
-	addFact("string_pos_test", function() {
-
-		// string_pos test
-		//show_debug_message("Begin string_pos test");
-			
-		// Basic tests
-		var helloWorldStr = "Hello world!";
-		var helloPos = string_pos("Hello", helloWorldStr);
-		var worldPos = string_pos("world", helloWorldStr);
-		var exclamationPos = string_pos("!", helloWorldStr);
-		assert_equals(helloPos, 1, "Hello Pos is 1 char in");
-		assert_equals(worldPos, 7, "World Pos is 7 char in");
-		assert_equals(exclamationPos, 12, "Exclamation is at 12 chars in");
-			
-		// Test zero
-		var helloNil = string_pos("hello", helloWorldStr);
-		assert_equals(helloNil, 0, "hello is not featured in the Hello world! string");
-			
-		// UTF8 tests
-		var poundPrice = "£99.99";
-		var poundPos = string_pos("£", poundPrice);
-		assert_equals(poundPos, 1, "Pound glyph is the first char");
-		var periodCharPos = string_pos(".", poundPrice);
-		assert_equals(periodCharPos, 4, "Period char is the fourth character in poundPrice");
-			
-		var euroPrice = "€59.99";
-		var euroPos = string_pos("€", euroPrice);
-		assert_equals(euroPos, 1, "Euro glyph is the first char");
-		var euroPeriodCharPos = string_pos(".", euroPrice);
-		assert_equals(euroPeriodCharPos, 4, "Period char is the fourth character in euroPrice");
-			
-		var aikido = "合気道";
-		var aiPos = string_pos("合", aikido);
-		var kiPos = string_pos("気", aikido);
-		var doPos = string_pos("道", aikido);
-		assert_equals(aiPos, 1, "Ai is the first char");
-		assert_equals(kiPos, 2, "Ki is the second char");
-		assert_equals(doPos, 3, "Do is the third char");
-			
-		var kotegaeshi = "小手返 Test";
-		var kotegaeshiTestPos = string_pos("Test", kotegaeshi);
-		assert_equals(kotegaeshiTestPos, 5, "Test is 5 chars in");
-			
-		// Emoji!
-		var smileyString = "This is a test 🙂";
-		var smileyPos = string_pos("🙂", smileyString);
-		assert_equals(smileyPos, 16, "Smiley face is 16 chars in");
-			
-		var smileyPosLiteral = string_pos("🙂", "This is a test 🙂");
-		assert_equals(smileyPosLiteral, 16, "Smiley face is 16 chars in a literal string");
-			
-		var emojiString = "✔✔✔💩👏";
-		var res = string_pos("👏", emojiString);
-		assert_equals(res, 5, "Clap emoji the 5th char");
-			
-		var moreEmojiString = "✔✔✔💩😀😁😂👏";
-		res = string_pos("👏", moreEmojiString);
-		assert_equals(res, 8, "Clap emoji the 8th char");
-			
-		var emojiString3 = "✔✔✔💩😀aa😁😂👏";
-		res = string_pos("👏", emojiString3);
-		assert_equals(res, 10, "Clap emoji the 10th char");
-			
-		var emojiString4 = "✔✔✔💩😀😁😂👏aa";
-		res = string_pos("aa", emojiString4);
-		assert_equals(res, 9, "\"aa\" is the 9th and 10th char");
-			
-		//show_debug_message("End string_pos test");
-	})
-
-	addFact("string_repeat_test", function() {
-
-		//string_repeat test
-		//show_debug_message("start string_repeat() test");
-			
-		var vstring1 = "HeLlO WoRlD!"
-		var vstring2 = "!£水🙂"
-		var vstring3 = ""
-			
-		var res;
-			
-		//#1 string_repeat( string local , real const )
-		res = string_repeat(vstring1, 2);
-		assert_equals(res, "HeLlO WoRlD!HeLlO WoRlD!", "#1 string_repeat( string local , real const )");
-			
-		//#2 string_repeat( string local , real const )
-		res = string_repeat(vstring2, 2);
-		assert_equals(res, "!£水🙂!£水🙂", "#2 string_repeat( string local , real const )");
-			
-		//#3 string_repeat( string local , real const ) - empty string
-		res = string_repeat(vstring3, 2);
-		assert_equals(res, "", "#3 string_repeat( string local , real const ) - empty string");
-			
-		//#4 string_repeat( real const , real const )
-		res = string_repeat(1234, 2);
-		assert_equals(res, "12341234", "#4 string_repeat( real local , real const )");
-			
-		//#5 string_repeat( real const , real const )
-		res = string_repeat(1.234, 2);
-		assert_equals(res, "1.231.23", "#5 string_repeat( real local , real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-		//#6 string_repeat( string local , real const ) - one count
-		res = string_repeat(vstring1, 1);
-		assert_equals(res, "HeLlO WoRlD!", "#6 string_repeat( string local , real const )");
-			
-		//#7 string_repeat( string local , real const ) - zero count
-		res = string_repeat(vstring1, 0);
-		assert_equals(res, "", "#7 string_repeat( string local , real const )");
-			
-		//#8 string_repeat( string local , real const ) - negative count
-		res = string_repeat(vstring1, -1);
-		assert_equals(res, "", "#8 string_repeat( string local , real const )");
-			
-		#macro kString_StringRepeatTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#19 string_repeat( string macro , real const )
-		res = string_repeat(kString_StringRepeatTest, 3);
-		assert_equals(res, "Hello World!Hello World!Hello World!", "#19 string_repeat( string macro , real const )")
-			
-		//#20 string_repeat( string global , real const )
-		res = string_repeat(global.gstring, 3);
-		assert_equals(res, "Hello World!Hello World!Hello World!", "#20 string_repeat( string global , real const )")
-			
-		//#21 string_repeat( string instance , real const )
-		res = string_repeat(_oTest.ostring, 3);
-		assert_equals(res, "Hello World!Hello World!Hello World!", "#21 string_repeat( string instance , real const )")
-			
-			
-		instance_destroy(_oTest);
-	})
-
-	addFact("string_replace_all_test", function() {
-
-		//string_replace_all test
-		//show_debug_message("start string_replace_all() test");
-			
-		var res;
-			
-		//#1 string_replace_all( string const , string const , string const )
-		res = string_replace_all("Hello Earth!", "Earth", "World");
-		assert_equals(res, "Hello World!", "#1 string_replace_all( string const , string const , string const )")
-			
-		//#2 string_replace_all( string const , string const , string const )
-		res = string_replace_all("Hello Earth!Earth", "Earth", "World");
-		assert_equals(res, "Hello World!World", "#2 string_replace_all( string const , string const , string const )")
-			
-		//#3 string_replace_all( string const , string const , string const )
-		res = string_replace_all("Hello EarthEarthEarthEarthEarthEarthEarth", "Earth", "World");
-		assert_equals(res, "Hello WorldWorldWorldWorldWorldWorldWorld", "#3 string_replace_all( string const , string const , string const )")
-			
-		//#4 string_replace_all( string const , string const , string const ) - empty replacement string
-		res = string_replace_all("Hello Earth!Earth", "Earth", "");
-		assert_equals(res, "Hello !", "#4 string_replace_all( string const , string const , string const ) - empty replacement string")
-			
-		//#5 string_replace_all( string const , string const , string const ) - empty search pattern
-		res = string_replace_all("Hello Earth!Earth", "", "World");
-		assert_equals(res, "Hello Earth!Earth", "#5 string_replace_all( string const , string const , string const ) - empty search pattern")
-			
-		//#6 string_replace_all( string const , string const , real const )
-		res = string_replace_all("Hello Earth!Earth", "Earth", 1234);
-		assert_equals(res, "Hello 1234!1234", "#6 string_replace_all( string const , string const , real const )")
-			
-		//#7 string_replace_all( string const , string const , real const )
-		res = string_replace_all("Hello Earth!Earth", "Earth", 1.234);
-		assert_equals(res, "Hello 1.23!1.23", "#7 string_replace_all( string const , string const , real const )")
-			
-		//#8 string_replace_all( string const , string const , real const )
-		res = string_replace_all("Hello Earth!Earth", "Earth", int64(1234));
-		assert_equals(res, "Hello 1234!1234", "#8 string_replace_all( string const , string const , real const )")
-			
-		//#9 string_replace_all( string const , string const , string const ) - empty source strings
-		res = string_replace_all("", "two", "three");
-		assert_equals(res, "", "#9 string_replace_all( string const , string const , string const ) - empty source strings")
-			
-		//#10 string_replace_all( string const , string const , string const ) - all empty strings
-		res = string_replace_all("", "", "");
-		assert_equals(res, "", "#10 string_replace_all( string const , string const , string const ) - all empty strings")
-			
-			
-		var vstring = "Hello EarthEarth!";
-		#macro kString_StringReplaceAllTest "Hello EarthEarth!"
-		global.gstring = "Hello EarthEarth!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello EarthEarth!";
-			
-		//#11 string_replace_all( string local , string const , string const )
-		res = string_replace_all(vstring, "Earth", "World");
-		assert_equals(res, "Hello WorldWorld!", "#11 string_replace_all( string local , string const , string const )")
-			
-		//#12 string_replace_all( string macro , string const , string const )
-		res = string_replace_all(kString_StringReplaceAllTest, "Earth", "World");
-		assert_equals(res, "Hello WorldWorld!", "#12 string_replace_all( string macro , string const , string const )")
-			
-		//#13 string_replace_all( string global , string const , string const )
-		res = string_replace_all(global.gstring, "Earth", "World");
-		assert_equals(res, "Hello WorldWorld!", "#13 string_replace_all( string global , string const , string const )")
-			
-		//#14 string_replace_all( string instance , string const , string const )
-		res = string_replace_all(_oTest.ostring, "Earth", "World");
-		assert_equals(res, "Hello WorldWorld!", "#14 string_replace_all( string instance , string const , string const )")
-			
-			
-			
-			
-			
-		//#15 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 1 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "!", "A");
-		assert_equals(res, "A£水🙂", "#15 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 1 byte UTF-8 char")
-			
-		//#16 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 2 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "!", "£");
-		assert_equals(res, "££水🙂", "#16 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 2 byte UTF-8 char")
-			
-		//#17 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 3 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "!", "水");
-		assert_equals(res, "水£水🙂", "#17 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 3 byte UTF-8 char")
-			
-		//#18 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 4 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "!", "🙂");
-		assert_equals(res, "🙂£水🙂", "#18 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 4 byte UTF-8 char")
-			
-			
-		//#19 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 1 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "£", "A");
-		assert_equals(res, "!A水🙂", "#19 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 1 byte UTF-8 char")
-			
-		//#20 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 2 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "£", "€");
-		assert_equals(res, "!€水🙂", "#20 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 2 byte UTF-8 char")
-			
-		//#21 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 3 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "£", "水");
-		assert_equals(res, "!水水🙂", "#21 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 3 byte UTF-8 char")
-			
-		//#22 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 4 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "£", "🙂");
-		assert_equals(res, "!🙂水🙂", "#22 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 4 byte UTF-8 char")
-			
-			
-		//#23 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 1 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "水", "A");
-		assert_equals(res, "!£A🙂", "#23 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 1 byte UTF-8 char")
-			
-		//#24 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 2 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "水", "£");
-		assert_equals(res, "!££🙂", "#24 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 2 byte UTF-8 char")
-			
-		//#25 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 3 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "水", "月");
-		assert_equals(res, "!£月🙂", "#25 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 3 byte UTF-8 char")
-			
-		//#26 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 4 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "水", "🙂");
-		assert_equals(res, "!£🙂🙂", "#26 string_replace_all( string const , string const , string const ) - all empty strings - replace 3 byte UTF-8 char with 4 byte UTF-8 char")
-			
-			
-		//#27 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 1 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "🙂", "A");
-		assert_equals(res, "!£水A", "#27 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 1 byte UTF-8 char")
-			
-		//#28 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 2 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "🙂", "£");
-		assert_equals(res, "!£水£", "#28 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 2 byte UTF-8 char")
-			
-		//#29 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 3 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "🙂", "水");
-		assert_equals(res, "!£水水", "#29 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 3 byte UTF-8 char")
-			
-		//#30 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 4 byte UTF-8 char
-		res = string_replace_all("!£水🙂", "🙂", "😢");
-		assert_equals(res, "!£水😢", "#30 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 4 byte UTF-8 char")
-			
-			
-		//#31 string_replace_all( string const , string const , string const ) - empty replace string
-		res = string_replace_all("!£水🙂", "!£水🙂", "");
-		assert_equals(res, "", "#31 string_replace_all( string const , string const , string const ) - empty replace string")
-			
-		//#32 string_replace_all( string const , string const , string const ) - empty replace string (multiple instances)
-		res = string_replace_all("!£水🙂!!£水🙂!£水🙂", "!£水🙂", "");
-		assert_equals(res, "!", "#32 string_replace_all( string const , string const , string const ) - empty replace string (multiple instances)")
-			
-		//#33 string_replace_all( string const , string const , string const ) - replace 1 byte + 2 byte string with 3byte + 4 byte string
-		res = string_replace_all("!£水🙂!!£水🙂", "!£", "水🙂");
-		assert_equals(res, "水🙂水🙂!水🙂水🙂", "#33 string_replace_all( string const , string const , string const ) - replace 1 byte + 2 byte string with 3byte + 4 byte string")
-			
-			
-		instance_destroy(_oTest);
-	})
-
-	addFact("string_replace_test", function() {
-
-		//string_replace test
-		//show_debug_message("start string_replace() test");
-			
-		var res;
-			
-		//#1 string_replace( string const , string const , string const )
-		res = string_replace("Hello Earth!", "Earth", "World");
-		assert_equals(res, "Hello World!", "#1 string_replace( string const , string const , string const )")
-			
-		//#2 string_replace( string const , string const , string const )
-		res = string_replace("Hello Earth!Earth", "Earth", "World");
-		assert_equals(res, "Hello World!Earth", "#2 string_replace( string const , string const , string const )")
-			
-		//#3 string_replace( string const , string const , string const )
-		res = string_replace("Hello Earth!Earth", "Earth", "World");
-		res = string_replace(res, "Earth", "World");
-		assert_equals(res, "Hello World!World", "#3 string_replace( string const , string const , string const )")
-			
-		//#4 string_replace( string const , string const , string const ) - empty replacement string
-		res = string_replace("Hello Earth!Earth", "Earth", "");
-		assert_equals(res, "Hello !Earth", "#4 string_replace( string const , string const , string const ) - empty replacement string")
-			
-		//#5 string_replace( string const , string const , string const ) - empty search pattern
-		res = string_replace("Hello Earth!Earth", "", "World");
-		assert_equals(res, "Hello Earth!Earth", "#5 string_replace( string const , string const , string const ) - empty search pattern")
-			
-		//#7 string_replace( string const , string const , real const )
-		res = string_replace("Hello Earth!Earth", "Earth", 1234);
-		assert_equals(res, "Hello 1234!Earth", "#6 string_replace( string const , string const , real const )")
-			
-		//#8 string_replace( string const , string const , real const )
-		res = string_replace("Hello Earth!Earth", "Earth", 1.234);
-		assert_equals(res, "Hello 1.23!Earth", "#7 string_replace( string const , string const , real const )")
-			
-		//#9 string_replace( string const , string const , real const )
-		res = string_replace("Hello Earth!Earth", "Earth", int64(1234));
-		assert_equals(res, "Hello 1234!Earth", "#8 string_replace( string const , string const , real const )")
-			
-		//#10 string_replace( string const , string const , string const ) - empty source strings
-		res = string_replace("", "two", "three");
-		assert_equals(res, "", "#9 string_replace( string const , string const , string const ) - empty source strings")
-			
-		//#11 string_replace( string const , string const , string const ) - all empty strings
-		res = string_replace("", "", "");
-		assert_equals(res, "", "#10 string_replace( string const , string const , string const ) - all empty strings")
-			
-			
-		var vstring = "Hello Earth!";
-		#macro kString_StringReplaceTest "Hello Earth!"
-		global.gstring = "Hello Earth!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello Earth!";
-			
-		//#12 string_replace( string local , string const , string const )
-		res = string_replace(vstring, "Earth", "World");
-		assert_equals(res, "Hello World!", "#11 string_replace( string local , string const , string const )")
-			
-		//#13 string_replace( string macro , string const , string const )
-		res = string_replace(kString_StringReplaceTest, "Earth", "World");
-		assert_equals(res, "Hello World!", "#12 string_replace( string macro , string const , string const )")
-			
-		//#14 string_replace( string global , string const , string const )
-		res = string_replace(global.gstring, "Earth", "World");
-		assert_equals(res, "Hello World!", "#13 string_replace( string global , string const , string const )")
-			
-		//#15 string_replace( string instance , string const , string const )
-		res = string_replace(_oTest.ostring, "Earth", "World");
-		assert_equals(res, "Hello World!", "#14 string_replace( string instance , string const , string const )")
-			
-		var string1 = "🙂";
-		var string2 = "😬";
-		res = string_replace(string1, "🙂", string2);
-		assert_equals(res, "😬", "Replace smiley face with a grimace");
-			
-		var longSmileyString = "The quick brown 🙂 jumped over the lazy dog!";
-		res = string_replace(longSmileyString, "🙂", "fox");
-		assert_equals(res, "The quick brown fox jumped over the lazy dog!", "Replacing a smiley with a string of chars");
-			
-		var longFoxString = "The quick brown fox jumped over the lazy dog!";
-		res = string_replace(longFoxString, "fox", "🙂");
-		assert_equals(res, "The quick brown 🙂 jumped over the lazy dog!", "Replacing a string of chars with a smiley face");
-			
-		instance_destroy(_oTest);
-	})
-
-	addFact("string_set_byte_at_failure_test_1", function() {
-
-		//string_set_byte_at failure test
-		assert_throw(function() {
-			return string_set_byte_at("hello", 100, 87); // 'W'
-		}, "#1 Using 'string_set_byte_at' with out of range index (should throw error)");
+	// STRING_LAST_POS TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_last_pos_test #1", function() {
+		
+			// Basic tests
+			var helloWorldStr = "Hello world!Hello world!";
+			var helloPos = string_last_pos("Hello", helloWorldStr);
+			var worldPos = string_last_pos("world", helloWorldStr);
+			var exclamationPos = string_last_pos("!", helloWorldStr);
+			assert_equals(helloPos, 13, "Hello Pos is 13 char in");
+			assert_equals(worldPos, 19, "World Pos is 19 char in");
+			assert_equals(exclamationPos, 24, "Exclamation is at 24 chars in");
+		});
 	
-	})
+		addFact("string_last_pos_test #2", function() {
+		
+			var helloWorldStr = "Hello world!Hello world!";
+		
+			// Test zero
+			var helloNil = string_last_pos("hello", helloWorldStr);
+			assert_equals(helloNil, 0, "hello is not featured in the Hello world! string");
+		});
+	
+		addFact("string_last_pos_test #3", function() {
+		
+			// UTF8 tests
+			var poundPrice = "£99.99";
+			var poundPos = string_last_pos("£", poundPrice);
+			assert_equals(poundPos, 1, "Pound glyph is the first char");
+			var periodCharPos = string_last_pos(".", poundPrice);
+			assert_equals(periodCharPos, 4, "Period char is the fourth character in poundPrice");
+		});
+	
+		addFact("string_last_pos_test #4", function() {
+		
+			var euroPrice = "€59.99";
+			var euroPos = string_last_pos("€", euroPrice);
+			assert_equals(euroPos, 1, "Euro glyph is the first char");
+			var euroPeriodCharPos = string_last_pos(".", euroPrice);
+			assert_equals(euroPeriodCharPos, 4, "Period char is the fourth character in euroPrice");
+		});
+	
+		addFact("string_last_pos_test #5", function() {
+		
+			var aikido = "合気道";
+			var aiPos = string_last_pos("合", aikido);
+			var kiPos = string_last_pos("気", aikido);
+			var doPos = string_last_pos("道", aikido);
+			assert_equals(aiPos, 1, "Ai is the first char");
+			assert_equals(kiPos, 2, "Ki is the second char");
+			assert_equals(doPos, 3, "Do is the third char");
+		});
+	
+		addFact("string_last_pos_test #6", function() {
+		
+			var kotegaeshi = "小手返 Test";
+			var kotegaeshiTestPos = string_last_pos("Test", kotegaeshi);
+			assert_equals(kotegaeshiTestPos, 5, "Test is 5 chars in");
+		});
+	
+		addFact("string_last_pos_test #7", function() {
+		
+			// Emoji!
+			var smileyString = "This is a test 🙂";
+			var smileyPos = string_last_pos("🙂", smileyString);
+			assert_equals(smileyPos, 16, "Smiley face is 16 chars in");
+		});
+	
+		addFact("string_last_pos_test #8", function() {
+		
+			var smileyPosLiteral = string_last_pos("🙂", "This is a test 🙂");
+			assert_equals(smileyPosLiteral, 16, "Smiley face is 16 chars in a literal string");
+		});
+	
+		addFact("string_last_pos_test #9", function() {
+		
+			var emojiString = "✔✔✔💩👏";
+			var res = string_last_pos("👏", emojiString);
+			assert_equals(res, 5, "Clap emoji the 5th char");
+		});
+	
+		addFact("string_last_pos_test #10", function() {
+		
+			var moreEmojiString = "✔✔✔💩😀😁😂👏";
+			var res = string_last_pos("👏", moreEmojiString);
+			assert_equals(res, 8, "Clap emoji the 8th char");
+		});
+	
+		addFact("string_last_pos_test #11", function() {
+		
+			var emojiString3 = "✔✔✔💩😀aa😁😂👏";
+			var res = string_last_pos("👏", emojiString3);
+			assert_equals(res, 10, "Clap emoji the 10th char");
+		});
+	
+		addFact("string_last_pos_test #12", function() {
+		
+			var emojiString4 = "✔✔✔💩😀😁😂👏aa";
+			var res = string_last_pos("aa", emojiString4);
+			assert_equals(res, 9, "\"aa\" is the 9th and 10th char");
+		});
+	}
+	
+	// STRING_LENGTH TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_length_test #1", function() {
+		
+			// Basic ASCII tests
+			var helloWorldLen = string_length("Hello world!")
+			assert_equals(helloWorldLen, 12, "Hello world! is 12 chars")
+		});
+	
+		addFact("string_length_test #2", function() {
+		
+			var helloWorldStr = "Hello world!"
+			var hw2Len = string_length(helloWorldStr)
+			assert_equals(hw2Len, 12, "Hello world! as a var is 12 chars")
+		});
+	
+		addFact("string_length_test #3", function() {
+		
+			var longSentence = "The quick brown fox jumped over the lazy dog!"
+			var sentenceLen = string_length(longSentence)
+			assert_equals(sentenceLen, 45, "This sentence is 45 chars long")
+		});
+	
+		addFact("string_length_test #4", function() {
+		
+			// UTF8 tests
+			var poundPrice = "£99.99"
+			var poundPriceLen = string_length(poundPrice)
+			assert_equals(poundPriceLen, 6, "Pound price string is 6 chars long")
+		});
+	
+		addFact("string_length_test #5", function() {
+		
+			var euroPrice = "€59.99"
+			var euroPriceLen = string_length(euroPrice)
+			assert_equals(euroPriceLen, 6, "Euro price string is 6 chars long")
+		});
+	
+		addFact("string_length_test #6", function() {
+		
+			var someSymbols = "‰ˆ‡†•"
+			var someSymbolsLen = string_length(someSymbols)
+			assert_equals(someSymbolsLen, 5, "Lenght of someSymbols string is 5")
+		});
+	
+		addFact("string_length_test #7", function() {
+		
+			var aikido = "合気道"
+			var aikidoLen = string_length(aikido)
+			assert_equals(aikidoLen, 3, "Aikido is 3 chars")
+		});
+	
+		addFact("string_length_test #8", function() {
+		
+			var kotegaeshi = "小手返"
+			var kotegaeshiLen = string_length(kotegaeshi)
+			assert_equals(kotegaeshiLen, 3, "kotegaeshi is 3 chars")
+		});
+	
+		addFact("string_length_test #9", function() {
+		
+			// Emoji!
+			var smileyFace = "🙂"
+			var smileyFaceLen = string_length(smileyFace)
+			assert_equals(smileyFaceLen, 1, "1 Smiley face is 1 char")
+		});
+	
+		addFact("string_length_test #10", function() {
+			
+			assert_equals(string_length("🙂"), 1, "Smiley face literal")
+		});
+	
+		addFact("string_length_test #11", function() {
+			
+			var emojiString = "💩👏✔"
+			var emojiLen = string_length(emojiString)
+			assert_equals(emojiLen, 3, "Emoji len is 3 chars long")
+		});
+	
+		addFact("string_length_test #12", function() {
+			
+			var emojiString = "💩👏✔"
+			var emojiLen = string_length(emojiString)
+			assert_equals(emojiLen, 3, "Emoji len is 3 chars long")
+		});
+	}
+	
+	// STRING_LETTERSDIGITS_TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_lettersdigits_test #1", function() {
+			
+			var vstring1 = "321!HeLlO WoRlD!123"
+		
+			//#1 string_lettersdigits( string local )
+			var res = string_lettersdigits(vstring1);
+			assert_equals(res, "321HeLlOWoRlD123", "#1 string_lettersdigits( string local )");
+		});
+	
+		addFact("string_lettersdigits_test #2", function() {
+			
+			var vstring2 = "!£水🙂"
+		
+			//#2 string_lettersdigits( string local ) - no letters
+			var res = string_lettersdigits(vstring2);
+			assert_equals(res, "", "#2 string_lettersdigits( string local ) - no letters");
+		});
+	
+		addFact("string_lettersdigits_test #3", function() {
+			
+			var vstring3 = ""
+		
+			//#3 string_lettersdigits( string local ) - empty string
+			var res = string_lettersdigits(vstring3);
+			assert_equals(res, "", "#3 string_lettersdigits( string local ) - empty string");
+		});
+	
+		addFact("string_lettersdigits_test #4", function() {
+			
+			var vstring4 = "abcd"
+		
+			//#4 string_lettersdigits( string local ) - all letters
+			var res = string_lettersdigits(vstring4);
+			assert_equals(res, "abcd", "#4 string_lettersdigits( string local ) - all letters");
+		});
+	
+		addFact("string_lettersdigits_test #5", function() {
+			
+			var vstring5 = "1234"
+		
+			//#5 string_lettersdigits( string local ) - all digits
+			var res = string_lettersdigits(vstring5);
+			assert_equals(res, "1234", "#5 string_lettersdigits( string local ) - all digits");
+		});
+	
+		addFact("string_lettersdigits_test #6", function() {
+			
+			//#6 string_lettersdigits( real const )
+			var res = string_lettersdigits(1234);
+			assert_equals(res, "1234", "#6 string_lettersdigits( real const )");
+		});
+	
+		addFact("string_lettersdigits_test #7", function() {
+			
+			//#7 string_lettersdigits( real const )
+			var res = string_lettersdigits(1.234);
+			assert_equals(res, "123", "#7 string_lettersdigits( real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+		});
+	
+		addFact("string_lettersdigits_test #8", function() {
+			
+			#macro kString_StringLettersdigitsTest "321!Hello World!123"
+		
+			//#8 string_lettersdigits( string macro )
+			var res = string_lettersdigits(kString_StringLettersdigitsTest);
+			assert_equals(res, "321HelloWorld123", "#8 string_lettersdigits( string macro )")
+		});
+	
+		addFact("string_lettersdigits_test #9", function() {
+			
+			global.gstring = "321!Hello World!123";
+		
+			//#9 string_lettersdigits( string global )
+			var res = string_lettersdigits(global.gstring);
+			assert_equals(res, "321HelloWorld123", "#9 string_lettersdigits( string global )")
+		});
+	
+		addFact("string_lettersdigits_test #10", function() {
+			
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "321!Hello World!123";
+		
+			//#10 string_lettersdigits( string instance )
+			var res = string_lettersdigits(_oTest.ostring);
+			assert_equals(res, "321HelloWorld123", "#10 string_lettersdigits( string instance )")
+		
+			instance_destroy(_oTest);
+		});
+	}
+	
+	// STRING_LETTERS TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_lettersdigits_test #1", function() {
+			
+			var vstring1 = "321!HeLlO WoRlD!123"
+		
+			//#1 string_letters( string local )
+			var res = string_letters(vstring1);
+			assert_equals(res, "HeLlOWoRlD", "#1 string_letters( string local )");
+		});
+	
+		addFact("string_lettersdigits_test #2", function() {
+			
+			var vstring2 = "!£水🙂"
+		
+			//#2 string_letters( string local ) - no letters
+			var res = string_letters(vstring2);
+			assert_equals(res, "", "#2 string_letters( string local ) - no letters");
+		});
+	
+		addFact("string_lettersdigits_test #3", function() {
+			
+			var vstring3 = ""
+		
+			//#3 string_letters( string local ) - empty string
+			var res = string_letters(vstring3);
+			assert_equals(res, "", "#3 string_letters( string local ) - empty string");
+		});
+	
+		addFact("string_lettersdigits_test #4", function() {
+			
+			var vstring4 = "abcd"
+		
+			//#4 string_letters( string local ) - all letters
+			var res = string_letters(vstring4);
+			assert_equals(res, "abcd", "#4 string_letters( string local ) - all letters");
+		});
+	
+		addFact("string_lettersdigits_test #5", function() {
+			
+			//#5 string_letters( real const )
+			var res = string_letters(1234);
+			assert_equals(res, "", "#5 string_letters( real const )");
+		});
+	
+		addFact("string_lettersdigits_test #6", function() {
+			
+			//#6 string_letters( real const )
+			var res = string_letters(1.234);
+			assert_equals(res, "", "#6 string_letters( real const )");
+		});
+	
+		addFact("string_lettersdigits_test #7", function() {
+			
+			#macro kString_StringLettersTest "321!Hello World!123"
+		
+			//#7 string_letters( string macro )
+			var res = string_letters(kString_StringLettersTest);
+			assert_equals(res, "HelloWorld", "#7 string_letters( string macro )")
+		});
+	
+		addFact("string_lettersdigits_test #8", function() {
+			
+			global.gstring = "321!Hello World!123";
+		
+			//#8 string_letters( string global )
+			var res = string_letters(global.gstring);
+			assert_equals(res, "HelloWorld", "#8 string_letters( string global )")
+		});
+	
+		addFact("string_lettersdigits_test #9", function() {
+			
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "321!Hello World!123";
+		
+			//#9 string_letters( string instance )
+			var res = string_letters(_oTest.ostring);
+			assert_equals(res, "HelloWorld", "#9 string_letters( string instance )")
+		
+			instance_destroy(_oTest)
+		});
+	}
 
-	addFact("string_set_byte_at_failure_test_2", function() {
+	// STRING_LOWER TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_lower_test #1", function() {
+			
+			var vstring = "HeLlO WoRlD!"
+		
+			//#1 string_lower( string local )
+			var res = string_lower(vstring);
+			assert_equals(res, "hello world!", "#1 string_lower( string local )");
+		});
+	
+		addFact("string_lower_test #2", function() {
+			
+			var vstring2 = "!£水🙂"
+		
+			//#2 string_lower( string local )
+			var res = string_lower(vstring2);
+			assert_equals(res, "!£水🙂", "#2 string_lower( string local )");
+		});
+	
+		addFact("string_lower_test #3", function() {
+			
+			//#3 string_lower( string const ) - empty string
+			var res = string_lower("");
+			assert_equals(res, "", "#3 string_lower( string const ) - empty string");
+		});
+	
+		addFact("string_lower_test #4", function() {
+			
+			//#4 string_lower( string const ) - single uppercase character
+			var res = string_lower("H");
+			assert_equals(res, "h", "#4 string_lower( string const ) - single uppercase character");
+		});
+	
+		addFact("string_lower_test #5", function() {
+			
+			//#5 string_lower( string const ) - single lowercase character
+			var res = string_lower("h");
+			assert_equals(res, "h", "#5 string_lower( string const ) - single lowercase character");
+		});
+	
+		addFact("string_lower_test #6", function() {
+			
+			//#6 string_lower( real local )
+			var res = string_lower(1234);
+			assert_equals(res, "1234", "#6 string_lower( real local )");
+		});
+	
+		addFact("string_lower_test #7", function() {
+			
+			//#7 string_lower( real local )
+			var res = string_lower(1.234);
+			assert_equals(res, "1.23", "#7 string_lower( real local )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+		});
+	
+		addFact("string_lower_test #8", function() {
+			
+			//#8 string_lower( real local )
+			var res = string_lower(int64(1234));
+			assert_equals(res, "1234", "#8 string_lower( int64 local )");
+		});
+	
+		addFact("string_lower_test #9", function() {
+			
+			var u8001 = "老aA老aAa";
+			var u8001Chr = string_lower(u8001);
+			assert_equals(u8001Chr, "老aa老aaa", "#9 老aA老aAa to lower is 老aa老aaa");
+		});
+	}
+	
+	// STRING_ORD_AT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_ord_at_test #1", function() {
+			
+			var vstring = "hello World!"
+		
+			//#1 string_ord_at( real local , real const )
+			var res = string_ord_at(vstring, 7);
+			assert_equals(res, 87, "#1 string_ord_at( real local , real const )") // 'W'
+		});
+	
+		addFact("string_ord_at_test #2", function() {
+			
+			var vstring = "hello World!"
+		
+			//#2 string_ord_at( real local , real const )
+			var res = string_ord_at(vstring, 7.6);
+			assert_equals(res, 87, "#2 string_ord_at( real local , real const )") // 'W'
+		});
+	
+		addFact("string_ord_at_test #3", function() {
+			
+			var vstring = "hello World!"
+		
+			//#3 string_ord_at( real local , real const )
+			var res = string_ord_at(vstring, 7.2);
+			assert_equals(res, 87, "#3 string_ord_at( real local , real const )") // 'W'
+		});
+	
+		addFact("string_ord_at_test #4", function() {
+			
+			var vstring = "hello World!"
+		
+			//#4 string_ord_at( real local , real const )
+			var res = string_ord_at(vstring, 0);
+			assert_equals(res, 104, "#4 string_ord_at( real local , real const )") // 'h'
+		});
+	
+		addFact("string_ord_at_test #5", function() {
+			
+			var vstring = "hello World!"
+		
+			//#5 string_ord_at( real local , real const )
+			var res = string_ord_at(vstring, 100);
+			assert_equals(res, -1, "#5 string_ord_at( real local , real const )")
+		});
+	
+		addFact("string_ord_at_test #6", function() {
+			
+			var vstring = "hello World!"
+		
+			//#6 string_ord_at( real local , real const )
+			var res = string_ord_at(vstring, -2);
+			assert_equals(res, 104, "#6 string_ord_at( real local , real const )") // 'h'
+		});
+	
+		addFact("string_ord_at_test #7", function() {
+			
+			var vstring = "hello World!"
+		
+			//#7 string_ord_at( int64 const , real const )
+			var res = string_ord_at(int64(1234), 2);
+			assert_equals(res, 50, "#7 string_ord_at( int64 const , real const )") // '2'
+		});
+	
+		addFact("string_ord_at_test #8", function() {
+			
+			var vstring = "hello World!"
+		
+			//#8 string_ord_at( real const , real const )
+			var res = string_ord_at(1.234, 2);
+			assert_equals(res, 46, "#8 string_ord_at( real const , real const )") // '.'
+		});
+	
+		addFact("string_ord_at_test #9", function() {
+			
+			var vstring = "hello World!"
+		
+			//#9 string_ord_at( bool const , real const )
+			var res = string_ord_at(true, 1);
+			assert_equals(res, 49, "#9 string_ord_at( bool const , real const )") // '1'
+		});
+	
+		addFact("string_ord_at_test #10", function() {
+			
+			#macro kString_StringOrdAtTest "Hello World!"
+		
+			//#10 string_ord_at( string macro , real const )
+			var res = string_ord_at(kString_StringOrdAtTest, 7);
+			assert_equals(res, 87, "#10 string_ord_at( string macro , real const )")
+		});
+	
+		addFact("string_ord_at_test #11", function() {
+			
+			global.gstring = "Hello World!";
+		
+			//#11 string_ord_at( string global , real const )
+			var res = string_ord_at(global.gstring, 7);
+			assert_equals(res, 87, "#11 string_ord_at( string global , real const )")
+		});
+	
+		addFact("string_ord_at_test #12", function() {
+			
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
+		
+			//#12 string_ord_at( string instance , real const )
+			var res = string_ord_at(_oTest.ostring, 7);
+			assert_equals(res, 87, "#12 string_ord_at( string instance , real const )")
+		
+			instance_destroy(_oTest);
+		});
+	
+		addFact("string_ord_at_test #13", function() {
+			
+			// UTF-8 tests 2/3/4 bytes
+			//#13 string_ord_at( string const , real const )
+			var res = string_ord_at("!£水🙂a", 1);
+			assert_equals(res, 33, "#13 string_ord_at( string const , real const )")
+		});
+	
+		addFact("string_ord_at_test #14", function() {
+			
+			//#14 string_ord_at( string const , real const )
+			var res = string_ord_at("!£水🙂a", 2);
+			assert_equals(res, 163, "#14 string_ord_at( string const , real const )")
+		});
+	
+		addFact("string_ord_at_test #15", function() {
+			
+			//#15 string_ord_at( string const , real const )
+			var res = string_ord_at("!£水🙂a", 3);
+			assert_equals(res, 27700, "#15 string_ord_at( string const , real const )")
+		});
+	
+		addFact("string_ord_at_test #16", function() {
+			
+			//#16 string_ord_at( string const , real const )
+			var res = string_ord_at("!£水🙂a", 4);
+			assert_equals(res, 128578, "#16 string_ord_at( string const , real const )")
+		});
+	
+		addFact("string_ord_at_test #17", function() {
+			
+			//#17 string_ord_at( string const , real const )
+			var res = string_ord_at("!£水🙂a", 5);
+			assert_equals(res, 97, "#17 string_ord_at( string const , real const )")
+		});
+	}
+	
+	// STRING_POS_EXT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_pos_ext_test #1", function() {
+			
+			// Basic tests
+			var helloWorldStr = "Hello world!Hello world!";
+		
+			var helloPos = string_pos_ext("Hello", helloWorldStr, 0);
+			var worldPos = string_pos_ext("world", helloWorldStr, 0);
+			var exclamationPos = string_pos_ext("!", helloWorldStr, 0);
+			assert_equals(helloPos, 1, "#1.0 Hello Pos is 1 char in");
+			assert_equals(worldPos, 7, "#1.1 World Pos is 7 char in");
+			assert_equals(exclamationPos, 12, "#1.2 Exclamation is at 12 chars in");
+		});
+	
+		addFact("string_pos_ext_test #2", function() {
+			
+			// Basic tests
+			var helloWorldStr = "Hello world!Hello world!";
+		
+			var helloPos = string_pos_ext("Hello", helloWorldStr, 13);
+			var worldPos = string_pos_ext("world", helloWorldStr, 13);
+			var exclamationPos = string_pos_ext("!", helloWorldStr, 13);
+			assert_equals(helloPos, 13, "#1.3 Hello Pos is 13 char in");
+			assert_equals(worldPos, 19, "#1.4 World Pos is 19 char in");
+			assert_equals(exclamationPos, 24, "#1.5 Exclamation is at 24 chars in");
+		});
+	
+		addFact("string_pos_ext_test #3", function() {
+		
+			var helloWorldStr = "Hello world!Hello world!";
+		
+			// Test zero
+			var helloNil = string_pos_ext( "hello", helloWorldStr, 0);
+			assert_equals(helloNil, 0, "#1.6 hello is not featured in the Hello world! string");
+		});
+	
+		addFact("string_pos_ext_test #4", function() {
+		
+			// UTF8 tests
+			var poundPrice = "£99.99";
+			var poundPos = string_pos_ext("£", poundPrice,0);
+			assert_equals(poundPos, 1, "#2.0 Pound glyph is the first char");
+			var periodCharPos = string_pos_ext(".", poundPrice,0);
+			assert_equals(periodCharPos, 4, "#2.1 Period char is the fourth character in poundPrice");
+		});
+	
+		addFact("string_pos_ext_test #5", function() {
+		
+			var euroPrice = "€59.99";
+			var euroPos = string_pos_ext("€", euroPrice,0);
+			assert_equals(euroPos, 1, "#2.2 Euro glyph is the first char");
+			var euroPeriodCharPos = string_pos_ext(".", euroPrice,0);
+			assert_equals(euroPeriodCharPos, 4, "#2.4 Period char is the fourth character in euroPrice");
+		});
+	
+		addFact("string_pos_ext_test #6", function() {
+		
+			var aikido = "合気道";
+			var aiPos = string_pos_ext("合", aikido, 0);
+			var kiPos = string_pos_ext("気", aikido, 0);
+			var doPos = string_pos_ext("道", aikido, 0);
+			assert_equals(aiPos, 1, "#2.5 Ai is the first char");
+			assert_equals(kiPos, 2, "#2.6 Ki is the second char");
+			assert_equals(doPos, 3, "#2.7 Do is the third char");
+		});
+	
+		addFact("string_pos_ext_test #7", function() {
+		
+			var kotegaeshi = "小手返 Test";
+			var kotegaeshiTestPos = string_pos_ext("Test", kotegaeshi, 0);
+			assert_equals(kotegaeshiTestPos, 5, "#2.8 Test is 5 chars in");
+		});
+	
+		addFact("string_pos_ext_test #8", function() {
+		
+			// Emoji!
+			var smileyString = "This is a test 🙂";
+			var smileyPos = string_pos_ext("🙂", smileyString, 0);
+			assert_equals(smileyPos, 16, "#3.0 Smiley face is 16 chars in");
+		});
+	
+		addFact("string_pos_ext_test #9", function() {
+		
+			var smileyPosLiteral = string_pos_ext("🙂", "This is a test 🙂", 0);
+			assert_equals(smileyPosLiteral, 16, "#3.1 Smiley face is 16 chars in a literal string");
+		});
+	
+		addFact("string_pos_ext_test #10", function() {
+		
+			var emojiString = "✔✔✔💩👏";
+			var res = string_pos_ext("👏", emojiString, 0);
+			assert_equals(res, 5, "#3.2 Clap emoji the 5th char");
+		});
+	
+		addFact("string_pos_ext_test #11", function() {
+		
+			var moreEmojiString = "✔✔✔💩😀😁😂👏";
+			var res = string_pos_ext("👏", moreEmojiString, 0);
+			assert_equals(res, 8, "#3.3 Clap emoji the 8th char");
+		});
+	
+		addFact("string_pos_ext_test #12", function() {
+		
+			var emojiString3 = "✔✔✔💩😀aa😁😂👏";
+			var res = string_pos_ext("👏", emojiString3, 0);
+			assert_equals(res, 10, "#3.4 Clap emoji the 10th char");
+		});
+	
+		addFact("string_pos_ext_test #13", function() {
+		
+			var emojiString4 = "✔✔✔💩😀😁😂👏aa";
+			var res = string_pos_ext("aa", emojiString4, 0);
+			assert_equals(res, 9, "#3.5 \"aa\" is the 9th and 10th char");
+		});
+	}
+	
+	// STRING_POS TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_pos_test #1", function() {
+		
+			// Basic tests
+			var helloWorldStr = "Hello world!";
+		
+			var helloPos = string_pos("Hello", helloWorldStr);
+			var worldPos = string_pos("world", helloWorldStr);
+			var exclamationPos = string_pos("!", helloWorldStr);
+			assert_equals(helloPos, 1, "Hello Pos is 1 char in");
+			assert_equals(worldPos, 7, "World Pos is 7 char in");
+			assert_equals(exclamationPos, 12, "Exclamation is at 12 chars in");
+		});
+	
+		addFact("string_pos_test #2", function() {
+		
+		
+			var helloWorldStr = "Hello world!";
+		
+			// Test zero
+			var helloNil = string_pos("hello", helloWorldStr);
+			assert_equals(helloNil, 0, "hello is not featured in the Hello world! string");
+		});
+	
+		addFact("string_pos_test #3", function() {
+		
+			// UTF8 tests
+			var poundPrice = "£99.99";
+			var poundPos = string_pos("£", poundPrice);
+			assert_equals(poundPos, 1, "Pound glyph is the first char");
+			var periodCharPos = string_pos(".", poundPrice);
+			assert_equals(periodCharPos, 4, "Period char is the fourth character in poundPrice");
+		});
+	
+		addFact("string_pos_test #4", function() {
+		
+			var euroPrice = "€59.99";
+			var euroPos = string_pos("€", euroPrice);
+			assert_equals(euroPos, 1, "Euro glyph is the first char");
+			var euroPeriodCharPos = string_pos(".", euroPrice);
+			assert_equals(euroPeriodCharPos, 4, "Period char is the fourth character in euroPrice");
+		});
+	
+		addFact("string_pos_test #5", function() {
+		
+			var aikido = "合気道";
+			var aiPos = string_pos("合", aikido);
+			var kiPos = string_pos("気", aikido);
+			var doPos = string_pos("道", aikido);
+			assert_equals(aiPos, 1, "Ai is the first char");
+			assert_equals(kiPos, 2, "Ki is the second char");
+			assert_equals(doPos, 3, "Do is the third char");
+		});
+	
+		addFact("string_pos_test #6", function() {
+		
+			var kotegaeshi = "小手返 Test";
+			var kotegaeshiTestPos = string_pos("Test", kotegaeshi);
+			assert_equals(kotegaeshiTestPos, 5, "Test is 5 chars in");
+		});
+	
+		addFact("string_pos_test #7", function() {
+		
+			// Emoji!
+			var smileyString = "This is a test 🙂";
+			var smileyPos = string_pos("🙂", smileyString);
+			assert_equals(smileyPos, 16, "Smiley face is 16 chars in");
+		});
+	
+		addFact("string_pos_test #8", function() {
+		
+			var smileyPosLiteral = string_pos("🙂", "This is a test 🙂");
+			assert_equals(smileyPosLiteral, 16, "Smiley face is 16 chars in a literal string");
+		});
+	
+		addFact("string_pos_test #9", function() {
+		
+			var emojiString = "✔✔✔💩👏";
+			var res = string_pos("👏", emojiString);
+			assert_equals(res, 5, "Clap emoji the 5th char");
+		});
+	
+		addFact("string_pos_test #10", function() {
+		
+			var moreEmojiString = "✔✔✔💩😀😁😂👏";
+			var res = string_pos("👏", moreEmojiString);
+			assert_equals(res, 8, "Clap emoji the 8th char");
+		});
+	
+		addFact("string_pos_test #11", function() {
+		
+			var emojiString3 = "✔✔✔💩😀aa😁😂👏";
+			var res = string_pos("👏", emojiString3);
+			assert_equals(res, 10, "Clap emoji the 10th char");
+		});
+	
+		addFact("string_pos_test #12", function() {
+		
+			var emojiString4 = "✔✔✔💩😀😁😂👏aa";
+			var res = string_pos("aa", emojiString4);
+			assert_equals(res, 9, "\"aa\" is the 9th and 10th char");
+		});
+	}
+	
+	// STRING_REPEAT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_repeat_test #1", function() {
+		
+			var vstring1 = "HeLlO WoRlD!"
+		
+			//#1 string_repeat( string local , real const )
+			var res = string_repeat(vstring1, 2);
+			assert_equals(res, "HeLlO WoRlD!HeLlO WoRlD!", "#1 string_repeat( string local , real const )");
+		});
+	
+		addFact("string_repeat_test #2", function() {
+		
+			var vstring2 = "!£水🙂"
+		
+			//#2 string_repeat( string local , real const )
+			var res = string_repeat(vstring2, 2);
+			assert_equals(res, "!£水🙂!£水🙂", "#2 string_repeat( string local , real const )");
+		});
+	
+		addFact("string_repeat_test #3", function() {
+		
+			var vstring3 = ""
+		
+			//#3 string_repeat( string local , real const ) - empty string
+			var res = string_repeat(vstring3, 2);
+			assert_equals(res, "", "#3 string_repeat( string local , real const ) - empty string");
+		});
+	
+		addFact("string_repeat_test #4", function() {
+		
+			//#4 string_repeat( real const , real const )
+			var res = string_repeat(1234, 2);
+			assert_equals(res, "12341234", "#4 string_repeat( real local , real const )");
+		});
+	
+		addFact("string_repeat_test #5", function() {
+		
+			//#5 string_repeat( real const , real const )
+			var res = string_repeat(1.234, 2);
+			assert_equals(res, "1.231.23", "#5 string_repeat( real local , real const )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+		});
+	
+		addFact("string_repeat_test #6", function() {
+		
+			var vstring1 = "HeLlO WoRlD!"
+		
+			//#6 string_repeat( string local , real const ) - one count
+			var res = string_repeat(vstring1, 1);
+			assert_equals(res, "HeLlO WoRlD!", "#6 string_repeat( string local , real const )");
+		});
+	
+		addFact("string_repeat_test #7", function() {
+		
+			var vstring2 = "!£水🙂"
+		
+			//#7 string_repeat( string local , real const ) - zero count
+			var res = string_repeat(vstring1, 0);
+			assert_equals(res, "", "#7 string_repeat( string local , real const )");
+		});
+	
+		addFact("string_repeat_test #8", function() {
+		
+			var vstring3 = ""
+		
+			//#8 string_repeat( string local , real const ) - negative count
+			var res = string_repeat(vstring1, -1);
+			assert_equals(res, "", "#8 string_repeat( string local , real const )");
+		});
+	
+		addFact("string_repeat_test #9", function() {
+		
+			#macro kString_StringRepeatTest "Hello World!"
+		
+			//#19 string_repeat( string macro , real const )
+			var res = string_repeat(kString_StringRepeatTest, 3);
+			assert_equals(res, "Hello World!Hello World!Hello World!", "#19 string_repeat( string macro , real const )")
+		});
+	
+		addFact("string_repeat_test #10", function() {
+		
+			global.gstring = "Hello World!";
+		
+			//#20 string_repeat( string global , real const )
+			var res = string_repeat(global.gstring, 3);
+			assert_equals(res, "Hello World!Hello World!Hello World!", "#20 string_repeat( string global , real const )")
+		});
+	
+		addFact("string_repeat_test #11", function() {
+		
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
+		
+			//#21 string_repeat( string instance , real const )
+			var res = string_repeat(_oTest.ostring, 3);
+			assert_equals(res, "Hello World!Hello World!Hello World!", "#21 string_repeat( string instance , real const )")
+		
+			instance_destroy(_oTest);
+		});
+	}
 
-		//string_set_byte_at failure test
-		assert_throw(function() {
-			return string_set_byte_at("hello", -2, 87); // 'W'
-		}, "#1 Using 'string_set_byte_at' with negative index (should throw error)");
-	})
+	// STRING_REPLACE_ALL TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_replace_all_test #1", function() {
+		
+			//#1 string_replace_all( string const , string const , string const )
+			var res = string_replace_all("Hello Earth!", "Earth", "World");
+			assert_equals(res, "Hello World!", "#1 string_replace_all( string const , string const , string const )")
+		});
+	
+		addFact("string_replace_all_test #2", function() {
+		
+			//#2 string_replace_all( string const , string const , string const )
+			var res = string_replace_all("Hello Earth!Earth", "Earth", "World");
+			assert_equals(res, "Hello World!World", "#2 string_replace_all( string const , string const , string const )")
+		});
+	
+		addFact("string_replace_all_test #3", function() {
+		
+			//#3 string_replace_all( string const , string const , string const )
+			var res = string_replace_all("Hello EarthEarthEarthEarthEarthEarthEarth", "Earth", "World");
+			assert_equals(res, "Hello WorldWorldWorldWorldWorldWorldWorld", "#3 string_replace_all( string const , string const , string const )")
+		});
+	
+		addFact("string_replace_all_test #4", function() {
+		
+			//#4 string_replace_all( string const , string const , string const ) - empty replacement string
+			var res = string_replace_all("Hello Earth!Earth", "Earth", "");
+			assert_equals(res, "Hello !", "#4 string_replace_all( string const , string const , string const ) - empty replacement string")
+		});
+	
+		addFact("string_replace_all_test #5", function() {
+		
+			//#5 string_replace_all( string const , string const , string const ) - empty search pattern
+			var res = string_replace_all("Hello Earth!Earth", "", "World");
+			assert_equals(res, "Hello Earth!Earth", "#5 string_replace_all( string const , string const , string const ) - empty search pattern")
+		});
+	
+		addFact("string_replace_all_test #6", function() {
+		
+			//#6 string_replace_all( string const , string const , real const )
+			var res = string_replace_all("Hello Earth!Earth", "Earth", 1234);
+			assert_equals(res, "Hello 1234!1234", "#6 string_replace_all( string const , string const , real const )")
+		});
+	
+		addFact("string_replace_all_test #7", function() {
+		
+			//#7 string_replace_all( string const , string const , real const )
+			var res = string_replace_all("Hello Earth!Earth", "Earth", 1.234);
+			assert_equals(res, "Hello 1.23!1.23", "#7 string_replace_all( string const , string const , real const )")
+		});
+	
+		addFact("string_replace_all_test #8", function() {
+		
+			//#8 string_replace_all( string const , string const , real const )
+			var res = string_replace_all("Hello Earth!Earth", "Earth", int64(1234));
+			assert_equals(res, "Hello 1234!1234", "#8 string_replace_all( string const , string const , real const )")
+		});
+	
+		addFact("string_replace_all_test #9", function() {
+		
+			//#9 string_replace_all( string const , string const , string const ) - empty source strings
+			var res = string_replace_all("", "two", "three");
+			assert_equals(res, "", "#9 string_replace_all( string const , string const , string const ) - empty source strings")
+		});
+	
+		addFact("string_replace_all_test #10", function() {
+		
+			//#10 string_replace_all( string const , string const , string const ) - all empty strings
+			var res = string_replace_all("", "", "");
+			assert_equals(res, "", "#10 string_replace_all( string const , string const , string const ) - all empty strings")
+		});
+	
+		addFact("string_replace_all_test #11", function() {
+		
+			var vstring = "Hello EarthEarth!";
+		
+			//#11 string_replace_all( string local , string const , string const )
+			var res = string_replace_all(vstring, "Earth", "World");
+			assert_equals(res, "Hello WorldWorld!", "#11 string_replace_all( string local , string const , string const )")
+		});
+	
+		addFact("string_replace_all_test #12", function() {
+		
+			#macro kString_StringReplaceAllTest "Hello EarthEarth!"
+		
+			//#12 string_replace_all( string macro , string const , string const )
+			var res = string_replace_all(kString_StringReplaceAllTest, "Earth", "World");
+			assert_equals(res, "Hello WorldWorld!", "#12 string_replace_all( string macro , string const , string const )")
+		});
+	
+		addFact("string_replace_all_test #13", function() {
+		
+			global.gstring = "Hello EarthEarth!";
+		
+			//#13 string_replace_all( string global , string const , string const )
+			var res = string_replace_all(global.gstring, "Earth", "World");
+			assert_equals(res, "Hello WorldWorld!", "#13 string_replace_all( string global , string const , string const )")
+		});
+	
+		addFact("string_replace_all_test #14", function() {
+		
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello EarthEarth!";
+		
+			//#14 string_replace_all( string instance , string const , string const )
+			var res = string_replace_all(_oTest.ostring, "Earth", "World");
+			assert_equals(res, "Hello WorldWorld!", "#14 string_replace_all( string instance , string const , string const )")
+		
+			instance_destroy(_oTest);
+		});
+	
+		addFact("string_replace_all_test #15", function() {
+		
+			//#15 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 1 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "!", "A");
+			assert_equals(res, "A£水🙂", "#15 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 1 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #16", function() {
+		
+			//#16 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 2 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "!", "£");
+			assert_equals(res, "££水🙂", "#16 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 2 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #17", function() {
+		
+			//#17 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 3 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "!", "水");
+			assert_equals(res, "水£水🙂", "#17 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 3 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #18", function() {
+		
+			//#18 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 4 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "!", "🙂");
+			assert_equals(res, "🙂£水🙂", "#18 string_replace_all( string const , string const , string const ) - replace 1 byte UTF-8 char with 4 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #19", function() {
+		
+			//#19 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 1 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "£", "A");
+			assert_equals(res, "!A水🙂", "#19 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 1 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #20", function() {
+		
+			//#20 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 2 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "£", "€");
+			assert_equals(res, "!€水🙂", "#20 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 2 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #21", function() {
+		
+			//#21 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 3 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "£", "水");
+			assert_equals(res, "!水水🙂", "#21 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 3 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #22", function() {
+		
+			//#22 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 4 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "£", "🙂");
+			assert_equals(res, "!🙂水🙂", "#22 string_replace_all( string const , string const , string const ) - replace 2 byte UTF-8 char with 4 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #23", function() {
+		
+			//#23 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 1 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "水", "A");
+			assert_equals(res, "!£A🙂", "#23 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 1 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #24", function() {
+		
+			//#24 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 2 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "水", "£");
+			assert_equals(res, "!££🙂", "#24 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 2 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #25", function() {
+		
+			//#25 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 3 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "水", "月");
+			assert_equals(res, "!£月🙂", "#25 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 3 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #26", function() {
+		
+			//#26 string_replace_all( string const , string const , string const ) - replace 3 byte UTF-8 char with 4 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "水", "🙂");
+			assert_equals(res, "!£🙂🙂", "#26 string_replace_all( string const , string const , string const ) - all empty strings - replace 3 byte UTF-8 char with 4 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #27", function() {
+		
+			//#27 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 1 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "🙂", "A");
+			assert_equals(res, "!£水A", "#27 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 1 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #28", function() {
+		
+			//#28 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 2 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "🙂", "£");
+			assert_equals(res, "!£水£", "#28 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 2 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #29", function() {
+		
+			//#29 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 3 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "🙂", "水");
+			assert_equals(res, "!£水水", "#29 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 3 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #30", function() {
+		
+			//#30 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 4 byte UTF-8 char
+			var res = string_replace_all("!£水🙂", "🙂", "😢");
+			assert_equals(res, "!£水😢", "#30 string_replace_all( string const , string const , string const ) - replace 4 byte UTF-8 char with 4 byte UTF-8 char")
+		});
+	
+		addFact("string_replace_all_test #31", function() {
+		
+			//#31 string_replace_all( string const , string const , string const ) - empty replace string
+			var res = string_replace_all("!£水🙂", "!£水🙂", "");
+			assert_equals(res, "", "#31 string_replace_all( string const , string const , string const ) - empty replace string")
+		});
+	
+		addFact("string_replace_all_test #32", function() {
+		
+			//#32 string_replace_all( string const , string const , string const ) - empty replace string (multiple instances)
+			var res = string_replace_all("!£水🙂!!£水🙂!£水🙂", "!£水🙂", "");
+			assert_equals(res, "!", "#32 string_replace_all( string const , string const , string const ) - empty replace string (multiple instances)")
+		});
+	
+		addFact("string_replace_all_test #33", function() {
+		
+			//#33 string_replace_all( string const , string const , string const ) - replace 1 byte + 2 byte string with 3byte + 4 byte string
+			var res = string_replace_all("!£水🙂!!£水🙂", "!£", "水🙂");
+			assert_equals(res, "水🙂水🙂!水🙂水🙂", "#33 string_replace_all( string const , string const , string const ) - replace 1 byte + 2 byte string with 3byte + 4 byte string")
+		});
+	}
+	
+	// STRING_REPLACE TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_replace_test #1", function() {
+		
+			//#1 string_replace( string const , string const , string const )
+			var res = string_replace("Hello Earth!", "Earth", "World");
+			assert_equals(res, "Hello World!", "#1 string_replace( string const , string const , string const )")
+		});
+	
+		addFact("string_replace_test #2", function() {
+		
+			//#2 string_replace( string const , string const , string const )
+			var res = string_replace("Hello Earth!Earth", "Earth", "World");
+			assert_equals(res, "Hello World!Earth", "#2 string_replace( string const , string const , string const )")
+		});
+	
+		addFact("string_replace_test #3", function() {
+		
+			//#3 string_replace( string const , string const , string const )
+			var res = string_replace("Hello Earth!Earth", "Earth", "World");
+			res = string_replace(res, "Earth", "World");
+			assert_equals(res, "Hello World!World", "#3 string_replace( string const , string const , string const )")
+		});
+	
+		addFact("string_replace_test #4", function() {
+		
+			//#4 string_replace( string const , string const , string const ) - empty replacement string
+			var res = string_replace("Hello Earth!Earth", "Earth", "");
+			assert_equals(res, "Hello !Earth", "#4 string_replace( string const , string const , string const ) - empty replacement string")
+		});
+	
+		addFact("string_replace_test #5", function() {
+		
+			//#5 string_replace( string const , string const , string const ) - empty search pattern
+			var res = string_replace("Hello Earth!Earth", "", "World");
+			assert_equals(res, "Hello Earth!Earth", "#5 string_replace( string const , string const , string const ) - empty search pattern")
+		});
+	
+		addFact("string_replace_test #6", function() {
+		
+			//#6 string_replace( string const , string const , real const )
+			var res = string_replace("Hello Earth!Earth", "Earth", 1234);
+			assert_equals(res, "Hello 1234!Earth", "#6 string_replace( string const , string const , real const )")
+		});
+	
+		addFact("string_replace_test #7", function() {
+		
+			//#7 string_replace( string const , string const , real const )
+			var res = string_replace("Hello Earth!Earth", "Earth", 1.234);
+			assert_equals(res, "Hello 1.23!Earth", "#7 string_replace( string const , string const , real const )")
+		});
+	
+		addFact("string_replace_test #8", function() {
+		
+			//#8 string_replace( string const , string const , real const )
+			var res = string_replace("Hello Earth!Earth", "Earth", int64(1234));
+			assert_equals(res, "Hello 1234!Earth", "#8 string_replace( string const , string const , real const )")
+		});
+	
+		addFact("string_replace_test #9", function() {
+		
+			//#9 string_replace( string const , string const , string const ) - empty source strings
+			var res = string_replace("", "two", "three");
+			assert_equals(res, "", "#9 string_replace( string const , string const , string const ) - empty source strings")
+		});
+	
+		addFact("string_replace_test #10", function() {
+		
+			//#10 string_replace( string const , string const , string const ) - all empty strings
+			var res = string_replace("", "", "");
+			assert_equals(res, "", "#10 string_replace( string const , string const , string const ) - all empty strings")
+		});
+	
+		addFact("string_replace_test #11", function() {
+		
+			//#11 string_replace( string const , string const , string const ) - empty source strings
+			var res = string_replace("", "two", "three");
+			assert_equals(res, "", "#11 string_replace( string const , string const , string const ) - empty source strings")
+		});
+	
+		addFact("string_replace_test #12", function() {
+		
+			var vstring = "Hello Earth!";
+		
+			//#12 string_replace( string local , string const , string const )
+			var res = string_replace(vstring, "Earth", "World");
+			assert_equals(res, "Hello World!", "#12 string_replace( string local , string const , string const )")
+		});
+	
+		addFact("string_replace_test #13", function() {
+		
+			#macro kString_StringReplaceTest "Hello Earth!"
+		
+			//#13 string_replace( string macro , string const , string const )
+			var res = string_replace(kString_StringReplaceTest, "Earth", "World");
+			assert_equals(res, "Hello World!", "#13 string_replace( string macro , string const , string const )")
+		});
+	
+		addFact("string_replace_test #14", function() {
+		
+			global.gstring = "Hello Earth!";
+		
+			//#14 string_replace( string global , string const , string const )
+			var res = string_replace(global.gstring, "Earth", "World");
+			assert_equals(res, "Hello World!", "#14 string_replace( string global , string const , string const )")
+		});
+	
+		addFact("string_replace_test #15", function() {
+		
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello Earth!";
+		
+			//#15 string_replace( string instance , string const , string const )
+			var res = string_replace(_oTest.ostring, "Earth", "World");
+			assert_equals(res, "Hello World!", "#15 string_replace( string instance , string const , string const )")
+		
+			instance_destroy(_oTest);
+		});
+	
+		addFact("string_replace_test #16", function() {
+		
+			var string1 = "🙂";
+			var string2 = "😬";
+			var res = string_replace(string1, "🙂", string2);
+			assert_equals(res, "😬", "Replace smiley face with a grimace");
+		});
+	
+		addFact("string_replace_test #17", function() {
+		
+			var longSmileyString = "The quick brown 🙂 jumped over the lazy dog!";
+			var res = string_replace(longSmileyString, "🙂", "fox");
+			assert_equals(res, "The quick brown fox jumped over the lazy dog!", "Replacing a smiley with a string of chars");
+		});
+	
+		addFact("string_replace_test #17", function() {
+		
+			var longFoxString = "The quick brown fox jumped over the lazy dog!";
+			var res = string_replace(longFoxString, "fox", "🙂");
+			assert_equals(res, "The quick brown 🙂 jumped over the lazy dog!", "Replacing a string of chars with a smiley face");
+		});
+	}
+	
+	// STRING_SET_BYTE TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_set_byte_at_test #1", function() {
 
-	addFact("string_set_byte_at_failure_test_3", function() {
+			//string_set_byte_at failure test
+			assert_throw(function() {
+				return string_set_byte_at("hello", 100, 87); // 'W'
+			}, "#1 Using 'string_set_byte_at' with out of range index (should throw error)");
+	
+		})
 
-		//string_set_byte_at failure test
-		assert_throw(function() {
-			return string_set_byte_at("hello", 0, 87); // 'W'
-		}, "#1 Using 'string_set_byte_at' with index 0 (should throw error)");
-	})
+		addFact("string_set_byte_at_test #2", function() {
 
-	addFact("string_set_byte_at_test", function() {
+			//string_set_byte_at failure test
+			assert_throw(function() {
+				return string_set_byte_at("hello", -2, 87); // 'W'
+			}, "#1 Using 'string_set_byte_at' with negative index (should throw error)");
+		})
 
-		//string_set_byte_at test
-		//show_debug_message("start string_set_byte_at() test");
-			
-		var vstring = "hello Porld!"
-			
-		var res;
-			
-			
-		//#1 string_set_byte_at( string local , real const , real const )
-		res = string_set_byte_at(vstring, 7, 87); // 'W'
-		assert_equals(res, "hello World!", "#1 string_set_byte_at( string local , real const , real const )")
-			
-		//#2 string_set_byte_at( string local , real const , real const )
-		res = string_set_byte_at(vstring, 7.6, 87); // 'W'
-		assert_equals(res, "hello World!", "#2 string_set_byte_at( rstrstringingeal local , real const , real const )")
-			
-		//#3 string_set_byte_at( string local , real const , real const )
-		res = string_set_byte_at(vstring, 7.2, 87); // 'W'
-		assert_equals(res, "hello World!", "#3 string_set_byte_at( string local , real const , real const )")
-			
-			
-		//#4 string_set_byte_at( int64 local , real const , real const )
-		res = string_set_byte_at(int64(1234), 2, 32); // ' '
-		assert_true(is_string(res), "#4 string_set_byte_at( int64 local , real const , real const )")
-		assert_equals(res, "1 34", "#4 string_set_byte_at( int64 local , real const , real const )")
-			
-		//#5 string_set_byte_at( real local , real const , real const )
-		res = string_set_byte_at(1.234, 2, 32); // ' '
-		assert_true(is_string(res), "#5 string_set_byte_at( real local , real const , real const )")
-		assert_equals(res, "1 23", "#5 string_set_byte_at( real local , real const , real const )") // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-		//#6 string_set_byte_at( bool local , real const , real const )
-		res = string_set_byte_at(true, 1, 32); // ' '
-		assert_true(is_string(res), "#6 string_set_byte_at( bool local , real const , real const )")
-		assert_equals(res, " ", "#6 string_set_byte_at( bool local , real const , real const )")
-			
-			
-		//#7 string_set_byte_at( string const , real const , real const ) - int larger than char
-		res = string_set_byte_at("Eyup World", 7, 2080); // 100000100000 -> cast to char -> 00100000 -> 32 -> ' '
-		assert_true(is_string(res), "#7 string_set_byte_at( string const , real const , real const )")
-		assert_equals(res,"Eyup W rld", "#7 string_set_byte_at( string const , real const , real const )")
-			
-		//#8 string_set_byte_at( string const , real const , string const )
-		res = string_set_byte_at("Eyup World", 7, "32"); // ' '
-		assert_true(is_string(res), "#8 string_set_byte_at( string const , real const , string const )")
-		assert_equals(res,"Eyup W rld", "#8 string_set_byte_at( string const , real const , string const )")
-			
-		if(browser_not_a_browser)
-		{
+		addFact("string_set_byte_at_test #3", function() {
+
+			//string_set_byte_at failure test
+			assert_throw(function() {
+				return string_set_byte_at("hello", 0, 87); // 'W'
+			}, "#1 Using 'string_set_byte_at' with index 0 (should throw error)");
+		})
+	
+		addFact("string_set_byte_at_test #4", function() {
+
+			var vstring = "hello Porld!"
+		
+			//#1 string_set_byte_at( string local , real const , real const )
+			var res = string_set_byte_at(vstring, 7, 87); // 'W'
+			assert_equals(res, "hello World!", "#1 string_set_byte_at( string local , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #5", function() {
+
+			var vstring = "hello Porld!"
+		
+			//#2 string_set_byte_at( string local , real const , real const )
+			var res = string_set_byte_at(vstring, 7.6, 87); // 'W'
+			assert_equals(res, "hello World!", "#2 string_set_byte_at( rstrstringingeal local , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #6", function() {
+
+			var vstring = "hello Porld!"
+		
+			//#3 string_set_byte_at( string local , real const , real const )
+			var res = string_set_byte_at(vstring, 7.2, 87); // 'W'
+			assert_equals(res, "hello World!", "#3 string_set_byte_at( string local , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #7", function() {
+		
+			//#4 string_set_byte_at( int64 local , real const , real const )
+			var res = string_set_byte_at(int64(1234), 2, 32); // ' '
+			assert_true(is_string(res), "#4 string_set_byte_at( int64 local , real const , real const )")
+			assert_equals(res, "1 34", "#4 string_set_byte_at( int64 local , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #8", function() {
+		
+			//#5 string_set_byte_at( real local , real const , real const )
+			var res = string_set_byte_at(1.234, 2, 32); // ' '
+			assert_true(is_string(res), "#5 string_set_byte_at( real local , real const , real const )")
+			assert_equals(res, "1 23", "#5 string_set_byte_at( real local , real const , real const )") // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+		})
+	
+		addFact("string_set_byte_at_test #9", function() {
+		
+			//#6 string_set_byte_at( bool local , real const , real const )
+			var res = string_set_byte_at(true, 1, 32); // ' '
+			assert_true(is_string(res), "#6 string_set_byte_at( bool local , real const , real const )")
+			assert_equals(res, " ", "#6 string_set_byte_at( bool local , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #10", function() {
+		
+			//#7 string_set_byte_at( string const , real const , real const ) - int larger than char
+			var res = string_set_byte_at("Eyup World", 7, 2080); // 100000100000 -> cast to char -> 00100000 -> 32 -> ' '
+			assert_true(is_string(res), "#7 string_set_byte_at( string const , real const , real const )")
+			assert_equals(res,"Eyup W rld", "#7 string_set_byte_at( string const , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #11", function() {
+		
+			//#8 string_set_byte_at( string const , real const , string const )
+			var res = string_set_byte_at("Eyup World", 7, "32"); // ' '
+			assert_true(is_string(res), "#8 string_set_byte_at( string const , real const , string const )")
+			assert_equals(res,"Eyup W rld", "#8 string_set_byte_at( string const , real const , string const )")
+		})
+	
+		addFact("string_set_byte_at_test #12", function() {
+		
 			//#9 string_set_byte_at( string local , real const , real const )
 			var twoByteUTF8 = "£";
-			res = string_set_byte_at(twoByteUTF8, 2, 87); // 'W'
+			var res = string_set_byte_at(twoByteUTF8, 2, 87); // 'W'
 			assert_true(is_string(res), "#9 string_set_byte_at( string local , real const , real const )")
 			assert_equals(string_byte_at(res, 2), 87, "#9 string_set_byte_at( string local , real const , real const )")
-			
+		},
+		{
+			test_filter: platform_not_browser,
+		});
+	
+		addFact("string_set_byte_at_test #13", function() {
+		
 			//#10 string_set_byte_at( string local , real const , real const )
 			var threeByteUTF8 = "小";
-			res = string_set_byte_at(threeByteUTF8, 2, 87); // 'W'
+			var res = string_set_byte_at(threeByteUTF8, 2, 87); // 'W'
 			assert_true(is_string(res), "#10 string_set_byte_at( string local , real const , real const )")
 			assert_equals(string_byte_at(res, 2), 87, "#10 string_set_byte_at( string local , real const , real const )")
-			
+		},
+		{
+			test_filter: platform_not_browser,
+		});
+	
+		addFact("string_set_byte_at_test #14", function() {
+		
 			//#11 string_set_byte_at( string local , real const , real const )
 			var fourByteUTF8 = "🙂";
-			res = string_set_byte_at(fourByteUTF8, 2, 87); // 'W'
+			var res = string_set_byte_at(fourByteUTF8, 2, 87); // 'W'
 			assert_true(is_string(res), "#11 string_set_byte_at( string local , real const , real const )")
 			assert_equals(string_byte_at(res, 2), 87, "#11 string_set_byte_at( string local , real const , real const )")
-			
+		},
+		{
+			test_filter: platform_not_browser,
+		});
+	
+		addFact("string_set_byte_at_test #15", function() {
+		
 			//#12 string_set_byte_at( string const , real const , real const ) - set bytes to create utf-8 4-byte char
-			res = "xxxx";
+			var res = "xxxx";
 			res = string_set_byte_at(res, 1, 240);
 			res = string_set_byte_at(res, 2, 159);
 			res = string_set_byte_at(res, 3, 152);
 			res = string_set_byte_at(res, 4, 131);
 			assert_true(is_string(res), "#12 string_set_byte_at( string const , real const , real const )")
 			assert_equals(res, "😃", "#12 string_set_byte_at( string const , real const , real const )")
-		}
-			
-		#macro kString_StringSetByteAtTest "Hello World!"
-		global.gstring = "Hello World!";
-		var _oTest = instance_create_depth(0, 0, 0, oTest);
-		_oTest.ostring = "Hello World!";
-			
-		//#13 string_set_byte_at( string macro , real const )
-		res = string_set_byte_at(kString_StringSetByteAtTest, 2, 87);
-		assert_true(is_string(res), "#13 string_set_byte_at( string macro , real const , real const )")
-		assert_equals(string_byte_at(res, 2), 87, "#13 string_set_byte_at( string macro , real const , real const )")
-			
-		//#14 string_set_byte_at( string global , real const )
-		res = string_set_byte_at(global.gstring, 2, 87);
-		assert_true(is_string(res), "#14 string_set_byte_at( string global , real const , real const )")
-		assert_equals(string_byte_at(res, 2), 87, "#14 string_set_byte_at( string global , real const , real const )")
-			
-		//#15 string_set_byte_at( string instance , real const )
-		res = string_set_byte_at(_oTest.ostring, 2, 87);
-		assert_true(is_string(res), "#15 string_set_byte_at( string instance , real const , real const )")
-		assert_equals(string_byte_at(res, 2), 87, "#15 string_set_byte_at( string instance , real const , real const )")
-			
-			
-		instance_destroy(_oTest);
-	})
+		},
+		{
+			test_filter: platform_not_browser,
+		});
+	
+		addFact("string_set_byte_at_test #16", function() {
 
-	addFact("string_upper_test", function() {
+			#macro kString_StringSetByteAtTest "Hello World!"
+		
+			//#13 string_set_byte_at( string macro , real const )
+			var res = string_set_byte_at(kString_StringSetByteAtTest, 2, 87);
+			assert_true(is_string(res), "#13 string_set_byte_at( string macro , real const , real const )")
+			assert_equals(string_byte_at(res, 2), 87, "#13 string_set_byte_at( string macro , real const , real const )")
+		})
+	
+		addFact("string_set_byte_at_test #17", function() {
 
-		//string_upper test
-		//show_debug_message("start string_upper() test");
-			
-		var vstring = "HeLlO WoRlD!"
-		var vstring2 = "!£水🙂"
-			
-		var res;
-			
-		//#1 string_upper( string local )
-		res = string_upper(vstring);
-		assert_equals(res, "HELLO WORLD!", "#1 string_upper( string local )");
-			
-		//#2 string_upper( string local )
-		res = string_upper(vstring2);
-		assert_equals(res, "!£水🙂", "#2 string_upper( string local )");
-			
-		//#3 string_upper( string const ) - empty string
-		res = string_upper("");
-		assert_equals(res, "", "#3 string_upper( string const ) - empty string");
-			
-		//#4 string_upper( string const ) - single lowercase character
-		res = string_upper("h");
-		assert_equals(res, "H", "#4 string_upper( string const ) - single lowercase character");
-			
-		//#5 string_upper( string const ) - single uppercase character
-		res = string_upper("H");
-		assert_equals(res, "H", "#5 string_upper( string const ) - single uppercase character");
-			
-		//#6 string_upper( real local )
-		res = string_upper(1234);
-		assert_equals(res, "1234", "#6 string_upper( real local )");
-			
-		//#7 string_upper( real local )
-		res = string_upper(1.234);
-		assert_equals(res, "1.23", "#7 string_upper( real local )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
-			
-		//#8 string_upper( real local )
-		res = string_upper(int64(1234));
-		assert_equals(res, "1234", "#8 string_upper( int64 local )");
-			
-		var u8001 = "老Aa老AaA";
-		var u8001Chr = string_upper(u8001);
-		assert_equals(u8001Chr, "老AA老AAA", "#9 老Aa老AaA upper is 老AA老AAA");
-			
-		//show_debug_message("end string_upper() test");
-	})
+			global.gstring = "Hello World!";
+		
+			//#14 string_set_byte_at( string global , real const )
+			var res = string_set_byte_at(global.gstring, 2, 87);
+			assert_true(is_string(res), "#14 string_set_byte_at( string global , real const , real const )")
+			assert_equals(string_byte_at(res, 2), 87, "#14 string_set_byte_at( string global , real const , real const )")
+		})
 	
-	addFact("string", function() {
+		addFact("string_set_byte_at_test #18", function() {
 		
-		var _format = "{0} {1} {2}";
-		var _result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello [  ]", "#1 string : failed to correctly _format a string with mixed types");
+			var _oTest = instance_create_depth(0, 0, 0, oTest);
+			_oTest.ostring = "Hello World!";
 		
-		_format = "{0} {1}";
-		_result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello", "#2 string : failed to correctly _format a string with less placeholders than arguments");
+			//#15 string_set_byte_at( string instance , real const )
+			var res = string_set_byte_at(_oTest.ostring, 2, 87);
+			assert_true(is_string(res), "#15 string_set_byte_at( string instance , real const , real const )")
+			assert_equals(string_byte_at(res, 2), 87, "#15 string_set_byte_at( string instance , real const , real const )")
 		
-		_format = "{0} {1} {2} {3}";
-		_result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello [  ] {3}", "#3 string : failed to correctly _format a string with more placeholders than arguments");
+			instance_destroy(_oTest);
+		})
+	}
+	
+	// STRING_UPPER TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_upper_test #1", function() {
 		
-		_format = "{0} {1} {2} {0} {1} {2}";
-		_result = string(_format, 12, "hello", []);
-		assert_equals(_result, "12 hello [  ] 12 hello [  ]", "#4 string : failed to correctly _format a string with repeated placeholders");
+			var vstring = "HeLlO WoRlD!"
 		
-		_format = "{0}{1}";
-		_result = string(_format, "合気道合", "気道合気道合気道");
-		assert_equals(_result, "合気道合気道合気道合気道", "#5 string : failed to correctly _format a string with non-latin characters");
+			//#1 string_upper( string local )
+			var res = string_upper(vstring);
+			assert_equals(res, "HELLO WORLD!", "#1 string_upper( string local )");
+		})
+	
+		addFact("string_upper_test #2", function() {
 		
-		_format = "{0} {1} {2} {3}";
-		_result = string(_format, "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎 👣💎🎤🌊💎🕥🌑👵🎿 🎐📪👺🌸🍓 💎", "#6 string : failed to correctly _format a string with emoji characters");		
+			var vstring2 = "!£水🙂"
+		
+			//#2 string_upper( string local )
+			var res = string_upper(vstring2);
+			assert_equals(res, "!£水🙂", "#2 string_upper( string local )");
+		})
+	
+		addFact("string_upper_test #3", function() {
+		
+			//#3 string_upper( string const ) - empty string
+			var res = string_upper("");
+			assert_equals(res, "", "#3 string_upper( string const ) - empty string");
+		})
+	
+		addFact("string_upper_test #4", function() {
+		
+			//#4 string_upper( string const ) - single lowercase character
+			var res = string_upper("h");
+			assert_equals(res, "H", "#4 string_upper( string const ) - single lowercase character");
+		})
+	
+		addFact("string_upper_test #5", function() {
+		
+			//#5 string_upper( string const ) - single uppercase character
+			var res = string_upper("H");
+			assert_equals(res, "H", "#5 string_upper( string const ) - single uppercase character");
+		})
+	
+		addFact("string_upper_test #6", function() {
+		
+			//#6 string_upper( real local )
+			var res = string_upper(1234);
+			assert_equals(res, "1234", "#6 string_upper( real local )");
+		})
+	
+		addFact("string_upper_test #7", function() {
+		
+			//#7 string_upper( real local )
+			var res = string_upper(1.234);
+			assert_equals(res, "1.23", "#7 string_upper( real local )"); // Note: truncated to 2 decimal place string before byte set, hence '4' is dropped from string
+		})
+	
+		addFact("string_upper_test #8", function() {
+		
+			//#8 string_upper( real local )
+			var res = string_upper(int64(1234));
+			assert_equals(res, "1234", "#8 string_upper( int64 local )");
+		})
+	
+		addFact("string_upper_test #9", function() {
+		
+			var u8001 = "老Aa老AaA";
+			var u8001Chr = string_upper(u8001);
+			assert_equals(u8001Chr, "老AA老AAA", "#9 老Aa老AaA upper is 老AA老AAA");
+		})
+	}
+	
+	// STRING TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_test #1", function() {
+		
+			var _format = "{0} {1} {2}";
+			var _result = string(_format, 12, "hello", []);
+			assert_equals(_result, "12 hello [  ]", "#1 string : failed to correctly _format a string with mixed types");
+		})
+	
+		addFact("string_test #2", function() {
+		
+			var _format = "{0} {1}";
+			var _result = string(_format, 12, "hello", []);
+			assert_equals(_result, "12 hello", "#2 string : failed to correctly _format a string with less placeholders than arguments");
+		})
+	
+		addFact("string_test #3", function() {
+		
+			var _format = "{0} {1} {2} {3}";
+			var _result = string(_format, 12, "hello", []);
+			assert_equals(_result, "12 hello [  ] {3}", "#3 string : failed to correctly _format a string with more placeholders than arguments");
+		})
+	
+		addFact("string_test #4", function() {
+		
+			var _format = "{0} {1} {2} {0} {1} {2}";
+			var _result = string(_format, 12, "hello", []);
+			assert_equals(_result, "12 hello [  ] 12 hello [  ]", "#4 string : failed to correctly _format a string with repeated placeholders");
+		})
+	
+		addFact("string_test #5", function() {
+		
+			var _format = "{0}{1}";
+			var _result = string(_format, "合気道合", "気道合気道合気道");
+			assert_equals(_result, "合気道合気道合気道合気道", "#5 string : failed to correctly _format a string with non-latin characters");
+		})
+	
+		addFact("string_test #6", function() {
+		
+			var _format = "{0} {1} {2} {3}";
+			var _result = string(_format, "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎 👣💎🎤🌊💎🕥🌑👵🎿 🎐📪👺🌸🍓 💎", "#6 string : failed to correctly _format a string with emoji characters");		
+		})
+	}
+	
+	// STRING_EXT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_ext_test #1", function() {
+		
+			var _format = "{0} {1} {2}";
+			var _result = string_ext(_format, [12, "hello", []]);
+			assert_equals(_result, "12 hello [  ]", "#1 string_ext : failed to correctly _format a string with mixed types");
+		})
+	
+		addFact("string_ext_test #2", function() {
+		
+			var _format = "{0} {1}";
+			var _result = string_ext(_format, [12, "hello", []]);
+			assert_equals(_result, "12 hello", "#2 string_ext : failed to correctly _format a string with less placeholders than arguments");
+		})
+	
+		addFact("string_ext_test #3", function() {
+		
+			var _format = "{0} {1} {2} {3}";
+			var _result = string_ext(_format, [12, "hello", []]);
+			assert_equals(_result, "12 hello [  ] {3}", "#3 string_ext : failed to correctly _format a string with more placeholders than arguments");
+		})
+	
+		addFact("string_ext_test #4", function() {
+		
+			var _format = "{0} {1} {2} {0} {1} {2}";
+			var _result = string_ext(_format, [12, "hello", []]);
+			assert_equals(_result, "12 hello [  ] 12 hello [  ]", "#4 string_ext : failed to correctly _format a string with repeated placeholders");
+		})
+	
+		addFact("string_ext_test #5", function() {
+		
+			var _format = "{0}{1}";
+			var _result = string_ext(_format, ["合気道合", "気道合気道合気道"]);
+			assert_equals(_result, "合気道合気道合気道合気道", "#5 string_ext : failed to correctly _format a string with non-latin characters");
+		})
+	
+		addFact("string_ext_test #6", function() {
+		
+			var _format = "{0} {1} {2} {3}";
+			var _result = string_ext(_format, ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎 👣💎🎤🌊💎🕥🌑👵🎿 🎐📪👺🌸🍓 💎", "#6 string_ext : failed to correctly _format a string with emoji characters");		
+		})
+	}
+	
+	// STRING_CONCAT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_concat_test #1", function() {
+		
+			var _result = string_concat(12, "hello", []);
+			assert_equals(_result, "12hello[  ]", "#1 string_concat : failed to correctly concat a string with mixed types");
+		})
+	
+		addFact("string_concat_test #2", function() {
+		
+			var _result = string_concat("合気道合", "気道合気道合気道");
+			assert_equals(_result, "合気道合気道合気道合気道", "#2 string_concat : failed to correctly concat a string with non-latin characters");
+		})
+	
+		addFact("string_concat_test #3", function() {
+		
+			var _result = string_concat("🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎👣💎🎤🌊💎🕥🌑👵🎿🎐📪👺🌸🍓💎", "#3 string_concat : failed to correctly concat a string with emoji characters");		
+		})
+	
+		addFact("string_concat_test #4", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_concat(_string, " bar");
+			assert_equals(_result, "foo bar", "#4 string_concat : failed to correctly concat a string when arguments are variable and string");
+		})
+	
+		addFact("string_concat_test #5", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_concat("bar ", _string);
+			assert_equals(_result, "bar foo", "#5 string_concat : failed to correctly concat a string when arguments are string and variable");
+		})
+	}
+	
+	// STRING_CONCAT_EXT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_concat_ext_test #1", function() {
+		
+			var _result = string_concat_ext([12, "hello", []]);
+			assert_equals(_result, "12hello[  ]", "#1 string_concat_ext : failed to correctly concat a string with mixed types");
+		})
+	
+		addFact("string_concat_ext_test #2", function() {
+		
+			var _result = string_concat_ext(["合気道合", "気道合気道合気道"]);
+			assert_equals(_result, "合気道合気道合気道合気道", "#2 string_concat_ext : failed to correctly concat a string with non-latin characters");
+		})
+	
+		addFact("string_concat_ext_test #3", function() {
+		
+			var _result = string_concat_ext(["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎👣💎🎤🌊💎🕥🌑👵🎿🎐📪👺🌸🍓💎", "#3 string_concat_ext : failed to correctly concat a string with emoji characters");		
+		})
+	
+		addFact("string_concat_ext_test #4", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_concat_ext([_string, " bar"]);
+			assert_equals(_result, "foo bar", "#4 string_concat_ext : failed to correctly concat a string when arguments are variable and string");
+		})
+	
+		addFact("string_concat_ext_test #5", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_concat_ext(["bar ", _string]);
+			assert_equals(_result, "bar foo", "#5 string_concat_ext : failed to correctly concat a string when arguments are string and variable");
+		})
+	}
 
-	})
+	// STRING_JOIN TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_join_test #1", function() {
+		
+			var _result = string_join(",", 12, "hello", []);
+			assert_equals(_result, "12,hello,[  ]", "#1 string_join : failed to correctly join a string with mixed types, using a comma.");
+		})
 	
-	addFact("string_ext", function() {
+		addFact("string_join_test #2", function() {
+		
+			var _result = string_join(",", "合気道合", "気道合気道合気道");
+			assert_equals(_result, "合気道合,気道合気道合気道", "#2 string_join : failed to correctly join a string with non-latin characters, using a comma");
+		})
+	
+		addFact("string_join_test #3", function() {
+		
+			var _result = string_join(",", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎,👣💎🎤🌊💎🕥🌑👵🎿,🎐📪👺🌸🍓,💎", "#3 string_join : failed to correctly join a string with emoji characters, using a comma");
+		})
+	
+		addFact("string_join_test #4", function() {
+		
+			var _result = string_join("道", 12, "hello", []);
+			assert_equals(_result, "12道hello道[  ]", "#4 string_join : failed to correctly join a string with mixed types, using a non-latin character.");
+		})
+	
+		addFact("string_join_test #5", function() {
+		
+			var _result = string_join("道", "合気道合", "気道合気道合気道");
+			assert_equals(_result, "合気道合道気道合気道合気道", "#5 string_join : failed to correctly join a string with non-latin characters, using a non-latin character.");
+		})
+	
+		addFact("string_join_test #6", function() {
+		
+			var _result = string_join("道", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎道👣💎🎤🌊💎🕥🌑👵🎿道🎐📪👺🌸🍓道💎", "#6 string_join : failed to correctly join a string with emoji characters, using a non-latin character.");
+		})
+	
+		addFact("string_join_test #7", function() {
+		
+			var _result = string_join("🙂", 12, "hello", []);
+			assert_equals(_result, "12🙂hello🙂[  ]", "#7 string_join : failed to correctly join a string with mixed types, using an emoji character.");
+		})
+	
+		addFact("string_join_test #8", function() {
+		
+			var _result = string_join("🙂", "合気道合", "気道合気道合気道");
+			assert_equals(_result, "合気道合🙂気道合気道合気道", "#8 string_join : failed to correctly join a string with non-latin characters, using an emoji character.");
+		})
+	
+		addFact("string_join_test #9", function() {
+		
+			var _result = string_join("🙂", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎🙂👣💎🎤🌊💎🕥🌑👵🎿🙂🎐📪👺🌸🍓🙂💎", "#9 string_join : failed to correctly join a string with emoji characters, using an emoji character.");
+		})
+	
+		addFact("string_join_test #10", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_join(",", "bar", _string);
+			assert_equals(_result, "bar,foo", "#11 string_join : failed to correctly concat a string when arguments are string and variable");
+		})
+	
+		addFact("string_join_test #11", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_join(",", _string, "bar");
+			assert_equals(_result, "foo,bar", "#10 string_join : failed to correctly concat a string when arguments are variable and string");
+		})
+	}
+	
+	// STRING_JOIN TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_join_ext_test #1", function() {
+		
+			var _result = string_join_ext(",", [12, "hello", []]);
+			assert_equals(_result, "12,hello,[  ]", "#1 string_join_ext : failed to correctly join a string with mixed types, using a comma.");
+		})
+	
+		addFact("string_join_ext_test #2", function() {
+		
+			var _result = string_join_ext(",", ["合気道合", "気道合気道合気道"]);
+			assert_equals(_result, "合気道合,気道合気道合気道", "#2 string_join_ext : failed to correctly join a string with non-latin characters, using a comma");
+		})
+	
+		addFact("string_join_ext_test #3", function() {
+		
+			var _result = string_join_ext(",", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎,👣💎🎤🌊💎🕥🌑👵🎿,🎐📪👺🌸🍓,💎", "#3 string_join_ext : failed to correctly join a string with emoji characters, using a comma");
+		})
+	
+		addFact("string_join_ext_test #4", function() {
+		
+			var _result = string_join_ext("道", [12, "hello", []]);
+			assert_equals(_result, "12道hello道[  ]", "#4 string_join_ext : failed to correctly join a string with mixed types, using a non-latin character.");
+		})
+	
+		addFact("string_join_ext_test #5", function() {
+		
+			var _result = string_join_ext("道", ["合気道合", "気道合気道合気道"]);
+			assert_equals(_result, "合気道合道気道合気道合気道", "#5 string_join_ext : failed to correctly join a string with non-latin characters, using a non-latin character.");
+		})
+	
+		addFact("string_join_ext_test #6", function() {
+		
+			var _result = string_join_ext("道", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎道👣💎🎤🌊💎🕥🌑👵🎿道🎐📪👺🌸🍓道💎", "#6 string_join_ext : failed to correctly join a string with emoji characters, using a non-latin character.");
+		})
+	
+		addFact("string_join_ext_test #7", function() {
+		
+			var _result = string_join_ext("🙂", [12, "hello", []]);
+			assert_equals(_result, "12🙂hello🙂[  ]", "#7 string_join_ext : failed to correctly join a string with mixed types, using an emoji character.");
+		})
+	
+		addFact("string_join_ext_test #8", function() {
+		
+			var _result = string_join_ext("🙂", ["合気道合", "気道合気道合気道"]);
+			assert_equals(_result, "合気道合🙂気道合気道合気道", "#8 string_join_ext : failed to correctly join a string with non-latin characters, using an emoji character.");
+		})
+	
+		addFact("string_join_ext_test #9", function() {
+		
+			var _result = string_join_ext("🙂", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
+			assert_equals(_result, "🏡🔠👸👟🕔🕝💎🙂👣💎🎤🌊💎🕥🌑👵🎿🙂🎐📪👺🌸🍓🙂💎", "#9 string_join_ext : failed to correctly join a string with emoji characters, using an emoji character.");
+		})
+	
+		addFact("string_join_ext_test #10", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_join_ext(",", [_string, "bar"]);
+			assert_equals(_result, "foo,bar", "#10 string_join_ext : failed to correctly concat a string when arguments are variable and string");
+		})
+	
+		addFact("string_join_ext_test #11", function() {
+		
+			var _string = "foo";
+		
+			var _result = string_join_ext(",", ["bar", _string]);
+			assert_equals(_result, "bar,foo", "#11 string_join_ext : failed to correctly concat a string when arguments are string and variable");
+		})
+	}
+	
+	// STRING_SPLIT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_split_test #1", function() {
+		
+			var _input = "hello,great,world";
+			var _result = string_split(_input, ",", true);
+			assert_array_length(_result, 3, "#1 string_split : failed to correctly split string into correct number of elements.");
+			assert_array_equals(_result, ["hello", "great", "world"],"#2 string_split : failed to correctly split string with latin characters.");
+		})
+	
+		addFact("string_split_test #2", function() {
+		
+			var _input = "1test\n2test,\n3test,,,,\n4test\n5test。\n6test，\n7test，，\n8test\n9test"
+			var _result = string_split(_input, "\n", true);
+			assert_array_length(_result, 9, "#3 string_split : failed to correctly split string into correct number of elements.");
+		
+			assert_array_equals(_result, ["1test", "2test,", "3test,,,,", "4test", "5test。", "6test，", "7test，，", "8test", "9test"],
+				"#4 string_split : failed to correctly split string with non-latin characters.");
+		})
+	}
+	
+	// STRING_SPLIT_EXT TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_split_ext_test #1", function() {
+		
+			var _input = "hello,great,world";
+			var _result = string_split_ext(_input, [",", "l"], false);
+			assert_array_length(_result, 6, "#1 string_split_ext : failed to correctly split string into correct number of elements.");
+			assert_array_equals(_result, ["he", "", "o", "great", "wor", "d"],"#2 string_split_ext : failed to correctly split string with latin characters.");
+		})
+	
+		addFact("string_split_ext_test #2", function() {
+		
+			var _input = "hello,great,world";
+			var _result = string_split_ext(_input, [",", "l"], true);
+			assert_array_length(_result, 5, "#3 string_split_ext : failed to correctly split string into correct number of elements (remove empty).");
+			assert_array_equals(_result, ["he", "o", "great", "wor", "d"],"#4 string_split_ext : failed to correctly split string with latin characters.");
+		})
+	
+		addFact("string_split_ext_test #3", function() {
+		
+			var _input = "hello,great,world";
+			var _result = string_split_ext(_input, [",", "l"], false, 3);
+			assert_array_length(_result, 4, "#5 string_split_ext : failed to correctly split string into correct number of elements (max splits).");
+			assert_array_equals(_result, ["he", "", "o", "great,world"],"#6 string_split_ext : failed to correctly split string with latin characters.");
+		})
+	}
+	
+	// STRING_STARTS_WITH_TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_starts_with_test #1", function() {
+		
+			var _input = "hello world";
+			var _result = string_starts_with(_input, "hello");
+			assert_true(_result, "#1 string_starts_with : failed to correctly detect start of the string, latin characters");
+		})
+	
+		addFact("string_starts_with_test #2", function() {
+		
+			var _input = "🏡🔠👸👟🕔🕝💎"
+			var _result = string_starts_with(_input, "🏡🔠👸");
+			assert_true(_result, "#2 string_starts_with : failed to correctly detect start of the string, emoji characters");
+		})
+	}
+	
+	// STRING_ENDS_WITH_TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_ends_with_test #1", function() {
+		
+			var _input = "hello world";
+			var _result = string_ends_with(_input, "world");
+			assert_true(_result, "#1 string_ends_with : failed to correctly detect end of the string, latin characters");
+		})
+	
+		addFact("string_ends_with_test #2", function() {
+		
+			var _input = "🏡🔠👸👟🕔🕝💎"
+			var _result = string_ends_with(_input, "🕔🕝💎");
+			assert_true(_result, "#2 string_ends_with : failed to correctly detect end of the string, emoji characters");
+		})
+	}
 
-		var _format = "{0} {1} {2}";
-		var _result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello [  ]", "#1 string_ext : failed to correctly _format a string with mixed types");
+	// STRING_TRIM_START TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_trim_start_test #1", function() {
 		
-		_format = "{0} {1}";
-		_result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello", "#2 string_ext : failed to correctly _format a string with less placeholders than arguments");
-		
-		_format = "{0} {1} {2} {3}";
-		_result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello [  ] {3}", "#3 string_ext : failed to correctly _format a string with more placeholders than arguments");
-		
-		_format = "{0} {1} {2} {0} {1} {2}";
-		_result = string_ext(_format, [12, "hello", []]);
-		assert_equals(_result, "12 hello [  ] 12 hello [  ]", "#4 string_ext : failed to correctly _format a string with repeated placeholders");
-		
-		_format = "{0}{1}";
-		_result = string_ext(_format, ["合気道合", "気道合気道合気道"]);
-		assert_equals(_result, "合気道合気道合気道合気道", "#5 string_ext : failed to correctly _format a string with non-latin characters");
-		
-		_format = "{0} {1} {2} {3}";
-		_result = string_ext(_format, ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎 👣💎🎤🌊💎🕥🌑👵🎿 🎐📪👺🌸🍓 💎", "#6 string_ext : failed to correctly _format a string with emoji characters");		
+			var _input = "		 	sometext				";
+			var _result = string_trim_start(_input);
+			assert_equals(_result, "sometext				", "#1 string_trim_start : failed to correctly trim the start of the string, latin characters");
+		})
 	
-	})
-
-	addFact("string_concat", function() {
+		addFact("string_trim_start_test #2", function() {
 		
-		var _result = string_concat(12, "hello", []);
-		assert_equals(_result, "12hello[  ]", "#1 string_concat : failed to correctly concat a string with mixed types");
-		
-		_result = string_concat("合気道合", "気道合気道合気道");
-		assert_equals(_result, "合気道合気道合気道合気道", "#2 string_concat : failed to correctly concat a string with non-latin characters");
-		
-		_result = string_concat("🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎👣💎🎤🌊💎🕥🌑👵🎿🎐📪👺🌸🍓💎", "#3 string_concat : failed to correctly concat a string with emoji characters");		
-
-		var _string = "foo";
-		
-		_result = string_concat(_string, " bar");
-		assert_equals(_result, "foo bar", "#4 string_concat : failed to correctly concat a string when arguments are variable and string");
-		
-		_result = string_concat("bar ", _string);
-		assert_equals(_result, "bar foo", "#5 string_concat : failed to correctly concat a string when arguments are string and variable");
-		
-	})
+			var _input = "                  秧秧秧秧秧秧秧秧                  ";
+			var _result = string_trim_start(_input);
+			assert_equals(_result, "秧秧秧秧秧秧秧秧                  ", "#2 string_trim_start : failed to correctly trim the start of the string, non-latin characters");
+		})
+	}
 	
-	addFact("string_concat_ext", function() {
-
-		var _result = string_concat_ext([12, "hello", []]);
-		assert_equals(_result, "12hello[  ]", "#1 string_concat_ext : failed to correctly concat a string with mixed types");
+	// STRING_TRIM_END TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_trim_end_test #1", function() {
 		
-		_result = string_concat_ext(["合気道合", "気道合気道合気道"]);
-		assert_equals(_result, "合気道合気道合気道合気道", "#2 string_concat_ext : failed to correctly concat a string with non-latin characters");
-		
-		_result = string_concat_ext(["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎👣💎🎤🌊💎🕥🌑👵🎿🎐📪👺🌸🍓💎", "#3 string_concat_ext : failed to correctly concat a string with emoji characters");		
-		
-		var _string = "foo";
-		
-		_result = string_concat_ext([_string, " bar"]);
-		assert_equals(_result, "foo bar", "#4 string_concat_ext : failed to correctly concat a string when arguments are variable and string");
-		
-		_result = string_concat_ext(["bar ", _string]);
-		assert_equals(_result, "bar foo", "#5 string_concat_ext : failed to correctly concat a string when arguments are string and variable");
-
-	})
+			var _input = "		 	sometext				";
+			var _result = string_trim_end(_input);
+			assert_equals(_result, "		 	sometext", "#1 string_trim_end : failed to correctly trim the end of the string, latin characters");
+		})
 	
-	addFact("string_join", function() {
+		addFact("string_trim_end_test #2", function() {
 		
-		var _result = string_join(",", 12, "hello", []);
-		assert_equals(_result, "12,hello,[  ]", "#1 string_join : failed to correctly join a string with mixed types, using a comma.");
-		
-		_result = string_join(",", "合気道合", "気道合気道合気道");
-		assert_equals(_result, "合気道合,気道合気道合気道", "#2 string_join : failed to correctly join a string with non-latin characters, using a comma");
-		
-		_result = string_join(",", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎,👣💎🎤🌊💎🕥🌑👵🎿,🎐📪👺🌸🍓,💎", "#3 string_join : failed to correctly join a string with emoji characters, using a comma");
-		
-		_result = string_join("道", 12, "hello", []);
-		assert_equals(_result, "12道hello道[  ]", "#4 string_join : failed to correctly join a string with mixed types, using a non-latin character.");
-		
-		_result = string_join("道", "合気道合", "気道合気道合気道");
-		assert_equals(_result, "合気道合道気道合気道合気道", "#5 string_join : failed to correctly join a string with non-latin characters, using a non-latin character.");
-		
-		_result = string_join("道", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎道👣💎🎤🌊💎🕥🌑👵🎿道🎐📪👺🌸🍓道💎", "#6 string_join : failed to correctly join a string with emoji characters, using a non-latin character.");
-		
-		_result = string_join("🙂", 12, "hello", []);
-		assert_equals(_result, "12🙂hello🙂[  ]", "#7 string_join : failed to correctly join a string with mixed types, using an emoji character.");
-		
-		_result = string_join("🙂", "合気道合", "気道合気道合気道");
-		assert_equals(_result, "合気道合🙂気道合気道合気道", "#8 string_join : failed to correctly join a string with non-latin characters, using an emoji character.");
-		
-		_result = string_join("🙂", "🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎");
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎🙂👣💎🎤🌊💎🕥🌑👵🎿🙂🎐📪👺🌸🍓🙂💎", "#9 string_join : failed to correctly join a string with emoji characters, using an emoji character.");
-		
-		var _string = "foo";
-		
-		_result = string_join(",", _string, "bar");
-		assert_equals(_result, "foo,bar", "#10 string_join : failed to correctly concat a string when arguments are variable and string");
-		
-		_result = string_join(",", "bar", _string);
-		assert_equals(_result, "bar,foo", "#11 string_join : failed to correctly concat a string when arguments are string and variable");
-		
-	})
+			var _input = "                  秧秧秧秧秧秧秧秧                  ";
+			var _result = string_trim_end(_input);
+			assert_equals(_result, "                  秧秧秧秧秧秧秧秧", "#2 string_trim_end : failed to correctly trim the end of the string, non-latin characters");
+		})
+	}
 	
-	addFact("string_join_ext", function() {
-
-		var _result = string_join_ext(",", [12, "hello", []]);
-		assert_equals(_result, "12,hello,[  ]", "#1 string_join_ext : failed to correctly join a string with mixed types, using a comma.");
+	// STRING_TRIM TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_trim_test #1", function() {
 		
-		_result = string_join_ext(",", ["合気道合", "気道合気道合気道"]);
-		assert_equals(_result, "合気道合,気道合気道合気道", "#2 string_join_ext : failed to correctly join a string with non-latin characters, using a comma");
-		
-		_result = string_join_ext(",", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎,👣💎🎤🌊💎🕥🌑👵🎿,🎐📪👺🌸🍓,💎", "#3 string_join_ext : failed to correctly join a string with emoji characters, using a comma");
-		
-		_result = string_join_ext("道", [12, "hello", []]);
-		assert_equals(_result, "12道hello道[  ]", "#4 string_join_ext : failed to correctly join a string with mixed types, using a non-latin character.");
-		
-		_result = string_join_ext("道", ["合気道合", "気道合気道合気道"]);
-		assert_equals(_result, "合気道合道気道合気道合気道", "#5 string_join_ext : failed to correctly join a string with non-latin characters, using a non-latin character.");
-		
-		_result = string_join_ext("道", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎道👣💎🎤🌊💎🕥🌑👵🎿道🎐📪👺🌸🍓道💎", "#6 string_join_ext : failed to correctly join a string with emoji characters, using a non-latin character.");
-		
-		_result = string_join_ext("🙂", [12, "hello", []]);
-		assert_equals(_result, "12🙂hello🙂[  ]", "#7 string_join_ext : failed to correctly join a string with mixed types, using an emoji character.");
-		
-		_result = string_join_ext("🙂", ["合気道合", "気道合気道合気道"]);
-		assert_equals(_result, "合気道合🙂気道合気道合気道", "#8 string_join_ext : failed to correctly join a string with non-latin characters, using an emoji character.");
-		
-		_result = string_join_ext("🙂", ["🏡🔠👸👟🕔🕝💎", "👣💎🎤🌊💎🕥🌑👵🎿", "🎐📪👺🌸🍓", "💎"]);
-		assert_equals(_result, "🏡🔠👸👟🕔🕝💎🙂👣💎🎤🌊💎🕥🌑👵🎿🙂🎐📪👺🌸🍓🙂💎", "#9 string_join_ext : failed to correctly join a string with emoji characters, using an emoji character.");
-
-		var _string = "foo";
-		
-		_result = string_join_ext(",", [_string, "bar"]);
-		assert_equals(_result, "foo,bar", "#10 string_join_ext : failed to correctly concat a string when arguments are variable and string");
-		
-		_result = string_join_ext(",", ["bar", _string]);
-		assert_equals(_result, "bar,foo", "#11 string_join_ext : failed to correctly concat a string when arguments are string and variable");
-		
-	})
+			var _input = "		 	sometext				";
+			var _result = string_trim(_input);
+			assert_equals(_result, "sometext", "#1 string_trim_end : failed to correctly trim the string, latin characters");
+		})
 	
-	addFact("string_split", function() {
+		addFact("string_trim_test #2", function() {
+		
+			var _input = "                  秧秧秧秧秧秧秧秧                  ";
+			var _result = string_trim(_input);
+			assert_equals(_result, "秧秧秧秧秧秧秧秧", "#2 string_trim_end : failed to correctly trim the string, non-latin characters");
+		})
+	}
 	
-		var _input = "hello,great,world";
-		var _result = string_split(_input, ",", true);
-		assert_array_length(_result, 3, "#1 string_split : failed to correctly split string into correct number of elements.");
+	// STRING_FOREACH TESTS - PROGRESS: COMMENTS & ASSERTS NEED UPDATES, AND CHECK SEMICOLONS
+	{
+		addFact("string_foreach_test #1", function() {
 		
-		assert_array_equals(_result, ["hello", "great", "world"],"#2 string_split : failed to correctly split string with latin characters.");
+			var _input = "                  秧秧秧秧秧秧秧秧sometext";
 		
-		_input = "1test\n2test,\n3test,,,,\n4test\n5test。\n6test，\n7test，，\n8test\n9test"
-		_result = string_split(_input, "\n", true);
-		assert_array_length(_result, 9, "#3 string_split : failed to correctly split string into correct number of elements.");
-		
-		assert_array_equals(_result, ["1test", "2test,", "3test,,,,", "4test", "5test。", "6test，", "7test，，", "8test", "9test"],
-			"#4 string_split : failed to correctly split string with non-latin characters.");
-			
-	})
+			string_foreach(_input, method( {in: _input}, function(_char, _pos) { 
+				assert_equals(_char, string_char_at(in, _pos), "#1 string_foreach : failed to traverse correctly the string.");
+			}));
+		})
 	
-	addFact("string_split_ext", function() {
-	
-		var _input = "hello,great,world";
-		var _result = string_split_ext(_input, [",", "l"], false);
-		assert_array_length(_result, 6, "#1 string_split_ext : failed to correctly split string into correct number of elements.");
+		addFact("string_foreach_test #2", function() {
 		
-		assert_array_equals(_result, ["he", "", "o", "great", "wor", "d"],"#2 string_split_ext : failed to correctly split string with latin characters.");
+			var _input = "                  秧秧秧秧秧秧秧秧sometext";
 		
-		
-		_input = "hello,great,world";
-		_result = string_split_ext(_input, [",", "l"], true);
-		assert_array_length(_result, 5, "#3 string_split_ext : failed to correctly split string into correct number of elements (remove empty).");
-		
-		assert_array_equals(_result, ["he", "o", "great", "wor", "d"],"#4 string_split_ext : failed to correctly split string with latin characters.");
-		
-
-		_input = "hello,great,world";
-		_result = string_split_ext(_input, [",", "l"], false, 3);
-		assert_array_length(_result, 4, "#5 string_split_ext : failed to correctly split string into correct number of elements (max splits).");
-		
-		assert_array_equals(_result, ["he", "", "o", "great,world"],"#6 string_split_ext : failed to correctly split string with latin characters.");
-	
-	})
-	
-	addFact("string_starts_with", function() {
-	
-		var _input = "hello world";
-		var _result = string_starts_with(_input, "hello");
-		assert_true(_result, "#1 string_starts_with : failed to correctly detect start of the string, latin characters");
-		
-		_input = "🏡🔠👸👟🕔🕝💎"
-		_result = string_starts_with(_input, "🏡🔠👸");
-		assert_true(_result, "#2 string_starts_with : failed to correctly detect start of the string, emoji characters");
-	
-	})
-	
-	addFact("string_ends_with", function() {
-	
-		var _input = "hello world";
-		var _result = string_ends_with(_input, "world");
-		assert_true(_result, "#1 string_ends_with : failed to correctly detect end of the string, latin characters");
-		
-		_input = "🏡🔠👸👟🕔🕝💎"
-		_result = string_ends_with(_input, "🕔🕝💎");
-		assert_true(_result, "#2 string_ends_with : failed to correctly detect end of the string, emoji characters");
-	
-	})
-		
-	addFact("string_trim_start", function() {
-		
-		var _input = "		 	sometext				";
-		var _result = string_trim_start(_input);
-		assert_equals(_result, "sometext				", "#1 string_trim_start : failed to correctly trim the start of the string, latin characters");
-		
-		_input = "                  秧秧秧秧秧秧秧秧                  ";
-		_result = string_trim_start(_input);
-		assert_equals(_result, "秧秧秧秧秧秧秧秧                  ", "#2 string_trim_start : failed to correctly trim the start of the string, non-latin characters");
-		
-	})
-	
-	addFact("string_trim_end", function() {
-	
-		var _input = "		 	sometext				";
-		var _result = string_trim_end(_input);
-		assert_equals(_result, "		 	sometext", "#1 string_trim_end : failed to correctly trim the end of the string, latin characters");
-		
-		_input = "                  秧秧秧秧秧秧秧秧                  ";
-		_result = string_trim_end(_input);
-		assert_equals(_result, "                  秧秧秧秧秧秧秧秧", "#2 string_trim_end : failed to correctly trim the end of the string, non-latin characters");
-	
-	})
-	
-	addFact("string_trim", function() {
-	
-		var _input = "		 	sometext				";
-		var _result = string_trim(_input);
-		assert_equals(_result, "sometext", "#1 string_trim_end : failed to correctly trim the string, latin characters");
-		
-		_input = "                  秧秧秧秧秧秧秧秧                  ";
-		_result = string_trim(_input);
-		assert_equals(_result, "秧秧秧秧秧秧秧秧", "#2 string_trim_end : failed to correctly trim the string, non-latin characters");
-	
-	})
-	
-	addFact("string_foreach", function() {
-	
-		var _input = "                  秧秧秧秧秧秧秧秧sometext";
-		
-		string_foreach(_input, method( {in: _input}, function(_char, _pos) { 
-			assert_equals(_char, string_char_at(in, _pos), "#1 string_foreach : failed to traverse correctly the string.");
-		}));
-		
-		
-		string_foreach(_input, method( {in: _input}, function(_char, _pos) { 
-			assert_equals(_char, string_char_at(in, _pos), "#2 string_foreach : failed to traverse correctly the string.");
-		}), -1, -infinity);	
-	
-	})
+			string_foreach(_input, method( {in: _input}, function(_char, _pos) { 
+				assert_equals(_char, string_char_at(in, _pos), "#2 string_foreach : failed to traverse correctly the string.");
+			}), -1, -infinity);	
+		})
+	}
 	
 }
 
