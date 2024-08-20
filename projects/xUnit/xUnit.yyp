@@ -48,14 +48,13 @@
     {"$GMFolder":"","%Name":"Utils","folderPath":"folders/Tests/Utils.yy","name":"Utils","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"testList.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testList.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"testTable.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testTable.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.600.0.560",
+    "IDEVersion":"2024.800.0.609",
   },
   "name":"xUnit",
   "resources":[

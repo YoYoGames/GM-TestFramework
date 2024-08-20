@@ -221,8 +221,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 			}
 		}
 				
-		assert_true(false, "_num_shifts was reduced to 10 from 1000 due to slow execution - it should be restored to 1000 when possible");
-		var _num_shifts = 10;
+		var _num_shifts = 1000;
 		var _num_sources = 10;
 			
 		// Create a small tree of sources with a non built-in root
@@ -264,10 +263,8 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 	});
 	
 	addFact("Time Sources: Reconfiguration", function() {
-			
-		assert_true(false, "_numConfigurations was reduced to 10 from 1000 due to slow execution - it should be restored to 1000 when possible");
-		
-		var _numConfigurations = 10;
+					
+		var _numConfigurations = 1000;
 								
 		var _output, _ts = generate_time_source();
 				
