@@ -13,7 +13,6 @@ function getGroupSoundsToTest() {
 function getAudioGroups() {
 	
 	return [
-		audiogroup_default,
 		audiogroup_MP3,
 		audiogroup_OGG,
 		audiogroup_WAV
@@ -22,6 +21,20 @@ function getAudioGroups() {
 }
 	
 function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
+	
+	addFact("Default audio group test #1", function() {
+		
+		var loaded = audio_group_is_loaded(audiogroup_default);
+		assert_true(loaded, "Default audiogroup should be loaded by default");
+		
+	});
+
+	addFact("Default audio group test #2", function() {
+		
+		var loadProgress = audio_group_load_progress(audiogroup_default);
+		assert_equals(loadProgress, 100, "Default audiogroup's load progress should be at 100, as it should be loaded in by default");
+		
+	});
 	
 	addTestAsync("Audio groups loading test #1", objTestAsync, {
 		
@@ -51,6 +64,9 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 				}
 				
 			}
+			
+			show_debug_message("audio group numbers: " + string(array_length(audioGroups)));
+			show_debug_message("loaded groups : " + string(loadedNum));
 			
 			// If all audi groups have been loaded, end test
 			if (loadedNum == array_length(audioGroups)) {
@@ -264,9 +280,6 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 			
 			// Start unloading audio groups
 			audioGroups = getAudioGroups();
-			
-			// Remove default audio group from the array as we don't want to unload that
-			array_delete(audioGroups, 0, 1);
 			
 			for (var i = 0; i < array_length(audioGroups); i++){
 				var group = audioGroups[i];
