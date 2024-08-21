@@ -26,9 +26,8 @@ VertexShaderOutput main(VertexShaderInput INPUT) {
 	// Get the index of the current rectangle via it's red value
 	int rect_index = int(INPUT.vColor.r * 255.0);
 	
-	// THIS UNIFORM WILL CURRENTLY CAUSE ERRORS IN HLSL, AND IS TEMPORARILY COMMENTED TO AVOID MESSING UP OTHER TESTS - UNCOMMENT WHEN FIXES ARE IMPLEMENTED
 	// Set vertex colour to the colour of the light corresponding to the rectangle index
-	//OUTPUT.vColor = gm_Lights_Colour[rect_index];
+	OUTPUT.vColor = gm_Lights_Colour[rect_index];
 	
 	// Pass the vertex position, colour and texture coordinates to the fragment shader
     OUTPUT.vPosition = matrixWVP;
