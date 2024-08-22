@@ -59,7 +59,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Playing audio buffer test", objTestAsyncAudioPlaybackEnded, {
+	addTestAsync("Playing audio buffer test #1", objTestAsyncAudioPlaybackEnded, {
 		
 		ev_create: function() {
 			
@@ -82,7 +82,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 	});
 	
 		
-	addTestAsync("Queueing sounds", objTestAsyncAudioPlayback, {
+	addTestAsync("Queueing sounds test #1", objTestAsyncAudioPlayback, {
 		
 		ev_create: function() {
 			
@@ -118,7 +118,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Freeing audio play queue test", objTestAsyncAudioPlayback, {
+	addTestAsync("Freeing audio play queue test #1", objTestAsyncAudioPlayback, {
 		
 		ev_create: function() {
 			
@@ -158,7 +158,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Async audio playback event test", objTestAsyncAudioPlayback, {
+	addTestAsync("Async audio playback event test #1", objTestAsyncAudioPlayback, {
 		
 		ev_create: function() {
 			
@@ -195,7 +195,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #1", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
@@ -212,7 +212,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #2", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
@@ -232,7 +232,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #3", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
@@ -252,7 +252,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #4", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
@@ -273,7 +273,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #5", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
@@ -294,7 +294,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #6", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
@@ -315,7 +315,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Audio recording test", objTestAsyncAudioRecording, {
+	addTestAsync("Audio recording test #1", objTestAsyncAudioRecording, {
 
 		ev_create: function() {
 		    
