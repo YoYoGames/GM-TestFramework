@@ -108,7 +108,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 			assert_not_null(bufferId, "Buffer id should not be null");
 			
 			var queueShutdown = ds_map_find_value(async_load, "queue_shutdown");
-			assert_equals(queueShutdown, 0, "Queue shutdown should be 0 when audio isn't stopped by freeing the queue");
+			assert_equals(queueShutdown, 0, "Queue shutdown should be 0 when audio isn't stopped by freeing the queue"); // Known issue https://github.com/YoYoGames/GameMaker-Bugs/issues/7390
 			
 			audio_free_play_queue(audioQueue);
 			
