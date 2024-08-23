@@ -16,7 +16,7 @@ function BasicNameofTestSuite() : TestSuite() constructor {
 	addFact("nameof_macro_test", function() {
 		assert_equals(nameof(NAMEOF_TEST_REAL), "NAMEOF_TEST_REAL", "nameof of macro which holds real value");
 		assert_equals(nameof(NAMEOF_TEST_STRING), "NAMEOF_TEST_STRING", "nameof of macro which holds string value");
-		assert_equals(nameof(NAMEOF_TEST_TABBED_MACRO), "NAMEOF_TEST_STRING", "nameof of macro which have \\t character before keyword");
+		assert_equals(nameof(NAMEOF_TEST_TABBED_MACRO), "NAMEOF_TEST_TABBED_MACRO", "nameof of macro which have \\t character before keyword");
 	});
 	
 	// Test names of enums
