@@ -740,7 +740,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("string_test #17", function() {
+	addFact("string_test #17", function() { // KNOWN FAIL - https://github.com/YoYoGames/GameMaker/issues/4312
 	
 		var input, output;
 
