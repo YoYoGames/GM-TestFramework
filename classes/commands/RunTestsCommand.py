@@ -35,9 +35,10 @@ class RunTestsCommand(BaseCommand):
 
     async def build_and_run(self):
         # Setup the project
-        self.project_set_config(DEFAULT_CONFIG)
+        data = self.project_set_config(DEFAULT_CONFIG)
+        self.project_write_config(data)
 
-        await AsyncUtils.run_exe(self.get_argument("yypc_path"), [
+        await AsyncUtils.run_exe_and_capture(self.get_argument("yypc_path"), [
             self.get_argument("project_path"), 
             '-o', self.get_argument("output_folder"),
             '-t', self.get_argument("template_folder"),
@@ -50,4 +51,3 @@ class RunTestsCommand(BaseCommand):
             f'-mode={self.get_argument("mode")}',
             f'-run-args={self.get_argument("run_arguments")}',
             '-v'])
-
