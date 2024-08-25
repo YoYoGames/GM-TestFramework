@@ -36,6 +36,7 @@ class BaseCommand:
         return self.options.base_folder
 
     def project_set_config(self, data) -> dict[str, Any]:
+        data = dict(**data)
         data['HttpPublisher.ip'] = NetworkUtils.get_local_ip()
         data['$$parameters$$.runName'] = self.get_argument("run_name")
         data['$$parameters$$.serverAddress'] = NetworkUtils.get_local_ip()

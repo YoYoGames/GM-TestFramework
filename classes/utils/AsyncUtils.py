@@ -56,59 +56,90 @@ class AsyncUtils:
         return stdout_output
 
     @staticmethod
-    async def _handle_client(reader: asyncio.StreamReader, writer: asyncio.StreamWriter, process: asyncio.subprocess.Process, stop_event: asyncio.Event, timeout: int):
+    async def _handle_client(reader: asyncio.StreamReader, writer: asyncio.StreamWriter, stop_event: asyncio.Event, timeout: int):
         """
         Handles communication with a single connected client.
         """
         addr = writer.get_extra_info('peername')
         print(f"Client connected: {addr}")
-        
+
         try:
             while True:
                 command = input("Enter command and args: ")
 
-                writer.write(command.encode() + b'\0')
-                await writer.drain()
-                logging.info(f"Sent: {command}")
-                
+                if await AsyncUtils._send_command(writer, command):
+                    break
+
                 if command.strip().lower() in ['exit', 'quit']:
                     logging.info("Waiting for client to disconnect...")
-                    await writer.drain()
                     break
 
-                try:
-                    data = await asyncio.wait_for(reader.read(1024), timeout=timeout * 60)
-                except asyncio.TimeoutError:
-                    if process:
-                        logging.error(f"Client did not respond within {timeout} minutes. Killing process.")
-                        if process:
-                            process.kill()
+                if not await AsyncUtils._receive_response(reader, timeout):
                     break
-
-                if not data:
-                    logging.info("Client disconnected.")
-                    break
-                logging.info(f"Received: {data.decode().strip()}")
 
         except asyncio.CancelledError:
             logging.info("Connection closed.")
         except ConnectionResetError:
             logging.error(f"Connection forcibly closed.")
         finally:
-            try:
-                writer.close()
-                await writer.wait_closed()
-            except Exception:
-                pass
+            await AsyncUtils._cleanup(writer, stop_event)
+
+    @staticmethod
+    async def _send_command(writer: asyncio.StreamWriter, command: str) -> bool:
+        """
+        Sends a command to the client and drains the writer.
+        Returns True if the connection should be closed, False otherwise.
+        """
+        try:
+            writer.write(command.encode() + b'\0')
+            await writer.drain()
+            logging.info(f"Sent: {command}")
+        except (ConnectionResetError, BrokenPipeError):
+            logging.error("Connection lost while sending data to client.")
+            return True
+        return False
+
+    @staticmethod
+    async def _receive_response(reader: asyncio.StreamReader, timeout: int) -> bool:
+        """
+        Receives a response from the client.
+        Returns False if the client disconnected or timed out, True otherwise.
+        """
+        try:
+            data = await asyncio.wait_for(reader.read(1024), timeout=timeout * 60)
+            if not data:
+                logging.info("Client disconnected.")
+                return False
+            logging.info(f"Received: {data.decode().strip()}")
+        except asyncio.TimeoutError:
+            logging.error(f"Client did not respond within {timeout} minutes.")
+            return False
+        except ConnectionResetError:
+            logging.error("Connection lost while reading data from client.")
+            return False
+
+        return True
+
+    @staticmethod
+    async def _cleanup(writer: asyncio.StreamWriter, stop_event: asyncio.Event):
+        """
+        Cleans up the writer and sets the stop event.
+        """
+        try:
+            writer.close()
+            await writer.wait_closed()
+        except Exception as e:
+            logging.error(f"Error during cleanup: {e}")
+        finally:
             stop_event.set()
     
     @staticmethod
-    async def serve(process: asyncio.subprocess.Process, host: str, port: int, timeout: int, stop_event: Optional[asyncio.Event] = None):
+    async def serve(host: str, port: int, timeout: int, stop_event: Optional[asyncio.Event] = None):
 
         if stop_event == None:
             stop_event = asyncio.Event()
 
-        server = await asyncio.start_server(lambda r, w: AsyncUtils._handle_client(r, w, process, stop_event, timeout), host, port)
+        server = await asyncio.start_server(lambda r, w: AsyncUtils._handle_client(r, w, stop_event, timeout), host, port)
         addr = server.sockets[0].getsockname()
         logging.info(f'Serving on {addr}')
 
@@ -127,7 +158,7 @@ class AsyncUtils:
 
         stop_event = asyncio.Event()
 
-        await AsyncUtils.serve(process, host, port, timeout, stop_event)
+        await AsyncUtils.serve(host, port, timeout, stop_event)
 
         await process.wait()  # Wait for the subprocess to exit
         logging.info(f'Process completed')
@@ -146,7 +177,7 @@ class AsyncUtils:
 
         # Capture output concurrently while serving the client
         await asyncio.gather(
-            AsyncUtils.serve(process, host, port, timeout, stop_event),
+            AsyncUtils.serve(host, port, timeout, stop_event),
             AsyncUtils._capture_output(process)
         )
 
