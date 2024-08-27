@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from classes.utils.FileUtils import FileUtils
-from classes.utils.NetworkUtils import NetworkUtils
+from classes.utils.network_utils import get_local_ip
 
 DEFAULT_CONFIG = {
     "Logger.level": 10,
@@ -36,10 +36,12 @@ class BaseCommand:
         return self.options.base_folder
 
     def project_set_config(self, data) -> dict[str, Any]:
+        local_ip = get_local_ip()
+
         data = dict(**data)
-        data['HttpPublisher.ip'] = NetworkUtils.get_local_ip()
+        data['HttpPublisher.ip'] = local_ip
         data['$$parameters$$.runName'] = self.get_argument("run_name")
-        data['$$parameters$$.serverAddress'] = NetworkUtils.get_local_ip()
+        data['$$parameters$$.serverAddress'] = local_ip
         return data
 
     def project_write_config(self, data: dict[str, Any]):

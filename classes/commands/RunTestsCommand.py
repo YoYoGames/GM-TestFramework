@@ -3,7 +3,7 @@ import argparse
 
 from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
-from classes.utils.AsyncUtils import AsyncUtils
+from classes.utils import async_utils
 
 class RunTestsCommand(BaseCommand):
     def __init__(self, options: argparse.Namespace):
@@ -38,7 +38,7 @@ class RunTestsCommand(BaseCommand):
         data = self.project_set_config(DEFAULT_CONFIG)
         self.project_write_config(data)
 
-        await AsyncUtils.run_exe_and_capture(self.get_argument("yypc_path"), [
+        await async_utils.run_exe_and_capture(self.get_argument("yypc_path"), [
             self.get_argument("project_path"), 
             '-o', self.get_argument("output_folder"),
             '-t', self.get_argument("template_folder"),
