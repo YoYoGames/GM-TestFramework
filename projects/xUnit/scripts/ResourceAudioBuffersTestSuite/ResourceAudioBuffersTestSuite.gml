@@ -30,28 +30,36 @@ function GetInterpolatedPitchAudioBuffer(initialHertz, finalHertz, rate, duratio
 
 function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 	
-	
-	addFact("Audio buffer creation and freeing test", function() {
+	addFact("Audio buffer creation test #1", function() {
 		
 		// Create sound with increasing pitch and test that he buffer is not null
-		var bufferSoundId = GetInterpolatedPitchAudioBuffer(220, 880, 44800, 1, true);
-		assert_not_null(bufferSoundId, "soundId should not be null after creating buffer sound");
-		audio_free_buffer_sound(bufferSoundId);
+		var bufferSoundId = GetInterpolatedPitchAudioBuffer(220, 880, 44800, 1, false);
+		
+		var soundId = audio_create_buffer_sound(bufferSoundId, buffer_u8, 44800, 0, 44800, audio_mono);
+		
+		assert_not_null(soundId, "audio_create_buffer_sound should not return null");
+		audio_free_buffer_sound(soundId);
+		
+	});
+	
+	addFact("Audio buffer freeing test #1", function() {
 		
 		// Free the buffer and test that it cannot play the sound afterwards
 		assert_throw(function() {
 			
-			var bufferSoundId = GetInterpolatedPitchAudioBuffer(220, 880, 44800, 1, true);
+			var bufferSoundId = GetInterpolatedPitchAudioBuffer(220, 880, 44800, 1, false);
+		
+			var soundId = audio_create_buffer_sound(bufferSoundId, buffer_u8, 44800, 0, 44800, audio_mono);
 			
-			audio_free_buffer_sound(bufferSoundId);
+			audio_free_buffer_sound(soundId);
 			
-			audio_play_sound(bufferSoundId, 1, false);
+			audio_play_sound(soundId, 1, false);
 			
-		}, "Audio should be unplayable after buffer has been freed");
+		}, "audio_free_buffer_sound should make audio buffer unplayable");
 		
 	});
 	
-	addTestAsync("Playing audio buffer test", objTestAsyncAudioPlaybackEnded, {
+	addTestAsync("Playing audio buffer test #1", objTestAsyncAudioPlaybackEnded, {
 		
 		ev_create: function() {
 			
@@ -74,7 +82,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 	});
 	
 		
-	addTestAsync("Queueing sounds", objTestAsyncAudioPlayback, {
+	addTestAsync("Queueing sounds test #1", objTestAsyncAudioPlayback, {
 		
 		ev_create: function() {
 			
@@ -100,7 +108,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 			assert_not_null(bufferId, "Buffer id should not be null");
 			
 			var queueShutdown = ds_map_find_value(async_load, "queue_shutdown");
-			assert_equals(queueShutdown, 0, "Queue shutdown should be 0");
+			assert_equals(queueShutdown, 0, "Queue shutdown should be 0 when audio isn't stopped by freeing the queue"); // Known issue https://github.com/YoYoGames/GameMaker-Bugs/issues/7390
 			
 			audio_free_play_queue(audioQueue);
 			
@@ -110,7 +118,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Freeing audio play queue test", objTestAsyncAudioPlayback, {
+	addTestAsync("Freeing audio play queue test #1", objTestAsyncAudioPlayback, {
 		
 		ev_create: function() {
 			
@@ -142,7 +150,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 			
 			// When audio is stopped by freeing the queue, 'queue_shutdown' should be 1
 			var queueShutdown = ds_map_find_value(async_load, "queue_shutdown");
-			assert_equals(queueShutdown, 1, "queue shutdown should be 1");
+			assert_equals(queueShutdown, 1, "queue shutdown should be 1 when audio is stopped by freeing the queue");
 			
 			test_end();
 			
@@ -150,7 +158,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Async audio playback event test", objTestAsyncAudioPlayback, {
+	addTestAsync("Async audio playback event test #1", objTestAsyncAudioPlayback, {
 		
 		ev_create: function() {
 			
@@ -187,11 +195,11 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addFact("Audio recorder info", function() {
+	addFact("Audio recorder info test #1", function() {
 		
 		// Test audio recorder count
 		var count = audio_get_recorder_count();
-		assert_greater_or_equal(count, 0, "Audio recorder count should be a greater or equal to 0");
+		assert_greater_or_equal(count, 0, "audio_get_recorder_count should return greater or equal to 0");
 		
 		// Test audio recorder infos
 		
@@ -200,25 +208,105 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 			var recorder_info = audio_get_recorder_info(i);
 			assert_not_null(recorder_info, "Audio recorder info should not be null");
 			
+		}
+		
+	});
+	
+	addFact("Audio recorder info test #2", function() {
+		
+		// Test audio recorder count
+		var count = audio_get_recorder_count();
+		assert_greater_or_equal(count, 0, "audio_get_recorder_count should return greater or equal to 0");
+		
+		// Test audio recorder infos
+		
+		for (var i = 0; i < count; i++) {
+			
+			var recorder_info = audio_get_recorder_info(i);
+			
 			var name = ds_map_find_value(recorder_info, "name");
 			show_debug_message("audio recorder " + string(i) + " name: " + string(name));
 			assert_not_null(name, "Audio recorder name should not be null");
+			
+		}
+		
+	});
+	
+	addFact("Audio recorder info test #3", function() {
+		
+		// Test audio recorder count
+		var count = audio_get_recorder_count();
+		assert_greater_or_equal(count, 0, "audio_get_recorder_count should return greater or equal to 0");
+		
+		// Test audio recorder infos
+		
+		for (var i = 0; i < count; i++) {
+			
+			var recorder_info = audio_get_recorder_info(i);
 			
 			var index = ds_map_find_value(recorder_info, "index");
 			show_debug_message("audio recorder " + string(i) + " index: " + string(index));
 			assert_typeof(index, "number", "Audio recorder index should be a number");
 			
-			// As of Runtime v2024.600.609, only buffer_s16 is supported (according to the manual)
+		}
+		
+	});
+	
+	addFact("Audio recorder info test #4", function() {
+		
+		// Test audio recorder count
+		var count = audio_get_recorder_count();
+		assert_greater_or_equal(count, 0, "audio_get_recorder_count should return greater or equal to 0");
+		
+		// Test audio recorder infos
+		
+		for (var i = 0; i < count; i++) {
+			
+			var recorder_info = audio_get_recorder_info(i);
+			
+			// As of Runtime v2024.800.633, only buffer_s16 is supported (according to the manual)
 			var data_format = ds_map_find_value(recorder_info, "data_format");
 			show_debug_message("audio recorder " + string(i) + " data format: " + string(data_format));
 			assert_equals(data_format, buffer_s16, "Audio recorder data format should be buffer_s16");
 			
-			// As of Runtime v2024.600.609, sample rate is clamped to 16000 (according to the manual)
+		}
+		
+	});
+	
+	addFact("Audio recorder info test #5", function() {
+		
+		// Test audio recorder count
+		var count = audio_get_recorder_count();
+		assert_greater_or_equal(count, 0, "audio_get_recorder_count should return greater or equal to 0");
+		
+		// Test audio recorder infos
+		
+		for (var i = 0; i < count; i++) {
+			
+			var recorder_info = audio_get_recorder_info(i);
+			
+			// As of Runtime v2024.800.633, sample rate is clamped to 16000 (according to the manual)
 			var sample_rate = ds_map_find_value(recorder_info, "sample_rate");
 			show_debug_message("audio recorder " + string(i) + " sample rate: " + string(sample_rate));
 			assert_less_or_equal(sample_rate, 16000, "Audio recorder sample rate should be clamped to 16000hz");
 			
-			// As of Runtime v2024.600.609, recorder channels can only be audio_mono (according to the manual)
+		}
+		
+	});
+	
+	addFact("Audio recorder info test #6", function() {
+		
+		// Test audio recorder count
+		var count = audio_get_recorder_count();
+		assert_greater_or_equal(count, 0, "audio_get_recorder_count should return greater or equal to 0");
+		
+		// Test audio recorder infos
+		
+		for (var i = 0; i < count; i++) {
+			
+			var recorder_info = audio_get_recorder_info(i);
+			
+			// As of Runtime v2024.800.633, recorder channels can only be audio_mono (according to the manual)
 			var channels = ds_map_find_value(recorder_info, "channels");
 			show_debug_message("audio recorder " + string(i) + " channels: " + string(channels));
 			assert_equals(channels, audio_mono, "Audio recorder channel should be audio_mono");
@@ -227,7 +315,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
-	addTestAsync("Audio recording test", objTestAsyncAudioRecording, {
+	addTestAsync("Audio recording test #1", objTestAsyncAudioRecording, {
 
 		ev_create: function() {
 		    
@@ -316,11 +404,13 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 					
 					// Create sound with fixed buffer
 			        soundId = audio_create_buffer_sound(fixed_audio_buffer, buffer_s16, recorderSampleRate, 0, length, audio_mono);
+					
+					show_debug_message("soundId: " + string(soundId));
 			        
 					// Play sound
 			        if (soundId >= 0) {
-			            audio_play_sound(soundId, 1, false);
 			            show_debug_message("Playing sound!!!");
+			            audio_play_sound(soundId, 1, false);
 			        } else {
 			            show_debug_message("Failed to create sound from buffer.");
 						test_end(TestResult.Failed);
