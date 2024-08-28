@@ -37,23 +37,38 @@ config_set("Test", {
 		log_info("Running '{0}'", _test.getName());
 	},
 	
-	test_end_hook: function(_test, _resultBag) {
+	test_end_hook: function(_test, _result_bag) {
 				
 		// Do any extra required logging or logic here (test is an instance of Test)
 		
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
 		
-		static resultToCategory = [ "unset", "passed", "failed", "skipped", "bailed", "expired" ];
+		static _using_remote_server = config_get_param("remote_server");
 		
-		var _category = resultToCategory[_test.result];
-		var _resultData = _test.getResultData();
+		static _result_to_category = [ "unset", "passed", "failed", "skipped", "bailed", "expired" ];
+		
+		var _category = _result_to_category[_test.result];
+		var _result_data = _test.getResultData();
 
 		// Add a new 
-		if (!variable_struct_exists(_resultBag, _category)) {
-			_resultBag[$ _category] = [];
+		if (!variable_struct_exists(_result_bag, _category)) {
+			_result_bag[$ _category] = [];
 		}
 
-		array_push(_resultBag[$ _category], _resultData);
+		array_push(_result_bag[$ _category], _result_data);
+		
+		if (_using_remote_server) {
+			
+			static _result_publisher = http_publisher_get("$$single_result$$");
+			static _ = _result_publisher.config({
+				ip: config_get_param("serverAddress") ?? "127.0.0.1",
+				port: config_get_param("serverPort") ?? 8080,
+				endpoint: config_get_param("serverEndpoint") ?? "test"
+			});
+			
+			// Publish the results
+			_result_publisher.publish(_result_bag);
+		}
 		
 		_test.doReset(); // Free some memory usage
 		
@@ -103,7 +118,9 @@ config_set("TestFrameworkRun", {
 	},
 	
 	framework_end_hook: function(_test, _resultBag) {
-				
+		
+		show_debug_message(_test.getDuration())
+		
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
 		
 		// Create tallies

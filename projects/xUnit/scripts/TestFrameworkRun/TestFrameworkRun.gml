@@ -25,7 +25,7 @@ function TestFrameworkRun() : TestBatch() constructor {
 		var _suite = variable_global_get(_name);
 		addSuite(_suite);
 	}
-	
+
 	config(config_get(self));
 }
 
