@@ -3,8 +3,8 @@ import argparse
 from pathlib import Path
 from typing import Any
 
-from classes.utils.FileUtils import FileUtils
-from classes.utils.network_utils import get_local_ip
+from classes.utils import file_utils
+from classes.utils import network_utils
 
 DEFAULT_CONFIG = {
     "Logger.level": 10,
@@ -36,7 +36,7 @@ class BaseCommand:
         return self.options.base_folder
 
     def project_set_config(self, data) -> dict[str, Any]:
-        local_ip = get_local_ip()
+        local_ip = network_utils.get_local_ip()
 
         data = dict(**data)
         data['HttpPublisher.ip'] = local_ip
@@ -49,4 +49,4 @@ class BaseCommand:
         yyp_folder = Path(yyp_file).parent
 
         config_file = yyp_folder / 'datafiles' / 'config.json'
-        FileUtils.save_data_as_json(data, config_file)
+        file_utils.save_data_as_json(data, config_file)

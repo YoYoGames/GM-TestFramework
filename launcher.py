@@ -1,13 +1,14 @@
 import asyncio
 from pathlib import Path
 import argparse
-import logging
 import subprocess
 import sys
 from dotenv import load_dotenv
 
-from classes.utils.FileUtils import FileUtils
-from classes.utils.LoggingUtils import LoggingUtils
+
+from classes.utils import (file_utils, logging_utils)
+from classes.utils.logging_utils import LOGGER
+from classes.commands.RunRemoteCommand import RunRemoteCommand
 from classes.commands.RunServerCommand import RunServerCommand
 from classes.commands.RunTestsCommand import RunTestsCommand
 
@@ -18,7 +19,7 @@ def install_dependencies():
 # Execution
 async def main():
 
-    LoggingUtils.config_logger()
+    logging_utils.config_logger()
   
     # Initial parser for the --config-file
     config_parser = argparse.ArgumentParser(add_help=False)
@@ -28,7 +29,7 @@ async def main():
 
     # Check if a config file was provided and load it
     if args.config_file:
-        config_args: dict = FileUtils.read_data_from_json(args.config_file)
+        config_args: dict = file_utils.read_data_from_json(args.config_file)
         # Convert config args to command line args format
         # Assumes flat JSON structure: {"arg1": "value1", "arg2": "value2"}
         config_argv = [f'--{k}={v}' for k, v in config_args.items()]
@@ -43,6 +44,7 @@ async def main():
     subparsers = parser.add_subparsers(dest='command', required=True)
 
     # Register commands with the parser
+    RunRemoteCommand.register_command(subparsers)
     RunServerCommand.register_command(subparsers)
     RunTestsCommand.register_command(subparsers)
 
@@ -54,7 +56,7 @@ async def main():
         cmd = args.command_class(args)
         await cmd.execute()
     else:
-        logging.error("Unknown command. Please use a registered command.")
+        LOGGER.error("Unknown command. Please use a registered command.")
         exit(1)
 
 if __name__ == "__main__":

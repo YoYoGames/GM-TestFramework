@@ -1,11 +1,10 @@
 import asyncio
-import logging
-from functools import partial
 from enum import Enum, auto
-from typing import Any, Callable, Coroutine, Optional
+from typing import Any, Coroutine, Optional
 from classes.utils import async_utils, network_utils
+from classes.utils.logging_utils import LOGGER
 
-class Mode(Enum):
+class ExecutionMode(Enum):
     AUTOMATIC = "automatic"
     MANUAL = "manual"
 
@@ -15,24 +14,23 @@ class State(Enum):
     RUNNING = auto()
     FINISHED = auto()
 
-class Command(Enum):
+class RemoteCommand(Enum):
     GET_TESTS = "TESTS"
     RUN = "RUN {}"  # Placeholder for test name
     EXIT = "EXIT"
     QUIT = "QUIT"
 
-class RunTestsRemote:
+class RemoteControlServer:
 
-    def __init__(self, mode: Mode, timeout: int = 5, logger : Optional[logging.Logger] = None):
+    def __init__(self, mode: ExecutionMode, timeout: int = 5):
         """
-        Initialize the RunTestsRemote with the given mode.
+        Initialize the RemoteControlServer with the given mode.
         
         Args:
             mode (Mode): The mode of operation, either AUTOMATIC or MANUAL.
         """
         self.mode = mode
         self.timeout = timeout
-        self.logger = logger if logger else logging.getLogger(__name__)
 
         self.tests = []
         self.current_test_index = 0
@@ -47,9 +45,9 @@ class RunTestsRemote:
         Returns:
             Callable: The strategy method to use for handling the client.
         """
-        if self.mode == Mode.AUTOMATIC:
+        if self.mode == ExecutionMode.AUTOMATIC:
             return self._handle_automatic_mode
-        elif self.mode == Mode.MANUAL:
+        elif self.mode == ExecutionMode.MANUAL:
             return self._handle_manual_mode
         else:
             raise ValueError(f"Unknown mode: {self.mode}")
@@ -57,12 +55,12 @@ class RunTestsRemote:
     async def _serve(self, host: str, port: int):
         server = await asyncio.start_server(lambda reader, writer: self._handle_client(reader, writer), host, port)
         addr = server.sockets[0].getsockname()
-        self.logger.info(f'Serving on {addr}')
+        LOGGER.info(f'Serving on {addr}')
 
         await self.stop_event.wait()  # Wait until the stop_event is set
         server.close()
         await server.wait_closed()
-        self.logger.info("Server has stopped.")
+        LOGGER.info("Server has stopped.")
 
     async def _handle_client(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter):
         """
@@ -73,15 +71,15 @@ class RunTestsRemote:
 
         try:
             # Only restore state if mode is AUTOMATIC and state is RUNNING
-            if self.mode == Mode.AUTOMATIC and self.state == State.RUNNING:
+            if self.mode == ExecutionMode.AUTOMATIC and self.state == State.RUNNING:
                 await self._resume_running_tests(reader, writer)
                 return  # If state was restored and handled, no need to run the strategy again
 
             await self.strategy(reader, writer)
         except asyncio.CancelledError:
-            self.logger.info("Connection closed.")
+            LOGGER.info("Connection closed.")
         except ConnectionResetError:
-            logging.error("Connection forcibly closed.")
+            LOGGER.error("Connection forcibly closed.")
         finally:
             await self._cleanup(writer)
 
@@ -90,7 +88,7 @@ class RunTestsRemote:
         Resume running tests if the server was in the RUNNING state when the client crashed.
         """
         while self.current_test_index < len(self.tests):
-            command = Command.RUN.value.format(self.tests[self.current_test_index])
+            command = RemoteCommand.RUN.value.format(self.tests[self.current_test_index])
             if await self._send_command(writer, command):
                 return
 
@@ -102,10 +100,10 @@ class RunTestsRemote:
         if self.current_test_index >= len(self.tests):
             # Transition to FINISHED state and set the stop event
             self.state = State.FINISHED
-            self.logger.info(f"State changed to {self.state}")
+            LOGGER.info(f"State changed to {self.state}")
 
-            self.logger.info("All tests executed.")
-            await self._send_command(writer, Command.EXIT.value)
+            LOGGER.info("All tests executed.")
+            await self._send_command(writer, RemoteCommand.EXIT.value)
 
             self.stop_event.set()  # Signal that the run has finished
 
@@ -116,10 +114,10 @@ class RunTestsRemote:
         if not restore:
             # Transition to STARTING state
             self.state = State.STARTING
-            self.logger.info(f"State changed to {self.state}")
+            LOGGER.info(f"State changed to {self.state}")
 
             # Step 1: GET TESTS command
-            if await self._send_command(writer, Command.GET_TESTS.value):
+            if await self._send_command(writer, RemoteCommand.GET_TESTS.value):
                 return
 
             received_data = await self._receive_response(reader)
@@ -131,7 +129,7 @@ class RunTestsRemote:
 
         # Transition to RUNNING state
         self.state = State.RUNNING
-        self.logger.info(f"State changed to {self.state}")
+        LOGGER.info(f"State changed to {self.state}")
 
         # Resume running tests
         await self._resume_running_tests(reader, writer)
@@ -142,7 +140,7 @@ class RunTestsRemote:
         """
         # Transition to RUNNING state (since manual mode starts immediately)
         self.state = State.RUNNING
-        self.logger.info(f"State changed to {self.state}")
+        LOGGER.info(f"State changed to {self.state}")
 
         # Immediately set the stop event because manual control is ongoing
         self.stop_event.set()
@@ -153,8 +151,8 @@ class RunTestsRemote:
             if await self._send_command(writer, command):
                 return
 
-            if command.strip().upper() in [Command.EXIT.value, Command.QUIT.value]:
-                self.logger.info("Waiting for client to disconnect...")
+            if command.strip().upper() in [RemoteCommand.EXIT.value, RemoteCommand.QUIT.value]:
+                LOGGER.info("Waiting for client to disconnect...")
                 break
 
             if not await self._receive_response(reader):
@@ -162,15 +160,15 @@ class RunTestsRemote:
 
         # Transition to FINISHED state
         self.state = State.FINISHED
-        self.logger.info(f"State changed to {self.state}")
+        LOGGER.info(f"State changed to {self.state}")
 
     async def _send_command(self, writer: asyncio.StreamWriter, command: str) -> bool:
         try:
             writer.write(command.encode() + b'\0')
             await writer.drain()
-            self.logger.info(f"Sent: {command}")
+            LOGGER.info(f"Sent: {command}")
         except (ConnectionResetError, BrokenPipeError):
-            logging.error("Connection lost while sending data to client.")
+            LOGGER.error("Connection lost while sending data to client.")
             return True
         return False
 
@@ -187,16 +185,16 @@ class RunTestsRemote:
         try:
             data = await asyncio.wait_for(reader.read(2000000), self.timeout * 60)
             if not data:
-                self.logger.info("Client disconnected.")
+                LOGGER.info("Client disconnected.")
                 return None
             decoded_data = data.decode().strip()
-            self.logger.info(f"Received: {decoded_data}")
+            LOGGER.info(f"Received: {decoded_data}")
             return decoded_data
         except asyncio.TimeoutError:
-            logging.error(f"Client did not respond within {self.timeout} minutes. Killing process.")
+            LOGGER.error(f"Client did not respond within {self.timeout} minutes. Killing process.")
             return None
         except ConnectionResetError:
-            logging.error("Connection lost while reading data from client.")
+            LOGGER.error("Connection lost while reading data from client.")
             return None
 
     async def _cleanup(self, writer: asyncio.StreamWriter):
@@ -204,7 +202,7 @@ class RunTestsRemote:
             writer.close()
             await writer.wait_closed()
         except Exception as e:
-            logging.error(f"Error during cleanup: {e}")
+            LOGGER.error(f"Error during cleanup: {e}")
 
     async def serve_or_wait_for_space(self, exe_path, args):
         """
@@ -215,6 +213,6 @@ class RunTestsRemote:
         await asyncio.gather(
             self._serve(host=local_ip_address, port=8000),
             async_utils.wait_for_space_key(self.stop_event),
-            async_utils.run_and_monitor_exe(exe_path=exe_path, args=args, stop_event=self.stop_event, logger=self.logger, restart_delay=0.5)
+            async_utils.run_and_monitor_exe(exe_path=exe_path, args=args, stop_event=self.stop_event, restart_delay=0.5)
         )
 

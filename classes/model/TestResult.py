@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ElementTree
 
 from pydantic import BaseModel
 
-from classes.utils.DataUtils import DataUtils
+from classes.utils import data_utils
 
 
 class TestResult(BaseModel):
@@ -35,13 +35,13 @@ class TestResult(BaseModel):
         for exception in self.exceptions:
             exception_element = ElementTree.Element('error')
             exception_element.set("type", "ExceptionThrownError")
-            exception_element.text = DataUtils.json_stringify(exception)
+            exception_element.text = data_utils.json_stringify(exception)
             element.append(exception_element)
         
         for error in self.errors:
             error_element = ElementTree.Element('failure')
             error_element.set("type", "AssertionError")
-            error_element.text = DataUtils.json_stringify(error)
+            error_element.text = data_utils.json_stringify(error)
             element.append(error_element)
         
         if self.did_expire():
