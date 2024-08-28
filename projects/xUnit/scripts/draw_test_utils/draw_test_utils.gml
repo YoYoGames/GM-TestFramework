@@ -2,9 +2,9 @@
 
 /// @function start_draw_comparison()
 /// @description Creates a surface and sets it as the current draw target, capturing the resulting image of any subsequent draw calls. Returns a reference to the surface to pass into end_draw_comparison once finished drawing. 
-/// @param {Real} width The width of the surface to create for the comparison
-/// @param {Real} height The height of the surface to create for the comparison
-/// @return {Id.Surface} The created surface, to be used in end_draw_comparison()
+/// @param {Real} _width The width of the surface to create for the comparison
+/// @param {Real} _height The height of the surface to create for the comparison
+/// @return {Id.Surface|Undefined} The created surface, to be used in end_draw_comparison()
 function start_draw_comparison(_width = room_width, _height = room_height) {
 	
 	// Create a surface to draw the tile onto
@@ -26,10 +26,10 @@ function start_draw_comparison(_width = room_width, _height = room_height) {
 
 /// @function start_draw_comparison_ext()
 /// @description Creates a surface and sets it as one of the current MRT draw targets, capturing the resulting image of any subsequent draw calls. Returns a reference to the surface to pass into end_draw_comparison_ext once finished drawing. 
-/// @param {Real} index The render target index to use (from 0 to 3).
-/// @param {Real} width The width of the surface to create for the comparison
-/// @param {Real} height The height of the surface to create for the comparison
-/// @return {Id.Surface} The created surface, to be used in end_draw_comparison_ext()
+/// @param {Real} _index The render target index to use (from 0 to 3).
+/// @param {Real} _width The width of the surface to create for the comparison
+/// @param {Real} _height The height of the surface to create for the comparison
+/// @return {Id.Surface|Undefined} The created surface, to be used in end_draw_comparison_ext()
 function start_draw_comparison_ext(_index, _width = room_width, _height = room_height) {
 	
 	// Create a surface to draw the tile onto
@@ -51,9 +51,9 @@ function start_draw_comparison_ext(_index, _width = room_width, _height = room_h
 
 /// @function end_draw_comparison()
 /// @description Stops drawing to the surface and saves it to a buffer, then checks that buffer against a saved expected buffer. (Also saves the resulting buffer and surface image as files for checking manually, or to be used as a new expected buffer.) Should only ever be called after start_draw_comparison() has been called.
-/// @param {Id.Surface} test_surface The surface created for the test, returned from start_draw_comparison()
-/// @param {String} test_name The test name to use as a prefix for any saved/loaded files during the test. ("TestName" would read "TestNameExpectedBuffer")
-/// @param {String} fail_message The message to be shown in the assert if the test fails.
+/// @param {Id.Surface} _test_surface The surface created for the test, returned from start_draw_comparison()
+/// @param {String} _test_name The test name to use as a prefix for any saved/loaded files during the test. ("TestName" would read "TestNameExpectedBuffer")
+/// @param {String} _fail_message The message to be shown in the assert if the test fails.
 /// @return {bool} True if test was successful, false if any asserts were triggered
 function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 	
@@ -123,9 +123,9 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 
 /// @function end_draw_comparison_ext()
 /// @description Stops drawing to the surfaces and saves each of them to a buffer, checking each buffer against a saved expected buffer. (Also saves the resulting buffers and surface images as files for checking manually, or to be used as new expected buffers.) Should only ever be called after one or more start_draw_comparison_ext() calls.
-/// @param {Id.Surface[]} test_surfaces The surfaces created for the test, returned from start_draw_comparison_ext()
-/// @param {String} test_name The test name to use as a prefix for any saved/loaded files during the test. ("TestName" would read "TestNameExpectedBuffer")
-/// @param {String} fail_message The message to be shown in the assert if the test fails.
+/// @param {Array<Id.Surface>} _test_surfaces The surfaces created for the test, returned from start_draw_comparison_ext()
+/// @param {String} _test_name The test name to use as a prefix for any saved/loaded files during the test. ("TestName" would read "TestNameExpectedBuffer")
+/// @param {String} _fail_message The message to be shown in the assert if the test fails.
 /// @return {bool} True if test was successful, false if any asserts were triggered
 function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 	
@@ -199,3 +199,4 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 	return _result;
 	
 }
+
