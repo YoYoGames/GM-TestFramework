@@ -65,6 +65,20 @@ config_set("Test", {
 		
 		_test.doReset(); // Free some memory usage
 		
+		static _using_remote_server = objRunner.using_remote_server;
+		if (_using_remote_server) {
+			
+			static _result_publisher = http_publisher_get("$$single_result$$");
+			static _ = _result_publisher.config({
+				endpoint: "test"
+			});
+			
+			_resultData.path = _resultBag.path;
+		
+			// Publish the results
+			_result_publisher.publish(_resultData);
+		}
+		
 		#endregion
 	}
 

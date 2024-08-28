@@ -104,5 +104,56 @@ function TestBatch() : Test() constructor {
 		return delaySeconds;
 	}
 
+	 
+	/// @func getTestPaths 
+	/// @desc Recursively retrieves and returns a list of test paths within a test suite. Each path represents the hierarchical structure of the tests, with the option to include the root path of the current suite. If a test is itself a test suite, the function will recursively retrieve the paths for all contained tests. 
+	/// @param {Bool} _include_root Whether to include the current suite's name as part of the path. 
+	/// @param {String} [_parent_path] The parent path to be prepended to the test names in the returned list. If not provided, the current suite's name is used. 
+	/// @returns {Array<String>} An array of strings representing the full paths of each test in the suite. 
+	static getTestPaths = function(_include_root, _parent_path = undefined) { 
+		var _paths = []; 
+		var _current_path = _include_root ? 
+			(is_undefined(_parent_path) ? getName() : $"{_parent_path}@{getName()}") :  
+			undefined; 
+ 
+		var _tests = tests; 
+		var _count = array_length(_tests); 
+		for (var _i = 0; _i < _count; _i++) { 
+			var _test = _tests[_i]; 
+			if (is_instanceof(_test, TestBatch)) { 
+				_paths = array_concat(_paths, _test.getTestPaths(true, _current_path)); 
+			} else { 
+				array_push(_paths, $"{_current_path}@{_test.getName()}"); 
+			} 
+		} 
+ 
+		return _paths; 
+	} 
+	 
+	/// @func findTestByPath 
+	/// @desc Searches for and returns a test in the suite by its full path. The path is a string representing the hierarchical location of the test within the suite, separated by "@" symbols. If the path leads to a test suite, the function will recursively search within that suite. 
+	/// @param {String} _path The full path of the test to be found, represented as a string with "@" separating the hierarchy levels. 
+	/// @returns {Struct.Test|undefined} The test found at the specified path, or `undefined` if no test is found. 
+	static findTestByPath = function(_path) { 
+		var _parts = string_split(_path, "@", true, 1); 
+		var _current_part = _parts[0]; 
+ 
+		var _tests = tests; 
+		var _count = array_length(_tests); 
+		for (var _i = 0; _i < _count; _i++) { 
+			var _test = _tests[_i]; 
+			var _test_name = _test.getName(); 
+			if (_test_name == _current_part) { 
+				if (array_length(_parts) == 1) { 
+					return _test; 
+				} 
+				if (is_instanceof(_test, TestBatch)) { 
+					return _test.findTestByPath(_parts[1]); 
+				} 
+			} 
+		} 
+		return undefined; 
+	} 
+
 }
 
