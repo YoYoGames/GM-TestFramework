@@ -330,7 +330,7 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 		assert_equals(output, 0xFFFFFFFF, "#3.1 layer_tile_get_blend(), failed to get the correct value");
 			
 		output = layer_tile_get_sprite(layerTile);
-		assert_equals(output, 0, "#3.1 layer_tile_get_sprite(), failed to get the correct value");
+		assert_equals(output, tilesAuto, "#3.1 layer_tile_get_sprite(), failed to get the correct value");
 			
 		output = layer_tile_get_region(layerTile);
 		assert_array_equals(output, [0, 0, 10, 10], "#3.1 layer_tile_get_region(), failed to get the correct value");
