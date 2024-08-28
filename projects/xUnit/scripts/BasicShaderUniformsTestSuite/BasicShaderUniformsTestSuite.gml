@@ -4,7 +4,7 @@
 // Test suite for testing all gamemaker-specific built-in shader uniforms
 function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 	
-	addTestAsync("alpha_test", objTestAsyncDraw, {
+	addTestAsync("alpha_test", objTestAsyncDraw, { // KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6425
 		
 		ev_create: function() {
 			
@@ -522,7 +522,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gm_vs_fog_enabled", objTestAsyncDraw, {
+	addTestAsync("gm_vs_fog_enabled", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6425
 		
 		ev_create: function() {		
 			// Set shader to use depending on platform
@@ -581,7 +581,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gm_ps_fog_enabled", objTestAsyncDraw, {
+	addTestAsync("gm_ps_fog_enabled", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6425
 		
 		ev_create: function() {	
 			// Set shader to use depending on platform
@@ -640,7 +640,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gm_fog_colour", objTestAsyncDraw, {
+	addTestAsync("gm_fog_colour", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6425
 		
 		ev_create: function() {	
 			// Set shader to use depending on platform
@@ -699,7 +699,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gm_fog_start", objTestAsyncDraw, {
+	addTestAsync("gm_fog_start", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6425
 		
 		ev_create: function() {	
 			// Set shader to use depending on platform
@@ -758,7 +758,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gm_rcp_fog_range", objTestAsyncDraw, {
+	addTestAsync("gm_rcp_fog_range", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6425
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
@@ -909,8 +909,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	// (broken code in HLSL shader is commented out to avoid messing up subsequent tests - should be uncommented once fixed)
-	addTestAsync("gm_lights_direction", objTestAsyncDraw, {
+	addTestAsync("gm_lights_direction", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6509
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
@@ -986,8 +985,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	// (broken code in HLSL shader is commented out to avoid messing up subsequent tests - should be uncommented once fixed)
-	addTestAsync("gm_lights_pos_range", objTestAsyncDraw, {
+	addTestAsync("gm_lights_pos_range", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6509
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
@@ -1063,8 +1061,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	// (broken code in HLSL shader is commented out to avoid messing up subsequent tests - should be uncommented once fixed)
-	addTestAsync("gm_lights_colour", objTestAsyncDraw, {
+	addTestAsync("gm_lights_colour", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6509
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
@@ -1139,7 +1136,6 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	// (broken code in HLSL shader is commented out to avoid messing up subsequent tests - should be uncommented once fixed)
 	addTestAsync("gm_ambient_colour", objTestAsyncDraw, {
 		
 		ev_create: function() {

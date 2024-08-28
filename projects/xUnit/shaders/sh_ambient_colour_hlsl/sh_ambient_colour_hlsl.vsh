@@ -22,9 +22,8 @@ VertexShaderOutput main(VertexShaderInput INPUT) {
 	// Calculate the vertex's position on screen using the world_view_projection matrix
     float4 matrixWVP = mul(gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION], INPUT.vPosition);
 	
-	// THIS UNIFORM WILL CURRENTLY CAUSE ERRORS IN HLSL, AND IS TEMPORARILY COMMENTED TO AVOID MESSING UP OTHER TESTS - UNCOMMENT WHEN FIXES ARE IMPLEMENTED
 	// Set the vertex colour to the value from gm_AmbientColour 
-	//OUTPUT.vColor = gm_AmbientColour;
+	OUTPUT.vColor = gm_AmbientColour;
 	
 	// Pass the vertex position and texture coordinate to the fragment shader
     OUTPUT.vPosition = matrixWVP;
