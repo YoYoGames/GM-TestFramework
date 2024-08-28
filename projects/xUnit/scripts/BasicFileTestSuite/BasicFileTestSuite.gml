@@ -996,7 +996,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		if (os_browser != browser_not_a_browser) return;
 
 		var fileWrite = file_text_open_write("testFile.txt");
-		file_text_write_string(fileWrite, "Hello World");
+		file_text_write_string(fileWrite, working_directory);
 		file_text_close(fileWrite);
 		
 		var fileName = filename_name(file_find_first("*.txt", 0));
@@ -1005,13 +1005,12 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// The project these land in is named after the test file itself.
 		// During the test framework run, each test is considered its own unique project.
-		var localAppDataPath = environment_get_variable("localappdata");
-		var projectName = game_project_name;
+		var expectedPath = working_directory
 		
 		var filePath = filename_path("testFile.txt");
-		assert_equals(filePath, localAppDataPath + "\\" + projectName + "\\", "filename_path didn't work correctly"); //NOTE
+		assert_equals(filePath,  expectedPath, "filename_path didn't work correctly");
 		
-		file_delete("testFile.txt");
+		//file_delete("testFile.txt");
 		
 	}, { test_filter: platform_windows });
 	
@@ -1030,11 +1029,10 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// The project these land in is named after the test file itself.
 		// During the test framework run, each test is considered its own unique project.
-		var localAppDataPath = environment_get_variable("localappdata");
-		var projectName = game_project_name;
-			
+		var expectedDirectory = string_trim_end(working_directory, ["\\"])
+		
 		var fileDirectory = filename_dir("testFile.txt");
-		assert_equals(fileDirectory, localAppDataPath + "\\" + projectName, "filename_dir didn't work correctly"); //NOTE
+		assert_equals(fileDirectory,expectedDirectory, "filename_dir didn't work correctly");
 		
 		file_delete("testFile.txt");
 		
