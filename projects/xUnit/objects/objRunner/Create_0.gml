@@ -49,15 +49,17 @@ testFramework.addSuite(ResourceTimeSourceTestSuite);
 // ###########################################################
 
 socket = undefined;
+network_buffer = undefined;
 
 var _using_remote_server = config_get_param("remote_server");
 if (_using_remote_server) {
 
+	// Using remote server
 	socket = network_create_socket(network_socket_tcp);
 	network_buffer = buffer_create(1, buffer_grow, 1);
 	
 	var _url = config_get_param("remote_server_address");
-	var _port = config_get_param("remove_server_port");
+	var _port = config_get_param("remote_server_port");
 	
 	network_connect_raw_async(socket, _url, _port);
 } else {

@@ -15,7 +15,8 @@ switch (_type) {
 	case network_type_non_blocking_connect:
 		// If the connection didn't succeed don't do anything
 		if (!async_load[? "succeeded"]) {
-			testFramework.run(undefined, {});
+			show_debug_message("NETWORK: Failed to connect!");
+			// testFramework.run(undefined, {});
 			return;
 		}
 		
