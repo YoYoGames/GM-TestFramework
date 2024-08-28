@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 import xml.etree.ElementTree as ElementTree
 from aiohttp import web
@@ -6,6 +7,7 @@ import logging
 import struct
 
 from classes.model.TestFrameworkResult import TestFrameworkResult
+from classes.utils import network_utils
 from classes.utils.FileUtils import FileUtils
 
 # Define the asynchronous function to manage the server
@@ -20,11 +22,15 @@ async def manage_server(task_func: callable):
     server = TestFrameworkServer()
     
     # Start the server
-    await server.start()
+    local_ip = network_utils.get_local_ip()
+    await server.start(local_ip)
     
     try:
-        # Ensure task_func is awaited
-        await task_func()
+        # Create a task for the provided function so it can run concurrently with the server
+        task = asyncio.create_task(task_func())
+        
+        # Wait for the task to complete while the server is running
+        await task
         
     finally:
         # Stop the server
@@ -206,6 +212,9 @@ class TestFrameworkServer:
     async def http_single_result_handler(request: web.Request):
         logging.info("Received request to save JSON data")
 
+        data = await request.json()
+        print(data)
+
         # Respond to indicate success
         return web.Response(text="JSON saved successfully")
 
@@ -218,7 +227,7 @@ class TestFrameworkServer:
         # Initialize the runner, set it up, then create a site to bind to an address
         self.runner = web.AppRunner(self.app)
         await self.runner.setup()
-        self.site = web.TCPSite(self.runner, '0.0.0.0', port)
+        self.site = web.TCPSite(self.runner, host, port)
         await self.site.start()
 
         logging.info("Server started successfully.")

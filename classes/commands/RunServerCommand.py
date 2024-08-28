@@ -47,7 +47,7 @@ class RunServerCommand(BaseCommand):
             }
             FileUtils.save_data_as_json(server_config, project_config_file)
 
-        remote = RunTestsRemote.RunTestsRemote(RunTestsRemote.Mode.MANUAL)
+        remote = RunTestsRemote.RunTestsRemote(RunTestsRemote.Mode.AUTOMATIC)
         await manage_server(lambda: remote.serve_or_wait_for_space('C:/Users/Francisco Dias/Desktop/xUnit/xUnit.exe', []))
         return 
 
