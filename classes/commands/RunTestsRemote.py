@@ -3,7 +3,7 @@ import logging
 from functools import partial
 from enum import Enum, auto
 from typing import Any, Callable, Coroutine, Optional
-from classes.utils import async_utils
+from classes.utils import async_utils, network_utils
 
 class Mode(Enum):
     AUTOMATIC = "automatic"
@@ -157,7 +157,7 @@ class RunTestsRemote:
                 self.logger.info("Waiting for client to disconnect...")
                 break
 
-            if not await self._receive_response(reader, None):
+            if not await self._receive_response(reader):
                 return
 
         # Transition to FINISHED state
@@ -185,7 +185,7 @@ class RunTestsRemote:
             str: The received data as a decoded string, or None if an error occurred.
         """
         try:
-            data = await asyncio.wait_for(reader.read(1024), self.timeout * 60)
+            data = await asyncio.wait_for(reader.read(2000000), self.timeout * 60)
             if not data:
                 self.logger.info("Client disconnected.")
                 return None
@@ -210,8 +210,10 @@ class RunTestsRemote:
         """
         Serve the client or wait for the space key to stop the server.
         """
+        local_ip_address = network_utils.get_local_ip()
+
         await asyncio.gather(
-            self._serve(host='127.0.0.1', port=8000),
+            self._serve(host=local_ip_address, port=8000),
             async_utils.wait_for_space_key(self.stop_event),
             async_utils.run_and_monitor_exe(exe_path=exe_path, args=args, stop_event=self.stop_event, logger=self.logger, restart_delay=0.5)
         )

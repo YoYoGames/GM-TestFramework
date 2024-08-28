@@ -46,6 +46,7 @@ class TestFrameworkServer:
 
         # Used for results
         self.app.add_routes([web.post('/tests', self.http_result_handler)])
+        self.app.add_routes([web.post('/test', self.http_single_result_handler)])
 
         # Runner and site will be used to control the server's lifecycle
         self.runner = None
@@ -200,6 +201,15 @@ class TestFrameworkServer:
             # Log and respond to indicate a generic error
             logging.error(f"An error occurred: {e}")
             return web.Response(status=500, text="Internal server error")
+
+    @staticmethod
+    async def http_single_result_handler(request: web.Request):
+        logging.info("Received request to save JSON data")
+
+        # Respond to indicate success
+        return web.Response(text="JSON saved successfully")
+
+
 
     async def start(self, host='localhost', port=8080):
         """Start the server."""

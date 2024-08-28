@@ -55,7 +55,7 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
                 # Read process output
                 output = await process.stdout.readline()
                 if output:
-                    logger.log(logging.NOTSET, f"Process output: {output.decode().strip()}")
+                    logger.info(f"Process output: {output.decode().strip()}")
                 else:
                     break  # No more output, the process has likely exited
 

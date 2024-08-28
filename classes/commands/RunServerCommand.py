@@ -1,5 +1,6 @@
 
 import argparse
+from classes.commands import RunTestsRemote
 from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
 from classes.utils import async_utils, network_utils
@@ -24,6 +25,7 @@ class RunServerCommand(BaseCommand):
         parser.set_defaults(command_class=cls)
 
     async def execute(self):
+
         """
         Executes the command to run the server. If a project configuration file is provided, 
         it adds server information to the configuration and saves it. Then, it manages the server's 
@@ -37,9 +39,17 @@ class RunServerCommand(BaseCommand):
             server_config = {
                 **DEFAULT_CONFIG, 
                 'HttpPublisher.ip': local_ip_address,
-                '$$parameters$$.serverAddress': local_ip_address
+                '$$parameters$$.serverAddress': local_ip_address,
+
+                '$$parameters$$.remote_server': True,
+                '$$parameters$$.remote_server_address': local_ip_address,
+                '$$parameters$$.remote_server_port': 8000
             }
             FileUtils.save_data_as_json(server_config, project_config_file)
+
+        remote = RunTestsRemote.RunTestsRemote(RunTestsRemote.Mode.MANUAL)
+        await manage_server(lambda: remote.serve_or_wait_for_space('C:/Users/Francisco Dias/Desktop/xUnit/xUnit.exe', []))
+        return 
 
         # Manage server: start, wait for user action (space key), then stop
         await manage_server(async_utils.wait_for_space_key)
