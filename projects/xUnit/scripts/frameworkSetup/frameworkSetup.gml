@@ -58,6 +58,7 @@ config_set("Test", {
 		array_push(_result_bag[$ _category], _result_data);
 		
 		if (_using_remote_server) {
+			show_debug_message("Preparing for sending result...")
 			
 			static _result_publisher = http_publisher_get("$$single_result$$");
 			static _ = _result_publisher.config({
