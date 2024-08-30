@@ -3,8 +3,8 @@ import os
 from pathlib import Path
 import shutil
 
-from classes.utils import data_utils
-from classes.utils.logging_utils import LOGGER
+from utils import data_utils
+from utils.logging_utils import LOGGER
 
 def copy_file(src: Path, dst: Path):
     try:

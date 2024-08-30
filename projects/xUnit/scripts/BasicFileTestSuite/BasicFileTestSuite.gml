@@ -335,7 +335,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		}			
 			
 
-	}, { test_filter: function() { return platform_windows() && !filesystem_is_sandboxed() } });
+	}, { test_filter: function() { return platform_windows() && !GM_is_sandboxed } });
 
 	// BINARY FILES TESTS
 	

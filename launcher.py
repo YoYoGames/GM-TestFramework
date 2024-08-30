@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 
 from classes.commands.IgorRunTestsCommand import IgorRunTestsCommand
-from classes.utils import (file_utils, logging_utils)
-from classes.utils.logging_utils import LOGGER
+from utils import (file_utils, logging_utils)
+from utils.logging_utils import LOGGER
 from classes.commands.RunRemoteCommand import RunRemoteCommand
 from classes.commands.RunServerCommand import RunServerCommand
 from classes.commands.RunTestsCommand import RunTestsCommand

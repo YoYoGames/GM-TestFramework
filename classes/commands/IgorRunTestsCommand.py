@@ -14,27 +14,13 @@ import os
 import shutil
 import platform
 
-from classes.commands.BaseCommand import BaseCommand
+from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.server.TestFrameworkServer import manage_server
-from classes.utils import async_utils, file_utils, logging_utils, network_utils
-from classes.utils.logging_utils import LOGGER
+from utils import async_utils, file_utils, logging_utils, network_utils
+from utils.logging_utils import LOGGER
 
-# DON'T CHANGE THESE (use external config file instead)
-DEFAULT_CONFIG = {
-    "Launcher.runners": "vm",
-    "Launcher.targets": "windows|Local",
-    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
-    "Launcher.project": "projects\\xUnit\\xUnit.yyp",
-
-    "Logger.level": 20,
-
-    "$$parameters$$.test_server_port": 8080,
-    "$$parameters$$.test_server_address": "127.0.0.1",
-    "$$parameters$$.test_server_endpoint": "test",
-}
-
-REDACTED_WORDS = ['-ak=', 'accessKey']
+REDACTED_WORDS = ['-ak=', 'access-key']
 REDACTED_MESSAGE = "<redacted to prevent exposure of sensitive data>"
 
 VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 'HTML5', 'ps4', 'ps5']
@@ -66,47 +52,7 @@ RUNTIME_DIR = WORKSPACE_DIR / 'runtime'
 
 IGOR_PATH = IGOR_DIR / 'igor.exe'
 
-
 SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
-
-# Auxiliary function that validates a list of targets (platform|device,platform|device,...)
-def validate_targets(input):
-    # Regular expression pattern to match the input string format
-    pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s\.\-_%@& ]+)*$'
-    pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+)*$'
-    # Check if the input string matches the pattern
-    match = re.match(pattern, input)
-    if not match:
-        raise argparse.ArgumentTypeError(f'Invalid -t/--t format (follow the format "<PLATFORM>|<DEVICE>,<PLATFORM>|<DEVICE>,..." supported platforms: {VALID_PLATFORMS})')
-    
-    # Split each key-value pair by the pipe character "|" to separate the key and value
-    return [(pair.split('|')[0], pair.split('|')[1]) for pair in input.split(',')]
-
-# Auxiliary function that validates a list of runners (runner,runner,...)
-def validate_runners(input):
-    # Regular expression pattern to match the input string format
-    pattern = r'^(' + '|'.join(VALID_RUNNERS) + r')(,(' + '|'.join(VALID_RUNNERS) + r'))*$'
-    # Check if the input string matches the pattern
-    match = re.match(pattern, input)
-    if not match:
-        raise argparse.ArgumentTypeError(f'Invalid -r/--r format (follow the format "<RUNNER>,<RUNNER>,..." supported runners are: {VALID_RUNNERS})')
-    
-    # Split each key-value pair by the pipe character "|" to separate the key and value
-    return list(map(str.upper, input.split(',')))
-
-# Auxiliary function that validates a runtime version
-def validate_version(input):
-    pattern = re.compile(r'^\d+\.\d+\.\d+\.\d+$')
-    if not pattern.match(input):
-        raise argparse.ArgumentTypeError('Invalid version format. Use <Major>.<Minor>.<Build>.<Revision>')
-    return input
-
-# Auxiliary function that validates an existing path
-def validate_path(input, arg):    
-    resolved_path = os.path.abspath(input)
-    if not os.path.exists(resolved_path):
-        raise argparse.ArgumentTypeError(f"Invalid path provided for '{arg}'. This path can be relative or absolute but must exist.")
-    return resolved_path
 
 class IgorRunTestsCommand(BaseCommand):
     
@@ -117,22 +63,75 @@ class IgorRunTestsCommand(BaseCommand):
     def register_command(cls, subparsers: argparse._SubParsersAction):
         parser: argparse.ArgumentParser = subparsers.add_parser('igorRunTests', help='Runs the testframework and collects all results')
 
-        default_project = DEFAULT_CONFIG['Launcher.project']
-        default_targets = DEFAULT_CONFIG['Launcher.targets']
-        default_runners = DEFAULT_CONFIG['Launcher.runners']
-        default_feed = DEFAULT_CONFIG['Launcher.feed']
+        # Auxiliary function that validates a list of targets (platform|device,platform|device,...)
+        def validate_targets(input) -> str:
+            # Regular expression pattern to match the input string format
+            pattern = r'^(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+(,(' + '|'.join(VALID_PLATFORMS) + r')\|[\w\s.-_%@&()\[\]]+)*$'
+            # Check if the input string matches the pattern
+            match = re.match(pattern, input)
+            if not match:
+                raise argparse.ArgumentTypeError(f'Invalid -t/--t format (follow the format "<PLATFORM>|<DEVICE>,<PLATFORM>|<DEVICE>,..." supported platforms: {VALID_PLATFORMS})')
+            
+            # Split each key-value pair by the pipe character "|" to separate the key and value
+            return input
 
-        parser.add_argument('-p', '--project', type=partial(validate_path, arg='project'), required=False, default=default_project, help=f'A comma separated list of "platform|config" pairs to run the framework on (defaults <{default_targets}>)')
-        parser.add_argument('-t', '--targets', type=validate_targets, required=False, default=default_targets, help=f'A comma separated list of "platform|config" pairs to run the framework on (defaults <{default_targets}>)')
-        parser.add_argument('-r', '--runners', type=validate_runners, required=False, default=default_runners, help=f'Runner(s) to run the test on (defaults <{default_runners}>)')
-        parser.add_argument('-f', '--feed', type=str, required=False, default=default_feed, help=f'RSS feed to use (defaults to <{default_feed}>)')
-        parser.add_argument('-uf', '--userFolder', type=partial(validate_path, arg='userFolder'), required=True, help='The path to the GameMaker\' user folder')
-        parser.add_argument('-ak', '--accessKey', type=str, required=True, help='The access key to download GameMaker\'s license')
-        parser.add_argument('-rv', '--runtimeVersion', type=validate_version, default=None, help='Runner version to use (defaults to <latest>)')
-        parser.add_argument('-rn', '--runName', default='xUnit TestFramework', help='The name to be given to the test run')
-        parser.add_argument('-h5r', '--html5Runner', type=partial(validate_path, arg='html5Runner'), required=False, help='A custom HTML5 runner to use instead of the runtime one')
+        # Auxiliary function that validates a list of runners (runner,runner,...)
+        def validate_runners(input) -> str:
+            # Regular expression pattern to match the input string format
+            pattern = r'^(' + '|'.join(VALID_RUNNERS) + r')(,(' + '|'.join(VALID_RUNNERS) + r'))*$'
+            # Check if the input string matches the pattern
+            match = re.match(pattern, input)
+            if not match:
+                raise argparse.ArgumentTypeError(f'Invalid -r/--r format (follow the format "<RUNNER>,<RUNNER>,..." supported runners are: {VALID_RUNNERS})')
+            
+            # Split each key-value pair by the pipe character "|" to separate the key and value
+            return input
+
+        # Auxiliary function that validates a runtime version
+        def validate_version(input) -> str:
+            pattern = re.compile(r'^\d+\.\d+\.\d+\.\d+$')
+            if not pattern.match(input):
+                raise argparse.ArgumentTypeError('Invalid version format. Use <Major>.<Minor>.<Build>.<Revision>')
+            return input
+
+        # Auxiliary function that validates an existing path
+        def validate_path(input, arg) -> Path:
+            resolved_path = Path(input).absolute()
+            if not resolved_path.exists():
+                raise argparse.ArgumentTypeError(f"Invalid path provided for '{arg}' with value '{resolved_path}'. This path can be relative or absolute but must exist.")
+            return resolved_path
+
+        # Auxiliary function that validates a path to a yyp
+        def validate_yyp(input) -> Path:
+            resolved_path = Path(input).absolute()
+            if not resolved_path.exists() or resolved_path.is_dir() or not resolved_path.as_posix().endswith('.yyp'):
+                raise argparse.ArgumentTypeError(f"Invalid project path provided. This path can be relative or absolute but must exist.")
+            return resolved_path
+
+        parser.add_argument('-p', '--project-path', type=validate_yyp, required=True, help=f'The path to the project to be executed (.yyp).')
+        parser.add_argument('-t', '--targets', type=validate_targets, required=False, default='windows|Local', help=f'A comma separated list of "platform|config" pairs to run the framework on (default: windows|local)')
+        parser.add_argument('-r', '--runners', type=validate_runners, required=False, default='vm', help=f'Runner(s) to run the test on (default: vm)')
+        parser.add_argument('-f', '--feed', type=str, required=False, default='https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss', help=f'RSS feed to use (default: Beta)')
+        parser.add_argument('-uf', '--user-folder', type=partial(validate_path, arg='--user-folder'), required=True, help='The path to the GameMaker\' user folder')
+        parser.add_argument('-ak', '--access-key', type=str, required=True, help='The access key to download GameMaker\'s license')
+        parser.add_argument('-rv', '--runtime-version', type=validate_version, default=None, help='Runner version to use (default: <latest>)')
+        parser.add_argument('-rn', '--run-name', default='xUnit TestFramework', help='The name to be given to the test run')
+        parser.add_argument('-h5r', '--html5-runner', type=partial(validate_path, arg='--html5-runner'), required=False, help='A custom HTML5 runner to use instead of the runtime one')
 
         parser.set_defaults(command_class=cls)
+
+    def get_runners(self, ) -> list[str]:
+        runners = self.get_argument('runners')
+        # Create a list by splitting each runner
+        return list(map(str.upper, runners.split(',')))
+
+    def get_targets(self) -> dict[str, str]:
+        # Execute igor to install the requested runtime version
+        targets: str = self.get_argument('targets')
+        # Split the string into key-value pairs
+        pairs = targets.split(',')
+        # Create a dictionary by splitting each pair into a key and a value
+        return dict(pair.split('|') for pair in pairs)
 
     async def execute(self):
 
@@ -149,29 +148,27 @@ class IgorRunTestsCommand(BaseCommand):
         self.download_and_extract(IGOR_URL, IGOR_DIR)
         assert(IGOR_PATH.exists())
 
-        # Copy user folder locally
-        user_folder_arg = self.get_argument('userFolder')
-        assert(user_folder_arg)
-        user_folder_src = Path(user_folder_arg)
-        assert(user_folder_src.exists())
-        user_folder = file_utils.copy_folder(user_folder_src, USER_DIR, True)
+        # Copy user folder locally (cache the local copy path)
+        user_folder: Path = self.get_argument('user_folder')
+        user_folder = file_utils.copy_folder(user_folder, USER_DIR, True)
         assert(user_folder.exists())
 
         # Execute igor to get license file
-        access_key = self.get_argument('accessKey')
+        access_key: str = self.get_argument('access_key')
         license_path = user_folder / 'licence.plist'
         await self.igor_get_license(access_key, license_path)
         assert(license_path.exists())
 
         # Exectute igor to get the latest runtime version
-        runtime_version = self.get_argument('runtimeVersion')
+        runtime_version: str = self.get_argument('runtime_version')
         rss_feed = self.get_argument('feed')
         runtime_version = await self.igor_get_runtime_version(user_folder, rss_feed, runtime_version)
         assert(runtime_version is not None)
 
         # Execute igor to install the requested runtime version
-        target_kvs = self.get_argument('targets')
-        platforms = list({ key for key, _ in target_kvs })
+        targets = self.get_targets()
+
+        platforms = targets.keys()
         runtime_path = await self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
         assert(runtime_path.exists())
 
@@ -186,25 +183,21 @@ class IgorRunTestsCommand(BaseCommand):
         settings = file_utils.read_from_file(settings_path)
 
         # Prepare for HTML5
-        if any(key == 'HTML5' for key, _ in target_kvs):
-            
+        if 'HTML5' in platforms:
             # Download and install the correct version of ChromeDriver
             driver_path = self.download_chrome_driver(runtime_path)
             assert(driver_path.exists())
 
             # Set custom HTML5 runner (scripts folder)
-            html5_runner = self.get_argument('html5Runner')
+            html5_runner: Path = self.get_argument('html5_runner')
             if html5_runner:
-                html5_runner_path = Path(html5_runner).absolute()
-                assert(html5_runner_path.exists())
-
-                settings = self.update_html5_runner_path(settings, html5_runner_path)
+                settings = self.update_html5_runner_path(settings, html5_runner)
 
         android_emulator_running = False
         android_sdk_location = None
 
         # Prepare the Android emulator
-        if any(key == 'android' for key, _ in target_kvs):
+        if 'android' in platforms:
             # Update debug runner path (command line will always run debug runner)
             settings = self.update_android_runner(settings)
             
@@ -224,19 +217,14 @@ class IgorRunTestsCommand(BaseCommand):
         assert(ip_address is not None)
         
         # Configure project
-        project_arg = self.get_argument('project')
-        assert(project_arg)
-
-        project_file = Path(project_arg).absolute()
-        assert(project_file.exists())
-        
-        project_folder = project_file.parent
+        project_yyp: Path = self.get_argument('project_path')
+        project_folder = project_yyp.parent
         self.project_set_config(DEFAULT_CONFIG, project_folder, ip_address)
 
         # For all except HTML5
-        runners = self.get_argument('runners')
+        runners = self.get_runners()
 
-        for platform, device in target_kvs:
+        for platform, device in targets.items():
             # Determine whether sandbox tests are needed
             is_sandboxed = platform in SANDBOXED_PLATFORMS
 
@@ -255,8 +243,8 @@ class IgorRunTestsCommand(BaseCommand):
                     
                     file_utils.clean_directory(OUTPUT_DIR)
                     
-                    run_name = f'{self.get_argument('runName')}_{platform}{runner_part}{sandbox_part}'
-                    await self.igor_run_tests(igor_path, project_file, user_folder, runtime_path, platform, device, runner, run_name)
+                    run_name = f'{self.get_argument('run_name')}_{platform}{runner_part}{sandbox_part}'
+                    await self.igor_run_tests(igor_path, project_yyp, user_folder, runtime_path, platform, device, runner, run_name)
 
         # Close Android emulator
         if android_emulator_running:
@@ -547,8 +535,8 @@ class IgorRunTestsCommand(BaseCommand):
     def project_set_config(self, data: dict[str, Any], project_path : Path, ip_address: str):
 
         data = dict(data)
-        data['$$parameters$$.test_server_address'] = ip_address
-        data['$$parameters$$.test_server_port'] = 8080
+        data['HttpPublisher.ip'] = ip_address
+        data['HttpPublisher.port'] = 8080
         data['$$parameters$$.remote_server'] = True
         data['$$parameters$$.remote_server_address'] = ip_address
         data['$$parameters$$.remote_server_port'] = 8000

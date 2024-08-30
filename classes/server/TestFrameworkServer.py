@@ -6,8 +6,8 @@ import json
 import struct
 
 from classes.model.TestFrameworkResult import TestFrameworkResult
-from classes.utils import (network_utils, file_utils)
-from classes.utils.logging_utils import LOGGER
+from utils import (network_utils, file_utils)
+from utils.logging_utils import LOGGER
 
 # Define the asynchronous function to manage the server
 async def manage_server(task_func: callable):

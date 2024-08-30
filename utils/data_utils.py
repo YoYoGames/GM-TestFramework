@@ -1,5 +1,5 @@
 import json
-from classes.utils.logging_utils import LOGGER
+from utils.logging_utils import LOGGER
 
 def json_stringify(obj):
     """

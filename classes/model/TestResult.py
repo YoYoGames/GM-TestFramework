@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ElementTree
 
 from pydantic import BaseModel
 
-from classes.utils import data_utils
+from utils import data_utils
 
 
 class TestResult(BaseModel):

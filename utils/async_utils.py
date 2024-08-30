@@ -1,7 +1,7 @@
 import asyncio
 import sys
 
-from classes.utils.logging_utils import LOGGER
+from utils.logging_utils import LOGGER
 
 import asyncio
 
@@ -17,7 +17,7 @@ async def run_exe(exe_path, args) -> asyncio.subprocess.Process:
     )
     return process
 
-async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asyncio.Event, restart_delay: float = 0.5):
+async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asyncio.Event, reboot_event: asyncio.Event, restart_delay: float = 0.5):
     """
     Continuously run an executable, restarting it if it closes or crashes,
     unless the stop_event is set.
@@ -42,12 +42,23 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
         # Capture the output and monitor the process
         try:
             while True:
-                # Read process output
-                output = await process.stdout.readline()
-                if output:
-                    print(f"Process output: {output.decode('utf-8').strip()}")
-                else:
-                    break  # No more output, the process has likely exited
+                try:
+                    # Wait for a line of output with a timeout
+                    output = await asyncio.wait_for(process.stdout.readline(), timeout=0.1)
+                    if output:
+                        print(f"Process output: {output.decode('utf-8').strip()}")
+                except asyncio.TimeoutError:
+                    pass
+
+                if stop_event.is_set():
+                    break
+
+                # Check the reboot_event
+                if reboot_event.is_set():
+                    LOGGER.info("Reboot event detected. Terminating the process.")
+                    process.terminate()
+                    reboot_event.clear()
+                    break
 
             # Wait for the process to exit
             await process.wait()

@@ -2,7 +2,7 @@
 import argparse
 from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
-from classes.utils import (async_utils, network_utils, file_utils)
+from utils import (async_utils, file_utils)
 
 class RunServerCommand(BaseCommand):
     """
@@ -33,17 +33,7 @@ class RunServerCommand(BaseCommand):
         
         # If a project configuration file is provided, update it with server information
         if project_config_file:
-            local_ip_address = network_utils.get_local_ip()
-            server_config = {
-                **DEFAULT_CONFIG, 
-                'HttpPublisher.ip': local_ip_address,
-                '$$parameters$$.test_server_address': local_ip_address,
-
-                '$$parameters$$.remote_server': True,
-                '$$parameters$$.remote_server_address': local_ip_address,
-                '$$parameters$$.remote_server_port': 8000
-            }
-            file_utils.save_data_as_json(server_config, project_config_file)
+            file_utils.save_data_as_json(DEFAULT_CONFIG, project_config_file)
 
         # Manage server: start, wait for user action (space key), then stop
         await manage_server(async_utils.wait_for_space_key)

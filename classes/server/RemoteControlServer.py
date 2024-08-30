@@ -1,13 +1,13 @@
 import asyncio
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Coroutine
+from typing import Any, Coroutine, Optional
 from xml.etree import ElementTree
 from classes.model.TestFrameworkResult import TestFrameworkResult
 from classes.model.TestResult import TestResult
 from classes.model.TestSuiteResult import TestSuiteResult
-from classes.utils import async_utils, data_utils, network_utils
-from classes.utils.logging_utils import LOGGER
+from utils import async_utils, data_utils, network_utils
+from utils.logging_utils import LOGGER
 
 class ExecutionMode(Enum):
     AUTOMATIC = "automatic"
@@ -42,10 +42,11 @@ class RemoteControlServer:
         self.current_test_index = 0
         self.state = State.WAITING
         self.stop_event = asyncio.Event()
+        self.reboot_event = asyncio.Event()
         self.strategy = self._select_strategy()
         
         self.framework_result: TestFrameworkResult = None
-        self.suite_result: TestSuiteResult = None
+        self.suite_results: dict[str, TestSuiteResult] = {}
 
     def _select_strategy(self) -> Coroutine[Any,Any,None]:
         """
@@ -69,9 +70,9 @@ class RemoteControlServer:
             data_json: dict = data_utils.json_parse(data[:-1])
 
             # Extract necessary fields from the parsed JSON
-            result_data = data_json.get('details')
-            suite = data_json.get('suite')
-            timestamp = data_json.get('timestamp')
+            result_data: Optional[dict] = data_json.get('details')
+            suite: Optional[str] = data_json.get('suite')
+            timestamp: Optional[float] = data_json.get('timestamp')
 
             if result_data is None or suite is None or timestamp is None:
                 LOGGER.error("JSON data missing required fields. Skipping processing.")
@@ -83,14 +84,15 @@ class RemoteControlServer:
                 LOGGER.info(f"Initialized framework result: {self.framework_result.name} at {timestamp}")
 
             # Initialize suite result or switch to a new suite if necessary
-            if not self.suite_result or self.suite_result.name != suite:
-                self.suite_result = TestSuiteResult(name=suite, timestamp=timestamp)
-                self.framework_result.testsuites.append(self.suite_result)
+            if not suite in self.suite_results:
+                suite_result = TestSuiteResult(name=suite, timestamp=timestamp)
+                self.framework_result.testsuites.append(suite_result)
+                self.suite_results[suite] = suite_result
                 LOGGER.info(f"Initialized new test suite result: {suite} at {timestamp}")
 
             # Add the test result to the current suite
             result = TestResult(**result_data)
-            self.suite_result.tests.append(result)
+            self.suite_results[suite].tests.append(result)
             LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
 
         except KeyError as e:
@@ -266,9 +268,10 @@ class RemoteControlServer:
             str: The received data as a decoded string, or None if an error occurred.
         """
         try:
-            data = await asyncio.wait_for(reader.read(2000000), self.timeout * 60)
+            data = await asyncio.wait_for(reader.read(8000000), self.timeout * 60)
             if not data:
                 LOGGER.info("Client disconnected.")
+                self.reboot_event.set()
                 return None
             decoded_data = data.decode().strip()
             LOGGER.debug(f"Received: {decoded_data}")
@@ -296,6 +299,6 @@ class RemoteControlServer:
         await asyncio.gather(
             self._serve(host=local_ip_address, port=8000),
             async_utils.wait_for_space_key(self.stop_event),
-            async_utils.run_and_monitor_exe(exe_path=exe_path, args=args, stop_event=self.stop_event, restart_delay=0.5)
+            async_utils.run_and_monitor_exe(exe_path=exe_path, args=args, stop_event=self.stop_event, reboot_event=self.reboot_event, restart_delay=0.5)
         )
 

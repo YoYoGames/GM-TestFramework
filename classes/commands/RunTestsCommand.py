@@ -1,9 +1,11 @@
 
 import argparse
+from pathlib import Path
+from typing import Any
 
 from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
-from classes.utils import async_utils
+from utils import async_utils, file_utils
 
 class RunTestsCommand(BaseCommand):
     def __init__(self, options: argparse.Namespace):
@@ -30,14 +32,8 @@ class RunTestsCommand(BaseCommand):
         parser.set_defaults(command_class=cls)
 
     async def execute(self):
-        # Run our server management function (start server, wait for user action, stop server)
-        await manage_server(self.build_and_run)
-
-    async def build_and_run(self):
-        # Setup the project
-        data = self.project_set_config(DEFAULT_CONFIG)
-        self.project_write_config(data)
-
+        # Run our server management function (start server, run all tests and publish to server, stop server)
+        self.project_write_config()
         await async_utils.run_exe_and_capture(self.get_argument("yypc_path"), [
             self.get_argument("project_path"), 
             '-o', self.get_argument("output_folder"),
@@ -51,3 +47,15 @@ class RunTestsCommand(BaseCommand):
             f'-mode={self.get_argument("mode")}',
             f'-run-args={self.get_argument("run_arguments")}',
             '-v'])
+
+    def project_write_config(self):
+        yyp_file = self.get_argument("project_path")
+        yyp_folder = Path(yyp_file).parent
+
+        config_data = {
+            **DEFAULT_CONFIG,
+            '$$parameters$$.run_name': self.get_argument("run_name"),
+        }
+
+        config_file = yyp_folder / 'datafiles' / 'config.json'
+        file_utils.save_data_as_json(config_data, config_file)

@@ -1,7 +1,7 @@
 import socket
 import requests
 
-from classes.utils.logging_utils import LOGGER
+from utils.logging_utils import LOGGER
 
 def get_local_ip() -> str:
     try:
