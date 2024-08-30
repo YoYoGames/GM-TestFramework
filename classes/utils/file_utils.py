@@ -129,4 +129,19 @@ def read_data_from_json(file_path: Path):
     # Parse the JSON string into a Python object
     return data_utils.json_parse(json_str)
     
+def clean_directory(directory_path: Path):
+    """
+    Removes all files and subdirectories in the specified directory.
 
+    Args:
+        directory_path (str or Path): The path to the directory to clean.
+    """
+    for filename in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)  # remove the file
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)  # remove the directory
+        except Exception as e:
+            LOGGER.error(f'Failed to delete {file_path}. Reason: {e}')

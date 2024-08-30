@@ -3,9 +3,7 @@ from typing import Optional
 import xml.etree.ElementTree as ElementTree
 
 from pydantic import BaseModel
-
 from classes.model.TestResult import TestResult
-
 
 class TestSuiteResult(BaseModel):
     name: str = ""

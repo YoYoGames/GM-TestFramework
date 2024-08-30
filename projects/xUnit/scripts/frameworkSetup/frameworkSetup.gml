@@ -30,6 +30,7 @@ config_set("Test", {
 		static assertSingleton = assert_get_singleton();
 		
 		assertSingleton.setUserData(_test);
+		assertSingleton.resetAssertionCount();
 		
 		#endregion
 		
@@ -44,9 +45,12 @@ config_set("Test", {
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
 		
 		static resultToCategory = [ "unset", "passed", "failed", "skipped", "bailed", "expired" ];
+		static assertSingleton = assert_get_singleton();
 		
 		var _category = resultToCategory[_test.result];
 		var _resultData = _test.getResultData();
+		
+		_resultData.assertions = assertSingleton.getAssertionCount();
 
 		// Add a new 
 		if (!variable_struct_exists(_resultBag, _category)) {
@@ -56,6 +60,25 @@ config_set("Test", {
 		array_push(_resultBag[$ _category], _resultData);
 		
 		_test.doReset(); // Free some memory usage
+		
+		// This is for the remote control stuff (if enabled)
+		with (objRunner) {
+			if (!using_remote_server) continue;
+						
+			// This is a test from remote execution path will be:
+			// <suite_name>@<test_name>
+			var _path_parts = string_split(_resultBag.path, "@", 1);
+	
+			var _data = {
+				details: _resultData,
+				suite: _path_parts[0],
+				timestamp: _test.getStartUnixTimeStamp()
+			}
+			
+			buffer_seek(network_buffer, buffer_seek_start, 0); 
+			buffer_write(network_buffer, buffer_string, json_stringify(_data)); 
+			network_send_raw(socket, network_buffer, buffer_tell(network_buffer)); 
+		}
 		
 		#endregion
 	}
@@ -121,8 +144,7 @@ config_set("TestFrameworkRun", {
 		}
 
 		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
-		var _resultPublisher = http_publisher_get("$$default$$");
-		_resultPublisher.config({
+		var _resultPublisher = http_publisher_get("$$default$$", {
 			ip: config_get_param("test_server_address") ?? "127.0.0.1",
 			port: config_get_param("test_server_port") ?? 8080,
 			endpoint: config_get_param("test_server_endpoint") ?? "tests",

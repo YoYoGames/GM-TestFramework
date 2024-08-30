@@ -6,7 +6,7 @@ import sys
 from dotenv import load_dotenv
 
 
-from classes.commands.RunTestsCommandOld import RunTestsCommandOld
+from classes.commands.IgorRunTestsCommand import IgorRunTestsCommand
 from classes.utils import (file_utils, logging_utils)
 from classes.utils.logging_utils import LOGGER
 from classes.commands.RunRemoteCommand import RunRemoteCommand
@@ -45,9 +45,10 @@ async def main():
     subparsers = parser.add_subparsers(dest='command', required=True)
 
     # Register commands with the parser
+    IgorRunTestsCommand.register_command(subparsers)
     RunRemoteCommand.register_command(subparsers)
     RunServerCommand.register_command(subparsers)
-    RunTestsCommandOld.register_command(subparsers)
+    RunTestsCommand.register_command(subparsers)
 
     args = parser.parse_args(remaining_argv)
     args.base_folder = Path(__file__).parent

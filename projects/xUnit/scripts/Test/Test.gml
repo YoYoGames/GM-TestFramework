@@ -29,6 +29,8 @@ function Test(_name = undefined) : Task() constructor {
 	/// @ignore
 	name = _name;
 	
+	unix_time_stamp = 0;
+	
 	/// @ignore
 	preRunFunc = function() {
 		
@@ -80,7 +82,7 @@ function Test(_name = undefined) : Task() constructor {
 	/// @param {Function} callbackFunc The function to be called at the end of execution.
 	/// @param {Any} resultBag The result collector that is carried along between nested tests.
 	static run = function(_callbackFunc = undefined, _resultBag = undefined) {
-		
+		unix_time_stamp = time_get_unix_timestamp()
 		resultBag = _resultBag;
 		run_Task(_callbackFunc);
 	}
@@ -97,6 +99,13 @@ function Test(_name = undefined) : Task() constructor {
 	/// @returns {String}
 	static getResultString = function() {
 		return resultStrings[result];
+	}
+	
+	/// @function getStartUnixTimeStamp()
+	/// @description Gets start timestamp in unix format
+	/// @returns {Real}
+	static getStartUnixTimeStamp = function() {
+		return unix_time_stamp;
 	}
 	
 	/// @function getDuration()
@@ -134,8 +143,8 @@ function Test(_name = undefined) : Task() constructor {
 			case TestResult.Expired:
 			case TestResult.Failed:
 				_summary.duration = getDuration();
-				_summary.errors = getDiagnostics("error");
-				_summary.exceptions = getDiagnostics("exception");
+				_summary.errors = getDiagnostics("error") ?? [];
+				_summary.exceptions = getDiagnostics("exception") ?? [];
 				break;
 				
 			case TestResult.Skipped:

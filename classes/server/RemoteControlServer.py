@@ -1,7 +1,12 @@
 import asyncio
 from enum import Enum, auto
-from typing import Any, Coroutine, Optional
-from classes.utils import async_utils, network_utils
+from pathlib import Path
+from typing import Any, Coroutine
+from xml.etree import ElementTree
+from classes.model.TestFrameworkResult import TestFrameworkResult
+from classes.model.TestResult import TestResult
+from classes.model.TestSuiteResult import TestSuiteResult
+from classes.utils import async_utils, data_utils, network_utils
 from classes.utils.logging_utils import LOGGER
 
 class ExecutionMode(Enum):
@@ -16,13 +21,13 @@ class State(Enum):
 
 class RemoteCommand(Enum):
     GET_TESTS = "TESTS"
-    RUN = "RUN {}"  # Placeholder for test name
+    RUN = "RUN {}"  # Placeholder for test path
     EXIT = "EXIT"
     QUIT = "QUIT"
 
 class RemoteControlServer:
 
-    def __init__(self, mode: ExecutionMode, timeout: int = 5):
+    def __init__(self, mode: ExecutionMode, timeout: int = 5, run_name = 'xUnit'):
         """
         Initialize the RemoteControlServer with the given mode.
         
@@ -31,12 +36,16 @@ class RemoteControlServer:
         """
         self.mode = mode
         self.timeout = timeout
+        self.run_name = run_name
 
         self.tests = []
         self.current_test_index = 0
         self.state = State.WAITING
         self.stop_event = asyncio.Event()
         self.strategy = self._select_strategy()
+        
+        self.framework_result: TestFrameworkResult = None
+        self.suite_result: TestSuiteResult = None
 
     def _select_strategy(self) -> Coroutine[Any,Any,None]:
         """
@@ -51,6 +60,71 @@ class RemoteControlServer:
             return self._handle_manual_mode
         else:
             raise ValueError(f"Unknown mode: {self.mode}")
+
+    def _process_test_result(self, data: str):
+        LOGGER.debug("Received test result data")
+
+        try:
+            # Parse the incoming data as JSON
+            data_json: dict = data_utils.json_parse(data[:-1])
+
+            # Extract necessary fields from the parsed JSON
+            result_data = data_json.get('details')
+            suite = data_json.get('suite')
+            timestamp = data_json.get('timestamp')
+
+            if result_data is None or suite is None or timestamp is None:
+                LOGGER.error("JSON data missing required fields. Skipping processing.")
+                return
+
+            # Initialize framework result if not already set
+            if not self.framework_result:
+                self.framework_result = TestFrameworkResult(name=self.run_name, timestamp=timestamp)
+                LOGGER.info(f"Initialized framework result: {self.framework_result.name} at {timestamp}")
+
+            # Initialize suite result or switch to a new suite if necessary
+            if not self.suite_result or self.suite_result.name != suite:
+                self.suite_result = TestSuiteResult(name=suite, timestamp=timestamp)
+                self.framework_result.testsuites.append(self.suite_result)
+                LOGGER.info(f"Initialized new test suite result: {suite} at {timestamp}")
+
+            # Add the test result to the current suite
+            result = TestResult(**result_data)
+            self.suite_result.tests.append(result)
+            LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
+
+        except KeyError as e:
+            LOGGER.error(f"Key error when processing test result: {e}")
+        except Exception as e:
+            LOGGER.error(f"Unexpected error during processing: {e}", exc_info=True)
+
+    def _produce_xml_result(self):
+        try:
+            output_path = Path('./results')
+            filename = self.run_name.replace(":", "_")
+            element = self.framework_result.to_xml()
+
+            # Create the output directory if it doesn't exist
+            if not output_path.exists():
+                LOGGER.info(f"Creating output directory: {output_path}")
+                output_path.mkdir(parents=True, exist_ok=True)
+
+            # Create an ElementTree object from the root element
+            tree = ElementTree.ElementTree(element)
+
+            # Attempt to write the XML file
+            xml_file_path = output_path / f'{filename}.xml'
+            LOGGER.info(f"Writing XML result to {xml_file_path}")
+            tree.write(xml_file_path, encoding='UTF-8', xml_declaration=True)
+
+            LOGGER.info(f"XML result successfully written to {xml_file_path}")
+
+        except ElementTree.ParseError as e:
+            LOGGER.error(f"Failed to parse XML structure: {e}")
+        except IOError as e:
+            LOGGER.error(f"Failed to write XML file to {output_path}. Reason: {e}")
+        except Exception as e:
+            LOGGER.error(f"An unexpected error occurred: {e}")  
 
     async def _serve(self, host: str, port: int):
         server = await asyncio.start_server(lambda reader, writer: self._handle_client(reader, writer), host, port)
@@ -94,13 +168,18 @@ class RemoteControlServer:
 
             self.current_test_index += 1
 
-            if not await self._receive_response(reader):
+            data = await self._receive_response(reader)
+            if not data:
                 return
+            else:
+                self._process_test_result(data)
 
         if self.current_test_index >= len(self.tests):
             # Transition to FINISHED state and set the stop event
             self.state = State.FINISHED
             LOGGER.info(f"State changed to {self.state}")
+
+            self._produce_xml_result()
 
             LOGGER.info("All tests executed.")
             await self._send_command(writer, RemoteCommand.EXIT.value)
@@ -148,8 +227,12 @@ class RemoteControlServer:
         while True:
             command = input("Enter command and args: ")
 
-            if await self._send_command(writer, command):
+            received_data = await self._receive_response(reader)
+            if not received_data:
                 return
+            
+            LOGGER.info('Received data:')
+            LOGGER.info(received_data)
 
             if command.strip().upper() in [RemoteCommand.EXIT.value, RemoteCommand.QUIT.value]:
                 LOGGER.info("Waiting for client to disconnect...")
@@ -188,7 +271,7 @@ class RemoteControlServer:
                 LOGGER.info("Client disconnected.")
                 return None
             decoded_data = data.decode().strip()
-            LOGGER.info(f"Received: {decoded_data}")
+            LOGGER.debug(f"Received: {decoded_data}")
             return decoded_data
         except asyncio.TimeoutError:
             LOGGER.error(f"Client did not respond within {self.timeout} minutes. Killing process.")

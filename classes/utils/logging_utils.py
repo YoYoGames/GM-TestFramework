@@ -1,6 +1,6 @@
 import logging
 
-LOGGING_LEVEL = logging.DEBUG
+LOGGING_LEVEL = logging.INFO
 
 # Create a module-level logger
 LOGGER = logging.getLogger('xunit_logger')

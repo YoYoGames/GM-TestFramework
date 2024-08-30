@@ -121,10 +121,9 @@ async def wait_for_space_key(stop_event: asyncio.Event = None):
         await check_keypress_unix()
 
 async def run_exe_and_capture(exe_path: str, args: list[str]):
-    LOGGER.info(f'Running {exe_path} with arguments {args}')
     
     # Start the subprocess
-    process = await run_exe(exe_path, args, LOGGER)
+    process = await run_exe(exe_path, args)
     
     stdout_output = await capture_output(process)
     

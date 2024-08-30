@@ -16,17 +16,34 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	stackBaseDepth = addProperty("stackBaseDepth", 4, is_numeric);
 	/// @ignore
 	stackDepth = addProperty("stackDepth", 0, is_numeric);
-		
+	
 	/// @ignore
 	assertDepth = 0;
 	/// @ignore
 	userData = undefined;
+	/// @ignore
+	assertionCount = 0;
+	
 	
 	/// @function setUserData(data)
 	/// @description Allows to set some 'userData' that will be carried over and passed to the 'passHook' and 'failHook' functions.
 	/// @param {Any} data
 	static setUserData = function(_data) {
 		userData = _data;
+	}
+	
+	
+	/// @function resetAssertionCount()
+	/// @description Resets the assertion number counter
+	static resetAssertionCount = function() {
+		assertionCount = 0;
+	}
+	
+	/// @function getAssertionCount()
+	/// @description Gets the number of assertions since last reset.
+	/// @returns {Real}
+	static getAssertionCount = function() {
+		return assertionCount;
 	}
 	
 	/// @function reset()
@@ -47,12 +64,15 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @returns {Bool}
 	static fail = function(_title, _description, _value = undefined, _expected = undefined) {
 		
-		if (assertDepth != 0 || !is_callable(failHook)) return false;
+		if (assertDepth != 0) return false;
+		
+		assertionCount++;
+		if (!is_callable(failHook)) return false;
 		
 		// Select only the stack portion we want
 		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
 		array_delete(_stack, 0, stackBaseDepth - 1);
-		
+				
 		failHook(_title, _description, _value, _expected, _stack, userData);
 		
 		return false;
@@ -67,7 +87,10 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @returns {Bool}
 	static pass = function(_title, _description, _value = undefined, _expected = undefined) {
 
-		if (assertDepth != 0 || !is_callable(passHook)) return true;
+		if (assertDepth != 0) return false;
+		
+		assertionCount++;
+		if (!is_callable(passHook)) return false;
 
 		// Select only the stack portion we want
 		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);

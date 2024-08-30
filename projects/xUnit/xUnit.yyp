@@ -340,6 +340,7 @@
     {"id":{"name":"TestFrameworkRun","path":"scripts/TestFrameworkRun/TestFrameworkRun.yy",},},
     {"id":{"name":"TestSuite","path":"scripts/TestSuite/TestSuite.yy",},},
     {"id":{"name":"Theory","path":"scripts/Theory/Theory.yy",},},
+    {"id":{"name":"time_utils","path":"scripts/time_utils/time_utils.yy",},},
     {"id":{"name":"Vector2","path":"scripts/Vector2/Vector2.yy",},},
     {"id":{"name":"Vector3","path":"scripts/Vector3/Vector3.yy",},},
     {"id":{"name":"vertex_quad_3d_color","path":"scripts/vertex_quad_3d_color/vertex_quad_3d_color.yy",},},

@@ -18,13 +18,13 @@ class TestResult(BaseModel):
         return len(self.exceptions) != 0
 
     def did_expire(self):
-        return self.result == "Expired"
+        return self.result.lower() == "expired"
 
     def did_fail(self):
-        return self.did_expire() or self.result == "Failed"
+        return self.did_expire() or self.result.lower() == "failed"
     
     def was_skipped(self):
-        return self.result == "Skipped"
+        return self.result.lower() == "skipped"
     
     def to_xml(self) -> ElementTree.Element:
         element = ElementTree.Element('testcase')

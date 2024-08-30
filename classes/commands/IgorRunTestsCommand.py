@@ -27,11 +27,11 @@ DEFAULT_CONFIG = {
     "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
     "Launcher.project": "projects\\xUnit\\xUnit.yyp",
 
-    "Logger.level": 10,
+    "Logger.level": 20,
 
     "$$parameters$$.test_server_port": 8080,
     "$$parameters$$.test_server_address": "127.0.0.1",
-    "$$parameters$$.test_server_endpoint": "tests",
+    "$$parameters$$.test_server_endpoint": "test",
 }
 
 REDACTED_WORDS = ['-ak=', 'accessKey']
@@ -54,17 +54,20 @@ USER_DIR = ROOT_DIR / 'user'
 PROJECTS_DIR = ROOT_DIR / 'projects'
 WORKSPACE_DIR = ROOT_DIR / 'workspace'
 
+PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
+
 IGOR_DIR = WORKSPACE_DIR / 'igor'
 CACHE_DIR = WORKSPACE_DIR / 'cache'
 TEMP_DIR = WORKSPACE_DIR / 'temp'
-OUTPUT_DIR = WORKSPACE_DIR / 'output' / 'test.win'
-TARGET_DIR = WORKSPACE_DIR / 'output' / 'test.zip'
+OUTPUT_DIR = WORKSPACE_DIR / 'output'
+TEMP_FILE = OUTPUT_DIR / 'xUnit.win'
+TARGET_FILE = OUTPUT_DIR / 'xUnit.zip'
 RUNTIME_DIR = WORKSPACE_DIR / 'runtime'
 
 IGOR_PATH = IGOR_DIR / 'igor.exe'
 
-SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
 
+SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
 
 # Auxiliary function that validates a list of targets (platform|device,platform|device,...)
 def validate_targets(input):
@@ -105,14 +108,14 @@ def validate_path(input, arg):
         raise argparse.ArgumentTypeError(f"Invalid path provided for '{arg}'. This path can be relative or absolute but must exist.")
     return resolved_path
 
-class RunTestsCommandOld(BaseCommand):
+class IgorRunTestsCommand(BaseCommand):
     
     def __init__(self, options: argparse.Namespace):
         BaseCommand.__init__(self, options)
 
     @classmethod
     def register_command(cls, subparsers: argparse._SubParsersAction):
-        parser: argparse.ArgumentParser = subparsers.add_parser('runTests', help='Runs the testframework and collects all results')
+        parser: argparse.ArgumentParser = subparsers.add_parser('igorRunTests', help='Runs the testframework and collects all results')
 
         default_project = DEFAULT_CONFIG['Launcher.project']
         default_targets = DEFAULT_CONFIG['Launcher.targets']
@@ -126,6 +129,7 @@ class RunTestsCommandOld(BaseCommand):
         parser.add_argument('-uf', '--userFolder', type=partial(validate_path, arg='userFolder'), required=True, help='The path to the GameMaker\' user folder')
         parser.add_argument('-ak', '--accessKey', type=str, required=True, help='The access key to download GameMaker\'s license')
         parser.add_argument('-rv', '--runtimeVersion', type=validate_version, default=None, help='Runner version to use (defaults to <latest>)')
+        parser.add_argument('-rn', '--runName', default='xUnit TestFramework', help='The name to be given to the test run')
         parser.add_argument('-h5r', '--html5Runner', type=partial(validate_path, arg='html5Runner'), required=False, help='A custom HTML5 runner to use instead of the runtime one')
 
         parser.set_defaults(command_class=cls)
@@ -147,7 +151,7 @@ class RunTestsCommandOld(BaseCommand):
 
         # Copy user folder locally
         user_folder_arg = self.get_argument('userFolder')
-        assert(user_folder)
+        assert(user_folder_arg)
         user_folder_src = Path(user_folder_arg)
         assert(user_folder_src.exists())
         user_folder = file_utils.copy_folder(user_folder_src, USER_DIR, True)
@@ -170,6 +174,12 @@ class RunTestsCommandOld(BaseCommand):
         platforms = list({ key for key, _ in target_kvs })
         runtime_path = await self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
         assert(runtime_path.exists())
+
+        # Execute ProjectTool to ensure correct project format
+        project_tool_path = runtime_path / 'bin' / 'projecttool' / 'windows' / 'x64' / 'ProjectTool.exe'
+        assert(project_tool_path.exists())
+        os.environ['PROJECTTOOL'] = str(project_tool_path)
+        subprocess.run([PROJECT_SCRIPT_PATH])
 
         # Load settings
         settings_path = user_folder / 'local_settings.json'
@@ -232,6 +242,8 @@ class RunTestsCommandOld(BaseCommand):
 
             # Run the tests with and without sandbox if necessary
             for sandbox in [False, True] if is_sandboxed else [None]:
+                sandbox_part = '_sandboxed' if sandbox else ''
+
                 if sandbox is not None:
                     self.project_set_sandbox(project_folder, platform, sandbox)
                 
@@ -239,7 +251,12 @@ class RunTestsCommandOld(BaseCommand):
                 platform_runners = runners if platform != 'HTML5' else [None]
                 
                 for runner in platform_runners:
-                    await manage_server(lambda: self.igor_run_tests(igor_path, project_file, user_folder, runtime_path, platform, device, runner))
+                    runner_part = f'_{runner}' if runner else ''
+                    
+                    file_utils.clean_directory(OUTPUT_DIR)
+                    
+                    run_name = f'{self.get_argument('runName')}_{platform}{runner_part}{sandbox_part}'
+                    await self.igor_run_tests(igor_path, project_file, user_folder, runtime_path, platform, device, runner, run_name)
 
         # Close Android emulator
         if android_emulator_running:
@@ -285,63 +302,6 @@ class RunTestsCommandOld(BaseCommand):
             zf.extractall(extract_path)
             LOGGER.info('Extraction complete')
 
-    def parse_arguments(self, defaults):
-
-        def merge_dictionaries(new, base):
-            output = base.copy()
-            for key, value in new.items():
-                if key in base:
-                    LOGGER.info(f'Overriding value for key {key}: {base[key]} -> {value}')
-                output[key] = value
-            return output
-
-        # Auxiliary function that will make sure the arg exists (either from command line or from config file)
-        def ensure_argument(args, path, parsed_args, name, param, validator = None, allow_null = False):
-            value = getattr(parsed_args, name, None)
-
-            if not value:
-                if not args[path] and not allow_null:
-                    parser.error(f"argument -{param}/--{name} is required or should be passed from config file (-cf/--configFile) as: '{path}'")
-            else:
-                args[path] = value
-
-            if validator:
-                args[path] = validator(args[path])
-
-        parser = argparse.ArgumentParser(description='Run hybrid framework')
-
-        default_targets = defaults['Launcher.targets']
-        default_runners = defaults['Launcher.runners']
-        default_feed = defaults['Launcher.feed']
-
-        parser.add_argument('-t', '--targets', type=validate_targets, required=False, help=f'A comma separated list of "platform|config" pairs to run the framework on (defaults <{default_targets}>)')
-        parser.add_argument('-r', '--runners', type=validate_runners, required=False, help=f'Runner(s) to run the test on (defaults <{default_runners}>)')
-        parser.add_argument('-f', '--feed', type=str, required=False, help=f'RSS feed to use (defaults to <{default_feed}>)')
-        parser.add_argument('-uf', '--userFolder', type=validate_path, required=False, help='The path to the GameMaker\' user folder')
-        parser.add_argument('-ak', '--accessKey', type=str, required=False, help='The access key to download GameMaker\'s license')
-        parser.add_argument('-cf', '--configFile', type=validate_path, required=False, help='The config file to be used by the launcher')
-        parser.add_argument('-rv', '--runtimeVersion', type=validate_version, default=None, help='Runner version to use (defaults to <latest>)')
-        parser.add_argument('-h5r', '--html5Runner', type=validate_path, required=False, help='A custom HTML5 runner to use instead of the runtime one')
-
-        parsed_args = parser.parse_args()
-
-        # Arguments are considered the default to beging with
-        args = defaults.copy()
-
-        # Load data from config file (if there is one)
-        if parsed_args.configFile:
-            config = file_utils.read_data_from_json(parsed_args.configFile)
-            args = merge_dictionaries(config, defaults)
-
-        ensure_argument(args, 'Launcher.targets', parsed_args, 'targets', 't', validate_targets)
-        ensure_argument(args, 'Launcher.runners', parsed_args, 'runners', 'r', validate_runners)
-        ensure_argument(args, 'Launcher.feed', parsed_args, 'feed', 'f')
-        ensure_argument(args, 'Launcher.userFolder', parsed_args, 'userFolder', 'uf', validate_path)
-        ensure_argument(args, 'Launcher.accessKey', parsed_args, 'accessKey', 'ak')
-        ensure_argument(args, 'Launcher.runtimeVersion', parsed_args, 'runtimeVersion', 'rv', allow_null= True)
-
-        return args
-
     # Igor
 
     async def igor_get_license(self, access_key: str, output_path: Path):
@@ -381,7 +341,7 @@ class RunTestsCommandOld(BaseCommand):
 
         return RUNTIME_DIR / f'runtime-{version}'
 
-    async def igor_run_tests(self, igor_path: Path, project_file: Path, user_folder: Path, runtime_path: Path, platform: str, device: str, runner: Optional[str] = None, verbosity_level: Optional[int] = 4):
+    async def igor_run_tests(self, igor_path: Path, project_file: Path, user_folder: Path, runtime_path: Path, platform: str, device: str, runner: Optional[str] = None, run_name = 'xUnit', verbosity_level: Optional[int] = 4):
 
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
@@ -393,8 +353,8 @@ class RunTestsCommandOld(BaseCommand):
             f'/project={project_file}',
             f'/cache={CACHE_DIR}',
             f'/temp={TEMP_DIR}',
-            f'/of={OUTPUT_DIR}',
-            f'/tf={TARGET_DIR}',
+            f'/of={TEMP_FILE}',
+            f'/tf={TARGET_FILE}',
             f'/device={device}',
         ]
 
@@ -411,8 +371,8 @@ class RunTestsCommandOld(BaseCommand):
         await async_utils.run_exe_and_capture(igor_path, package_args)
 
         run_args = args_base + ['Run']
-        remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC)
-        await remote_server.serve_or_wait_for_space(igor_path, run_args)
+        remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
+        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args))
  
         self.change_directory(ROOT_DIR)
 
@@ -586,8 +546,12 @@ class RunTestsCommandOld(BaseCommand):
 
     def project_set_config(self, data: dict[str, Any], project_path : Path, ip_address: str):
 
+        data = dict(data)
         data['$$parameters$$.test_server_address'] = ip_address
         data['$$parameters$$.test_server_port'] = 8080
+        data['$$parameters$$.remote_server'] = True
+        data['$$parameters$$.remote_server_address'] = ip_address
+        data['$$parameters$$.remote_server_port'] = 8000
 
         config_file = project_path / 'datafiles' / 'config.json'
         file_utils.save_data_as_json(data, config_file)
