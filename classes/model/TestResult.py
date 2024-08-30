@@ -5,7 +5,6 @@ from pydantic import BaseModel
 
 from utils import data_utils
 
-
 class TestResult(BaseModel):
     name: str = ""
     result: str = ""
@@ -55,3 +54,13 @@ class TestResult(BaseModel):
 
 
         return element
+    
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'result': self.result,
+            'time': self.duration / 1000000,
+            'assertions': self.assertions,
+            'exceptions': self.exceptions,
+            'errors': self.errors,
+        }

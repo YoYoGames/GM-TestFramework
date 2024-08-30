@@ -47,3 +47,18 @@ class TestSuiteResult(BaseModel):
         for test in self.tests:
             element.append(test.to_xml())
         return element
+    
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'tallies': {    
+                'tests': self.get_test_count(),
+                'failures': self.get_failure_count(),
+                'errors': self.get_error_count(),
+                'skipped': self.get_skipped_count(),
+                'assertions': self.get_assertion_count(),
+            },
+            'time': self.get_duration() / 1000000,
+            'timestamp': self.get_iso_timestamp(),
+            'tests': [ test.to_dict() for test in self.tests ]
+        }

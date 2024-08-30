@@ -48,3 +48,18 @@ class TestFrameworkResult(BaseModel):
         for testsuite in self.testsuites:
             element.append(testsuite.to_xml(self.name))
         return element
+    
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'tallies': {    
+                'tests': self.get_test_count(),
+                'failures': self.get_failure_count(),
+                'errors': self.get_error_count(),
+                'skipped': self.get_skipped_count(),
+                'assertions': self.get_assertion_count(),
+            },
+            'time': self.get_duration() / 1000000,
+            'timestamp': self.get_iso_timestamp(),
+            'suite': [ suite.to_dict() for suite in self.testsuites ]
+        }
