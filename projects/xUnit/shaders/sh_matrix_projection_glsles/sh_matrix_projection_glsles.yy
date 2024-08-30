@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_matrix_projection_glsles",
+  "name":"sh_matrix_projection_glsles",
+  "parent":{
+    "name":"GLSLES",
+    "path":"folders/Tests/TestResources/shaders/ShaderUniformTests/GLSLES.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

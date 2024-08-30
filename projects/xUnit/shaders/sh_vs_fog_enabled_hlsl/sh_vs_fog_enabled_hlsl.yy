@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_vs_fog_enabled_hlsl",
+  "name":"sh_vs_fog_enabled_hlsl",
+  "parent":{
+    "name":"HLSL",
+    "path":"folders/Tests/TestResources/shaders/ShaderUniformTests/HLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":3,
+}

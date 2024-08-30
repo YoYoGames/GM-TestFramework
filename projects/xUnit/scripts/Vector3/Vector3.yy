@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Vector3",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Vector3",
+  "parent":{
+    "name":"Vectors",
+    "path":"folders/Tests/Utils/ShaderTests/Vectors.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

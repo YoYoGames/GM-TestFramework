@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_max_vs_lights_glsles",
+  "name":"sh_max_vs_lights_glsles",
+  "parent":{
+    "name":"GLSLES",
+    "path":"folders/Tests/TestResources/shaders/ShaderUniformTests/GLSLES.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

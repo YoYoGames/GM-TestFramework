@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_frag_data_glsl",
+  "name":"sh_frag_data_glsl",
+  "parent":{
+    "name":"GLSL",
+    "path":"folders/Tests/TestResources/shaders/ShaderTests/GLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":2,
+}

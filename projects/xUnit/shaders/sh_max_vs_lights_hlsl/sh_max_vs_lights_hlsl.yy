@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_max_vs_lights_hlsl",
+  "name":"sh_max_vs_lights_hlsl",
+  "parent":{
+    "name":"HLSL",
+    "path":"folders/Tests/TestResources/shaders/ShaderUniformTests/HLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":3,
+}

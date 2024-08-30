@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_lights_pos_range_hlsl",
+  "name":"sh_lights_pos_range_hlsl",
+  "parent":{
+    "name":"HLSL",
+    "path":"folders/Tests/TestResources/shaders/ShaderUniformTests/HLSL.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":3,
+}

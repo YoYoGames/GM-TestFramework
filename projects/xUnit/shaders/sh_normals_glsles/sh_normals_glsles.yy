@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_normals_glsles",
+  "name":"sh_normals_glsles",
+  "parent":{
+    "name":"GLSLES",
+    "path":"folders/Tests/TestResources/shaders/ShaderTests/GLSLES.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

@@ -40,6 +40,7 @@ VALID_PLATFORMS = ['windows', 'mac', 'linux', 'android', 'ios', 'ipad', 'tvos', 
 VALID_RUNNERS = ['vm', 'yyc']
 
 FAILURE_MESSAGE = '[ERROR] Not all unit tests succeeded.'
+FATAL_ERROR = '[ERROR] Test framework didn\'t produce any results.'
 
 IGOR_URL = 'https://gms.yoyogames.com/igor_win-x64.zip'
 
@@ -717,6 +718,8 @@ def main():
                 # For each test update results according to metadata
                 if check_file_exists(META_PATH):
                     results_update(META_PATH, LOG_PATH, RESULTS_PATH)
+                else:
+                    raise Exception(FATAL_ERROR)
 
             # Run test on target (with sandbox ON)
             project_set_sandbox(project_folder, platform, True)
@@ -727,6 +730,8 @@ def main():
             # For each test update results according to metadata
             if check_file_exists(META_PATH):
                 results_update(META_PATH, LOG_PATH, RESULTS_PATH)
+            else:
+                raise Exception(FATAL_ERROR)
 
     # Test for HTML5 (slightly different, there is no VM/YYC)
     for kv in [(key, value) for key, value in target_kvs if key == 'HTML5']:
