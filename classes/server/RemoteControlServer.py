@@ -27,7 +27,7 @@ class RemoteCommand(Enum):
 
 class RemoteControlServer:
 
-    def __init__(self, mode: ExecutionMode, timeout: int = 5, run_name = 'xUnit'):
+    def __init__(self, mode: ExecutionMode, timeout: int = 1, run_name = 'xUnit'):
         """
         Initialize the RemoteControlServer with the given mode.
         
@@ -227,21 +227,21 @@ class RemoteControlServer:
         self.stop_event.set()
 
         while True:
+            # Use asyncio to read user input without blocking
             command = input("Enter command and args: ")
 
-            received_data = await self._receive_response(reader)
-            if not received_data:
+            if await self._send_command(writer, command):
                 return
-            
-            LOGGER.info('Received data:')
-            LOGGER.info(received_data)
 
             if command.strip().upper() in [RemoteCommand.EXIT.value, RemoteCommand.QUIT.value]:
                 LOGGER.info("Waiting for client to disconnect...")
                 break
 
-            if not await self._receive_response(reader):
+            response = await self._receive_response(reader)
+            if not response:
                 return
+            
+            print(f'> {response}')
 
         # Transition to FINISHED state
         self.state = State.FINISHED
@@ -271,13 +271,13 @@ class RemoteControlServer:
             data = await asyncio.wait_for(reader.read(8000000), self.timeout * 60)
             if not data:
                 LOGGER.info("Client disconnected.")
-                self.reboot_event.set()
                 return None
             decoded_data = data.decode().strip()
             LOGGER.debug(f"Received: {decoded_data}")
             return decoded_data
         except asyncio.TimeoutError:
             LOGGER.error(f"Client did not respond within {self.timeout} minutes. Killing process.")
+            self.reboot_event.set()
             return None
         except ConnectionResetError:
             LOGGER.error("Connection lost while reading data from client.")
