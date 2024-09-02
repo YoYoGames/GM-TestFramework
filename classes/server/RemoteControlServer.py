@@ -6,8 +6,9 @@ from xml.etree import ElementTree
 from classes.model.TestFrameworkResult import TestFrameworkResult
 from classes.model.TestResult import TestResult
 from classes.model.TestSuiteResult import TestSuiteResult
-from utils import async_utils, data_utils, network_utils
+from utils import async_utils, data_utils, file_utils, network_utils
 from utils.logging_utils import LOGGER
+from utils.path_utils import ROOT_DIR
 
 class ExecutionMode(Enum):
     AUTOMATIC = "automatic"
@@ -100,16 +101,9 @@ class RemoteControlServer:
         except Exception as e:
             LOGGER.error(f"Unexpected error during processing: {e}", exc_info=True)
 
-    def _produce_xml_result(self):
+    def _produce_xml_result(self, output_path : Path, filename: str):
         try:
-            output_path = Path('./results')
-            filename = self.run_name.replace(":", "_")
             element = self.framework_result.to_xml()
-
-            # Create the output directory if it doesn't exist
-            if not output_path.exists():
-                LOGGER.info(f"Creating output directory: {output_path}")
-                output_path.mkdir(parents=True, exist_ok=True)
 
             # Create an ElementTree object from the root element
             tree = ElementTree.ElementTree(element)
@@ -128,6 +122,25 @@ class RemoteControlServer:
         except Exception as e:
             LOGGER.error(f"An unexpected error occurred: {e}")  
 
+    def _produce_json_result(self, output_path: Path, filename: str):
+        try:
+            # Construct the JSON file path
+            json_file_path = output_path / f'{filename}.json'
+            LOGGER.info(f"Writing JSON result to {json_file_path}")
+
+            # Convert the framework result to a dictionary and save it as JSON
+            data = self.framework_result.to_dict()
+            file_utils.save_data_as_json(data, json_file_path)
+
+            LOGGER.info(f"JSON result successfully written to {json_file_path}")
+
+        except TypeError as e:
+            LOGGER.error(f"Failed to serialize data to JSON: {e}")
+        except IOError as e:
+            LOGGER.error(f"Failed to write JSON file to {json_file_path}. Reason: {e}")
+        except Exception as e:
+            LOGGER.error(f"An unexpected error occurred while writing JSON file: {e}")
+
     async def _serve(self, host: str, port: int):
         server = await asyncio.start_server(lambda reader, writer: self._handle_client(reader, writer), host, port)
         addr = server.sockets[0].getsockname()
@@ -143,7 +156,7 @@ class RemoteControlServer:
         Handle the client connection and delegate to the appropriate strategy.
         """
         addr = writer.get_extra_info('peername')
-        print(f"Client connected: {addr}")
+        LOGGER.info(f"Client connected: {addr}")
 
         try:
             # Only restore state if mode is AUTOMATIC and state is RUNNING
@@ -165,28 +178,53 @@ class RemoteControlServer:
         """
         while self.current_test_index < len(self.tests):
             command = RemoteCommand.RUN.value.format(self.tests[self.current_test_index])
+            LOGGER.debug(f"Sending command: {command}")
+
             if await self._send_command(writer, command):
+                LOGGER.warning("Failed to send command, aborting test run.")
                 return
 
             self.current_test_index += 1
 
             data = await self._receive_response(reader)
             if not data:
+                LOGGER.warning("No data received, aborting test run.")
                 return
             else:
+                LOGGER.debug(f"Processing test result for test index {self.current_test_index - 1}")
                 self._process_test_result(data)
 
         if self.current_test_index >= len(self.tests):
-            # Transition to FINISHED state and set the stop event
-            self.state = State.FINISHED
-            LOGGER.info(f"State changed to {self.state}")
+            await self._handle_test_execution_finished(writer)
 
-            self._produce_xml_result()
+    async def _handle_test_execution_finished(self, writer: asyncio.StreamWriter):
+        """
+        Handle the actions to be taken once all tests have been executed.
+        """
+        self.state = State.FINISHED
+        LOGGER.info(f"State changed to {self.state}")
 
-            LOGGER.info("All tests executed.")
-            await self._send_command(writer, RemoteCommand.EXIT.value)
+        output_path = ROOT_DIR / 'output' / 'results'
+        output_path.mkdir(parents=True, exist_ok=True)
 
-            self.stop_event.set()  # Signal that the run has finished
+        filename = self.run_name.replace(":", "_")
+
+        LOGGER.debug(f"Producing results files with filename: {filename}")
+
+        try:
+            self._produce_xml_result(output_path, filename)
+            self._produce_json_result(output_path, filename)
+        except Exception as e:
+            LOGGER.error(f"Failed to produce result files: {e}")
+            return
+
+        LOGGER.info("All tests executed successfully.")
+
+        await self._send_command(writer, RemoteCommand.EXIT.value)
+        LOGGER.info("Sent EXIT command to client.")
+
+        self.stop_event.set()  # Signal that the run has finished
+        LOGGER.info("Test run completion signal set.")
 
     async def _handle_automatic_mode(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter, restore=False):
         """
@@ -251,7 +289,7 @@ class RemoteControlServer:
         try:
             writer.write(command.encode() + b'\0')
             await writer.drain()
-            LOGGER.info(f"Sent: {command}")
+            LOGGER.debug(f"Sent: {command}")
         except (ConnectionResetError, BrokenPipeError):
             LOGGER.error("Connection lost while sending data to client.")
             return True

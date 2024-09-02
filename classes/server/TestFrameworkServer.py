@@ -11,6 +11,7 @@ from classes.model.TestResult import TestResult
 from classes.model.TestSuiteResult import TestSuiteResult
 from utils import (network_utils, file_utils)
 from utils.logging_utils import LOGGER
+from utils.path_utils import ROOT_DIR
 
 # Define the asynchronous function to manage the server
 async def manage_server(task_func: callable):
@@ -172,7 +173,7 @@ class TestFrameworkServer:
 
         LOGGER.info("WebSocket handler completed.")
         return ws
-
+    
     @staticmethod
     async def http_result_handler(request: web.Request):
         LOGGER.info("Received request to save JSON|XML data")
@@ -213,10 +214,10 @@ class TestFrameworkServer:
                 LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
 
             filename = f'testFramework_{run_name.replace(":", "_")}'
-            output_path = Path('./output/results/')
+            output_path = ROOT_DIR / 'output' / 'results'
             output_path.mkdir(parents=True, exist_ok=True)
 
-            ## Save to a file (example: 'output.json')
+            ## Save to a json file
             file_utils.save_data_as_json(framework_result.to_dict(), output_path / f'{filename}.json')
 
             element = framework_result.to_xml()         

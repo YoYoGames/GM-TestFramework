@@ -59,6 +59,7 @@ class TestSuiteResult(BaseModel):
                 'assertions': self.get_assertion_count(),
             },
             'time': self.get_duration() / 1000000,
-            'timestamp': self.get_iso_timestamp(),
+            'timestamp': self.timestamp,
+            'timestamp_iso': self.get_iso_timestamp(),
             'tests': [ test.to_dict() for test in self.tests ]
         }

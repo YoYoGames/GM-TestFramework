@@ -19,6 +19,7 @@ from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMo
 from classes.server.TestFrameworkServer import manage_server
 from utils import async_utils, file_utils, logging_utils, network_utils
 from utils.logging_utils import LOGGER
+from utils.path_utils import ROOT_DIR
 
 REDACTED_WORDS = ['-ak=', 'access-key']
 REDACTED_MESSAGE = "<redacted to prevent exposure of sensitive data>"
@@ -33,8 +34,6 @@ IGOR_URL = 'https://gms.yoyogames.com/igor_win-x64.zip'
 
 DRIVER_DETECT_BASE_URL = 'https://chromedriver.storage.googleapis.com/LATEST_RELEASE_'
 DRIVER_DOWNLOAD_BASE_URL = 'https://chromedriver.storage.googleapis.com/'
-
-ROOT_DIR = Path('.').absolute()
 
 USER_DIR = ROOT_DIR / 'user'
 PROJECTS_DIR = ROOT_DIR / 'projects'
@@ -89,13 +88,19 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Auxiliary function that validates a runtime version
         def validate_version(input) -> str:
+            if input is None:
+                return input
+            
             pattern = re.compile(r'^\d+\.\d+\.\d+\.\d+$')
             if not pattern.match(input):
                 raise argparse.ArgumentTypeError('Invalid version format. Use <Major>.<Minor>.<Build>.<Revision>')
             return input
 
         # Auxiliary function that validates an existing path
-        def validate_path(input, arg) -> Path:
+        def validate_path(input, arg, required = True) -> Path:
+            if input is None and not required:
+                return input
+
             resolved_path = Path(input).absolute()
             if not resolved_path.exists():
                 raise argparse.ArgumentTypeError(f"Invalid path provided for '{arg}' with value '{resolved_path}'. This path can be relative or absolute but must exist.")
@@ -116,7 +121,7 @@ class IgorRunTestsCommand(BaseCommand):
         parser.add_argument('-ak', '--access-key', type=str, required=True, help='The access key to download GameMaker\'s license')
         parser.add_argument('-rv', '--runtime-version', type=validate_version, default=None, help='Runner version to use (default: <latest>)')
         parser.add_argument('-rn', '--run-name', default='xUnit TestFramework', help='The name to be given to the test run')
-        parser.add_argument('-h5r', '--html5-runner', type=partial(validate_path, arg='--html5-runner'), required=False, help='A custom HTML5 runner to use instead of the runtime one')
+        parser.add_argument('-h5r', '--html5-runner', type=partial(validate_path, arg='--html5-runner', required=False), required=False, help='A custom HTML5 runner to use instead of the runtime one')
 
         parser.set_defaults(command_class=cls)
 
@@ -223,6 +228,9 @@ class IgorRunTestsCommand(BaseCommand):
 
         # For all except HTML5
         runners = self.get_runners()
+
+        # Clean results folder
+        file_utils.clean_directory(ROOT_DIR / 'output' / 'results')
 
         for platform, device in targets.items():
             # Determine whether sandbox tests are needed

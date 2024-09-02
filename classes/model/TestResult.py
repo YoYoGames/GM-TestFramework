@@ -64,3 +64,23 @@ class TestResult(BaseModel):
             'exceptions': self.exceptions,
             'errors': self.errors,
         }
+
+    def to_summary(self) -> dict:
+        summary = {
+            'name': self.name,
+            **({'errors': [
+                    {
+                        'expected': error.get('expected'),
+                        'actual': error.get('actual'),
+                        'description': error.get('description')
+                    } for error in self.errors
+                ]} if self.errors else {})
+        }
+        
+        if self.exceptions:
+            summary['exceptions'] = {
+                'count': self.exceptions.count(),
+                'first': self.exceptions[0]
+            }
+        
+        return summary

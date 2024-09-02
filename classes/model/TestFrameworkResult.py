@@ -4,6 +4,7 @@ from typing import Optional
 from pydantic import BaseModel
 import xml.etree.ElementTree as ElementTree
 
+from classes.model.TestResult import TestResult
 from classes.model.TestSuiteResult import TestSuiteResult
 
 class TestFrameworkResult(BaseModel):
@@ -34,6 +35,19 @@ class TestFrameworkResult(BaseModel):
         iso_format = dt.isoformat()
         return iso_format
         
+    def get_failed_and_expired_tests(self):
+        failed_tests: list[TestResult] = []
+        expired_tests: list[TestResult] = []
+
+        for suite in self.testsuites or []:
+            for test in suite.tests or []:
+                if test.result.lower() == 'failed':
+                    failed_tests.append(test)
+                elif test.result.lower() == 'expired':
+                    expired_tests.append(test)
+
+        return failed_tests, expired_tests
+
     def to_xml(self) -> ElementTree.Element:
         element = ElementTree.Element('testsuites')
         element.set("name", self.name)
@@ -60,6 +74,24 @@ class TestFrameworkResult(BaseModel):
                 'assertions': self.get_assertion_count(),
             },
             'time': self.get_duration() / 1000000,
-            'timestamp': self.get_iso_timestamp(),
-            'suite': [ suite.to_dict() for suite in self.testsuites ]
+            'timestamp': self.timestamp,
+            'timestamp_iso': self.get_iso_timestamp(),
+            'testsuites': [ suite.to_dict() for suite in self.testsuites ]
+        }
+    
+    def to_summary(self) -> dict:
+
+        failed_tests, expired_tests = self.get_failed_and_expired_tests()
+
+        return {
+            'tallies': {    
+                'failures': self.get_failure_count(),
+                'skipped': self.get_skipped_count(),
+                'passed': self.get_test_count() - self.get_failure_count() - self.get_skipped_count(),
+            },
+            'status': 'failed' if self.get_failure_count() else 'passed',
+            'details': {
+                'failed': [ test.to_summary() for test in failed_tests ],
+                'expired': [ test.to_summary() for test in expired_tests ],
+            }
         }
