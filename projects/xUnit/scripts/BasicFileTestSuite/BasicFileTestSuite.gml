@@ -907,7 +907,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #2", function() {
+	addFact("filename_test_simulated test #3", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
@@ -916,7 +916,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #3", function() {
+	addFact("filename_test_simulated test #4", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
@@ -925,7 +925,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #4", function() {
+	addFact("filename_test_simulated test #5", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 
@@ -934,7 +934,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #5", function() {
+	addFact("filename_test_simulated test #6", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			

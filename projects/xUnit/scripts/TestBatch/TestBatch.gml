@@ -59,6 +59,15 @@ function TestBatch() : Test() constructor {
 		if (!is_instanceof(_test, Test)) {
 			throw log_error("add :: trying to add an element that is not a Test to '{0}'.", instanceof(self));
 		}
+			
+		var _name = _test.getName();
+		var _index = array_find_index(tests, method({ name: _name },function(_test) {
+			return _test.getName() == name;
+		}));
+		
+		if (_index != -1) {
+			throw log_error("add :: trying to add a test with a duplicate name: '{0}' to {1}.", _name, instanceof(self));
+		}
 		
 		array_push(tests, _test);
 		count += 1;

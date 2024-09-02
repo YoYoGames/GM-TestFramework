@@ -67,7 +67,7 @@ config_set("Test", {
 		
 		var _data = {
 			details: _resultData,
-			timestamp: _resultBag.unix_timestamp
+			timestamp: _resultBag.unix_timestamp,
 		}
 		
 		// This is for the remote control stuff (if enabled)

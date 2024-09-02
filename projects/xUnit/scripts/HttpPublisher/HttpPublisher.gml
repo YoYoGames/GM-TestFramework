@@ -22,10 +22,10 @@ function HttpPublisher(_configuration = undefined) : IPublisher() constructor {
 		var _url = string("http://{0}:{1}/{2}", ip, port, endpoint);
 		
 		var _body = {};
-		_body.targetName = os_type_to_string(os_type);
-		_body.isSandboxed = GM_is_sandboxed;
-		_body.isCompiled = code_is_compiled();
-		_body.isBrowser = platform_browser();
+		_body.target_name = os_type_to_string(os_type);
+		_body.is_sandboxed = GM_is_sandboxed;
+		_body.is_compiled = code_is_compiled();
+		_body.is_browser = platform_browser();
 		_body.data = _data;
 		
 		var _headers = ds_map_create();
