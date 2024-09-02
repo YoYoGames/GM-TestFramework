@@ -120,7 +120,7 @@ class IgorRunTestsCommand(BaseCommand):
         parser.add_argument('-uf', '--user-folder', type=partial(validate_path, arg='--user-folder'), required=True, help='The path to the GameMaker\' user folder')
         parser.add_argument('-ak', '--access-key', type=str, required=True, help='The access key to download GameMaker\'s license')
         parser.add_argument('-rv', '--runtime-version', type=validate_version, default=None, help='Runner version to use (default: <latest>)')
-        parser.add_argument('-rn', '--run-name', default='xUnit TestFramework', help='The name to be given to the test run')
+        parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
         parser.add_argument('-h5r', '--html5-runner', type=partial(validate_path, arg='--html5-runner', required=False), required=False, help='A custom HTML5 runner to use instead of the runtime one')
 
         parser.set_defaults(command_class=cls)

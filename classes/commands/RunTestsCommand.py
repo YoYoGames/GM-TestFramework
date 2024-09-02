@@ -33,7 +33,7 @@ class RunTestsCommand(BaseCommand):
         parser.add_argument('-m', '--mode', choices=['build-run', 'build-only'], default='build-run', help='The mode to be used during compilation')
         parser.add_argument('-bt', '--build-type', choices=['Debug', 'Release'], default='Debug', help='The type of build (Debug|Release)')
         parser.add_argument('-sbt', '--script-build-type', choices=['Debug', 'Release'], default='Debug', help='The type of script build (Debug|Release)')
-        parser.add_argument('-rn', '--run-name', default='xUnit TestFramework', help='The name to be given to the test run')
+        parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
         parser.add_argument('-ra', '--run-arguments', type=str, default="", help="Arguments to pass to the run mode of YYPC")
 
         parser.set_defaults(command_class=cls)
