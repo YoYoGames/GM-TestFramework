@@ -23,7 +23,7 @@ config_manager_load("config.json");
 //
 config_set("Test", {
 
-	test_start_hook: function(_test) {
+	test_start_hook: function(_test, _resultBag) {
 				
 		#region [WARNING] Don't change this block!
 		
@@ -31,6 +31,9 @@ config_set("Test", {
 		
 		assertSingleton.setUserData(_test);
 		assertSingleton.resetAssertionCount();
+		
+		// place this inside the resultbag to be used later on test end
+		_resultBag.unix_timestamp = time_get_unix_timestamp();
 		
 		#endregion
 		
@@ -46,6 +49,7 @@ config_set("Test", {
 		
 		static resultToCategory = [ "unset", "passed", "failed", "skipped", "bailed", "expired" ];
 		static assertSingleton = assert_get_singleton();
+		static usingRemoteServer = objRunner.using_remote_server;
 		
 		var _category = resultToCategory[_test.result];
 		var _resultData = _test.getResultData();
@@ -61,24 +65,30 @@ config_set("Test", {
 		
 		_test.doReset(); // Free some memory usage
 		
-		// This is for the remote control stuff (if enabled)
-		with (objRunner) {
-			if (!using_remote_server) continue;
-						
-			// This is a test from remote execution path will be:
-			// <suite_name>@<test_name>
-			var _path_parts = string_split(_resultBag.path, "@", 1);
-	
-			var _data = {
-				details: _resultData,
-				suite: _path_parts[0],
-				timestamp: _test.getStartUnixTimeStamp()
-			}
-			
-			buffer_seek(network_buffer, buffer_seek_start, 0); 
-			buffer_write(network_buffer, buffer_string, json_stringify(_data)); 
-			network_send_raw(socket, network_buffer, buffer_tell(network_buffer)); 
+		var _data = {
+			details: _resultData,
+			timestamp: _resultBag.unix_timestamp
 		}
+		
+		// This is for the remote control stuff (if enabled)
+		if (usingRemoteServer) {
+			with (objRunner) {
+				
+				var _path_parts = string_split(_resultBag.path, "@", 1);
+				_data.suite = _path_parts[0];
+				
+				buffer_seek(network_buffer, buffer_seek_start, 0); 
+				buffer_write(network_buffer, buffer_string, json_stringify(_data)); 
+				network_send_raw(socket, network_buffer, buffer_tell(network_buffer)); 
+			}
+		}
+		// This is the data to publish to the http server
+		else {
+			_data.suite = _resultBag.suite;
+			array_push(_resultBag.results_to_publish, _data);
+		}
+		
+		struct_remove(_resultBag, "unix_timestamp");
 		
 		#endregion
 	}
@@ -96,14 +106,16 @@ config_set("Test", {
 //
 config_set("TestSuite", {
 	
-	suite_start_hook: function(_testSuite) { 
+	suite_start_hook: function(_testSuite, _resultBag) { 
 		// Do any extra required logging and logic here (_testSuite is an instance of TestSuite)
 		log_info("Test suite '{0}' started", _testSuite.getName());
+		_resultBag.suite = _testSuite.getName();
 	},
 	
 	suite_end_hook: function(_testSuite, _resultBag) {
 		// Do any extra required logging and logic here (_testSuite is an instance of TestSuite)
-		log_info("Test suite '{0}' ended", _testSuite.getName()); 
+		log_info("Test suite '{0}' ended", _testSuite.getName());
+		struct_remove(_resultBag, "suite");
 	}
 
 });
@@ -119,15 +131,36 @@ config_set("TestSuite", {
 //
 config_set("TestFrameworkRun", {
 	
-	framework_start_hook: function(_test) {
+	framework_start_hook: function(_test, _resultBag) {
 		
 		// Do any extra required logging and logic here (_testSuite is an instance of TestFrameworkRun)
 		log_info("TestFramework started");
+		
+		_resultBag.results_to_publish = [];
+		
 	},
 	
 	framework_end_hook: function(_test, _resultBag) {
 				
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
+				
+		var _data = {
+			results: _resultBag.results_to_publish,
+			run_name: config_get_param("run_name")
+		}
+
+		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
+		var _resultPublisher = http_publisher_get("$$default$$")
+		
+		// Publish the results
+		_resultPublisher.publish(_data);
+		
+		struct_remove(_resultBag, "results_to_publish");
+		
+		#endregion 
+		
+		// Do any extra required logging and logic here (_testSuite is an instance of TestFrameworkRun)
+		log_info("TestFramework ended");
 		
 		// Create tallies
 		var _tallies = {};
@@ -137,22 +170,6 @@ config_set("TestFrameworkRun", {
 			var _type = _resultTypes[_i];
 			_tallies[$ _type] = array_length(_resultBag[$ _type]);
 		}
-		
-		var _data = {
-			tallies: _tallies,
-			details: _resultBag
-		}
-
-		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
-		var _resultPublisher = http_publisher_get("$$default$$")
-		
-		// Publish the results
-		_resultPublisher.publish(_data);
-				
-		#endregion 
-		
-		// Do any extra required logging and logic here (_testSuite is an instance of TestFrameworkRun)
-		log_info("TestFramework ended");
 		
 		// Log failures and tallies
 		log_info(_tallies);

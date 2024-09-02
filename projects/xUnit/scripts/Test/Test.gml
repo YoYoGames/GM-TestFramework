@@ -29,8 +29,6 @@ function Test(_name = undefined) : Task() constructor {
 	/// @ignore
 	name = _name;
 	
-	unix_time_stamp = 0;
-	
 	/// @ignore
 	preRunFunc = function() {
 		
@@ -82,7 +80,6 @@ function Test(_name = undefined) : Task() constructor {
 	/// @param {Function} callbackFunc The function to be called at the end of execution.
 	/// @param {Any} resultBag The result collector that is carried along between nested tests.
 	static run = function(_callbackFunc = undefined, _resultBag = undefined) {
-		unix_time_stamp = time_get_unix_timestamp()
 		resultBag = _resultBag;
 		run_Task(_callbackFunc);
 	}
@@ -100,14 +97,7 @@ function Test(_name = undefined) : Task() constructor {
 	static getResultString = function() {
 		return resultStrings[result];
 	}
-	
-	/// @function getStartUnixTimeStamp()
-	/// @description Gets start timestamp in unix format
-	/// @returns {Real}
-	static getStartUnixTimeStamp = function() {
-		return unix_time_stamp;
-	}
-	
+		
 	/// @function getDuration()
 	/// @description Gets the test duration (micros)
 	/// @returns {Real}
@@ -173,7 +163,7 @@ function Test(_name = undefined) : Task() constructor {
 	/// @function callStartHook()
 	/// @description Calls the hook function assigned to the start of the execution.
 	static callStartHook = function() {
-		if (is_callable(startHook)) startHook(self);
+		if (is_callable(startHook)) startHook(self, resultBag);
 	}
 	
 	/// @function callEndHook()

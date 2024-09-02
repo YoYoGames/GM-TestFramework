@@ -243,7 +243,7 @@ class IgorRunTestsCommand(BaseCommand):
                     
                     file_utils.clean_directory(OUTPUT_DIR)
                     
-                    run_name = f'{self.get_argument('run_name')}_{platform}{runner_part}{sandbox_part}'
+                    run_name = f"{self.get_argument('run_name')}_{platform}{runner_part}{sandbox_part}"
                     await self.igor_run_tests(igor_path, project_yyp, user_folder, runtime_path, platform, device, runner, run_name)
 
         # Close Android emulator

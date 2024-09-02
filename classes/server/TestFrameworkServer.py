@@ -1,11 +1,14 @@
 import asyncio
 from pathlib import Path
+from typing import Optional
 import xml.etree.ElementTree as ElementTree
 from aiohttp import web
 import json
 import struct
 
 from classes.model.TestFrameworkResult import TestFrameworkResult
+from classes.model.TestResult import TestResult
+from classes.model.TestSuiteResult import TestSuiteResult
 from utils import (network_utils, file_utils)
 from utils.logging_utils import LOGGER
 
@@ -172,24 +175,53 @@ class TestFrameworkServer:
 
     @staticmethod
     async def http_result_handler(request: web.Request):
-        LOGGER.info("Received request to save JSON data")
+        LOGGER.info("Received request to save JSON|XML data")
 
         try:
             # Parse JSON body
-            body = await request.json()
-            LOGGER.info(f"JSON data parsed successfully: {body}")
+            body: dict = await request.json()
+            LOGGER.debug(f"JSON data parsed successfully: {body}")
+        
+            run_name: str = body["data"]["run_name"]
+            results: list[dict] = body["data"]["results"]
 
-            run_name: str = body["data"]["name"]
+            framework_result: Optional[TestFrameworkResult] = None
+            suite_results: dict[str, TestSuiteResult] = {}
+
+            for result in results:
+
+                # Extract necessary fields from the parsed JSON
+                result_data: Optional[dict] = result.get('details')
+                suite: Optional[str] = result.get('suite')
+                timestamp: Optional[float] = result.get('timestamp')
+
+                # Initialize framework result if not already set
+                if not framework_result:
+                    framework_result = TestFrameworkResult(name=run_name, timestamp=timestamp)
+                    LOGGER.debug(f"Initialized framework result: {framework_result.name} at {timestamp}")
+
+                # Initialize suite result or switch to a new suite if necessary
+                if not suite in suite_results:
+                    suite_result = TestSuiteResult(name=suite, timestamp=timestamp)
+                    framework_result.testsuites.append(suite_result)
+                    suite_results[suite] = suite_result
+                    LOGGER.debug(f"Initialized new test suite result: {suite} at {timestamp}")
+
+                # Add the test result to the current suite
+                result = TestResult(**result_data)
+                suite_results[suite].tests.append(result)
+                LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
+
             filename = f'testFramework_{run_name.replace(":", "_")}'
-            output_path = Path('./output')
+            output_path = Path('./output/results/')
+            output_path.mkdir(parents=True, exist_ok=True)
 
-            # Save to a file (example: 'output.json')
-            file_utils.save_data_as_json(body, output_path / f'{filename}.json')
+            ## Save to a file (example: 'output.json')
+            file_utils.save_data_as_json(framework_result.to_dict(), output_path / f'{filename}.json')
 
-            result = TestFrameworkResult(**body["data"])
-            element = result.to_xml()         
+            element = framework_result.to_xml()         
 
-            # Create an ElementTree object from the root element
+            ## Create an ElementTree object from the root element
             tree = ElementTree.ElementTree(element)
             tree.write(output_path / f'{filename}.xml', encoding='UTF-8', xml_declaration=True)
 
