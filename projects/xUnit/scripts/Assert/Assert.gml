@@ -87,10 +87,10 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	/// @returns {Bool}
 	static pass = function(_title, _description, _value = undefined, _expected = undefined) {
 
-		if (assertDepth != 0) return false;
+		if (assertDepth != 0) return true;
 		
 		assertionCount++;
-		if (!is_callable(passHook)) return false;
+		if (!is_callable(passHook)) return true;
 
 		// Select only the stack portion we want
 		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
