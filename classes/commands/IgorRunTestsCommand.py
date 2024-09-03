@@ -166,7 +166,7 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Exectute igor to get the latest runtime version
         runtime_version: str = self.get_argument('runtime_version')
-        rss_feed = self.get_argument('feed')
+        rss_feed: str = self.get_argument('feed')
         runtime_version = await self.igor_get_runtime_version(user_folder, rss_feed, runtime_version)
         assert(runtime_version is not None)
 
@@ -228,7 +228,9 @@ class IgorRunTestsCommand(BaseCommand):
         runners = self.get_runners()
 
         # Clean results folder
-        file_utils.clean_directory(ROOT_DIR / 'output' / 'results')
+        file_utils.clean_directory(ROOT_DIR / 'results')
+
+        is_red_runtime = True if 'Zeus-Runtime-Nocturnus-I' in rss_feed else False
 
         for platform, device in targets.items():
             # Determine whether sandbox tests are needed
@@ -250,7 +252,7 @@ class IgorRunTestsCommand(BaseCommand):
                     file_utils.clean_directory(OUTPUT_DIR)
                     
                     run_name = f"{self.get_argument('run_name')}_{platform}{runner_part}{sandbox_part}"
-                    await self.igor_run_tests(igor_path, project_yyp, user_folder, runtime_path, platform, device, runner, run_name)
+                    await self.igor_run_tests(igor_path, project_yyp, user_folder, runtime_path, platform, device, runner, run_name, is_red_runtime = is_red_runtime)
 
         # Close Android emulator
         if android_emulator_running:
@@ -335,7 +337,7 @@ class IgorRunTestsCommand(BaseCommand):
 
         return RUNTIME_DIR / f'runtime-{version}'
 
-    async def igor_run_tests(self, igor_path: Path, project_file: Path, user_folder: Path, runtime_path: Path, platform: str, device: str, runner: Optional[str] = None, run_name = 'xUnit', verbosity_level: Optional[int] = 4):
+    async def igor_run_tests(self, igor_path: Path, project_file: Path, user_folder: Path, runtime_path: Path, platform: str, device: str, runner: Optional[str] = None, run_name = 'xUnit', verbosity_level: Optional[int] = 4, is_red_runtime = False):
 
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
@@ -364,7 +366,13 @@ class IgorRunTestsCommand(BaseCommand):
         package_args = args_base + ['PackageZip']
         await async_utils.run_and_capture(igor_path, package_args)
 
-        run_args = args_base + ['Run']
+        if is_red_runtime:
+            run_args = ['/nobuild'] + args_base
+            for file in OUTPUT_DIR.glob('*.win'):
+                new_name = file.with_name(TEMP_FILE.name)
+                file.rename(new_name)
+
+        run_args = run_args + ['Run']
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
         await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT))
  

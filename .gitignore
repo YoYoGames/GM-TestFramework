@@ -11,3 +11,5 @@ projects/xUnit/datafiles/config.json
 *.resource_order
 
 output/results/
+
+results/

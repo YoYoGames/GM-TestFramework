@@ -159,7 +159,7 @@ async def main():
 
     # Check if we need to fail execution
     if args.command_class in [IgorRunTestsCommand, RunTestsCommand]:
-        directory = ROOT_DIR / 'output' / 'results'
+        directory = ROOT_DIR / 'results'
         check_xml_json_pairs_and_failures(directory)
 
 if __name__ == "__main__":
