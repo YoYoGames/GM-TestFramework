@@ -51,12 +51,16 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
                     pass
 
                 if stop_event.is_set():
+                    LOGGER.info("Stop event detected. Terminating the process.")
+                    process.terminate()
+                    await process.wait()
                     break
 
                 # Check the reboot_event
                 if reboot_event.is_set():
                     LOGGER.info("Reboot event detected. Terminating the process.")
                     process.terminate()
+                    await process.wait()
                     reboot_event.clear()
                     break
 
