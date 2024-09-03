@@ -36,8 +36,8 @@ def merge_config_and_cli_args(config_args, cli_args):
 def load_config_and_merge_with_cli_args():
     # Initial parser for the --config-file
     config_parser = argparse.ArgumentParser(add_help=False)
-    config_parser.add_argument('--config-file', type=str, help='Path to configuration file.')
-    config_parser.add_argument('--install', action='store_true', help='Should install dependencies.')
+    config_parser.add_argument('-cf', '--config-file', type=str, help='Path to configuration file.')
+    config_parser.add_argument('-i', '--install', action='store_true', help='Should install dependencies.')
     args, remaining_argv = config_parser.parse_known_args()
 
     config_args = {}
