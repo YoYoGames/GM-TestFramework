@@ -45,7 +45,7 @@ IGOR_DIR = WORKSPACE_DIR / 'igor'
 CACHE_DIR = WORKSPACE_DIR / 'cache'
 TEMP_DIR = WORKSPACE_DIR / 'temp'
 OUTPUT_DIR = WORKSPACE_DIR / 'output'
-TEMP_FILE = OUTPUT_DIR / 'xUnit.win'
+TEMP_FILE = OUTPUT_DIR / 'data.win'
 TARGET_FILE = OUTPUT_DIR / 'xUnit.zip'
 RUNTIME_DIR = WORKSPACE_DIR / 'runtime'
 
@@ -368,9 +368,6 @@ class IgorRunTestsCommand(BaseCommand):
 
         if is_red_runtime:
             run_args = ['/nobuild'] + args_base
-            for file in OUTPUT_DIR.glob('*.win'):
-                new_name = file.with_name(TEMP_FILE.name)
-                file.rename(new_name)
 
         run_args = run_args + ['Run']
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
