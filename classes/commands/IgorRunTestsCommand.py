@@ -216,17 +216,13 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Get the igor runner path
         igor_path = runtime_path / 'bin' / 'igor' / 'windows' / 'x64' / 'igor.exe'
-        
-        # Get local IP address
-        ip_address = network_utils.get_local_ip()
-        assert(ip_address is not None)
-        
+                
         # Configure project
         project_yyp: Path = self.get_argument('project_path')
         project_config: dict[str, Any] = self.get_argument('project_config')
         project_folder = project_yyp.parent
 
-        self.project_set_config(DEFAULT_CONFIG, project_config, project_folder, ip_address)
+        self.project_set_config(DEFAULT_CONFIG, project_config, project_folder)
 
         # For all except HTML5
         runners = self.get_runners()
