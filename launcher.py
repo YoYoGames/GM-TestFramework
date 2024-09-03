@@ -100,8 +100,7 @@ def check_xml_json_pairs_and_failures(directory):
             if summary.get('status') == 'failed':
                 failed = True
     
-    print(data_utils.json_stringify(full_summary))
-    sys.stdout.flush()  # Ensure the output is flushed immediately
+    print(data_utils.json_stringify(full_summary), flush=True)
 
     if failed:
         raise ValueError(f"Failed or Expired tests found!")
