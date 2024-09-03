@@ -14,7 +14,7 @@ import os
 import shutil
 import platform
 
-from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
+from classes.commands.BaseCommand import DEFAULT_CONFIG, TCP_PORT, BaseCommand
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.server.TestFrameworkServer import manage_server
 from utils import async_utils, file_utils, logging_utils, network_utils
@@ -225,6 +225,7 @@ class IgorRunTestsCommand(BaseCommand):
         project_yyp: Path = self.get_argument('project_path')
         project_config: dict[str, Any] = self.get_argument('project_config')
         project_folder = project_yyp.parent
+
         self.project_set_config(DEFAULT_CONFIG, project_config, project_folder, ip_address)
 
         # For all except HTML5
@@ -369,7 +370,7 @@ class IgorRunTestsCommand(BaseCommand):
 
         run_args = args_base + ['Run']
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
-        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args))
+        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT))
  
         self.change_directory(ROOT_DIR)
 
@@ -541,16 +542,12 @@ class IgorRunTestsCommand(BaseCommand):
 
     # Project Configuration
 
-    def project_set_config(self, default_config: dict[str, Any], project_config: dict[str, Any], project_path : Path, ip_address: str):
+    def project_set_config(self, default_config: dict[str, Any], project_config: dict[str, Any], project_path : Path):
 
         data = {
             **default_config,
             **project_config,
-            'HttpPublisher.ip': ip_address,
-            'HttpPublisher.port': 8080,
             '$$parameters$$.remote_server': True,
-            '$$parameters$$.remote_server_address': ip_address,
-            '$$parameters$$.remote_server_port': 8000
         }
 
         config_file = project_path / 'datafiles' / 'config.json'

@@ -328,14 +328,14 @@ class RemoteControlServer:
         except Exception as e:
             LOGGER.error(f"Error during cleanup: {e}")
 
-    async def serve_or_wait_for_space(self, exe_path, args):
+    async def serve_or_wait_for_space(self, exe_path, args, port=8000):
         """
         Serve the client or wait for the space key to stop the server.
         """
         local_ip_address = network_utils.get_local_ip()
 
         await asyncio.gather(
-            self._serve(host=local_ip_address, port=8000),
+            self._serve(host=local_ip_address, port=port),
             async_utils.wait_for_space_key(self.stop_event),
             async_utils.run_and_monitor_exe(exe_path=exe_path, args=args, stop_event=self.stop_event, reboot_event=self.reboot_event, restart_delay=0.5)
         )

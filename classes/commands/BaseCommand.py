@@ -6,6 +6,7 @@ from typing import Any
 from utils import network_utils
 
 LOCAL_IP = network_utils.get_local_ip()
+TCP_PORT = network_utils.get_random_available_port()
 
 DEFAULT_CONFIG = {
 
@@ -21,7 +22,7 @@ DEFAULT_CONFIG = {
 
     "$$parameters$$.remote_server": False,
     "$$parameters$$.remote_server_address": LOCAL_IP,
-    "$$parameters$$.remote_server_port": 8000,
+    "$$parameters$$.remote_server_port": TCP_PORT,
 
     "$$parameters$$.test_server_address": LOCAL_IP,
     "$$parameters$$.test_server_port": 8080,

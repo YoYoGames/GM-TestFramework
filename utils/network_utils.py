@@ -1,7 +1,18 @@
+import random
 import socket
 import requests
 
 from utils.logging_utils import LOGGER
+
+def get_random_available_port():
+    while True:
+        port = random.randint(49152, 65535)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind(("", port))
+                return port  # Return the port if it is available
+            except OSError:
+                continue  # If the port is in use, try another one
 
 def get_local_ip() -> str:
     try:

@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 from typing import Any
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
-from classes.commands.BaseCommand import DEFAULT_CONFIG, BaseCommand
+from classes.commands.BaseCommand import DEFAULT_CONFIG, TCP_PORT, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
 from utils import file_utils
 from utils.path_utils import ROOT_DIR
@@ -81,7 +81,7 @@ class RunTestsCommand(BaseCommand):
             f'-script-build-type={self.get_argument("script_build_type")}',
             f'-mode={self.get_argument("mode")}',
             f'-run-args={self.get_argument("run_arguments")}',
-            '-v']))
+            '-v'], port=TCP_PORT))
 
     def project_write_config(self):
         project_path = self.get_argument("project_path")
