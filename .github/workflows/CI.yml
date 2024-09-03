@@ -37,7 +37,7 @@ jobs:
         shell: cmd         
       - name: Testing on PR
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: python framework_launcher.py igorRunTests -cf C:\GM-TestFramework\configs\config_windows_new.json -f "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"            
+        run: python launcher.py igorRunTests -cf C:\GM-TestFramework\configs\config_windows_new.json -f "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"            
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts
