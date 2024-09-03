@@ -37,7 +37,7 @@ jobs:
         shell: cmd         
       - name: Testing on PR
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: python framework_launcher.py -cf C:\GM-TestFramework\configs\config_ci.json -f "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"            
+        run: python framework_launcher.py igorRunTests -cf C:\GM-TestFramework\configs\config_windows_new.json -f "https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"            
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts
@@ -51,25 +51,5 @@ jobs:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\workspace\summary.json
 
-  # Slack-Notification:
-  #    runs-on: ubuntu-latest
-  #    needs: CI
-  #    steps:
-  #       - name: Download summary Artifacts
-  #         uses: actions/download-artifact@v3
-  #         with:
-  #           name: summary_file
-  #           path: test
-  #       - run: |
-  #            cd test
-  #            cat summary.json > summary.txt
-  #       - name: Upload to slack step
-  #         uses: MeilCli/slack-upload-file@v3
-  #         with:
-  #           slack_token: ${{ secrets.SLACK_TOKEN }}
-  #           file_type: txt
-  #           file_path: test/summary.txt
-  #           channel_id: ''
-  #         continue-on-error: true
         
       
