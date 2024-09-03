@@ -161,20 +161,20 @@ class IgorRunTestsCommand(BaseCommand):
         # Execute igor to get license file
         access_key: str = self.get_argument('access_key')
         license_path = user_folder / 'licence.plist'
-        await self.igor_get_license(access_key, license_path)
+        self.igor_get_license(access_key, license_path)
         assert(license_path.exists())
 
         # Exectute igor to get the latest runtime version
         runtime_version: str = self.get_argument('runtime_version')
         rss_feed = self.get_argument('feed')
-        runtime_version = await self.igor_get_runtime_version(user_folder, rss_feed, runtime_version)
+        runtime_version = self.igor_get_runtime_version(user_folder, rss_feed, runtime_version)
         assert(runtime_version is not None)
 
         # Execute igor to install the requested runtime version
         targets = self.get_targets()
 
         platforms = targets.keys()
-        runtime_path = await self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
+        runtime_path = self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
         assert(runtime_path.exists())
 
         # Execute ProjectTool to ensure correct project format
@@ -298,10 +298,10 @@ class IgorRunTestsCommand(BaseCommand):
 
     # Igor
 
-    async def igor_get_license(self, access_key: str, output_path: Path):
-        await async_utils.run_exe_and_capture(IGOR_PATH, [f'-ak={access_key}', f'-of={output_path}', 'Runtime', 'FetchLicense'])
+    def igor_get_license(self, access_key: str, output_path: Path):
+        async_utils.run_exe_and_capture_sync(IGOR_PATH, [f'-ak={access_key}', f'-of={output_path}', 'Runtime', 'FetchLicense'])
 
-    async def igor_get_runtime_version(self, user_folder: Path, feed: str, version: str):
+    def igor_get_runtime_version(self, user_folder: Path, feed: str, version: str):
         # This will prevent browser cache
         cacheBust = random.randint(111111111, 999999999)
         # Setup arguments
@@ -310,7 +310,7 @@ class IgorRunTestsCommand(BaseCommand):
             args.append(version)
         
         # Execute command
-        result = await async_utils.run_exe_and_capture(IGOR_PATH, args)
+        result = async_utils.run_exe_and_capture_sync(IGOR_PATH, args)
 
         pattern = re.compile(r'Version (\d+\.\d+\.\d+\.\d+)')
         match = pattern.search(result)
@@ -320,7 +320,7 @@ class IgorRunTestsCommand(BaseCommand):
         else:
             return None
 
-    async def igor_install_runtime(self, user_folder: Path, feed: str, version: str, platforms: list[str]):
+    def igor_install_runtime(self, user_folder: Path, feed: str, version: str, platforms: list[str]):
 
         # This will prevent browser cache
         cacheBust = random.randint(111111111, 999999999)
@@ -331,7 +331,7 @@ class IgorRunTestsCommand(BaseCommand):
         args = [f'/uf={user_folder}', f'/ru={feed}?cachebust={cacheBust}', f'/rp={RUNTIME_DIR}', f'/m={modules}', 'Runtime', 'Install', version]
         
         # Execute command
-        await async_utils.run_exe_and_capture(IGOR_PATH, args)
+        async_utils.run_exe_and_capture_sync(IGOR_PATH, args)
 
         return RUNTIME_DIR / f'runtime-{version}'
 
