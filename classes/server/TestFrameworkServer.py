@@ -214,7 +214,7 @@ class TestFrameworkServer:
                 LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
 
             filename = f'testFramework_{run_name.replace(":", "_")}'
-            output_path = ROOT_DIR / 'output' / 'results'
+            output_path = ROOT_DIR / 'results'
             output_path.mkdir(parents=True, exist_ok=True)
 
             ## Save to a json file

@@ -204,7 +204,7 @@ class RemoteControlServer:
         self.state = State.FINISHED
         LOGGER.info(f"State changed to {self.state}")
 
-        output_path = ROOT_DIR / 'output' / 'results'
+        output_path = ROOT_DIR / 'results'
         output_path.mkdir(parents=True, exist_ok=True)
 
         filename = self.run_name.replace(":", "_")
