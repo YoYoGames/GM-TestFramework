@@ -157,7 +157,9 @@ def run_exe_sync(exe_path, args) -> subprocess.Popen:
         [exe_path] + args,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
-        text=True  # Ensures that the output is in string format, not bytes
+        text=True,  # Ensures that the output is in string format, not bytes
+        bufsize=1,  # Line buffering
+        universal_newlines=True  # This makes sure text mode is enabled, which also implies line buffering
     )
     return process
 
@@ -208,13 +210,14 @@ def capture_output_sync(process: subprocess.Popen):
     stdout_output = ''
 
     while True:
-        stdout_line = process.stdout.readline()
+        stdout_line: str = process.stdout.readline()
         if not stdout_line:
             break
         stripped_output = stdout_line.strip()
         if stripped_output:
             stdout_output += stripped_output + '\n'
             print(stripped_output)
+            sys.stdout.flush()  # Ensure the output is flushed immediately
 
     return stdout_output
 
