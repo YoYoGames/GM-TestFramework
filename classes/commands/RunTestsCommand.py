@@ -84,11 +84,13 @@ class RunTestsCommand(BaseCommand):
             '-v']))
 
     def project_write_config(self):
-        yyp_file = self.get_argument("project_path")
-        yyp_folder = Path(yyp_file).parent
+        project_path = self.get_argument("project_path")
+        project_config = self.get_argument("project_config")
+        yyp_folder = Path(project_path).parent
 
         config_data = {
-            **DEFAULT_CONFIG, 
+            **DEFAULT_CONFIG,
+            **project_config,
             '$$parameters$$.remote_server': True,
         }
 

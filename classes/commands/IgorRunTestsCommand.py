@@ -223,8 +223,9 @@ class IgorRunTestsCommand(BaseCommand):
         
         # Configure project
         project_yyp: Path = self.get_argument('project_path')
+        project_config: dict[str, Any] = self.get_argument('project_config')
         project_folder = project_yyp.parent
-        self.project_set_config(DEFAULT_CONFIG, project_folder, ip_address)
+        self.project_set_config(DEFAULT_CONFIG, project_config, project_folder, ip_address)
 
         # For all except HTML5
         runners = self.get_runners()
@@ -540,14 +541,17 @@ class IgorRunTestsCommand(BaseCommand):
 
     # Project Configuration
 
-    def project_set_config(self, data: dict[str, Any], project_path : Path, ip_address: str):
+    def project_set_config(self, default_config: dict[str, Any], project_config: dict[str, Any], project_path : Path, ip_address: str):
 
-        data = dict(data)
-        data['HttpPublisher.ip'] = ip_address
-        data['HttpPublisher.port'] = 8080
-        data['$$parameters$$.remote_server'] = True
-        data['$$parameters$$.remote_server_address'] = ip_address
-        data['$$parameters$$.remote_server_port'] = 8000
+        data = {
+            **default_config,
+            **project_config,
+            'HttpPublisher.ip': ip_address,
+            'HttpPublisher.port': 8080,
+            '$$parameters$$.remote_server': True,
+            '$$parameters$$.remote_server_address': ip_address,
+            '$$parameters$$.remote_server_port': 8000
+        }
 
         config_file = project_path / 'datafiles' / 'config.json'
         file_utils.save_data_as_json(data, config_file)
