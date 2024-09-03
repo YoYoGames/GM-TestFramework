@@ -38,15 +38,19 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
 
                 if reboot_event.is_set():
                     LOGGER.info("Reboot event detected. Terminating the process.")
-                    process.terminate()
+                    process.terminate()  # Terminate the process first
                     await process.wait()
+
+                    LOGGER.info("Canceling capture task due to reboot.")
+                    capture_task.cancel()
+
+                    # Wait for the capture task to finish handling the cancellation
+                    await asyncio.gather(capture_task, return_exceptions=True)
+
                     reboot_event.clear()
                     break
 
                 await asyncio.sleep(0.1)  # Sleep briefly to prevent busy-waiting
-
-            # Optionally cancel the capture task
-            capture_task.cancel()
 
             LOGGER.info(f"Executable {exe_path} exited with return code {process.returncode}")
 
