@@ -1,9 +1,35 @@
 import asyncio
 import sys
+import psutil
+import signal
 
 from utils.logging_utils import LOGGER
 
 import asyncio
+
+def kill_process_tree(pid: int, sig=signal.SIGTERM):
+    """
+    Kills a process and all its subprocesses.
+    
+    Args:
+        pid (int): The process ID of the main process to kill.
+        sig: The signal to send to the processes. Default is SIGTERM.
+    """
+    try:
+        parent = psutil.Process(pid)
+        children = parent.children(recursive=True)
+        
+        # Terminate child processes
+        for child in children:
+            try:
+                child.send_signal(sig)
+            except psutil.NoSuchProcess:
+                pass  # The process is already terminated
+        
+        # Terminate the parent process
+        parent.send_signal(sig)
+    except psutil.NoSuchProcess:
+        pass  # The parent process is already terminated
 
 async def run_exe(exe_path, args) -> asyncio.subprocess.Process:
 
@@ -38,6 +64,7 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
 
                 if reboot_event.is_set():
                     LOGGER.info("Reboot event detected. Terminating the process.")
+                    kill_process_tree(process.pid)
                     process.terminate()  # Terminate the process first
                     await process.wait()
 
