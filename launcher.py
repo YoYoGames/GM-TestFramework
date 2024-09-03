@@ -105,7 +105,7 @@ def check_xml_json_pairs_and_failures(directory):
     if failed:
         raise ValueError(f"Failed or Expired tests found!")
     else:
-        print("All tests passed successfully, no Failed or Expired tests found.")
+        LOGGER.info("All tests passed successfully, no Failed or Expired tests found.")
 
 # Execution
 async def main():
@@ -118,10 +118,10 @@ async def main():
 
     # Check if the script is being run from its actual directory
     if current_working_directory != script_directory:
-        print(f"Error: The script is being run from {current_working_directory}, but it must be run from {script_directory}.")
+        LOGGER.error(f"Error: The script is being run from {current_working_directory}, but it must be run from {script_directory}.")
         sys.exit(1)  # Exit the script with a non-zero status code
     else:
-        print("Script is being run from the correct directory.")
+        LOGGER.info("Script is being run from the correct directory.")
 
     # Configure our logger
     logging_utils.config_logger()
