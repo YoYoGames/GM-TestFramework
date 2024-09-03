@@ -45,8 +45,8 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
 
                 await asyncio.sleep(0.1)  # Sleep briefly to prevent busy-waiting
 
-            # Wait for the output capture to finish
-            await capture_task
+            # Optionally cancel the capture task
+            capture_task.cancel()
 
             LOGGER.info(f"Executable {exe_path} exited with return code {process.returncode}")
 
