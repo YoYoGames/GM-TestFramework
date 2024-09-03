@@ -147,7 +147,7 @@ class IgorRunTestsCommand(BaseCommand):
         self.remove_directory(USER_DIR)
         self.remove_directory(WORKSPACE_DIR)
 
-        self.ensure_directories_exist([ CACHE_DIR, OUTPUT_DIR ])
+        self.ensure_directories_exist([ CACHE_DIR, OUTPUT_DIR, ROOT_DIR / 'output' / 'results' ])
 
         # Download and extract igor
         self.download_and_extract(IGOR_URL, IGOR_DIR)
