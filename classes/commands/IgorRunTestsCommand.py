@@ -342,9 +342,6 @@ class IgorRunTestsCommand(BaseCommand):
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
 
-        # This is necessary for now
-        temp_file = TEMP_FILE.with_name('data.win') if is_red_runtime else TEMP_FILE
-
         # Setup arguments
         args_base += [
             f'/uf={user_folder}',
@@ -352,7 +349,7 @@ class IgorRunTestsCommand(BaseCommand):
             f'/project={project_file}',
             f'/cache={CACHE_DIR}',
             f'/temp={TEMP_DIR}',
-            f'/of={temp_file}',
+            f'/of={TEMP_FILE}',
             f'/tf={TARGET_FILE}',
             f'/device={device}',
         ]
@@ -366,14 +363,11 @@ class IgorRunTestsCommand(BaseCommand):
         # Execute command (change working directory)
         self.change_directory(WORKSPACE_DIR)
 
-        run_args = args_base + ['Run']
-
-        if is_red_runtime:
-            package_args = args_base + ['PackageZip']
-            await async_utils.run_and_capture(igor_path, package_args)
+        package_args = args_base + ['PackageZip']
+        await async_utils.run_and_capture(igor_path, package_args)
             
-            run_args = ['/nobuild'] + run_args
-
+        run_args = args_base + ['Run']
+        
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
         await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT))
  
