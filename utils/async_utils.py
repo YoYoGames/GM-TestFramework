@@ -1,8 +1,5 @@
 import asyncio
-import subprocess
 import sys
-import threading
-import time
 
 from utils.logging_utils import LOGGER
 
@@ -29,18 +26,10 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
 
         # Capture the output and monitor the process
         try:
+            # Run the output capture concurrently with the monitoring logic
+            capture_task = asyncio.create_task(capture_output(process, stop_event))
+
             while True:
-                try:
-                    # Read the output line by line
-                    stdout_line = await asyncio.wait_for(process.stdout.readline(), timeout=0.1)
-                    if stdout_line:
-                        stripped_output = stdout_line.decode('utf-8').strip()
-                        print(stripped_output)
-                        sys.stdout.flush()  # Ensure the output is flushed immediately
-
-                except asyncio.TimeoutError:
-                    pass
-
                 if stop_event.is_set():
                     LOGGER.info("Stop event detected. Terminating the process.")
                     process.terminate()
@@ -54,7 +43,11 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
                     reboot_event.clear()
                     break
 
-            await process.wait()
+                await asyncio.sleep(0.1)  # Sleep briefly to prevent busy-waiting
+
+            # Wait for the output capture to finish
+            await capture_task
+
             LOGGER.info(f"Executable {exe_path} exited with return code {process.returncode}")
 
         except Exception as e:
@@ -70,18 +63,29 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
 
     LOGGER.info("Monitoring loop terminated.")
 
-async def capture_output(process: asyncio.subprocess.Process):
+async def capture_output(process: asyncio.subprocess.Process, stop_event: asyncio.Event):
     stdout_output = ''
 
     while True:
-        stdout_line = await process.stdout.readline()
-        if not stdout_line:
-            break
-        stripped_output = stdout_line.decode('utf-8').strip()
-        if stripped_output:
-            stdout_output += stripped_output + '\n'
-            print(stripped_output)
+        try:
+            # Read a chunk of data (e.g., 4096 bytes)
+            stdout_chunk = await process.stdout.read(4096)
+            if not stdout_chunk:
+                break
+
+            # Decode and handle the chunk of output
+            decoded_output = stdout_chunk.decode('utf-8')
+            stdout_output += decoded_output
+            print(decoded_output, end='')
             sys.stdout.flush()  # Ensure the output is flushed immediately
+
+            # Check if the stop event is set and break the loop if so
+            if stop_event.is_set():
+                break
+
+        except Exception as e:
+            LOGGER.error(f"Error while capturing output: {e}")
+            break
 
     return stdout_output
 
@@ -123,25 +127,22 @@ async def wait_for_space_key(stop_event: asyncio.Event = None):
     else:
         await check_keypress_unix()
 
-async def run_exe_and_capture(exe_path: str, args: list[str]):
-    
+async def run_and_capture(exe_path: str, args: list[str]):
+    # Create a stop event for capturing output
+    stop_event = asyncio.Event()
+
     # Start the subprocess
     process = await run_exe(exe_path, args)
-    
-    stdout_output = await capture_output(process)
-    
-    await process.wait()  # Wait for the subprocess to exit
+
+    # Capture the output
+    stdout_output = await capture_output(process, stop_event)
+
+    # Wait for the subprocess to exit
+    await process.wait()
+
+    # Ensure the stop event is set to clean up the capture task
+    stop_event.set()
 
     LOGGER.info(f'Process completed')
     return stdout_output
 
-
-    # Start the subprocess
-    process = run_exe_sync(exe_path, args)
-    
-    stdout_output = capture_output_sync(process)
-    
-    process.wait()  # Wait for the subprocess to exit
-
-    LOGGER.info(f'Process completed')
-    return stdout_output

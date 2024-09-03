@@ -299,7 +299,7 @@ class IgorRunTestsCommand(BaseCommand):
     # Igor
 
     async def igor_get_license(self, access_key: str, output_path: Path):
-        await async_utils.run_exe_and_capture(IGOR_PATH, [f'-ak={access_key}', f'-of={output_path}', 'Runtime', 'FetchLicense'])
+        await async_utils.run_and_capture(IGOR_PATH, [f'-ak={access_key}', f'-of={output_path}', 'Runtime', 'FetchLicense'])
 
     async def igor_get_runtime_version(self, user_folder: Path, feed: str, version: str):
         # This will prevent browser cache
@@ -310,7 +310,7 @@ class IgorRunTestsCommand(BaseCommand):
             args.append(version)
         
         # Execute command
-        result = await async_utils.run_exe_and_capture(IGOR_PATH, args)
+        result = await async_utils.run_and_capture(IGOR_PATH, args)
 
         pattern = re.compile(r'Version (\d+\.\d+\.\d+\.\d+)')
         match = pattern.search(result)
@@ -331,7 +331,7 @@ class IgorRunTestsCommand(BaseCommand):
         args = [f'/uf={user_folder}', f'/ru={feed}?cachebust={cacheBust}', f'/rp={RUNTIME_DIR}', f'/m={modules}', 'Runtime', 'Install', version]
         
         # Execute command
-        await async_utils.run_exe_and_capture(IGOR_PATH, args)
+        await async_utils.run_and_capture(IGOR_PATH, args)
 
         return RUNTIME_DIR / f'runtime-{version}'
 
@@ -362,7 +362,7 @@ class IgorRunTestsCommand(BaseCommand):
         self.change_directory(WORKSPACE_DIR)
 
         package_args = args_base + ['PackageZip']
-        await async_utils.run_exe_and_capture(igor_path, package_args)
+        await async_utils.run_and_capture(igor_path, package_args)
 
         run_args = args_base + ['Run']
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)

@@ -53,7 +53,7 @@ class RunTestsCommand(BaseCommand):
         file_utils.clean_directory(ROOT_DIR / 'output' / 'results')
 
         # THIS SHOULD BE JUST THE BUILD STEP
-        # await async_utils.run_exe_and_capture(self.get_argument("yypc_path"), [
+        # await async_utils.run_and_capture(self.get_argument("yypc_path"), [
         #     self.get_argument("project_path"), 
         #     '-o', self.get_argument("output_folder"),
         #     '-t', self.get_argument("template_folder"),
