@@ -101,11 +101,8 @@ def check_xml_json_pairs_and_failures(directory):
                 failed = True
     
     print(data_utils.json_stringify(full_summary), flush=True)
-
-    if failed:
-        raise ValueError(f"Failed or Expired tests found!")
-    else:
-        LOGGER.info("All tests passed successfully, no Failed or Expired tests found.")
+    
+    return failed
 
 # Execution
 async def main():
@@ -159,7 +156,13 @@ async def main():
     # Check if we need to fail execution
     if args.command_class in [IgorRunTestsCommand, RunTestsCommand]:
         directory = ROOT_DIR / 'results'
-        check_xml_json_pairs_and_failures(directory)
+        failed = check_xml_json_pairs_and_failures(directory)        
+        if failed:
+            LOGGER.error(f"Failed or Expired tests found!")
+            exit(1)
+        else:
+            LOGGER.info("All tests passed successfully, no Failed or Expired tests found.")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
