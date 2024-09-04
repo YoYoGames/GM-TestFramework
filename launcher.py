@@ -100,8 +100,8 @@ def check_xml_json_pairs_and_failures(directory):
             if summary.get('status') == 'failed':
                 failed = True
     
-    print(data_utils.json_stringify(full_summary), flush=True)
-    
+    LOGGER.info(f"Printing summary:\n{data_utils.json_stringify(full_summary)}")
+        
     return failed
 
 # Execution
