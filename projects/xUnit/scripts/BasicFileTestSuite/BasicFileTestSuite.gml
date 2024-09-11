@@ -334,7 +334,6 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			assert_false(_output, "file_exists( 'c:/windows/explorer.exe' ), should not find the file on HTML5");
 		}			
 			
-
 	}, { test_filter: function() { return platform_windows() && !GM_is_sandboxed } });
 
 	// BINARY FILES TESTS

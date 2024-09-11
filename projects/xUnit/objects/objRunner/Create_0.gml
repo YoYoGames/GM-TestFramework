@@ -1,3 +1,6 @@
+
+#macro FRAMEWORK_SHOULD_CATCH false
+
 /// @description Start Framework
 /// This is the entry point for the frameowork execution.
 testFramework = new TestFrameworkRun();
@@ -22,7 +25,7 @@ testFramework.addSuite(BasicFiltersEffectsTestSuite);
 testFramework.addSuite(BasicHandlesTestSuite);
 testFramework.addSuite(BasicIniTestSuite);
 testFramework.addSuite(BasicJsonTestSuite);
-testFramework.addSuite(BasicMathTestSuite);
+testFramework.addSuite(BasicMathTestSuite); 
 testFramework.addSuite(BasicMatrixTestSuite);
 testFramework.addSuite(BasicNameofTestSuite);
 testFramework.addSuite(BasicNetworkTestSuite);
@@ -30,19 +33,19 @@ testFramework.addSuite(BasicRandomTestSuite);
 testFramework.addSuite(BasicRoomTestSuite);
 testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicShaderTestSuite);
-testFramework.addSuite(BasicShaderUniformsTestSuite);
+testFramework.addSuite(BasicShaderUniformsTestSuite); /* needs fix */
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
-testFramework.addSuite(BasicTilemapTestSuite);
+testFramework.addSuite(BasicTilemapTestSuite); /* needs fix */
 testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
-testFramework.addSuite(ResourceAudioBuffersTestSuite);
+testFramework.addSuite(ResourceAudioBuffersTestSuite); /* needs fix */
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
 testFramework.addSuite(ResourceAudioEmittersTestSuite);
 testFramework.addSuite(ResourceAudioGroupsTestSuite);
 testFramework.addSuite(ResourceAudioListenersTestSuite);
 testFramework.addSuite(ResourceAudioLoopPointsTestSuite);
-testFramework.addSuite(ResourceAudioSynchronisationTestSuite);
+testFramework.addSuite(ResourceAudioSynchronisationTestSuite); /* needs fix */
 testFramework.addSuite(ResourceCameraTestSuite);
 testFramework.addSuite(ResourceEventsTestSuite);
 testFramework.addSuite(ResourceLayersTestSuite);

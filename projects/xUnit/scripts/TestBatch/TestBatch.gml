@@ -27,6 +27,8 @@ function TestBatch() : Test() constructor {
 		}
 		// If there is a next test
 		else if (next()) {
+			// Make sure we are in a new empty room
+			room_goto(rmEmpty);
 			// Delay test execution (allows spacing tests in time).
 			return call_later(getDelaySeconds(), time_source_units_seconds, function() { current().run(runFunc, resultBag); });
 		}

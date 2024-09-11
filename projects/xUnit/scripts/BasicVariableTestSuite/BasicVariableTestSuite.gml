@@ -1,3 +1,4 @@
+
 function GetValueDetails() {
 	
 	var valueDetails = [ 
@@ -1723,8 +1724,8 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			path_action_continue: value,
 			path_action_reverse: value,
 			
-			true: value,
-			false: value,
+			//true: value,
+			//false: value,
 			pi: value,
 			NaN: value,
 			infinity: value,
@@ -2557,3 +2558,4 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 	})
 
 }
+

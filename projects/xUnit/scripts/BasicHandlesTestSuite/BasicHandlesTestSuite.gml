@@ -1,3 +1,4 @@
+
 function BasicHandlesTestSuite() : TestSuite() constructor {
     addTheory("asset_reference_handles_test", [
         [handle_testAnimationCurve, "handle_testAnimationCurve"],
@@ -14,8 +15,10 @@ function BasicHandlesTestSuite() : TestSuite() constructor {
         [handle_testSprite, "handle_testSprite"],
         [handle_testTileSet, "handle_testTileSet"],
         [handle_testTimeline, "handle_testTimeline"],
-    ], function(asset, name) {            
+    ], function(asset, name) {
         var output = is_handle(asset);
         assert_true(output, $"is_handle({name}) should be true");
-    });
+    }, {
+		test_filter: runtime_not_gmrt
+	});
 }

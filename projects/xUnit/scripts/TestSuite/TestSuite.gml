@@ -24,6 +24,15 @@ function TestSuite() : TestBatch() constructor {
 		
 		return _fact;
 	}
+	
+	/// @function xaddFact(name, testFunc, [options])
+	/// @param {String} name The name/description of the current test.
+	/// @param {Function} testFunc The test function to be used during testing.
+	/// @param {Struct} [options] The options be used by the test.
+	static xaddFact = function(_name, _testFunc, _options = {}) {
+		_options.test_filter = function() { return false; }
+		return addFact(_name, _testFunc, _options);
+	}
 
 	/// @function addTheory(name, data, testFunc, [options])
 	/// @param {String} name The name/description of the current test.
@@ -37,6 +46,16 @@ function TestSuite() : TestBatch() constructor {
 		add(_theory);
 		
 		return _theory;
+	}
+	
+	/// @function xaddTheory(name, data, testFunc, [options])
+	/// @param {String} name The name/description of the current test.
+	/// @param {Array<Array>} data The dataset passed to the test function during testing.
+	/// @param {Function} testFunc The test function to be used during testing.
+	/// @param {Struct} [options] The options be used by the test.
+	static xaddTheory = function(_name, _data, _testFunc, _options = {}) {
+		_options.test_filter = function() { return false; }
+		return addTheory(_name, _data, _testFunc, _options);
 	}
 	
 	/// @function addTestAsync(name, object, events, [options])
@@ -53,13 +72,30 @@ function TestSuite() : TestBatch() constructor {
 		return _testAsync;
 	}
 	
+	/// @function xaddTestAsync(name, object, events, [options])
+	/// @param {String} name The name/description of the current test.
+	/// @param {Asset.GMObject} object The object that will handle the test execution.
+	/// @param {Struct} events A struct with events to logic mappings.
+	/// @param {Struct} [options] The options be used by the test.
+	static xaddTestAsync = function(_name, _object, _events, _options = undefined) {
+		_options.test_filter = function() { return false; }
+		return addTestAsync(_name, _object, _events, _options);
+	}
+	
 	/// @function addObjectTest(name, object, [options])
 	/// @param {String} name The name/description of the current test.
 	/// @param {Asset.GMObject} object The object that will handle the test execution.
 	/// @param {Struct} [options] The options be used by the test.
 	static addObjectTest = function(_name, _object, _options = undefined) {
-	
 		return addTestAsync(_name, _object, {}, _options);
+	}
+	
+	/// @function xaddObjectTest(name, object, [options])
+	/// @param {String} name The name/description of the current test.
+	/// @param {Asset.GMObject} object The object that will handle the test execution.
+	/// @param {Struct} [options] The options be used by the test.
+	static xaddObjectTest = function(_name, _object, _options = undefined) {
+		return xaddTestAsync(_name, _object, {}, _options);
 	}
 	
 	config(config_get(self));

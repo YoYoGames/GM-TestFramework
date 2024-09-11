@@ -144,16 +144,17 @@ config_set("TestFrameworkRun", {
 				
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
 				
-		var _data = {
-			results: _resultBag.results_to_publish,
-			run_name: config_get_param("run_name")
-		}
-
-		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
-		var _resultPublisher = http_publisher_get("$$default$$")
-		
-		// Publish the results
-		_resultPublisher.publish(_data);
+		//var _data = {
+		//	results: _resultBag.results_to_publish,
+		//	run_name: config_get_param("run_name")
+		//}
+		//
+		//// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
+		//var _resultPublisher = http_publisher_get("$$default$$")
+		//
+		//// Publish the results
+		//_resultPublisher.publish(_data);
+		//
 		
 		struct_remove(_resultBag, "results_to_publish");
 		
@@ -172,17 +173,17 @@ config_set("TestFrameworkRun", {
 		}
 		
 		// Log failures and tallies
-		log_info(_tallies);
+		log_info(json_stringify(_tallies));
 		
 		if (is_array(_resultBag[$ "failed"])) {
 			array_foreach(_resultBag[$ "failed"], function(_failure) {
-				log_info($"FAILED: {_failure}");
+				log_info($"FAILED: {json_stringify(_failure)}");
 			});
 		}
 		
 		if (is_array(_resultBag[$ "expired"])) {
 			array_foreach(_resultBag[$ "expired"], function(_failure) {
-				log_info($"EXPIRED: {_failure}");
+				log_info($"EXPIRED: {json_stringify(_failure)}");
 			});
 		}
 	}

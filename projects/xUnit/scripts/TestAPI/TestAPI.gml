@@ -82,11 +82,16 @@ function test_run_event(_eventName) {
 	
 	if (!is_callable(_func)) return;
 	
-	try {
-		_func();
+	if (FRAMEWORK_SHOULD_CATCH) {
+		try {
+			_func();
+		}
+		catch (_error) {
+			_test.pushDiagnostic(_error, "exception");
+		}
 	}
-	catch (_error) {
-		_test.pushDiagnostic(_error, "exception");
+	else {
+		_func();
 	}
 }
 
@@ -119,5 +124,7 @@ function test_end(_forcedResult = TestResult.Unset) {
 	instance_destroy(self, true);
 	
 	_test.postRunFunc();
+	
+	room_goto(rmEmpty);
 }
 

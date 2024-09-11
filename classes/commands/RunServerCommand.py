@@ -22,8 +22,7 @@ class RunServerCommand(BaseCommand):
         parser.add_argument('-pcf', '--proj-config-file', type=str, required=False, help='The path to the project config file (config.json)')
         parser.set_defaults(command_class=cls)
 
-    async def execute(self):
-
+    async def execute(self): 
         """
         Executes the command to run the server. If a project configuration file is provided, 
         it adds server information to the configuration and saves it. Then, it manages the server's 
@@ -33,7 +32,11 @@ class RunServerCommand(BaseCommand):
         
         # If a project configuration file is provided, update it with server information
         if project_config_file:
-            file_utils.save_data_as_json(DEFAULT_CONFIG, project_config_file)
+            data = {
+                **DEFAULT_CONFIG,
+                "$$parameters$$.remote_server": False
+            }
+            file_utils.save_data_as_json(data, project_config_file)
 
         # Manage server: start, wait for user action (space key), then stop
         await manage_server(async_utils.wait_for_space_key)

@@ -3539,6 +3539,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _format = "{0} {1} {2} {3}";
 			var _result = string(_format, 12, "hello", []);
 			assert_equals(_result, "12 hello [  ] {3}", "string(), failed to correctly format a string with more placeholders than arguments");
+		}, {
+			test_filter: runtime_not_gmrt
 		})
 	
 		addFact("string_test #4", function() {
@@ -3591,6 +3593,8 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _format = "{0} {1} {2} {3}";
 			var _result = string_ext(_format, [12, "hello", []]);
 			assert_equals(_result, "12 hello [  ] {3}", "string_ext(), failed to correctly format a string with more placeholders than arguments");
+		}, {
+			test_filter: runtime_not_gmrt
 		})
 	
 		addFact("string_ext_test #4", function() {

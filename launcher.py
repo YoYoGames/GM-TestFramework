@@ -27,10 +27,20 @@ def filter_scoped_entries(config_args):
 def merge_config_and_cli_args(config_args, cli_args):
     """
     Merge config args with CLI args, with CLI args taking precedence.
-    CLI args are processed as a dictionary to overwrite the config.
+    CLI args are processed as a list of key-value pairs (e.g., ['--key', 'value']).
+    CLI args take precedence over config args.
     """
-    cli_args_dict = {arg.split('=')[0].lstrip('--'): arg.split('=')[1] for arg in cli_args if '=' in arg}
+    cli_args_dict = {}
+    
+    # Iterate through the CLI args two items at a time (key, value)
+    for i in range(0, len(cli_args), 2):
+        key = cli_args[i].lstrip('--')  # Remove the leading '--'
+        value = cli_args[i + 1]  # The next item is the value
+        cli_args_dict[key] = value
+    
+    # Merge CLI args into config args, with CLI args taking precedence
     config_args.update(cli_args_dict)
+    
     return config_args
 
 def load_config_and_merge_with_cli_args():
@@ -56,10 +66,10 @@ def load_config_and_merge_with_cli_args():
     else:
         command = None
         command_args = []
-    
+
     # Merge config args with command args, allowing CLI args to take precedence
     merged_args = merge_config_and_cli_args(config_args, command_args)
-    
+
     # Reconstruct remaining_argv from merged_args
     remaining_argv = [f'--{k}={v}' for k, v in merged_args.items() if v is not None]
 
