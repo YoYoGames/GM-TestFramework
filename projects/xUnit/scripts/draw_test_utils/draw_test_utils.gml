@@ -81,7 +81,7 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 	}
 	
 	// Save the surface to a .png file (for manual checking)
-	surface_save(_test_surface,  _test_name + "Result.png");
+	surface_save(_test_surface, _test_name + "Result.png");
 	
 	// Create a buffer to store the surface data in
 	var _test_buffer = buffer_create(surface_get_width(_test_surface) * surface_get_height(_test_surface) * 4, buffer_fixed, 1);
@@ -158,7 +158,7 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 		}
 	
 		// Save the surface to a .png file (for manual checking)
-		surface_save(_test_surfaces[i],  _test_name + "Result" + string(i) + ".png");
+		surface_save(_test_surfaces[i], _test_name + "Result" + string(i) + ".png");
 	
 		// Create a buffer to store the surface data in
 		var _test_buffer = buffer_create(surface_get_width(_test_surfaces[i]) * surface_get_height(_test_surfaces[i]) * 4, buffer_fixed, 1);
