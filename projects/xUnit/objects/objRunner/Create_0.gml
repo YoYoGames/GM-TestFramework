@@ -32,20 +32,20 @@ testFramework = new TestFrameworkRun();
 //testFramework.addSuite(BasicRandomTestSuite);
 //testFramework.addSuite(BasicRoomTestSuite);
 //testFramework.addSuite(BasicScriptTestSuite);
-testFramework.addSuite(BasicShaderTestSuite);
-testFramework.addSuite(BasicShaderUniformsTestSuite);
+//testFramework.addSuite(BasicShaderTestSuite);
+//testFramework.addSuite(BasicShaderUniformsTestSuite);
 //testFramework.addSuite(BasicStringTestSuite);
 //testFramework.addSuite(BasicSurfaceTestSuite);
 //testFramework.addSuite(BasicTilemapTestSuite); /* needs fix */
 //testFramework.addSuite(BasicVariableTestSuite);
 //testFramework.addSuite(BasicWeakRefsTestSuite);
-//testFramework.addSuite(ResourceAudioBuffersTestSuite); /* needs fix */
+testFramework.addSuite(ResourceAudioBuffersTestSuite); /* needs fix */
 //testFramework.addSuite(ResourceAudioEffectsTestSuite);
 //testFramework.addSuite(ResourceAudioEmittersTestSuite);
 //testFramework.addSuite(ResourceAudioGroupsTestSuite);
 //testFramework.addSuite(ResourceAudioListenersTestSuite);
 //testFramework.addSuite(ResourceAudioLoopPointsTestSuite);
-//testFramework.addSuite(ResourceAudioSynchronisationTestSuite); /* needs fix */
+testFramework.addSuite(ResourceAudioSynchronisationTestSuite); /* needs fix */
 //testFramework.addSuite(ResourceCameraTestSuite);
 //testFramework.addSuite(ResourceEventsTestSuite);
 //testFramework.addSuite(ResourceLayersTestSuite);
