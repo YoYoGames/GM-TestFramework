@@ -111,6 +111,7 @@
     {"name":"ResourceCameraTestSuite","order":25,"path":"scripts/ResourceCameraTestSuite/ResourceCameraTestSuite.yy",},
     {"name":"ResourceEventsTestSuite","order":26,"path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},
     {"name":"ResourceLayersTestSuite","order":27,"path":"scripts/ResourceLayersTestSuite/ResourceLayersTestSuite.yy",},
+    {"name":"ResourceParticleTestSuite","order":36,"path":"scripts/ResourceParticleTestSuite/ResourceParticleTestSuite.yy",},
     {"name":"ResourceSequenceTestSuite","order":28,"path":"scripts/ResourceSequenceTestSuite/ResourceSequenceTestSuite.yy",},
     {"name":"ResourceTimeSourceTestSuite","order":29,"path":"scripts/ResourceTimeSourceTestSuite/ResourceTimeSourceTestSuite.yy",},
     {"name":"struct_unflatten","order":1,"path":"scripts/struct_unflatten/struct_unflatten.yy",},

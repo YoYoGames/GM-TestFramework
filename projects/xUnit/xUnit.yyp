@@ -63,7 +63,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.800.0.586",
+    "IDEVersion":"2024.8.1.171",
   },
   "name":"xUnit",
   "resources":[
@@ -160,6 +160,7 @@
     {"id":{"name":"ResourceCameraTestSuite","path":"scripts/ResourceCameraTestSuite/ResourceCameraTestSuite.yy",},},
     {"id":{"name":"ResourceEventsTestSuite","path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},},
     {"id":{"name":"ResourceLayersTestSuite","path":"scripts/ResourceLayersTestSuite/ResourceLayersTestSuite.yy",},},
+    {"id":{"name":"ResourceParticleTestSuite","path":"scripts/ResourceParticleTestSuite/ResourceParticleTestSuite.yy",},},
     {"id":{"name":"ResourceSequenceTestSuite","path":"scripts/ResourceSequenceTestSuite/ResourceSequenceTestSuite.yy",},},
     {"id":{"name":"ResourceTimeSourceTestSuite","path":"scripts/ResourceTimeSourceTestSuite/ResourceTimeSourceTestSuite.yy",},},
     {"id":{"name":"struct_from_entries","path":"scripts/struct_from_entries/struct_from_entries.yy",},},
