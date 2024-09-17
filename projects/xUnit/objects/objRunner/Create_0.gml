@@ -36,7 +36,7 @@ testFramework.addSuite(BasicShaderTestSuite);
 testFramework.addSuite(BasicShaderUniformsTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
-testFramework.addSuite(BasicTilemapTestSuite); /* needs fix */
+testFramework.addSuite(BasicTilemapTestSuite);
 testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
 testFramework.addSuite(ResourceAudioBuffersTestSuite); /* needs fix */
