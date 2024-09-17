@@ -3523,8 +3523,10 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _format = "{0} {1} {2}";
 			var _result = string(_format, 12, "hello", []);
 			assert_equals(_result, "12 hello [  ]", "string(), failed to correctly format a string with mixed types");
+		}, {
+			test_filter: runtime_not_gmrt
 		})
-	
+		
 		addFact("string_test #2", function() {
 			
 			// Check that including more arguments than placeholders in the format will only format the expected arguments
@@ -3549,6 +3551,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _format = "{0} {1} {2} {0} {1} {2}";
 			var _result = string(_format, 12, "hello", []);
 			assert_equals(_result, "12 hello [  ] 12 hello [  ]", "string(), failed to correctly format a string with repeated placeholders");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+	
+		addFact("string_test #4.1", function() {
+			
+			// Check that repeating placeholders works correctly
+			var _format = "{0} {1} {2} {0} {1} {2}";
+			var _result = string(_format, 12, "hello", []);
+			assert_equals(_result, "12 hello  12 hello ", "string(), failed to correctly format a string with repeated placeholders");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_test #5", function() {
@@ -3577,7 +3591,19 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _format = "{0} {1} {2}";
 			var _result = string_ext(_format, [12, "hello", []]);
 			assert_equals(_result, "12 hello [  ]", "string_ext(), failed to correctly format a string with mixed types");
-		})
+		}, {
+			test_filter: runtime_not_gmrt
+		});
+		
+		addFact("string_ext_test #1.1", function() {
+			
+			// Check that various types of data can be formatted correctly
+			var _format = "{0} {1} {2}";
+			var _result = string_ext(_format, [12, "hello", []]);
+			assert_equals(_result, "12 hello ", "string_ext(), failed to correctly format a string with mixed types");
+		}, {
+			test_filter: runtime_gmrt
+		});
 	
 		addFact("string_ext_test #2", function() {
 			
@@ -3603,6 +3629,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _format = "{0} {1} {2} {0} {1} {2}";
 			var _result = string_ext(_format, [12, "hello", []]);
 			assert_equals(_result, "12 hello [  ] 12 hello [  ]", "string_ext(), failed to correctly format a string with repeated placeholders");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+	
+		addFact("string_ext_test #4.1", function() {
+			
+			// Check that repeating placeholders works correctly
+			var _format = "{0} {1} {2} {0} {1} {2}";
+			var _result = string_ext(_format, [12, "hello", []]);
+			assert_equals(_result, "12 hello  12 hello ", "string_ext(), failed to correctly format a string with repeated placeholders");
+		}, {
+			test_filter: runtime_not_gmrt
 		})
 	
 		addFact("string_ext_test #5", function() {
@@ -3630,6 +3668,17 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			// Check that concatenating various data types works correctly
 			var _result = string_concat(12, "hello", []);
 			assert_equals(_result, "12hello[  ]", "string_concat(), failed to correctly concat a string with mixed types");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+		
+		addFact("string_concat_test #1.1", function() {
+			
+			// Check that concatenating various data types works correctly
+			var _result = string_concat(12, "hello", []);
+			assert_equals(_result, "12hello", "string_concat(), failed to correctly concat a string with mixed types");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_concat_test #2", function() {
@@ -3673,6 +3722,17 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			// Check that concatenating various data types works correctly
 			var _result = string_concat_ext([12, "hello", []]);
 			assert_equals(_result, "12hello[  ]", "string_concat_ext(), failed to correctly concat a string with mixed types");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+		
+		addFact("string_concat_ext_test #1.1", function() {
+			
+			// Check that concatenating various data types works correctly
+			var _result = string_concat_ext([12, "hello", []]);
+			assert_equals(_result, "12hello", "string_concat_ext(), failed to correctly concat a string with mixed types");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_concat_ext_test #2", function() {
@@ -3717,6 +3777,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_join(",", 12, "hello", []);
 			assert_equals(_result, "12,hello,[  ]", 
 			"string_join(), failed to correctly join a string with mixed types, using a comma.");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+
+		addFact("string_join_test #1.1", function() {
+			
+			// Check that joining various data types works correctly
+			var _result = string_join(",", 12, "hello", []);
+			assert_equals(_result, "12,hello,", 
+			"string_join(), failed to correctly join a string with mixed types, using a comma.");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_join_test #2", function() {
@@ -3741,6 +3813,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_join("道", 12, "hello", []);
 			assert_equals(_result, "12道hello道[  ]", 
 			"string_join(), failed to correctly join a string with mixed types, using a non-latin character.");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+	
+		addFact("string_join_test #4.1", function() {
+			
+			// Check that using a non-latin delimiter works correctly
+			var _result = string_join("道", 12, "hello", []);
+			assert_equals(_result, "12道hello道", 
+			"string_join(), failed to correctly join a string with mixed types, using a non-latin character.");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_join_test #5", function() {
@@ -3765,6 +3849,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_join("🙂", 12, "hello", []);
 			assert_equals(_result, "12🙂hello🙂[  ]", 
 			"string_join(), failed to correctly join a string with mixed types, using an emoji character.");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+	
+		addFact("string_join_test #7.1", function() {
+			
+			// Check that using an emoji delimiter works correctly
+			var _result = string_join("🙂", 12, "hello", []);
+			assert_equals(_result, "12🙂hello🙂", 
+			"string_join(), failed to correctly join a string with mixed types, using an emoji character.");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_join_test #8", function() {
@@ -3810,6 +3906,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_join_ext(",", [12, "hello", []]);
 			assert_equals(_result, "12,hello,[  ]", 
 			"string_join_ext(), failed to correctly join a string with mixed types, using a comma.");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+		
+		addFact("string_join_ext_test #1.1", function() {
+			
+			// Check that joining various data types works correctly
+			var _result = string_join_ext(",", [12, "hello", []]);
+			assert_equals(_result, "12,hello,", 
+			"string_join_ext(), failed to correctly join a string with mixed types, using a comma.");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_join_ext_test #2", function() {
@@ -3834,6 +3942,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_join_ext("道", [12, "hello", []]);
 			assert_equals(_result, "12道hello道[  ]", 
 			"string_join_ext(), failed to correctly join a string with mixed types, using a non-latin character.");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+	
+		addFact("string_join_ext_test #4.1", function() {
+			
+			// Check that using a non-latin delimiter works correctly
+			var _result = string_join_ext("道", [12, "hello", []]);
+			assert_equals(_result, "12道hello道", 
+			"string_join_ext(), failed to correctly join a string with mixed types, using a non-latin character.");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_join_ext_test #5", function() {
@@ -3858,6 +3978,18 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_join_ext("🙂", [12, "hello", []]);
 			assert_equals(_result, "12🙂hello🙂[  ]", 
 			"string_join_ext(), failed to correctly join a string with mixed types, using an emoji character.");
+		}, {
+			test_filter: runtime_not_gmrt
+		})
+	
+		addFact("string_join_ext_test #7.1", function() {
+			
+			// Check that using an emoji delimiter works correctly
+			var _result = string_join_ext("🙂", [12, "hello", []]);
+			assert_equals(_result, "12🙂hello🙂", 
+			"string_join_ext(), failed to correctly join a string with mixed types, using an emoji character.");
+		}, {
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_join_ext_test #8", function() {
