@@ -176,6 +176,7 @@ function ResourceParticleSystemTestSuite() : TestSuite() constructor
 	addTheory("part_system_get_info_emitter",
 	[
 		[[
+		"ind",
 		"mode",
 		"relative",
 		"delay_min",
@@ -217,6 +218,7 @@ function ResourceParticleSystemTestSuite() : TestSuite() constructor
 	addTheory("part_system_get_info_parttype",
 	[ 
 		[[
+		"ind",
 		"frame",
 		"stretch",
 		"shape",
