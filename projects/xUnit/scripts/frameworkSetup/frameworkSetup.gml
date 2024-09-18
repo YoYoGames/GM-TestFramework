@@ -144,17 +144,17 @@ config_set("TestFrameworkRun", {
 				
 		#region [WARNING] Changing this block might break the way the framwork runs from command line!
 				
-		//var _data = {
-		//	results: _resultBag.results_to_publish,
-		//	run_name: config_get_param("run_name")
-		//}
-		//
-		//// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
-		//var _resultPublisher = http_publisher_get("$$default$$")
-		//
-		//// Publish the results
-		//_resultPublisher.publish(_data);
-		//
+		var _data = {
+			results: _resultBag.results_to_publish,
+			run_name: config_get_param("run_name")
+		}
+		
+		// Get a new publisher of type 'HttpPublisher' and register it with name '$$default$$'.
+		var _resultPublisher = http_publisher_get("$$default$$")
+		
+		// Publish the results
+		_resultPublisher.publish(_data);
+		
 		
 		struct_remove(_resultBag, "results_to_publish");
 		
