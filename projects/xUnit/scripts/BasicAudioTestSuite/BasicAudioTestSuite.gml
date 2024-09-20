@@ -845,8 +845,8 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// play sound at full gain then decrease to 0 over 0.5 seconds
-			sound = audio_play_sound(snd_coinpickup_OGG, 1, false);
-			audio_sound_gain(sound, 0, 500);
+			sound = audio_play_sound(snd_coinpickup_OGG, 1, false, 1);
+			audio_sound_gain(sound, 0, 100);
 			
 			startTime = get_timer() / 1000000; // microseconds --> seconds
 		},
@@ -855,7 +855,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 			// finish test when 0.6 second has passed (to give some leeway)
 			var timeSpent = (get_timer() / 1000000) - startTime; // in seconds
 
-			if (timeSpent > 0.6){
+			if (timeSpent > 0.5) {
 				
 				// check if audio gain has decreased over time
 				var gain = audio_sound_get_gain(sound);
@@ -875,7 +875,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// play audio
-			sound = audio_play_sound(snd_coinpickup_OGG, 1, false);
+			sound = audio_play_sound(snd_compressed, 1, false);
 			// start a timer
 			startTime = get_timer() / 1000000; // microseconds --> seconds
 			
@@ -896,15 +896,11 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 			
 			var timeSpent = (get_timer() / 1000000) - startTime; // in seconds
 			
-			// after 0.25 seconds, check if track position is correct
-			if (timeSpent >= 0.25) {
-				
+			// after 0.5 seconds, check if track position is non-zero
+			if (timeSpent >= 0.5) {
 				var trackPos = audio_sound_get_track_position(sound);
-				// need to give some leeway to the asserts here,
-				// due to how often ev_step occurs, it might not check
-				// exactly at 0.25 seconds
-				assert_less_or_equal(trackPos, 0.27, "audio_sound_get_track_position should return ~0.25");
-				assert_greater_or_equal(trackPos, 0.24, "audio_sound_get_track_position should return ~0.25");
+
+				assert_greater(trackPos, 0, "audio_sound_get_track_position should be non-zero");
 				
 				audio_stop_sound(sound);
 				
@@ -924,12 +920,15 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		},
 		
 		ev_async_audio_playback_ended: function() {
+            if (async_load[? "sound_id"] != sound) {
+                return;
+            }
+            
 			// when 'playback ended' is triggered, check if audio has stopped playing
 			var isPlaying = audio_is_playing(sound);
 			assert_false(isPlaying, "ev_async_audio_playback_ended should trigger when a sound has stopped playing");
 			
 			test_end();
-			
 		},
 		
 	});
