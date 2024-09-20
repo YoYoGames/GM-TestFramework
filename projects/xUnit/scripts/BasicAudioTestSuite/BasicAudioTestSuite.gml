@@ -875,7 +875,7 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// play audio
-			sound = audio_play_sound(snd_coinpickup_OGG, 1, false);
+			sound = audio_play_sound(snd_compressed, 1, false);
 			// start a timer
 			startTime = get_timer() / 1000000; // microseconds --> seconds
 			
