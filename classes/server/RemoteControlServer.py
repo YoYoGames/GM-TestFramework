@@ -1,4 +1,5 @@
 import asyncio
+import time
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Coroutine, Optional
@@ -78,28 +79,46 @@ class RemoteControlServer:
             if result_data is None or suite is None or timestamp is None:
                 LOGGER.error("JSON data missing required fields. Skipping processing.")
                 return
-
-            # Initialize framework result if not already set
-            if not self.framework_result:
-                self.framework_result = TestFrameworkResult(name=self.run_name, timestamp=timestamp)
-                LOGGER.info(f"Initialized framework result: {self.framework_result.name} at {timestamp}")
-
-            # Initialize suite result or switch to a new suite if necessary
-            if not suite in self.suite_results:
-                suite_result = TestSuiteResult(name=suite, timestamp=timestamp)
-                self.framework_result.testsuites.append(suite_result)
-                self.suite_results[suite] = suite_result
-                LOGGER.info(f"Initialized new test suite result: {suite} at {timestamp}")
-
-            # Add the test result to the current suite
-            result = TestResult(**result_data)
-            self.suite_results[suite].tests.append(result)
-            LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
-
+            
         except KeyError as e:
             LOGGER.error(f"Key error when processing test result: {e}")
         except Exception as e:
             LOGGER.error(f"Unexpected error during processing: {e}", exc_info=True)
+
+        self._add_test_result(result_data, suite, timestamp)
+
+    def _add_test_result(self, result_data: dict, suite: str, timestamp: float):
+        # Initialize framework result if not already set
+        if not self.framework_result:
+            self.framework_result = TestFrameworkResult(name=self.run_name, timestamp=timestamp)
+            LOGGER.info(f"Initialized framework result: {self.framework_result.name} at {timestamp}")
+
+        # Initialize suite result or switch to a new suite if necessary
+        if not suite in self.suite_results:
+            suite_result = TestSuiteResult(name=suite, timestamp=timestamp)
+            self.framework_result.testsuites.append(suite_result)
+            self.suite_results[suite] = suite_result
+            LOGGER.info(f"Initialized new test suite result: {suite} at {timestamp}")
+
+        # Add the test result to the current suite
+        result = TestResult(**result_data)
+        self.suite_results[suite].tests.append(result)
+        LOGGER.debug(f"Added test result: {result_data['name']} with status {result_data['result']}")
+
+    def _inject_dummy_result(self, result = 'failed', duration = 0, assertions = 0, errors:Optional[list] = None, exceptions:Optional[list] = None):
+        current_test = self.tests[self.current_test_index]
+        suite_name, test_name = current_test.split('@')
+
+        result_data = {
+            'name': test_name,
+            'result': result,
+            'duration': duration,
+            'assertions': assertions,
+            'errors': errors,
+            'exceptions': exceptions
+        }
+
+        self._add_test_result(result_data, suite_name, time.time())
 
     def _produce_xml_result(self, output_path : Path, filename: str):
         try:
@@ -183,16 +202,17 @@ class RemoteControlServer:
             if await self._send_command(writer, command):
                 LOGGER.warning("Failed to send command, aborting test run.")
                 return
-
-            self.current_test_index += 1
-
+            
             data = await self._receive_response(reader)
             if not data:
+                self.current_test_index += 1
                 LOGGER.warning("No data received, aborting test run.")
                 return
             else:
-                LOGGER.debug(f"Processing test result for test index {self.current_test_index - 1}")
+                LOGGER.debug(f"Processing test result for test index {self.current_test_index}")
                 self._process_test_result(data)
+
+            self.current_test_index += 1
 
         if self.current_test_index >= len(self.tests):
             await self._handle_test_execution_finished(writer)
@@ -315,10 +335,12 @@ class RemoteControlServer:
             return decoded_data
         except asyncio.TimeoutError:
             LOGGER.error(f"Client did not respond within {self.timeout} minutes. Killing process.")
+            self._inject_dummy_result(result = 'failed', errors= [ { 'message': f'FATAL :: Runner hanged for too long. Process killed.' } ])
             self.reboot_event.set()
             return None
         except ConnectionResetError:
             LOGGER.error("Connection lost while reading data from client.")
+            self._inject_dummy_result(result = 'failed', errors= [ { 'message': f'FATAL :: Runner silently crashed.' } ])
             return None
 
     async def _cleanup(self, writer: asyncio.StreamWriter):
