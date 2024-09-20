@@ -920,12 +920,15 @@ function BasicAudioTestSuite() : TestSuite() constructor {
 		},
 		
 		ev_async_audio_playback_ended: function() {
+            if (async_load[? "sound_id"] != sound) {
+                return;
+            }
+            
 			// when 'playback ended' is triggered, check if audio has stopped playing
 			var isPlaying = audio_is_playing(sound);
 			assert_false(isPlaying, "ev_async_audio_playback_ended should trigger when a sound has stopped playing");
 			
 			test_end();
-			
 		},
 		
 	});
