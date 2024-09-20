@@ -22,7 +22,7 @@ function getAudioGroups() {
 	
 function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 	
-	addFact("Default audio group test #1", function() { // Known issue https://github.com/YoYoGames/GameMaker-Bugs/issues/7371
+	addFact("Default audio group test #1", function() {
 		
 		var loaded = audio_group_is_loaded(audiogroup_default);
 		assert_true(loaded, "Default audiogroup should be loaded by default");

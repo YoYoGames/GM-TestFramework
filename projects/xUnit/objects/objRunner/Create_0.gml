@@ -39,13 +39,13 @@ testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);
 testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
-testFramework.addSuite(ResourceAudioBuffersTestSuite); /* needs fix */
+testFramework.addSuite(ResourceAudioBuffersTestSuite);
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
 testFramework.addSuite(ResourceAudioEmittersTestSuite);
 testFramework.addSuite(ResourceAudioGroupsTestSuite);
 testFramework.addSuite(ResourceAudioListenersTestSuite);
 testFramework.addSuite(ResourceAudioLoopPointsTestSuite);
-testFramework.addSuite(ResourceAudioSynchronisationTestSuite); /* needs fix */
+testFramework.addSuite(ResourceAudioSynchronisationTestSuite);
 testFramework.addSuite(ResourceCameraTestSuite);
 testFramework.addSuite(ResourceEventsTestSuite);
 testFramework.addSuite(ResourceLayersTestSuite);
