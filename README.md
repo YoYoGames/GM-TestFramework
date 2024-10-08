@@ -12,7 +12,7 @@ This project is written in pure GML and *should* work on all available exports.
 ### From the IDE
 
 > [!NOTE]
-> When running the project from the IDE, there are limitations on tests that require external servers to function. These servers are initilaized and managed by the command line launcher, and you'll need to initialize them manually when running the project within the IDE.
+> When running the project from the IDE, there are limitations on tests that require external servers to function. These servers are initialized and managed by the command line launcher, and you'll need to initialize them manually when running the project within the IDE.
 
 To utilize the project within the IDE, simply select the desired platform and press the 'Run' button.
 
