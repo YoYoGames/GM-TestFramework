@@ -5,7 +5,7 @@
 /// @description Creates and/or fetches a publisher given a name.
 /// @param {String} name This is the id to be given to the publisher.
 /// @param {Function} type If the publisher doesn't exits a new one is created using this constructor.
-function publisher_get(_name, _type = undefined) {
+function publisher_get(_name, _type = undefined, _config = {}) {
 	
 	static publishers = {};
 	
@@ -13,7 +13,7 @@ function publisher_get(_name, _type = undefined) {
 		if (is_undefined(_type)) {
 			throw log_error("publisher_get :: no 'type' was provided for non-existing publisher.");
 		}
-		publishers[$ _name] = new _type();
+		publishers[$ _name] = new _type(_config);
 	}
 	
 	return publishers[$ _name];
@@ -23,7 +23,7 @@ function publisher_get(_name, _type = undefined) {
 /// @description Creates and/or fetches an http publisher given a name.
 /// @param {String} name This is the id to be given to the http publisher.
 /// @returns {Struct.HttpPublisher}
-function http_publisher_get(_name) {
-	return publisher_get(_name, HttpPublisher);
+function http_publisher_get(_name, _config = {}) {
+	return publisher_get(_name, HttpPublisher, _config);
 }
 

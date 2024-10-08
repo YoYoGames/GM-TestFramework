@@ -505,9 +505,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				
 				// Check again that it doesn't exist
 				assert_not_equals(time_source_exists(ts), true, "Time source still appears to exist after its self-destruction");
-				
-				show_debug_message("Test completed successfully");
-				
+								
 				test_end();
 			}
 			
@@ -572,7 +570,6 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				// we should have fewer than we started with (but not necessarily zero)
 				assert_less(_numRemaining, numSources, "Error: No sources were destroyed");
 
-				show_debug_message("Test completed successfully");
 				test_end();
 			}
 		},
@@ -624,7 +621,6 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				}
 				else test_end();
 				
-				show_debug_message("Test completed successfully");
 			}
 		},
 		

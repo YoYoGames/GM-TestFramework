@@ -3,7 +3,7 @@
 function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	// BOOL TYPE CONVERSION TESTS
-	
+
 	addFact("bool_test #1", function() {
 
 		var input, output;

@@ -249,7 +249,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
@@ -324,7 +324,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
@@ -394,7 +394,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Create a buffer to store the color value in
 			var _values = 4;
@@ -477,7 +477,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
@@ -551,7 +551,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_typeof(uni_color, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
@@ -620,7 +620,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get sampler handle
 			sampler = shader_get_sampler_index(test_shader, "sample");
-			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
@@ -686,10 +686,10 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get sampler handle
 			sampler = shader_get_sampler_index(test_shader, "sample");
-			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
 			// Get matrix uniform handle
 			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
-			assert_typeof(shader_matrix, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(shader_matrix, 0, test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
 			// Initilise texture to set sampler with
@@ -742,10 +742,10 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Get sampler handle
 			sampler = shader_get_sampler_index(test_shader, "sample");
-			assert_typeof(sampler, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
 			// Get matrix uniform handle
 			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
-			assert_typeof(shader_matrix, "number", test_current().name +", failed to get a valid uniform handle");
+			assert_greater_or_equal(shader_matrix, 0, test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
 			// Initilise texture to set sampler with

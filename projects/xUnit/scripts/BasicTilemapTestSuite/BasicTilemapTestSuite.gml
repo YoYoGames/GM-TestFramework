@@ -28,17 +28,17 @@ function CreateTestLayer()
 function CreateTestTilemap(testLayer, tileSet = tilesAuto, width = 10, height = 10)
 {
 	var layerTilemap, output;
-	
+		
 	// Create tilemap
 	layerTilemap = layer_tilemap_create(testLayer, 0, 0, tileSet, width, height);
-	
+		
 	// Check it's been created successfully
 	output = layer_tilemap_exists(testLayer, layerTilemap);
 	assert_true(output, "layer_tilemap_create(), failed to create a new tilemap element");
-				
-	// Early exit (we don't have a tilemap to work with)
-	if (!output) return undefined;
 	
+	// Early exit (we don't have a tilemap to work with)
+	if (!output) return undefined
+		
 	return layerTilemap;
 }
 
@@ -295,13 +295,14 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 		ev_create: function() {
 		
 			var testLayer, layerTilemap, input, output;
-		
+			
 			// Create layer and tilemap for testing, ending the test early if they aren't created successfully
 			testLayer = CreateTestLayer();
-			if (is_undefined(testLayer)) test_end();
+			if (is_undefined(testLayer)) return test_end();
+
 			// Tilemap is set to use the tilesAutoAnimated tileset
 			layerTilemap = CreateTestTilemap(testLayer, tilesAutoAnimated);
-			if (is_undefined(layerTilemap)) test_end();
+			if (is_undefined(layerTilemap)) return test_end();
 			
 			// Set tile at (0,0) to an animated tile (index 1) 
 			tilemap_set(layerTilemap, 1, 0, 0);
@@ -309,21 +310,22 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			assert_equals(output, 1, "#tilemap_set(), failed to set the correct value");
 			
 			// Early exit (we don't have an animated tile to work with)
-			if (output != 1) test_end();
-			
+			if (output != 1) {
+				return test_end();
+			}
+						
 			// Test that tilemap_get_frame() returns an expected value of 0 on for first frame
 			output = tilemap_get_frame(layerTilemap);
 			assert_equals(output, 0, "#tilemap_get_frame(), failed to get the correct value on first frame");
-			
+						
 			// Test tilemap_get_frame() with invalid args
 			TestInvalidArgs(tilemap_get_frame);
-			
 		},
 		// This happens every step event
 		ev_step: function() {
 			
 			var testLayer, layerTilemap, output;
-			
+						
 			// Find the layer and tilemap
 			testLayer = layer_get_id("testLayer");
 			layerTilemap = layer_tilemap_get_id(testLayer);
@@ -333,7 +335,7 @@ function BasicTilemapTestSuite() : TestSuite() constructor {
 			if (output != 0)
 			{
 				// End the test successfully if so
-				test_end();
+				return test_end();
 			}
 		},
 		ev_cleanup: function() {

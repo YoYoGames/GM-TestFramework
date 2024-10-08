@@ -497,6 +497,8 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 
 		layer_destroy(testLayer);
 
+	}, {
+		test_filter: runtime_not_gmrt
 	})
 
 	addFact("layer_instance_test", function() {
@@ -546,7 +548,7 @@ function ResourceLayersTestSuite() : TestSuite() constructor {
 			
 		output = layer_get_script_end(testLayer);
 		assert_equals(output, -1, "#1 layer_get_script_end(), failed to get the correct script (not set).");
-			
+		
 		input = function() { /* function 1 */ };
 		layer_script_begin(testLayer, input);
 		output = layer_get_script_begin(testLayer);

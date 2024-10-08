@@ -2,10 +2,14 @@ workspace/
 servers/node_modules/
 user/
 .env
-env/
+.venv/
 __pycache__/
 projects/xUnit/Build
 
 projects/xUnit/datafiles/config.json
 
 *.resource_order
+
+output/results/
+
+results/

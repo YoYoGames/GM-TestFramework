@@ -334,8 +334,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			assert_false(_output, "file_exists( 'c:/windows/explorer.exe' ), should not find the file on HTML5");
 		}			
 			
-
-	}, { test_filter: function() { return platform_windows() && !filesystem_is_sandboxed() } });
+	}, { test_filter: function() { return platform_windows() && !GM_is_sandboxed } });
 
 	// BINARY FILES TESTS
 	
@@ -907,7 +906,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #2", function() {
+	addFact("filename_test_simulated test #3", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
@@ -916,7 +915,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #3", function() {
+	addFact("filename_test_simulated test #4", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			
@@ -925,7 +924,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #4", function() {
+	addFact("filename_test_simulated test #5", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 
@@ -934,7 +933,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 	});
 
-	addFact("filename_test_simulated test #5", function() {
+	addFact("filename_test_simulated test #6", function() {
 
 		var _output, filename = "/foo/bar/pathname/to/the/fileTest.txt";
 			

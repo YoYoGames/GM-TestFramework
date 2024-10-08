@@ -86,7 +86,7 @@ function BasicDataStructuresQueueTestSuite() : TestSuite() constructor {
 			
 	});
 	
-	addFact("ds_queue_head_tail_test #1", function() {
+	addFact("ds_queue_head_tail_test #2", function() {
 
 		var queue, output;
 

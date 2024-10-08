@@ -19,11 +19,14 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 		
+			var _server_address = config_get_param("test_server_address");
+			var _server_port = config_get_param("test_server_port");
+		
 			network_set_config(network_config_connect_timeout, 2000);
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=handshake", 8080);
+			network_connect(socket, $"ws://{_server_port}/gm_websocket", _server_port);
 		
 		},
 		ev_web_networking: function() {
@@ -52,11 +55,14 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 		
+			var _server_address = config_get_param("test_server_address");
+			var _server_port = config_get_param("test_server_port");
+		
 			network_set_config(network_config_connect_timeout, 2000);
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=raw", 8080);	
+			network_connect(socket, $"ws://{_server_address}/raw_websocket", _server_port);	
 		
 		},
 		ev_web_networking: function() {
@@ -84,11 +90,14 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 		
+			var _server_address = config_get_param("test_server_address");
+			var _server_port = config_get_param("test_server_port");
+		
 			network_set_config(network_config_connect_timeout, 2000);
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect_raw(socket, "ws://127.0.0.1/websockets?mode=raw", 8080);	
+			network_connect_raw(socket, $"ws://{_server_address}/raw_websocket", _server_port);	
 		
 		},
 		ev_web_networking: function() {
@@ -116,11 +125,14 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 		
+			var _server_address = config_get_param("test_server_address");
+			var _server_port = config_get_param("test_server_port");
+		
 			network_set_config(network_config_connect_timeout, 2000);
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect_raw(socket, "ws://127.0.0.1/websockets?mode=raw", 8080);
+			network_connect_raw(socket, $"ws://{_server_address}/raw_websocket", _server_port);
 		
 		},
 		ev_web_networking: function() {
@@ -175,11 +187,14 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 		
+			var _server_address = config_get_param("test_server_address");
+			var _server_port = config_get_param("test_server_port");
+		
 			network_set_config(network_config_connect_timeout, 2000);
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=handshake", 8080);
+			network_connect(socket, $"ws://{_server_address}/gm_websocket", _server_port);
 		
 		},
 		ev_web_networking: function() {
@@ -234,11 +249,14 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 		
+			var _server_address = config_get_param("test_server_address");
+			var _server_port = config_get_param("test_server_port");
+		
 			network_set_config(network_config_connect_timeout, 2000);
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, "ws://127.0.0.1/websockets?mode=handshake", 8080);
+			network_connect(socket, $"ws://{_server_address}/gm_websocket", _server_port);
 		
 		},
 		ev_web_networking: function() {
@@ -282,5 +300,4 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000,
 		test_filter: platform_not_browser
 	});
-
 }

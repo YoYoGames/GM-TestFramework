@@ -1,3 +1,6 @@
+
+#macro FRAMEWORK_SHOULD_CATCH false
+
 /// @description Start Framework
 /// This is the entry point for the frameowork execution.
 testFramework = new TestFrameworkRun();
@@ -22,7 +25,7 @@ testFramework.addSuite(BasicFiltersEffectsTestSuite);
 testFramework.addSuite(BasicHandlesTestSuite);
 testFramework.addSuite(BasicIniTestSuite);
 testFramework.addSuite(BasicJsonTestSuite);
-testFramework.addSuite(BasicMathTestSuite);
+testFramework.addSuite(BasicMathTestSuite); 
 testFramework.addSuite(BasicMatrixTestSuite);
 testFramework.addSuite(BasicNameofTestSuite);
 testFramework.addSuite(BasicNetworkTestSuite);
@@ -51,5 +54,20 @@ testFramework.addSuite(ResourceTimeSourceTestSuite);
 
 // ###########################################################
 
-testFramework.run(undefined, {});
-
+socket = undefined;
+network_buffer = undefined; 
+ 
+using_remote_server = config_get_param("remote_server"); 
+if (using_remote_server) { 
+ 
+	// Using remote server 
+	socket = network_create_socket(network_socket_tcp); 
+	network_buffer = buffer_create(1, buffer_grow, 1); 
+	 
+	var _url = config_get_param("remote_server_address"); 
+	var _port = config_get_param("remote_server_port");
+	 
+	network_connect_raw_async(socket, _url, _port); 
+} else { 
+	testFramework.run(undefined, {}); 
+}

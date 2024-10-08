@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"filesystem_is_sandboxed",
+  "%Name":"time_utils",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"filesystem_is_sandboxed",
+  "name":"time_utils",
   "parent":{
     "name":"Utils",
-    "path":"folders/Modules/ConfigModule/Utils.yy",
+    "path":"folders/Modules/TestModule/Utils.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

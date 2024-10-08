@@ -262,7 +262,7 @@ function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 			audio_emitter_bus(_emitters[_i], _buses[_i]);
 			
 		// Clear emitters from each bus and verify the emitters are relinked to the main bus
-		for (var _i = 0; _i < array_length(_buses); _i++)
+		for (var _i = 1; _i < array_length(_buses); _i++)
 			audio_bus_clear_emitters(_buses[_i]);
 		// All 4 emitters should be linked to the main bus now
 		assert_equals(array_length(audio_bus_get_emitters(audio_bus_main)), 4);

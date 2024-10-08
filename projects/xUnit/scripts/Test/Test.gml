@@ -80,7 +80,6 @@ function Test(_name = undefined) : Task() constructor {
 	/// @param {Function} callbackFunc The function to be called at the end of execution.
 	/// @param {Any} resultBag The result collector that is carried along between nested tests.
 	static run = function(_callbackFunc = undefined, _resultBag = undefined) {
-		
 		resultBag = _resultBag;
 		run_Task(_callbackFunc);
 	}
@@ -98,7 +97,7 @@ function Test(_name = undefined) : Task() constructor {
 	static getResultString = function() {
 		return resultStrings[result];
 	}
-	
+		
 	/// @function getDuration()
 	/// @description Gets the test duration (micros)
 	/// @returns {Real}
@@ -134,8 +133,8 @@ function Test(_name = undefined) : Task() constructor {
 			case TestResult.Expired:
 			case TestResult.Failed:
 				_summary.duration = getDuration();
-				_summary.errors = getDiagnostics("error");
-				_summary.exceptions = getDiagnostics("exception");
+				_summary.errors = getDiagnostics("error") ?? [];
+				_summary.exceptions = getDiagnostics("exception") ?? [];
 				break;
 				
 			case TestResult.Skipped:
@@ -164,7 +163,7 @@ function Test(_name = undefined) : Task() constructor {
 	/// @function callStartHook()
 	/// @description Calls the hook function assigned to the start of the execution.
 	static callStartHook = function() {
-		if (is_callable(startHook)) startHook(self);
+		if (is_callable(startHook)) startHook(self, resultBag);
 	}
 	
 	/// @function callEndHook()

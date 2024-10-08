@@ -69,7 +69,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 	
 	// MAP FIND 
 	
-	addFact("ds_map_add_find_test #1", function() {
+	addFact("ds_map_add_find_test #4", function() {
 
 		var _map, _output;
 		
@@ -98,7 +98,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 
 	});
 	
-	addFact("ds_map_add_find_test #2", function() {
+	addFact("ds_map_add_find_test #5", function() {
 
 		var _map, _output;
 		
@@ -163,7 +163,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 	
 	// MAP EMPTY TESTS
 	
-	addFact("ds_map_read_write_test #1", function() {
+	addFact("ds_map_read_write_test #2", function() {
 
 		var _map, _output;
 		
@@ -177,7 +177,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 			
 	});
 	
-	addFact("ds_map_read_write_test #2", function() {
+	addFact("ds_map_read_write_test #3", function() {
 			
 		var _map, _output;
 		
@@ -195,7 +195,7 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 	
 	// MAP READ TESTS
 
-	addFact("ds_map_read_write_test #1", function() {
+	addFact("ds_map_read_write_test #4", function() {
 			
 		var _map, _output;
 		
