@@ -177,11 +177,13 @@ class IgorRunTestsCommand(BaseCommand):
         runtime_path = await self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
         assert(runtime_path.exists())
 
+        # TODO
         # Execute ProjectTool to ensure correct project format
-        project_tool_path = runtime_path / 'bin' / 'projecttool' / 'windows' / 'x64' / 'ProjectTool.exe'
-        assert(project_tool_path.exists())
-        os.environ['PROJECTTOOL'] = str(project_tool_path)
-        subprocess.run([PROJECT_SCRIPT_PATH])
+        # project_tool_path = runtime_path / 'bin' / 'projecttool' / 'windows' / 'x64' / 'ProjectTool.exe'
+        # assert(project_tool_path.exists())
+
+        # os.environ['PROJECTTOOL'] = str(project_tool_path)
+        # subprocess.run([PROJECT_SCRIPT_PATH])
 
         # Load settings
         settings_path = user_folder / 'local_settings.json'
