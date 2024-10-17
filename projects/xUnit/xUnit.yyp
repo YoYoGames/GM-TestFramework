@@ -64,7 +64,6 @@
     {"$GMFolder":"","%Name":"Vectors","folderPath":"folders/Tests/Utils/ShaderTests/Vectors.yy","name":"Vectors","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -212,7 +211,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.800.0.618",
+    "IDEVersion":"2024.8.1.171",
   },
   "name":"xUnit",
   "resources":[
@@ -251,6 +250,7 @@
     {"id":{"name":"room1","path":"rooms/room1/room1.yy",},},
     {"id":{"name":"Assert","path":"scripts/Assert/Assert.yy",},},
     {"id":{"name":"AssertAPI","path":"scripts/AssertAPI/AssertAPI.yy",},},
+    {"id":{"name":"BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite","path":"scripts/BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite/BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite.yy",},},
     {"id":{"name":"BasicArrayTestSuite","path":"scripts/BasicArrayTestSuite/BasicArrayTestSuite.yy",},},
     {"id":{"name":"BasicAudioTestSuite","path":"scripts/BasicAudioTestSuite/BasicAudioTestSuite.yy",},},
     {"id":{"name":"BasicBase64TestSuite","path":"scripts/BasicBase64TestSuite/BasicBase64TestSuite.yy",},},
