@@ -37,7 +37,7 @@ function config_get(_struct_name) {
 function config_get_param(_param_name) {
 	
 	var _configManager = config_manager_get();
-	var _params = _configManager.getConfig("$$parameters$$") ?? { };
+	var _params = _configManager.getConfig("$$parameters$$") ?? { };	
 	return _params[$ _param_name];
 }
 

@@ -37,7 +37,7 @@ jobs:
         shell: cmd         
       - name: Testing on PR
         if: github.event_name == 'pull_request'
-        run: run_ci.bat C:\GM-TestFramework\configs\config_windows_new.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
+        run: run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts

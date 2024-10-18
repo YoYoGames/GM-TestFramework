@@ -16,12 +16,15 @@ function struct_unflatten(_struct) {
 		for (var _j = 0; _j < _parts_count - 1; _j++) {
 			var _part = _parts[_j];
 			
-			if (!variable_struct_exists(_obj, _part)) _obj[$ _part] = {};
-			else _obj[$ _part] = _obj[$ _part];
 			
+			if (!variable_struct_exists(_obj, _part)) _obj[$ _part] = {};			
 			_obj = _obj[$ _part];
 		}
-		_obj[$ _parts[_parts_count - 1]] = _struct[$ _key];
+		
+		var _nested_key = _parts[_parts_count - 1];
+		var _value = _struct[$ _key];
+		
+		_obj[$ _nested_key] = _value;
 	}
 	return _result;
 }
