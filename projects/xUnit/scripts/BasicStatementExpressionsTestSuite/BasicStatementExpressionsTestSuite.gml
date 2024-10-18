@@ -1278,7 +1278,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	});
 
 	// Test for nested try-catch blocks
-	addFact("Nested Try Catch", function() {
+	addFact("Nested/Try/Catch", function() {
 	    var result = 0;
     
 	    try {
@@ -1351,7 +1351,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	});
 
 	// Test for try-catch-finally with continue
-	addFact("Try Catch Finally with Continue", function() {
+	addFact("Try/Catch/Finally with Continue", function() {
 	    var result = 0;
     
 	    for (var i = 0; i < 3; i++) {
@@ -1370,7 +1370,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	});
 
 	// Test for advanced try with nested try-catch-finally
-	addFact("Advanced Try with Nested Try Catch Finally", function() {
+	addFact("Advanced Try/Catch/Finally Nested", function() {
 	    var result = 0;
     
 	    try {
@@ -1391,11 +1391,11 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	    }
     
 	    // Assertions
-	    assert_equals(result, 22, "Advanced try with nested try-catch-finally failed.");
+	    assert_equals(result, 22, "Advanced Try/Catch/Finally Nested failed.");
 	});
 
 	// Test for advanced try-catch-finally with continue and break in nested loops
-	addFact("Advanced Try Catch Finally with Continue and Break", function() {
+	addFact("Advanced Try/Catch/Finally with Continue and Break", function() {
 	    var result = 0;
     
 	    for (var i = 0; i < 3; i++) {
