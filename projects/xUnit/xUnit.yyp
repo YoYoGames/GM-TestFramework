@@ -277,6 +277,7 @@
     {"id":{"name":"BasicScriptTestSuite","path":"scripts/BasicScriptTestSuite/BasicScriptTestSuite.yy",},},
     {"id":{"name":"BasicShaderTestSuite","path":"scripts/BasicShaderTestSuite/BasicShaderTestSuite.yy",},},
     {"id":{"name":"BasicShaderUniformsTestSuite","path":"scripts/BasicShaderUniformsTestSuite/BasicShaderUniformsTestSuite.yy",},},
+    {"id":{"name":"BasicStatementExpressionsTestSuite","path":"scripts/BasicStatementExpressionsTestSuite/BasicStatementExpressionsTestSuite.yy",},},
     {"id":{"name":"BasicStringTestSuite","path":"scripts/BasicStringTestSuite/BasicStringTestSuite.yy",},},
     {"id":{"name":"BasicSurfaceTestSuite","path":"scripts/BasicSurfaceTestSuite/BasicSurfaceTestSuite.yy",},},
     {"id":{"name":"BasicTilemapTestSuite","path":"scripts/BasicTilemapTestSuite/BasicTilemapTestSuite.yy",},},
