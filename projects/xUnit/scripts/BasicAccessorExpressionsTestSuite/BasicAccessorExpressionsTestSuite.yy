@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite",
+  "%Name":"BasicAccessorExpressionsTestSuite",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite",
+  "name":"BasicAccessorExpressionsTestSuite",
   "parent":{
     "name":"TestSuites",
     "path":"folders/Tests/TestSuites.yy",

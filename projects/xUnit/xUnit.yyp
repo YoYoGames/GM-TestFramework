@@ -250,7 +250,7 @@
     {"id":{"name":"room1","path":"rooms/room1/room1.yy",},},
     {"id":{"name":"Assert","path":"scripts/Assert/Assert.yy",},},
     {"id":{"name":"AssertAPI","path":"scripts/AssertAPI/AssertAPI.yy",},},
-    {"id":{"name":"BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite","path":"scripts/BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite/BasicAccessorExpressionsTestSuiteAccessorExpressionsTestSuite.yy",},},
+    {"id":{"name":"BasicAccessorExpressionsTestSuite","path":"scripts/BasicAccessorExpressionsTestSuite/BasicAccessorExpressionsTestSuite.yy",},},
     {"id":{"name":"BasicArrayTestSuite","path":"scripts/BasicArrayTestSuite/BasicArrayTestSuite.yy",},},
     {"id":{"name":"BasicAudioTestSuite","path":"scripts/BasicAudioTestSuite/BasicAudioTestSuite.yy",},},
     {"id":{"name":"BasicBase64TestSuite","path":"scripts/BasicBase64TestSuite/BasicBase64TestSuite.yy",},},
