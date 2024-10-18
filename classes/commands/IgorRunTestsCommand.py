@@ -232,7 +232,7 @@ class IgorRunTestsCommand(BaseCommand):
         # Clean results folder
         file_utils.clean_directory(ROOT_DIR / 'results')
 
-        is_red_runtime = True if 'Zeus-Runtime-Nocturnus-I' in rss_feed else False
+        use_nobuild = self.accepts_no_build_param(runtime_version)
 
         for platform, device in targets.items():
             # Determine whether sandbox tests are needed
@@ -254,7 +254,7 @@ class IgorRunTestsCommand(BaseCommand):
                     file_utils.clean_directory(OUTPUT_DIR)
                     
                     run_name = f"{self.get_argument('run_name')}_{platform}{runner_part}{sandbox_part}"
-                    await self.igor_run_tests(igor_path, project_yyp, user_folder, runtime_path, platform, device, runner, run_name, is_red_runtime = is_red_runtime)
+                    await self.igor_run_tests(igor_path, project_yyp, user_folder, runtime_path, platform, device, runner, run_name, use_nobuild = use_nobuild)
 
         # Close Android emulator
         if android_emulator_running:
@@ -300,6 +300,27 @@ class IgorRunTestsCommand(BaseCommand):
             zf.extractall(extract_path)
             LOGGER.info('Extraction complete')
 
+    def accepts_no_build_param(self, version):
+        # Split version string into major, minor, rev, build
+        try:
+            major, minor, _, _ = map(int, version.split('.'))
+        except ValueError:
+            raise ValueError("Invalid version format. Expected format: <major>.<minor>.<rev>.<build>")
+
+        # Check if the major version is greater than 2024
+        if major > 2024:
+            return True
+        # If the major version is exactly 2024, check the minor version
+        elif major == 2024:
+            # Check if minor is greater than or equal to 8 (August stable) or 800 (August beta)
+            if minor >= 8 and minor < 100:
+                return True  # Stable version after or in August 2024
+            elif minor >= 800:
+                return True  # Beta version after or in August 2024
+
+        # If none of the above conditions are met, the version is before August 2024
+        return False
+
     # Igor
 
     async def igor_get_license(self, access_key: str, output_path: Path):
@@ -339,7 +360,7 @@ class IgorRunTestsCommand(BaseCommand):
 
         return RUNTIME_DIR / f'runtime-{version}'
 
-    async def igor_run_tests(self, igor_path: Path, project_file: Path, user_folder: Path, runtime_path: Path, platform: str, device: str, runner: Optional[str] = None, run_name = 'xUnit', verbosity_level: Optional[int] = 4, is_red_runtime = False):
+    async def igor_run_tests(self, igor_path: Path, project_file: Path, user_folder: Path, runtime_path: Path, platform: str, device: str, runner: Optional[str] = None, run_name = 'xUnit', verbosity_level: Optional[int] = 4, use_nobuild = False):
 
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
@@ -367,7 +388,15 @@ class IgorRunTestsCommand(BaseCommand):
 
         package_args = args_base + ['PackageZip']
         await async_utils.run_and_capture(igor_path, package_args)
-            
+
+        # Improve test times using the '/nobuild' feature
+        if runner and use_nobuild:
+            args_base = ['/nobuild'] + args_base 
+            if runner == 'VM':                
+                old_path = f'/of={TEMP_FILE}'
+                new_path = f"/of={TEMP_FILE.parent / 'data.win'}" 
+                args_base = [string.replace(old_path, new_path) if old_path in string else string for string in args_base]
+
         run_args = args_base + ['Run']
         
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
