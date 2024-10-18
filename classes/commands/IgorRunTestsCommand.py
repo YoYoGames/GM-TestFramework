@@ -214,7 +214,7 @@ class IgorRunTestsCommand(BaseCommand):
             android_emulator_running = self.start_android_emulator(android_sdk_location)
 
         # Save 'local_settings.json' to workspace and local user (just to be on the safe side)
-        file_utils.save_data_as_json(settings, settings_path)
+        file_utils.save_to_file(settings, settings_path)
 
         # Get the igor runner path
         igor_path = runtime_path / 'bin' / 'igor' / 'windows' / 'x64' / 'igor.exe'
