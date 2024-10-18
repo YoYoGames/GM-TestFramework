@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"BasicAccessorExpressionsTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BasicAccessorExpressionsTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
