@@ -728,7 +728,7 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 		ds_map_destroy(struct[$ "map"]);
 	});
 	
-	addFact("Struct Bracket Accessor :Dynamic: string variables (Read/Write)", function() {
+	addFact("Struct Bracket Accessor :Dynamic: with multiple accessors (Read/Write)", function() {
 		// Initialize the struct with various data structures and values
 		var struct = {
 		    array: [10, 20, 30],                      // Array for Struct, Array access
