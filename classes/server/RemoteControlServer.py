@@ -114,8 +114,8 @@ class RemoteControlServer:
             'result': result,
             'duration': duration,
             'assertions': assertions,
-            'errors': errors,
-            'exceptions': exceptions
+            'errors': errors or [],
+            'exceptions': exceptions or []
         }
 
         self._add_test_result(result_data, suite_name, time.time())
@@ -236,6 +236,7 @@ class RemoteControlServer:
             self._produce_json_result(output_path, filename)
         except Exception as e:
             LOGGER.error(f"Failed to produce result files: {e}")
+            self.stop_event.set()  # Signal that the run has finished
             return
 
         LOGGER.info("All tests executed successfully.")
