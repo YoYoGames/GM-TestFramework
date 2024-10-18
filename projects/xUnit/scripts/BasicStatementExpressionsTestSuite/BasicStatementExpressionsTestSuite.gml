@@ -17,7 +17,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "If statement constant true test failed.");
+        assert_equals(result, 1, "If statement constant true failed.");
     });
 
     // Test for constant false condition in If statement
@@ -31,7 +31,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "If statement constant false test failed.");
+        assert_equals(result, 1, "If statement constant false failed.");
     });
 
     // Test for dynamic condition in If statement
@@ -46,7 +46,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "If statement dynamic condition test failed.");
+        assert_equals(result, 1, "If statement dynamic condition failed.");
     });
 
     // Test for dynamic false condition in If statement
@@ -61,7 +61,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "If statement dynamic false test failed.");
+        assert_equals(result, 1, "If statement dynamic false failed.");
     });
     
 	// Test for nested if-else, both conditions true
@@ -79,7 +79,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 2, "Nested If-Else statement (both true) test failed.");
+        assert_equals(result, 2, "Nested If-Else statement (both true) failed.");
     });
 
     // Test for nested if-else, outer true, inner false
@@ -97,7 +97,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "Nested If-Else statement (outer true, inner false) test failed.");
+        assert_equals(result, 1, "Nested If-Else statement (outer true, inner false) failed.");
     });
 
     // Test for nested if-else, outer false
@@ -111,7 +111,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "Nested If-Else statement (outer false) test failed.");
+        assert_equals(result, 1, "Nested If-Else statement (outer false) failed.");
     });
 
     // Test for nested if-else, outer false, inner true (this scenario would not execute the inner if)
@@ -129,7 +129,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(result, 1, "Nested If-Else statement (outer false, inner true) test failed.");
+        assert_equals(result, 1, "Nested If-Else statement (outer false, inner true) failed.");
     });
 	
 	#endregion
@@ -180,7 +180,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 5, "Repeat statement with break test failed.");
+        assert_equals(count, 5, "Repeat statement with break failed.");
     });
 
     // Test for repeat with continue
@@ -195,7 +195,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(sum, 25, "Repeat statement with continue test failed.");
+        assert_equals(sum, 25, "Repeat statement with continue failed.");
     });
 
     // Test for repeat with constant value
@@ -207,7 +207,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 5, "Repeat statement with constant value test failed.");
+        assert_equals(count, 5, "Repeat statement with constant value failed.");
     });
 
     // Test for repeat with dynamic value
@@ -220,7 +220,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 7, "Repeat statement with dynamic value test failed.");
+        assert_equals(count, 7, "Repeat statement with dynamic value failed.");
     });
 	
 	// Test for inner and outer loops being valid
@@ -340,7 +340,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 5, "While loop with break test failed.");
+        assert_equals(count, 5, "While loop with break failed.");
     });
 
     // Test for while loop with continue
@@ -355,7 +355,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(sum, 25, "While loop with continue test failed.");
+        assert_equals(sum, 25, "While loop with continue failed.");
     });
 
     // Test for while loop with dynamic condition (variable-based condition)
@@ -368,7 +368,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 7, "While loop with dynamic condition test failed.");
+        assert_equals(count, 7, "While loop with dynamic condition failed.");
     });
 
     // Test for inner and outer while loops being valid
@@ -470,7 +470,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         } until (condition);
 
         // Assertions
-        assert_equals(count, 5, "DoUntil loop with dynamic condition test failed.");
+        assert_equals(count, 5, "DoUntil loop with dynamic condition failed.");
     });
 
     // Test for do...until with break
@@ -483,7 +483,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         } until (count == 10); // Should break at count 5, not reach 10
 
         // Assertions
-        assert_equals(count, 5, "DoUntil loop with break test failed.");
+        assert_equals(count, 5, "DoUntil loop with break failed.");
     });
 
     // Test for do...until with continue
@@ -498,7 +498,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         } until (count == 10);
 
         // Assertions
-        assert_equals(sum, 25, "DoUntil loop with continue test failed.");
+        assert_equals(sum, 25, "DoUntil loop with continue failed.");
     });
 
     // Test for do...until with constant false condition
@@ -510,7 +510,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         } until (count >= 5); // Constant condition
 
         // Assertions
-        assert_equals(count, 5, "DoUntil loop with constant false condition test failed.");
+        assert_equals(count, 5, "DoUntil loop with constant false condition failed.");
     });
 
     // Test for inner and outer do...until loops being valid
@@ -621,7 +621,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 5, "For loop with dynamic condition test failed.");
+        assert_equals(count, 5, "For loop with dynamic condition failed.");
     });
 
     // Test for for loop with break
@@ -634,7 +634,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 5, "For loop with break test failed.");
+        assert_equals(count, 5, "For loop with break failed.");
     });
 
     // Test for for loop with continue
@@ -649,7 +649,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(sum, 25, "For loop with continue test failed.");
+        assert_equals(sum, 25, "For loop with continue failed.");
     });
 
     // Test for for loop with constant iterations
@@ -661,7 +661,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
         }
 
         // Assertions
-        assert_equals(count, 5, "For loop with constant iterations test failed.");
+        assert_equals(count, 5, "For loop with constant iterations failed.");
     });
 
     // Test for inner and outer for loops both valid
@@ -1004,12 +1004,25 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
     
 	    with (noone) {
 	        result = 1;  // This should not execute
+			assert_true(false, "With noone entered unreachable code");
 	    }
     
 	    // Assertions
 	    assert_equals(result, 0, "With statement with noone should not modify result.");
 	});
 
+	// Test with all
+	addFact("With statement with all", function() {
+	    var result = 0;
+		
+	    with (all) {
+	        result = 1;  // This should not execute
+	    }
+    
+	    // Assertions
+	    assert_not_equals(result, 0, "With statement with all should modify result.");
+	});
+	
 	// Test with self
 	addFact("With statement with self", function() {
 	    var instance = instance_create_layer(100, 100, "Instances", oEmpty);
@@ -1037,8 +1050,11 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
     
 	    // Assertions
 	    assert_equals(global.x, 100, "With statement with global failed.");
+		
+		// Clean Up
+		struct_remove(global, "x");
 	});
-
+	
 	// Test with break
 	addFact("With statement with break", function() {
 	    var obj_ball1 = instance_create_layer(100, 100, "Instances", oEmpty);
@@ -1103,7 +1119,6 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 
 	// Test with new instance creation
 	addFact("With statement with new instance creation", function() {
-	    var obj_ball = instance_create_layer(100, 100, "Instances", oEmpty);
 	    var new_ball;
     
 	    with (instance_create_layer(150, 150, "Instances", oEmpty)) {
@@ -1115,7 +1130,7 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	    assert_equals(new_ball.speed, 5, "With statement with new instance creation failed.");
 		
 		//Clean Up
-		instance_destroy(obj_ball);
+		instance_destroy(new_ball);
 	});
 
 	// Test with struct target
@@ -1137,130 +1152,168 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	#region Try/Catch/Finally Statement Tests
 
 	// Test for basic try without an error
-	addFact("Basic Try without Error", function() {
-	    var result;
+	addFact("Try without Error", function() {
+	    var result = 0;
     
 	    try {
-	        result = 1;  // Should execute normally
-	    } catch (e) {
-	        assert_true(false, "Should not reach the catch block.");
+	        result += 1;
 	    }
     
 	    // Assertions
-	    assert_equals(result, 1, "Basic try without error failed.");
+	    assert_equals(result, 1, "Try without error failed.");
 	});
 
 	// Test for try with an error
 	addFact("Try with Error", function() {
-	    var result;
-    
-	    try {
-	        throw "Error";  // Should trigger the catch block
-	        result = 1;  // This should not execute
-	    } catch (e) {
-	        result = 2;
-	    }
-    
-	    // Assertions
-	    assert_equals(result, 2, "Try with error test failed.");
+	    assert_throw(function(){
+			var result = 0;
+			
+		    try {
+		        throw "Error";
+		        result += 1;
+				assert_true(false, "Continued block statement after error.");
+		    }
+			
+		    // Assertions
+		    assert_equals(result, 0, "Try with error failed.");
+		}, "Try without Catch should throw an error")
 	});
 
 	// Test for try with finally block
-	addFact("Try with Finally", function() {
-	    var result;
+	addFact("Try/Finally without Error", function() {
+	    var result = 0;
     
 	    try {
-	        result = 1;  // Should execute normally
+	        result += 1;
 	    } finally {
-	        result = 2;  // Should always execute
+	        result += 2;
 	    }
     
 	    // Assertions
-	    assert_equals(result, 2, "Try with finally test failed.");
+	    assert_equals(result, 3, "Finally did not execute as expected");
+	});
+
+	// Test for try with finally block
+	addFact("Try/Finally with Error", function() {
+	    assert_throw(function(){
+			var result = 0;
+			
+		    try {
+				throw "Error"
+		        result += 1;
+				assert_true(false, "Continued block statement after error.");
+		    } finally {
+		        result += 2;
+		    }
+			
+		    // Assertions
+		    assert_equals(result, 2, "Try with finally failed.");
+		}, "Try without Catch should throw an error")
 	});
 
 	// Test for try-catch with an error
-	addFact("Try Catch with Error", function() {
-	    var result;
+	addFact("Try/Catch without Error", function() {
+	    var result = 0;
     
 	    try {
-	        throw "Error";  // Should trigger the catch block
-	        result = 1;  // This should not execute
+	        result += 1;  // This should not execute
 	    } catch (e) {
-	        result = 2;  // This should execute
+	        result += 2;  // This should execute
+			assert_true(false, "Continued block statement after error.");
 	    }
     
 	    // Assertions
-	    assert_equals(result, 2, "Try catch finally with error test failed.");
+	    assert_equals(result, 1, "Try/Catch without error failed.");
+	});
+
+	// Test for try-catch with an error
+	addFact("Try/Catch with Error", function() {
+	    var result = 0;
+    
+	    try {
+	        throw "Error";
+	        result += 1;
+			assert_true(false, "Continued block statement after error.");
+	    } catch (e) {
+	        result += 2;  // This should execute
+	    }
+    
+	    // Assertions
+	    assert_equals(result, 2, "Try/Catch with error failed.");
 	});
 
 	// Test for try-catch-finally with an error
-	addFact("Try Catch Finally with Error", function() {
-	    var result;
+	addFact("Try/Catch/Finally without Error", function() {
+	    var result = 0;
     
 	    try {
-	        throw "Error";  // Should trigger the catch block
-	        result = 1;  // This should not execute
+	        result += 1;
 	    } catch (e) {
-	        result = 2;  // This should execute
+	        result += 2;
+			assert_true(false, "Continued block statement after error.");
 	    } finally {
-	        result = 3;  // Should always execute
+	        result += 4;
 	    }
     
 	    // Assertions
-	    assert_equals(result, 3, "Try catch finally with error test failed.");
+	    assert_equals(result, 5, "Try/Catch/Finally without error failed.");
 	});
 
-	// Test for try without an error but with finally
-	addFact("Try without Error with Finally", function() {
-	    var result;
+	// Test for try-catch-finally with an error
+	addFact("Try/Catch/Finally with Error", function() {
+	    var result = 0;
     
 	    try {
-	        result = 1;  // Should execute normally
+	        throw "Error";
+	        result += 1;
+			assert_true(false, "Continued block statement after error.");
 	    } catch (e) {
-	        result = 2;  // Should not execute
+	        result += 2;
 	    } finally {
-	        result = 3;  // Should always execute
+	        result += 4;
 	    }
     
 	    // Assertions
-	    assert_equals(result, 3, "Try without error with finally test failed.");
+	    assert_equals(result, 6, "Try/Catch/Finally with error failed.");
 	});
 
 	// Test for nested try-catch blocks
 	addFact("Nested Try Catch", function() {
-	    var result;
+	    var result = 0;
     
 	    try {
 	        try {
-	            throw "Error";  // Should trigger the inner catch block
+	            throw "Error";
+				result += 1
+				assert_true(false, "Continued block statement after error.");
 	        } catch (e) {
-	            result = 1;  // This should execute
+	            result += 2;
 	        }
 	    } catch (e) {
-	        result = 2;  // Should not execute
+	        result += 4;
+			assert_true(false, "Continued block statement after error.");
 	    }
     
 	    // Assertions
-	    assert_equals(result, 1, "Nested try-catch test failed.");
+	    assert_equals(result, 2, "Nested Try/Catch failed.");
 	});
 
 	// Test for nested try-finally blocks
-	addFact("Nested Try Finally", function() {
-	    var result;
+	addFact("Nested Try/Finally", function() {
+	    var result = 0;
     
 	    try {
 	        try {
-	            result = 1;  // Should execute normally
+	            result += 1;
 	        } finally {
-	            result = 2;  // Should always execute
+	            result += 2;
 	        }
 	    } finally {
-	        result = 3;  // Should always execute
+	        result += 4;
 	    }
     
 	    // Assertions
-	    assert_equals(result, 3, "Nested try-finally test failed.");
+	    assert_equals(result, 7, "Nested Try/Finally failed.");
 	});
 
 	// Test for try with break inside a loop
@@ -1270,14 +1323,14 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	    for (var i = 0; i < 3; i++) {
 	        try {
 	            if (i == 1) break;  // Should break the loop
-	            result = i;
+	            result += i;
 	        } catch (e) {
 	            assert_true(false, "Should not reach the catch block.");
 	        }
 	    }
     
 	    // Assertions
-	    assert_equals(result, 0, "Try with break test failed.");
+	    assert_equals(result, 0, "Try with break failed.");
 	});
 
 	// Test for try with continue inside a loop
@@ -1287,14 +1340,14 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	    for (var i = 0; i < 3; i++) {
 	        try {
 	            if (i == 1) continue;  // Should continue the loop
-	            result = i;
+	            result += i;
 	        } catch (e) {
 	            assert_true(false, "Should not reach the catch block.");
 	        }
 	    }
     
 	    // Assertions
-	    assert_equals(result, 2, "Try with continue test failed.");
+	    assert_equals(result, 2, "Try with continue failed.");
 	});
 
 	// Test for try-catch-finally with continue
@@ -1304,38 +1357,41 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	    for (var i = 0; i < 3; i++) {
 	        try {
 	            if (i == 1) continue;  // Should continue the loop
-	            result = i;
+	            result += i;
 	        } catch (e) {
 	            assert_true(false, "Should not reach the catch block.");
 	        } finally {
-	            result = 4;  // Should execute after continue
+	            result += 4;  // Should execute after continue
 	        }
 	    }
     
 	    // Assertions
-	    assert_equals(result, 4, "Try-catch-finally with continue test failed.");
+	    assert_equals(result, 14, "Try-catch-finally with continue failed.");
 	});
 
 	// Test for advanced try with nested try-catch-finally
 	addFact("Advanced Try with Nested Try Catch Finally", function() {
-	    var result;
+	    var result = 0;
     
 	    try {
 	        try {
 	            throw "Error";  // Should trigger inner catch
+				result += 1;
+				assert_true(false, "Continued block statement after error.");
 	        } catch (e) {
-	            result = 1;
+	            result += 2;
 	        } finally {
-	            result = 2;
+	            result += 4;
 	        }
 	    } catch (e) {
-	        result = 3;
+	        result += 8;
+			assert_true(false, "Continued block statement after error.");
 	    } finally {
-	        result = 4;
+	        result += 16;
 	    }
     
 	    // Assertions
-	    assert_equals(result, 4, "Advanced try with nested try-catch-finally test failed.");
+	    assert_equals(result, 22, "Advanced try with nested try-catch-finally failed.");
 	});
 
 	// Test for advanced try-catch-finally with continue and break in nested loops
@@ -1344,38 +1400,38 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
     
 	    for (var i = 0; i < 3; i++) {
 	        try {
-	            if (i == 1) continue;  // Should skip
-	            if (i == 2) break;  // Should break
-	            result = i;
+	            if (i == 1) continue;
+	            if (i == 2) break;
+	            result += i;
 	        } catch (e) {
 	            assert_true(false, "Should not reach the catch block.");
 	        } finally {
-	            result = 4;
+	            result += 4;
 	        }
 	    }
     
 	    // Assertions
-	    assert_equals(result, 4, "Advanced try-catch-finally with continue and break test failed.");
+	    assert_equals(result, 12, "Advanced try-catch-finally with continue and break failed.");
 	});
 
 	// Test for advanced try-finally with nested loops
 	addFact("Advanced Try Finally with Nested Loops", function() {
-	    var result;
+	    var result = 0;
     
 	    for (var i = 0; i < 3; i++) {
 	        try {
 	            for (var j = 0; j < 3; j++) {
 	                if (i == 1 && j == 1) continue;  // Should skip
 	                if (i == 2 && j == 2) break;  // Should break
-	                result = i * 10 + j;
+	                result += i * 10 + j;
 	            }
 	        } finally {
-	            result = 100 + i;
+	            result += 100 * i;
 	        }
 	    }
     
 	    // Assertions
-	    assert_equals(result, 102, "Advanced try-finally with nested loops test failed.");
+	    assert_equals(result, 366, "Advanced try-finally with nested loops failed.");
 	});
 
 	// Test for advanced try-catch with return inside a loop
@@ -1387,44 +1443,12 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	            if (i == 1) throw "Error";  // Should trigger the catch
 	            result += i;
 	        } catch (e) {
-	            result = 10 + i;
+	            result += 10 + i;
 	        }
 	    }
     
 	    // Assertions
-	    assert_equals(result, 13, "Advanced try-catch with return inside loop test failed.");
-	});
-
-	// Test for advanced try-catch-finally with conditional return
-	addFact("Advanced Try Catch Finally with Conditional Return", function() {
-	    var result;
-    
-	    try {
-	        if (true) throw "Error";  // Should trigger the catch
-	        result = 1;
-	    } catch (e) {
-	        if (false) return 2;
-	        result = 3;
-	    } finally {
-	        result = 4;
-	    }
-    
-	    // Assertions
-	    assert_equals(result, 4, "Advanced try-catch-finally with conditional return test failed.");
-	});
-
-	// Test for advanced try-finally with multiple returns
-	addFact("Advanced Try Finally with Multiple Returns", function() {
-	    var result;
-    
-	    try {
-	        result = 1;
-	    } finally {
-	        result = 3;  // Should override return 1
-	    }
-    
-	    // Assertions
-	    assert_equals(result, 3, "Advanced try-finally with multiple returns test failed.");
+	    assert_equals(result, 13, "Advanced try-catch with return inside loop failed.");
 	});
 
 	// Test for advanced try with continue and break in nested loops
@@ -1444,9 +1468,11 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	    }
     
 	    // Assertions
-	    assert_equals(result, 323, "Advanced try with continue and break in nested loops test failed.");
+	    assert_equals(result, 323, "Advanced try with continue and break in nested loops failed.");
 	});
 
 	#endregion
 
 }
+
+
