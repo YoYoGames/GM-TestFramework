@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test_results
-          path: ${{ github.workspace }}\GM-TF\workspace\results\output
+          path: ${{ github.workspace }}\GM-TF\workspace\results
       - name: Upload summary Artifacts
         if: always()
         uses: actions/upload-artifact@v4
