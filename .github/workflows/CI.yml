@@ -41,11 +41,13 @@ jobs:
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload tests Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test_results
           path: ${{ github.workspace }}\GM-TF\workspace\results\tests\*\*.json
       - name: Upload summary Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: summary_file
