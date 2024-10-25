@@ -45,13 +45,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test_results
-          path: ${{ github.workspace }}\GM-TF\workspace\results\tests\*\*.json
+          path: ${{ github.workspace }}\GM-TF\workspace\results\output
       - name: Upload summary Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: summary_file
-          path: ${{ github.workspace }}\GM-TF\workspace\summary.json
+          path: ${{ github.workspace }}\GM-TF\results
 
         
       
