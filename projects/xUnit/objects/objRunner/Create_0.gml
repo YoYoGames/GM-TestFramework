@@ -1,7 +1,7 @@
 
 #macro FRAMEWORK_SHOULD_CATCH false
 
-#macro SINGLE_TEST_MODE true
+#macro SINGLE_TEST_MODE false
 
 // If single test mode is set to true this will be the path to the test being run
 single_test_path = "BasicArrayTestSuite@array_copy test #1";

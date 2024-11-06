@@ -3640,7 +3640,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			var _result = string_ext(_format, [12, "hello", []]);
 			assert_equals(_result, "12 hello  12 hello ", "string_ext(), failed to correctly format a string with repeated placeholders");
 		}, {
-			test_filter: runtime_not_gmrt
+			test_filter: runtime_gmrt
 		})
 	
 		addFact("string_ext_test #5", function() {
