@@ -1,6 +1,11 @@
 
 #macro FRAMEWORK_SHOULD_CATCH false
 
+#macro SINGLE_TEST_MODE true
+
+// If single test mode is set to true this will be the path to the test being run
+single_test_path = "BasicArrayTestSuite@array_copy test #1";
+
 /// @description Start Framework
 /// This is the entry point for the frameowork execution.
 testFramework = new TestFrameworkRun();
@@ -52,12 +57,17 @@ testFramework.addSuite(ResourceLayersTestSuite);
 testFramework.addSuite(ResourceSequenceTestSuite);
 testFramework.addSuite(ResourceTimeSourceTestSuite);
 
-// ###########################################################
-
 socket = undefined;
 network_buffer = undefined; 
- 
-using_remote_server = config_get_param("remote_server"); 
+using_remote_server = false;
+
+// ###########################################################
+
+// Only update the remote server flag if this is NOT a single test mode
+if (!SINGLE_TEST_MODE) {
+	using_remote_server = config_get_param("remote_server");
+}
+
 if (using_remote_server) { 
  
 	// Using remote server 
@@ -68,6 +78,17 @@ if (using_remote_server) {
 	var _port = config_get_param("remote_server_port");
 	 
 	network_connect_raw_async(socket, _url, _port); 
-} else { 
-	testFramework.run(undefined, {}); 
+} else {
+	
+	if (SINGLE_TEST_MODE) {
+		var _test = testFramework.findTestByPath(single_test_path);
+		_test.run(function(_test) {
+	
+			show_debug_message(_test.getResultData());
+	
+		}, { suite: "Unknown", results_to_publish: [] });
+	} 
+	else {		
+		testFramework.run(undefined, {});
+	}
 }
