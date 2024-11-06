@@ -14,7 +14,7 @@ import os
 import shutil
 import platform
 
-from classes.commands.BaseCommand import DEFAULT_CONFIG, TCP_PORT, BaseCommand
+from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.server.TestFrameworkServer import manage_server
 from utils import async_utils, file_utils, logging_utils, network_utils
@@ -400,7 +400,7 @@ class IgorRunTestsCommand(BaseCommand):
         run_args = args_base + ['Run']
         
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
-        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT))
+        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT), port=HTTP_PORT)
  
         self.change_directory(ROOT_DIR)
 
