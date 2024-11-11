@@ -26,7 +26,7 @@ function BasicNetworkTestSuite() : TestSuite() constructor {
 			network_set_config(network_config_use_non_blocking_socket, true);
 
 			socket = network_create_socket(network_socket_ws);
-			network_connect(socket, $"ws://{_server_port}/gm_websocket", _server_port);
+			network_connect(socket, $"ws://{_server_address}/gm_websocket", _server_port);
 		
 		},
 		ev_web_networking: function() {
