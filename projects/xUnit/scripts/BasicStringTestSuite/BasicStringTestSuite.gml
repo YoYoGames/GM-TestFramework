@@ -1025,7 +1025,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			// Check that using an index beyond the size of the string will clamp to the string size
 			var res = string_delete(vstring, 100, 1);
 			assert_equals(res, "Hello World", 
-			"string_delete( string local , real const , real const ), 'Hello World!' with the 100th char deleted should be 'Hello World!'");
+			"string_delete( string local , real const , real const ), 'Hello World!' with the 100th char deleted should be 'Hello World'");
 	    });
 	
 		addFact("string_delete_test #7", function() {
