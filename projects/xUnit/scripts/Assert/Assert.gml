@@ -690,6 +690,55 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	
 	#endregion
 
+	#region Sprite Asserts
+
+	/// @function spriteEquals(sprite1, sprite2, max_error, description)
+	/// @param {Asset.GMSprite} sprite1 The sprite to be compared.
+	/// @param {Asset.GMSprite} sprite2 The sprite to compare to.
+	/// @param {Real} [max_error] The maximum error allowed to tell that the sprites are equal.
+	/// Use values in range 0..100, where 0 means no error (all pixels match exactly) and 100
+	/// means 100% error (none of the pixels match).
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static spriteEquals = function(_sprite1, _sprite2, _max_error = 0, _description = undefined) {
+		var _width = sprite_get_width(_sprite1);
+		var _height = sprite_get_height(_sprite1);
+
+		// If the sprites aren't the same size then they can't be equal
+		if (sprite_get_width(_sprite2) != _width
+			|| sprite_get_height(_sprite2) != _height) {
+			return false;
+		}
+
+		// Draw the sprites into surfaces so we can use the surface compare function
+		var _surface1 = surface_create(_width, _height);
+		var _surface2 = surface_create(_width, _height);
+
+		gpu_push_state();
+		gpu_set_blendenable(false);
+
+		surface_set_target(_surface1);
+		draw_sprite(_sprite1, 0, 0, 0);
+		surface_reset_target();
+
+		surface_set_target(_surface2);
+		draw_sprite(_sprite2, 0, 0, 0);
+		surface_reset_target();
+
+		gpu_pop_state();
+
+		// Compare
+		var _resolver = _surfaceEqualsImpl(_surface1, _surface2, _max_error) ? pass : fail;
+
+		// Free created resources from memory
+		surface_free(_surface1);
+		surface_free(_surface2);
+
+		return _resolver("Sprites asserted to be equal", _description);
+	}
+
+	#endregion
+
 	#region Surface Asserts
 	
 	/// @function surfaceAll(surface, func, description)
@@ -777,7 +826,116 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 	
 		return _resolver(assertTitle, _description);
 	}
+
+	/// @function _surfaceEqualsImpl(surface1, surface2, max_error)
+	/// @param {Id.Surface} surface1
+	/// @param {Id.Surface} surface2
+	/// @param {Real} [max_error]
+	/// @returns {Bool}
+	/// @private
+	static _surfaceEqualsImpl = function(_surface1, _surface2, _max_error = 0) {
+		
+		var _width = surface_get_width(_surface1);
+		var _height = surface_get_height(_surface1);
+
+		// If the surfaces aren't the same size then they can't be equal
+		if (surface_get_width(_surface2) != _width
+			|| surface_get_height(_surface2) != _height) {
+			return false;
+		}
+
+		// Remember the original size of the surfaces
+		var _width_original = _width;
+		var _height_original = _height;
+
+		// Round the size up to closest even number to make downsampling easier
+		_width = make_even(_width);
+		_height = make_even(_height);
+
+		var _format = surface_rgba16float;
+		if (!surface_format_is_supported(_format)) {
+			throw log_error($"_surfaceEqualsImpl :: surface format 'surface_rgba16float' is required for sprite/surface comparison!");
+		}
+
+		// Set GPU state used while diff generation and downsampling
+		gpu_push_state();
+		gpu_set_blendenable(false);
+		gpu_set_tex_filter(false);
+		gpu_set_tex_repeat(false);
+
+		// Get per-pixel diff of the two surfaces
+		var _surface_diff = surface_create(_width, _height, _format);
+		surface_set_target(_surface_diff);
+		draw_clear_alpha(0, 0);
+		shader_set(shSurfaceDiff);
+		texture_set_stage(
+			shader_get_sampler_index(shader_current(), "u_surface2"),
+			surface_get_texture(_surface2));
+		draw_surface(_surface1, 0, 0);
+		shader_reset();
+		surface_reset_target();
+
+		// Downsample the diff to 1x1 surface
+		shader_set(shSurfaceDiffDownsample);
+
+		var _u_texture_size = shader_get_uniform(shSurfaceDiffDownsample, "u_texture_size");
+		var _surface_prev = _surface_diff;
+
+		while (_width > 1 || _height > 1) {
+			var _width_prev = _width;
+			var _height_prev = _height;
+
+			_width = max(floor(_width / 2), 1);
+			_height = max(floor(_height / 2), 1);
 	
+			var _surface_temp = surface_create(_width, _height, _format);
+			surface_set_target(_surface_temp);
+			shader_set_uniform_f(_u_texture_size, _width_prev, _height_prev);
+			draw_surface(_surface_prev, 0, 0);
+			surface_reset_target();
+
+			surface_free(_surface_prev);
+			_surface_prev = _surface_temp;
+		}
+
+		shader_reset();
+
+		// Read the 1x1 downsampled surface using a buffer
+		var _channelSize = buffer_sizeof(buffer_f16);
+		var _buffer = buffer_create(_channelSize * 4, buffer_fixed, 1);
+		buffer_get_surface(_buffer, _surface_prev, 0);
+		var _diff_sum = buffer_peek(_buffer, 0, buffer_f16)
+			+ buffer_peek(_buffer, _channelSize * 1, buffer_f16)
+			+ buffer_peek(_buffer, _channelSize * 2, buffer_f16)
+			+ buffer_peek(_buffer, _channelSize * 3, buffer_f16);
+
+		// Calculate the error percentage
+		var _error = (_diff_sum / (_width_original * _height_original * 4)) * 100;
+
+		// Free created resources from memory
+		buffer_delete(_buffer);
+		surface_free(_surface_prev);
+
+		// Restore previous GPU state
+		gpu_pop_state();
+
+		return (_error < _max_error);
+	}
+
+	/// @function surfaceEquals(surface1, surface2, max_error, description)
+	/// @param {Id.Surface} surface1 The surface to be compared.
+	/// @param {Id.Surface} surface2 The surface to compare to.
+	/// @param {Real} [max_error] The maximum error allowed to tell that the surfaces are equal.
+	/// Use values in range 0..100, where 0 means no error (all pixels match exactly) and 100
+	/// means 100% error (none of the pixels match).
+	/// @param {String} [description] An optional description for this assert.
+	/// @returns {Bool}
+	static surfaceEquals = function(_surface1, _surface2, _max_error = 0, _description = undefined) {
+		
+		var _resolver = _surfaceEqualsImpl(_surface1, _surface2, _max_error) ? pass : fail;
+		return _resolver("Surfaces asserted to be equal", _description);
+	}
+
 	#endregion
 
 	#region Grid Asserts

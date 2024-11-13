@@ -248,7 +248,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Get color uniform handle
-			uni_color = shader_get_uniform(test_shader, "color");
+			uni_color = shader_get_uniform(test_shader, "colorPS");
 			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
@@ -279,6 +279,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				case 2:
 					_test_path = "ShaderTests/SetUniformF/SetAlpha";
 					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
+					_red = 0;
+					_green = 0;
+					_blue = 0;
 					_alpha = 0;
 					break;
 				// On the fourth frame, end the test
@@ -290,6 +293,9 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
+			// Clear surface
+			draw_clear(c_black);
+			gpu_set_blendenable(false);
 			// Start using shader
 			shader_set(test_shader);
 				// Set the color uniform
@@ -297,6 +303,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
+			gpu_set_blendenable(true);
 			shader_reset();
 			
 			// End draw buffer comparison
@@ -619,7 +626,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			
 			// Get sampler handle
-			sampler = shader_get_sampler_index(test_shader, "sample");
+			sampler = shader_get_sampler_index(test_shader, "u_samplePS");
 			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
 			
 			// Stores which frame of the draw event we're on
@@ -654,10 +661,12 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				gpu_set_blendenable(false);
 				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
 				// Draw rectangle with correct uvs for the sample texture
 				draw_texture_rect(rect, _uvs);
+				gpu_set_blendenable(true);
 			// Stop using shader
 			shader_reset();
 			
@@ -836,7 +845,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			rect = new Rect(0, 0, window_get_width(), window_get_height());
 			
 			// Get window resolution uniform handle
-			u_resolution = shader_get_uniform(test_shader, "u_resolution");
+			u_resolution = shader_get_uniform(test_shader, "u_resolutionPS");
 		},
 		ev_draw: function() {
 			// Initialise test name and fail message to use in buffer comparison

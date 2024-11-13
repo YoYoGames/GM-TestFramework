@@ -11,7 +11,7 @@ varying vec2 v_vTexcoord;
 varying vec4 v_vColour;
 
 // Uniforms
-uniform sampler2D sample; // Texture sample passed into the shader
+uniform sampler2D u_sampleVS; // Texture sample passed into the shader
 
 
 void main()

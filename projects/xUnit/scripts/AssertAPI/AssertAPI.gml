@@ -318,6 +318,38 @@ function assert_surface_any(_surface, _func, _description = undefined) {
 	return framework.surfaceForeach(_surface, _func, _description);
 }
 
+/// @function assert_surface_equals(surface, expected, max_error, description)
+/// @param {Id.Surface} surface The surface to be tested.
+/// @param {Id.Surface} expected The surface to test against.
+/// @param {Real} [max_error] The maximum error allowed to tell that the surfaces are equal.
+/// Use values in range 0..100, where 0 means no error (all pixels match exactly) and 100
+/// means 100% error (none of the pixels match).
+/// @param {String} [description] An optional description for this assert.
+//// @reutrn {Bool}
+function assert_surface_equals(_surface, _expected, _max_error = 0, _description = undefined) {
+	
+	static framework = assert_get_singleton();
+	return framework.surfaceEquals(_surface, _expected, _max_error, _description);
+}
+
+#endregion
+
+#region Sprite Asserts
+
+/// @function assert_sprite_equals(sprite, expected, max_error, description)
+/// @param {Asset.GMSprite} sprite The sprite to be tested.
+/// @param {Asset.GMSprite} expected The sprite to test against.
+/// @param {Real} [max_error] The maximum error allowed to tell that the sprites are equal.
+/// Use values in range 0..100, where 0 means no error (all pixels match exactly) and 100
+/// means 100% error (none of the pixels match).
+/// @param {String} [description] An optional description for this assert.
+//// @reutrn {Bool}
+function assert_sprite_equals(_sprite, _expected, _max_error = 0, _description = undefined) {
+	
+	static framework = assert_get_singleton();
+	return framework.spriteEquals(_sprite, _expected, _max_error, _description);
+}
+
 #endregion
 
 #region Grid Asserts

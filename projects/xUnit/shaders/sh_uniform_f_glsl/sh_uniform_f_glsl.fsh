@@ -6,11 +6,11 @@ varying vec2 v_vTexcoord;
 varying vec4 v_vColour;
 
 // Uniforms
-uniform vec4 color; // Floats passed into the shader
+uniform vec4 colorPS; // Floats passed into the shader
 
 
 void main()
 {
 	// Set the fragment colour to the uniform floats passed into the shader
-    gl_FragColor = color;
+    gl_FragColor = colorPS;
 }
