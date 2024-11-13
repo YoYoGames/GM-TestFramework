@@ -13,3 +13,5 @@ projects/xUnit/datafiles/config.json
 output/results/
 
 results/
+
+clean_remote.ps1
