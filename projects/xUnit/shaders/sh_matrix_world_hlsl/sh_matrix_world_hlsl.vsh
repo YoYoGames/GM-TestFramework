@@ -18,8 +18,8 @@ struct VertexShaderOutput {
 };
 
 // Uniforms
-uniform float4x4 u_expected_matrix; // The expected value of the matrix
-uniform float4x4 u_initial_matrix_world_view_projection; // The world_view_projection matrix before it was modified for the test
+float4x4 u_expected_matrix; // The expected value of the matrix
+float4x4 u_initial_matrix_world_view_projection; // The world_view_projection matrix before it was modified for the test
 
 
 VertexShaderOutput main(VertexShaderInput INPUT) {

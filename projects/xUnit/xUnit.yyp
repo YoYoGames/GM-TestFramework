@@ -64,7 +64,6 @@
     {"$GMFolder":"","%Name":"Vectors","folderPath":"folders/Tests/Utils/ShaderTests/Vectors.yy","name":"Vectors","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -212,7 +211,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1100.0.671",
+    "IDEVersion":"2024.1100.0.674",
   },
   "name":"xUnit",
   "resources":[
@@ -309,6 +308,7 @@
     {"id":{"name":"IPublisher","path":"scripts/IPublisher/IPublisher.yy",},},
     {"id":{"name":"Logger","path":"scripts/Logger/Logger.yy",},},
     {"id":{"name":"LoggerAPI","path":"scripts/LoggerAPI/LoggerAPI.yy",},},
+    {"id":{"name":"make_even","path":"scripts/make_even/make_even.yy",},},
     {"id":{"name":"normalize","path":"scripts/normalize/normalize.yy",},},
     {"id":{"name":"os_type_to_string","path":"scripts/os_type_to_string/os_type_to_string.yy",},},
     {"id":{"name":"platform_filters","path":"scripts/platform_filters/platform_filters.yy",},},
@@ -442,6 +442,8 @@
     {"id":{"name":"sh_vs_fog_enabled_glsles","path":"shaders/sh_vs_fog_enabled_glsles/sh_vs_fog_enabled_glsles.yy",},},
     {"id":{"name":"sh_vs_fog_enabled_hlsl","path":"shaders/sh_vs_fog_enabled_hlsl/sh_vs_fog_enabled_hlsl.yy",},},
     {"id":{"name":"shader0","path":"shaders/shader0/shader0.yy",},},
+    {"id":{"name":"shSurfaceDiff","path":"shaders/shSurfaceDiff/shSurfaceDiff.yy",},},
+    {"id":{"name":"shSurfaceDiffDownsample","path":"shaders/shSurfaceDiffDownsample/shSurfaceDiffDownsample.yy",},},
     {"id":{"name":"handle_testSound","path":"sounds/handle_testSound/handle_testSound.yy",},},
     {"id":{"name":"snd_coinpickup_MP3","path":"sounds/snd_coinpickup_MP3/snd_coinpickup_MP3.yy",},},
     {"id":{"name":"snd_coinpickup_OGG","path":"sounds/snd_coinpickup_OGG/snd_coinpickup_OGG.yy",},},

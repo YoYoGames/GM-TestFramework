@@ -10,7 +10,7 @@ struct PixelShaderInput {
 
 // Uniforms
 Texture2D g_Texture;
-SamplerState sample  // Texture sample passed into the shader
+SamplerState u_samplePS  // Texture sample passed into the shader
 {
     Filter = MIN_MAG_MIP_LINEAR;
     AddressU = Wrap;
@@ -20,6 +20,6 @@ SamplerState sample  // Texture sample passed into the shader
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
 	// Set the fragment colour to the vertex colour multiplied by the texture sample at the current texture coordinate
-    float4 diffuseTexture = g_Texture.Sample(sample, INPUT.vTexcoord);
+    float4 diffuseTexture = g_Texture.Sample(u_samplePS, INPUT.vTexcoord);
     return INPUT.vColor * diffuseTexture;
 }

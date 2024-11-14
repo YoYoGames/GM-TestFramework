@@ -9,7 +9,7 @@ struct PixelShaderInput {
 };
 
 // Uniforms
-uniform float color[4]; // Array of floats passed into the shader
+float color[4]; // Array of floats passed into the shader
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
 	// Put the values from the uniform array into a float4

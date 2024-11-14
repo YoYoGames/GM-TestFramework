@@ -81,41 +81,31 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 	}
 	
 	// Save the surface to a .png file (for manual checking)
-	surface_save(_test_surface, _test_name + "Result.png");
-	
-	// Create a buffer to store the surface data in
-	var _test_buffer = buffer_create(surface_get_width(_test_surface) * surface_get_height(_test_surface) * 4, buffer_fixed, 1);
-	// Check it has been created successfully
-	if (!buffer_exists(_test_buffer))
+	surface_save(_test_surface, working_directory + _test_name + "Result.png");
+
+	var _test_sprite = sprite_create_from_surface(
+		_test_surface, 0, 0,
+		surface_get_width(_test_surface), surface_get_height(_test_surface),
+		false, false, 0, 0);
+
+	// Check that an expected sprite exists for this test
+	if (file_exists(_test_name + "Expected.png"))
 	{
-		// End the comparison here if not, since we don't have a buffer to work with
-		_result = assert_true(false, test_current().name + ", failed to create a buffer for comparison");
-		surface_free(_test_surface);
-		return _result;
-	}
-	// store the data from the surface in it
-	buffer_get_surface(_test_buffer, _test_surface, 0);
-			
-	// Save the buffer data to a file (for manual checking, or to be used as a new expected buffer)
-	buffer_save(_test_buffer, _test_name + "ResultBuffer");
-			
-	// Check that an expected buffer exists for this test
-	if (file_exists(_test_name + "ExpectedBuffer"))
-	{
-		// check the test buffer against the expected buffer (showing the fail message in the assert if they don't match)
-		var _expected_buffer = buffer_load(_test_name + "ExpectedBuffer");
-		if (assert_buffer_equals(_test_buffer, _expected_buffer, _fail_message))
+		// check the test sprite against the expected sprite (showing the fail message in the assert if they don't match)
+		var _expected_sprite = sprite_add(_test_name + "Expected.png", 1, false, false, 0, 0);
+		if (assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
 		{
 			_result = false;
 		}
+		sprite_delete(_expected_sprite);
 	}
 	else
 	{
-		_result = assert_true(false, test_current().name + ", failed to find expected buffer file (should be at xUnit/datafiles/" + _test_name + "ExpectedBuffer)");
+		_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _test_name + "Expected.png)");
 	}
 	
-	// Delete the buffer and surface
-	buffer_delete(_test_buffer);
+	// Delete created resources
+	sprite_delete(_test_sprite);
 	surface_free(_test_surface);
 	return _result;
 	
@@ -158,41 +148,31 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 		}
 	
 		// Save the surface to a .png file (for manual checking)
-		surface_save(_test_surfaces[i], _test_name + "Result" + string(i) + ".png");
-	
-		// Create a buffer to store the surface data in
-		var _test_buffer = buffer_create(surface_get_width(_test_surfaces[i]) * surface_get_height(_test_surfaces[i]) * 4, buffer_fixed, 1);
-		// Check it has been created successfully
-		if (!buffer_exists(_test_buffer))
+		surface_save(_test_surfaces[i], working_directory + _test_name + "Result" + string(i) + ".png");
+
+		var _test_sprite = sprite_create_from_surface(
+			_test_surfaces[i], 0, 0,
+			surface_get_width(_test_surfaces[i]), surface_get_height(_test_surfaces[i]),
+			false, false, 0, 0);
+
+		// Check that an expected sprite exists for this test
+		if (file_exists(_test_name + "Expected" + string(i) + ".png"))
 		{
-			// End the comparison here if not, since we don't have a buffer to work with
-			_result = assert_true(false, test_current().name + ", failed to create a buffer for comparison");
-			surface_free(_test_surfaces[i]);
-			return _result;
-		}
-		// store the data from the surface in it
-		buffer_get_surface(_test_buffer, _test_surfaces[i], 0);
-			
-		// Save the buffer data to a file (for manual checking, or to be used as a new expected buffer)
-		buffer_save(_test_buffer, _test_name + "ResultBuffer" + string(i));
-			
-		// Check that an expected buffer exists for this test
-		if (file_exists(_test_name + "ExpectedBuffer" + string(i)))
-		{
-			// check the test buffer against the expected buffer (showing the fail message in the assert if they don't match)
-			var _expected_buffer = buffer_load(_test_name + "ExpectedBuffer" + string(i));
-			if (assert_buffer_equals(_test_buffer, _expected_buffer, _fail_message))
+			// check the test sprite against the expected sprite (showing the fail message in the assert if they don't match)
+			var _expected_sprite = sprite_add(_test_name + "Expected" + string(i) + ".png", 1, false, false, 0, 0);
+			if (assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
 			{
 				_result = false;
 			}
+			sprite_delete(_expected_sprite);
 		}
 		else
 		{
-			_result = assert_true(false, test_current().name + ", failed to find expected buffer file (should be at xUnit/datafiles/" + _test_name + "ExpectedBuffer" + string(i) + ")");
+			_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _test_name + "Expected" + string(i) + ".png)");
 		}
 	
-		// Delete the buffer and surface
-		buffer_delete(_test_buffer);
+		// Delete created resources
+		sprite_delete(_test_sprite);
 		surface_free(_test_surfaces[i]);
 	}
 	
