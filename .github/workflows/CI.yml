@@ -22,11 +22,15 @@ jobs:
   CI:
     name: "CI"
     runs-on: Windows
+    timeout-minutes: 50
     steps:
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
         with:
           path: GM-TF
+      - name: Wait for 10 Minutes
+        run: timeout /t 600 /nobreak
+        shell: cmd          
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd          
