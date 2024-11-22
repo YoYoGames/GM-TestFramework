@@ -29,8 +29,8 @@ jobs:
         with:
           path: GM-TF
       - name: Wait for 10 Minutes
-        run: timeout /t 600 /nobreak
-        shell: cmd          
+        run: Start-Sleep -Seconds 600
+        shell: pwsh        
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd          
@@ -41,9 +41,7 @@ jobs:
         shell: cmd         
       - name: Testing on PR
         if: github.event_name == 'pull_request'       
-        run: |
-          timeout /t 600 /nobreak 
-          run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
+        run: run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
         working-directory: GM-TF   
         shell: cmd        
       - name: Upload Results Artifacts
