@@ -1,5 +1,4 @@
 workspace/
-servers/node_modules/
 user/
 .env
 .venv/
