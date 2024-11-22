@@ -29,7 +29,7 @@ jobs:
         with:
           path: GM-TF
       - name: Wait for 10 Minutes
-        run: Start-Sleep -Seconds 600
+        run: Start-Sleep -Seconds 300
         shell: pwsh        
       - run: .\setup.bat
         working-directory: GM-TF
