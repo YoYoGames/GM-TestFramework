@@ -50,7 +50,8 @@ class RunTestsCommand(BaseCommand):
         run_name = self.get_argument('run_name')
         remote = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
 
-        file_utils.clean_directory(ROOT_DIR / 'output' / 'results')
+        # Clean results folder
+        file_utils.clean_directory(ROOT_DIR / 'results')
 
         # THIS SHOULD BE JUST THE BUILD STEP
         # await async_utils.run_and_capture(self.get_argument("yypc_path"), [
