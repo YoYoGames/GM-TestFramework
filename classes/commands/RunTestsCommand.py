@@ -1,11 +1,21 @@
 import argparse
+import os
 from pathlib import Path
+import subprocess
 from typing import Any
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.commands.BaseCommand import DEFAULT_CONFIG, TCP_PORT, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
-from utils import file_utils
+from utils import async_utils, file_utils
 from utils.path_utils import ROOT_DIR
+
+PROJECTS_DIR = ROOT_DIR / 'projects'
+NODE_MODULES_DIR = ROOT_DIR / 'node_modules'
+
+PROGRAM_FILES = Path(os.environ.get("ProgramFiles"))
+NODEJS_NPM_PATH = PROGRAM_FILES / 'nodejs' / 'npm.cmd'
+
+PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
 
 class RunTestsCommand(BaseCommand):
     """
@@ -23,6 +33,7 @@ class RunTestsCommand(BaseCommand):
         """
         parser: argparse.ArgumentParser = subparsers.add_parser('runTests', help='Runs the test servers (useful for IDE execution)')
         parser.add_argument('-yypc', '--yypc-path', type=str, required=True, help='The path to the project compiler')
+        parser.add_argument('-cr', '--coreresources-path', type=str, required=True, help='The path to the CoreResources dll')
         parser.add_argument('-yyp', '--project-path', type=str, required=True, help='The path to the project file (.yyp)')
         parser.add_argument('-o', '--output-folder', type=str, required=True, help='The path to the output folder')
         parser.add_argument('-t', '--template-folder', type=str, required=True, help='The mode to be used during compilation')
@@ -52,6 +63,18 @@ class RunTestsCommand(BaseCommand):
 
         # Clean results folder
         file_utils.clean_directory(ROOT_DIR / 'results')
+
+        # Execute ProjectTool to ensure correct project format
+        core_resources_path = Path(self.get_argument("coreresources_path"))
+        assert(core_resources_path.exists())
+
+        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"])
+        project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
+        assert(project_tool_path.exists())
+
+        os.environ['PROJECTTOOL'] = str(project_tool_path)
+        os.environ['CORERESOURCES_DLL'] = str(core_resources_path)
+        subprocess.run([PROJECT_SCRIPT_PATH])
 
         # THIS SHOULD BE JUST THE BUILD STEP
         # await async_utils.run_and_capture(self.get_argument("yypc_path"), [
@@ -87,7 +110,7 @@ class RunTestsCommand(BaseCommand):
     def project_write_config(self):
         project_path = self.get_argument("project_path")
         project_config = self.get_argument("project_config")
-        yyp_folder = Path(project_path).parent
+        yyp_folder = Path(project_path).absolute().parent
 
         config_data = {
             **DEFAULT_CONFIG,
