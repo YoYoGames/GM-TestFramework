@@ -17,6 +17,8 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			draw_frame = 0;
 		},
 		ev_draw: function() {
+			gpu_push_state();
+
 			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderUniformTests/AlphaTest/Off";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison with alpha testing off";
@@ -49,12 +51,11 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			// Stop using shader
 			shader_reset();
 			
+			// Restore alpha testing and reference value
+			gpu_pop_state();
+			
 			// End draw buffer comparison
 			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Disable alpha testing and set reference value back to 0
-			gpu_set_alphatestenable(false);
-			gpu_set_alphatestref(0);
 			
 			// Increment frame counter
 			draw_frame++;	
@@ -412,7 +413,7 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			verify_shader_compiled(test_shader);
 			
 			// Generate a grid of rects to display matrix data
-			rects = generate_rect_grid(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE, 4, 4);
+			rects = generate_rect_grid(0.5, 0.5, 4, 4, -1, -1);
 			
 			// Get uniform handles for the expected matrix value and initial world view projection matrix value 
 			u_expected_matrix = shader_get_uniform(test_shader, "u_expected_matrix");
@@ -444,30 +445,45 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 					return;
 			}
 				
-			// Start draw buffer comparison
+			// Start draw buffer comparison (this sets some initial view and proj. matrices)
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 4, SHADER_TEST_DEFAULT_SIZE * 4);
 			
 			// Start using shader
 			shader_set(test_shader);
 			
-				// Set uniform for initial world view projection matrix
-				var _world_view_projection = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
-				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _world_view_projection);
+				// This we will use to draw a rectangle for each entry of a matrix
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, matrix_build_identity());
 				
-				// Set uniform for expected matrix
-				var _expected_matrix =  matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
-				if (_set_value)
+				if (!_set_value)
 				{
-					// If it should be set this frame, build a new matrix to set it as
-					_expected_matrix = [ 1, 0, 1, 0,
-										 0, 0, 0, 1,
-										 0, 0, 0, 1,
-										 1, 0, 1, 0 ]
-					matrix_set(matrix_world, _expected_matrix);
-					matrix_set(matrix_view, _expected_matrix);
-					matrix_set(matrix_projection, _expected_matrix);
-					_expected_matrix = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
+					// Unset - expected matrix is WxVxP
+					if (array_contains([os_macosx, os_linux], os_type)) // TODO: More here?
+					{
+						// Note: On OpenGL platforms the projection matrix is flipped on Y axis internally, so
+						// we need to remove the flip, otherwise we won't get the correct result!
+						matrix_set(matrix_projection, matrix_multiply(matrix_get(matrix_projection), [
+							1, 0, 0, 0,
+							0, -1, 0, 0,
+							0, 0, 1, 0,
+							0, 0, 0, 1,
+						]));
+					}
 				}
+				else
+				{
+					// Set - provide our own matrices
+					var _matrix = [
+						1, 0, 1, 0,
+						0, 0, 0, 1,
+						0, 0, 0, 1,
+						1, 0, 1, 0
+					];
+					matrix_set(matrix_world, _matrix);
+					matrix_set(matrix_view, _matrix);
+					matrix_set(matrix_projection, _matrix);
+				}
+				
+				var _expected_matrix = matrix_multiply(matrix_multiply(matrix_get(matrix_world), matrix_get(matrix_view)), matrix_get(matrix_projection));
 				shader_set_uniform_matrix_array(u_expected_matrix, _expected_matrix);
 				
 				// Draw grid of rectangles
