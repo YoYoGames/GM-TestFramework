@@ -451,16 +451,24 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			// Start using shader
 			shader_set(test_shader);
 			
+				// Note: On OpenGL platforms the projection matrix is flipped on Y axis internally, so
+				// we need to remove the flip, otherwise we won't get the correct result!
+				var _platforms_opengl = [os_macosx, os_linux]; // TODO: More here?
+				var _is_opengl = array_contains(_platforms_opengl, os_type);
+			
 				// This we will use to draw a rectangle for each entry of a matrix
-				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, matrix_build_identity());
+				var _matrix_wvp = matrix_build_identity();
+				if (!_is_opengl)
+				{
+					_matrix_wvp[5] = -1;
+				}
+				shader_set_uniform_matrix_array(u_initial_matrix_world_view_projection, _matrix_wvp);
 				
 				if (!_set_value)
 				{
 					// Unset - expected matrix is WxVxP
-					if (array_contains([os_macosx, os_linux], os_type)) // TODO: More here?
+					if (_is_opengl)
 					{
-						// Note: On OpenGL platforms the projection matrix is flipped on Y axis internally, so
-						// we need to remove the flip, otherwise we won't get the correct result!
 						matrix_set(matrix_projection, matrix_multiply(matrix_get(matrix_projection), [
 							1, 0, 0, 0,
 							0, -1, 0, 0,
