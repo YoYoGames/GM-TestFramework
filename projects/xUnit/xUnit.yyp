@@ -1,5 +1,5 @@
 {
-  "$GMProject":"",
+  "$GMProject":"v1",
   "%Name":"xUnit",
   "AudioGroups":[
     {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
@@ -63,8 +63,8 @@
     {"$GMFolder":"","%Name":"Rects","folderPath":"folders/Tests/Utils/ShaderTests/Rects.yy","name":"Rects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Vectors","folderPath":"folders/Tests/Utils/ShaderTests/Vectors.yy","name":"Vectors","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
+  "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -205,6 +205,7 @@
     {"$GMIncludedFile":"","%Name":"SetExpectedBuffer","CopyToMask":-1,"filePath":"datafiles/ShaderUniformTests/VSFogEnabled","name":"SetExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"UnsetExpected.png","CopyToMask":-1,"filePath":"datafiles/ShaderUniformTests/VSFogEnabled","name":"UnsetExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"UnsetExpectedBuffer","CopyToMask":-1,"filePath":"datafiles/ShaderUniformTests/VSFogEnabled","name":"UnsetExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"spriteAdd.png","CopyToMask":-1,"filePath":"datafiles","name":"spriteAdd.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"StreamedSound.ogg","CopyToMask":-1,"filePath":"datafiles","name":"StreamedSound.ogg","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"testList.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testList.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"testTable.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testTable.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -212,7 +213,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1100.0.696",
+    "IDEVersion":"9.9.1.902",
   },
   "name":"xUnit",
   "resources":[
@@ -328,6 +329,7 @@
     {"id":{"name":"ResourceEventsTestSuite","path":"scripts/ResourceEventsTestSuite/ResourceEventsTestSuite.yy",},},
     {"id":{"name":"ResourceLayersTestSuite","path":"scripts/ResourceLayersTestSuite/ResourceLayersTestSuite.yy",},},
     {"id":{"name":"ResourceSequenceTestSuite","path":"scripts/ResourceSequenceTestSuite/ResourceSequenceTestSuite.yy",},},
+    {"id":{"name":"ResourceSpriteTestSuite","path":"scripts/ResourceSpriteTestSuite/ResourceSpriteTestSuite.yy",},},
     {"id":{"name":"ResourceTimeSourceTestSuite","path":"scripts/ResourceTimeSourceTestSuite/ResourceTimeSourceTestSuite.yy",},},
     {"id":{"name":"struct_from_entries","path":"scripts/struct_from_entries/struct_from_entries.yy",},},
     {"id":{"name":"struct_merge","path":"scripts/struct_merge/struct_merge.yy",},},
