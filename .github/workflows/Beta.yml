@@ -37,7 +37,12 @@ jobs:
         run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
         shell: cmd         
-
+      - name: Upload Results Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary_file
+          path: ${{ github.workspace }}\GM-TF\results
 
         
       
