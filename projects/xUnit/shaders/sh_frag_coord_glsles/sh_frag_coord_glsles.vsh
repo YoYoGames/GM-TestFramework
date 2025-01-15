@@ -7,7 +7,7 @@ attribute vec4 in_Colour;                    // (r,g,b,a)
 attribute vec2 in_TextureCoord;              // (u,v)
 
 // Uniforms
-uniform vec2 u_resolution; // The resolution of the window
+uniform vec2 u_resolutionVS; // The resolution of the window
 
 
 void main()

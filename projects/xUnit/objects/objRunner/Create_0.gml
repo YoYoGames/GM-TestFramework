@@ -55,6 +55,7 @@ testFramework.addSuite(ResourceCameraTestSuite);
 testFramework.addSuite(ResourceEventsTestSuite);
 testFramework.addSuite(ResourceLayersTestSuite);
 testFramework.addSuite(ResourceSequenceTestSuite);
+testFramework.addSuite(ResourceSpriteTestSuite);
 testFramework.addSuite(ResourceTimeSourceTestSuite);
 
 socket = undefined;

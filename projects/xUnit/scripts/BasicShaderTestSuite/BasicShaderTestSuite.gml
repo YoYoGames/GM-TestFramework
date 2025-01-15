@@ -295,6 +295,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Clear surface
 			draw_clear(c_black);
+			gpu_push_state();
 			gpu_set_blendenable(false);
 			// Start using shader
 			shader_set(test_shader);
@@ -303,7 +304,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
-			gpu_set_blendenable(true);
+			gpu_pop_state();
 			shader_reset();
 			
 			// End draw buffer comparison
@@ -369,10 +370,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_f_array(uni_color, _color);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -452,10 +458,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_f_buffer(uni_color, color_buffer, 0, 4);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -527,10 +538,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_i(uni_color, _red, _green, _blue, _alpha);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -596,10 +612,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_i_array(uni_color, _color);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -661,12 +682,13 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				gpu_push_state();
 				gpu_set_blendenable(false);
 				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
 				// Draw rectangle with correct uvs for the sample texture
 				draw_texture_rect(rect, _uvs);
-				gpu_set_blendenable(true);
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -983,6 +1005,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			shader_set(test_shader);
 				
 				// Enable Z writing and testing for 3D rendering
+				gpu_push_state();
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
 				
@@ -993,9 +1016,8 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				// Draw cube
 				vertex_submit(cube_mesh, pr_trianglelist, -1);
 				
-				// Disable Z writing and testing
-				gpu_set_zwriteenable(false);
-				gpu_set_ztestenable(false);
+				// Restore Z writing and testing
+				gpu_pop_state();
 				
 			// Stop using shader
 			shader_reset();
@@ -1059,6 +1081,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			shader_set(test_shader);
 				
 				// Enable Z writing and testing for 3D rendering
+				gpu_push_state();
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
 				
@@ -1069,9 +1092,8 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				// Draw cube
 				vertex_submit(cube_mesh, pr_trianglelist, -1);
 				
-				// Disable Z writing and testing
-				gpu_set_zwriteenable(false);
-				gpu_set_ztestenable(false);
+				// Restore Z writing and testing
+				gpu_pop_state();
 				
 			// Stop using shader
 			shader_reset();
@@ -1135,6 +1157,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			shader_set(test_shader);
 				
 				// Enable Z writing and testing for 3D rendering
+				gpu_push_state();
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
 				
@@ -1145,9 +1168,8 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 				// Draw cube
 				vertex_submit(plane_mesh, pr_trianglelist, -1);
 				
-				// Disable Z writing and testing
-				gpu_set_zwriteenable(false);
-				gpu_set_ztestenable(false);
+				// Restore Z writing and testing
+				gpu_pop_state();
 				
 			// Stop using shader
 			shader_reset();

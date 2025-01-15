@@ -93,7 +93,7 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 	{
 		// check the test sprite against the expected sprite (showing the fail message in the assert if they don't match)
 		var _expected_sprite = sprite_add(_test_name + "Expected.png", 1, false, false, 0, 0);
-		if (assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
+		if (!assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
 		{
 			_result = false;
 		}
@@ -160,7 +160,7 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 		{
 			// check the test sprite against the expected sprite (showing the fail message in the assert if they don't match)
 			var _expected_sprite = sprite_add(_test_name + "Expected" + string(i) + ".png", 1, false, false, 0, 0);
-			if (assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
+			if (!assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
 			{
 				_result = false;
 			}
