@@ -1,0 +1,48 @@
+name: Beta
+
+on:
+
+  workflow_dispatch:
+    inputs:
+       CONFIG_FILE:
+         description: "CONFIG_FILE"
+         required: true
+       RSS_Feed:
+         description: "RSS_Feed"
+         required: false
+         type: string
+       EXTRA_PARAMS:
+          description: "EXTRA_PARAMS from config"
+          required: false
+          type: string         
+
+jobs:
+ 
+  CI:
+    name: "CI"
+    runs-on: Windows
+    timeout-minutes: 50
+    steps:
+      - name: Check out the GM-TestFramework repo
+        uses: actions/checkout@v4
+        with:
+          path: GM-TF
+      - name: Wait for 10 Minutes
+        run: Start-Sleep -Seconds 300
+        shell: pwsh        
+      - run: .\setup.bat
+        working-directory: GM-TF
+        shell: cmd          
+      - name: Testing Manually witth passing RSS_Feed for Beta builds
+        run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+        working-directory: GM-TF  
+        shell: cmd         
+      - name: Upload Results Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary_file
+          path: ${{ github.workspace }}\GM-TF\results
+
+        
+      

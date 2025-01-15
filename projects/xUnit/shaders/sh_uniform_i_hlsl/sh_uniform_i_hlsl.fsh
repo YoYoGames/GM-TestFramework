@@ -9,7 +9,7 @@ struct PixelShaderInput {
 };
 
 // Uniforms
-uniform int4 color; // Ints passed into the shader
+int4 color; // Ints passed into the shader
 
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {

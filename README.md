@@ -12,9 +12,21 @@ This project is written in pure GML and *should* work on all available exports.
 ### From the IDE
 
 > [!NOTE]
-> When running the project from the IDE, there are limitations on tests that require external servers to function. These servers are initialized and managed by the command line launcher, and you'll need to initialize them manually when running the project within the IDE.
+> When running the project from the IDE, there are limitations on tests that require external servers to function. These servers are initialized and managed by the command line launcher, and you'll need to initialize them manually.
+>
+> `python .\launcher.py runserver --proj-config-file 'E:\Source\GM-TestFramework\projects\xUnit\datafiles\config.json'`
+>
+> The command line above will start the servers and keep them running until "SPACE" is pressed. The project config file parameter should be the path to a `config.json` this file is created automatically if it doesn't exist
+> and is used by the TestFramework internally.
 
 To utilize the project within the IDE, simply select the desired platform and press the 'Run' button.
+
+> [!TIP]
+> If you wish to run a single test you can do so by:
+>
+> * Double clicking the `objRunner` and going to it's **[Create Event]**
+> * Setting the macro `SINGLE_TEST_MODE` to `true` at the top of the file
+> * Setting the variable `single_test_path` to the path to the test you want to run (ie.: _\<TestSuiteName\>@\<TestName\>_ or _\<TestSuiteName\>_)
 
 </br>
 
@@ -23,30 +35,24 @@ To utilize the project within the IDE, simply select the desired platform and pr
 > [!IMPORTANT]
 > The command line framework launcher tool is only compatible with Windows OS and is available exclusively for Enterprise users. You'll need to obtain an **Access Key** from the [following link](https://gamemaker.io/account/access_keys).
 
-To run the launcher from the command line, you need to have [Python](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/en/download) installed. Then, follow these steps:
+To run the launcher from the command line, you need to have [Python](https://www.python.org/downloads/) installed. Then, follow these steps:
 
-1. Run the `setup.bat` script, which will install all Python and Node.js dependencies.
-2. Run `python framework_launcher.py` script with the following arguments:
+1. Run the `setup.bat` script, which will install all Python dependencies.
+2. Run `python launcher.py igorRunTests --config-file 'E:\Source\GM-TestFramework.configs\config_windows.json'` script with the following arguments:
 
-* `-cf` followed by the path to the configuration file. With the following format:
+* `--config-file` : path to a config file (ie.: 'E:\Source\GM-TestFramework.configs\config_windows.json')
 
 ```json
 {
-    "Launcher.accessKey": null,
-    "Launcher.userFolder": null,
-    "Launcher.runtimeVersion": null,
+    "access-key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "user-folder": "E:\\Source\\GM-TestFramework.configs\\userFolder\\",
 
-    "Launcher.runners": "vm",
-    "Launcher.targets": "windows|Local",
-    "Launcher.feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta.rss",
-    "Launcher.project": "projects\\xUnit\\xUnit.yyp",
+    "runners": "vm,yyc",
+    "targets": "windows|Local",
+    "feed": "https://gms.yoyogames.com/Zeus-Runtime-NuBeta-I.rss",
+    "project-path": "projects\\xUnit\\xUnit.yyp",
 
-    "Launcher.html5Runner": null,
-
-    "Logger.level": 10,
-    
-    "HttpPublisher.port": 8080,
-    "HttpPublisher.endpoint": "tests"
+    "Logger.level": 20
 }
 ```
 

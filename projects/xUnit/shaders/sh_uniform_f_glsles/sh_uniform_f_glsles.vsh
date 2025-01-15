@@ -7,7 +7,7 @@ attribute vec4 in_Colour;                    // (r,g,b,a)
 attribute vec2 in_TextureCoord;              // (u,v)
 
 // Uniforms
-uniform vec4 color; // Floats passed into the shader
+uniform vec4 colorVS; // Floats passed into the shader
 
 
 void main()

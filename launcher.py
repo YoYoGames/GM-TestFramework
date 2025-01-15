@@ -27,17 +27,37 @@ def filter_scoped_entries(config_args):
 def merge_config_and_cli_args(config_args, cli_args):
     """
     Merge config args with CLI args, with CLI args taking precedence.
-    CLI args are processed as a list of key-value pairs (e.g., ['--key', 'value']).
+    CLI args can come in two forms:
+      1. Key-value pairs: ['--key', 'value']
+      2. Flags: ['--flag']
+    In the second case, the value for the flag will be None.
+    
     CLI args take precedence over config args.
     """
     cli_args_dict = {}
-    
-    # Iterate through the CLI args two items at a time (key, value)
-    for i in range(0, len(cli_args), 2):
-        key = cli_args[i].lstrip('--')  # Remove the leading '--'
-        value = cli_args[i + 1]  # The next item is the value
-        cli_args_dict[key] = value
-    
+    i = 0
+    while i < len(cli_args):
+        arg = cli_args[i]
+        
+        if arg.startswith('--'):
+            # Potential key
+            key = arg.lstrip('--')
+            # Check if next element exists and is not another flag
+            if i + 1 < len(cli_args) and not cli_args[i + 1].startswith('--'):
+                # Next element is a value
+                value = cli_args[i + 1]
+                i += 2  # Skip to the element after the value
+            else:
+                # No value provided, treat as a flag
+                value = None
+                i += 1  # Move to the next argument
+                
+            cli_args_dict[key] = value
+        else:
+            # If for some reason we have a non '--' arg where we didn't expect it,
+            # just move on. Generally shouldn't happen if usage is correct.
+            i += 1
+
     # Merge CLI args into config args, with CLI args taking precedence
     config_args.update(cli_args_dict)
     
@@ -71,8 +91,8 @@ def load_config_and_merge_with_cli_args():
     merged_args = merge_config_and_cli_args(config_args, command_args)
 
     # Reconstruct remaining_argv from merged_args
-    remaining_argv = [f'--{k}={v}' for k, v in merged_args.items() if v is not None]
-
+    remaining_argv = [f'--{k}' if v is None else f'--{k}={v}' for k, v in merged_args.items()]
+    
     # Add the original command and non-flag CLI arguments back
     if command:
         remaining_argv.insert(0, command)
