@@ -1,21 +1,7 @@
 name: CI
 
 on:
-  pull_request:
-
-  workflow_dispatch:
-    inputs:
-       CONFIG_FILE:
-         description: "CONFIG_FILE"
-         required: true
-       RSS_Feed:
-         description: "RSS_Feed"
-         required: false
-         type: string
-       EXTRA_PARAMS:
-          description: "EXTRA_PARAMS from config"
-          required: false
-          type: string         
+  pull_request:      
 
 jobs:
  
@@ -33,14 +19,8 @@ jobs:
         shell: pwsh        
       - run: .\setup.bat
         working-directory: GM-TF
-        shell: cmd          
-      - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
-        if: github.event_name == 'workflow_dispatch'
-        run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
-        working-directory: GM-TF  
-        shell: cmd         
-      - name: Testing on PR
-        if: github.event_name == 'pull_request'       
+        shell: cmd                  
+      - name: Testing on PR    
         run: run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
         working-directory: GM-TF   
         shell: cmd        
