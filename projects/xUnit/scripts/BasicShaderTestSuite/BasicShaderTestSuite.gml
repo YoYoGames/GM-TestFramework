@@ -370,10 +370,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_f_array(uni_color, _color);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -453,10 +458,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_f_buffer(uni_color, color_buffer, 0, 4);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -528,10 +538,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_i(uni_color, _red, _green, _blue, _alpha);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
@@ -597,10 +612,15 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				// Disable alpha blending
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Set the color uniform
 				shader_set_uniform_i_array(uni_color, _color);
 				// Draw rectangle
 				draw_rect(rect);
+				// Restore alpha blending settings
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
