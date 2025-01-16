@@ -342,6 +342,7 @@ class RemoteControlServer:
         except ConnectionResetError:
             LOGGER.error("Connection lost while reading data from client.")
             self._inject_dummy_result(result = 'failed', errors= [ { 'message': f'FATAL :: Runner silently crashed.' } ])
+            self.reboot_event.set()
             return None
 
     async def _cleanup(self, writer: asyncio.StreamWriter):

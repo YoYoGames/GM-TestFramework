@@ -1,5 +1,4 @@
 workspace/
-servers/node_modules/
 user/
 .env
 .venv/
@@ -13,3 +12,6 @@ projects/xUnit/datafiles/config.json
 output/results/
 
 results/
+node_modules/
+
+clean_remote.ps1

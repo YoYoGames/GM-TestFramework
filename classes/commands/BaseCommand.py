@@ -7,6 +7,7 @@ from utils import network_utils
 
 LOCAL_IP = network_utils.get_local_ip()
 TCP_PORT = network_utils.get_random_available_port()
+HTTP_PORT = network_utils.get_random_available_port()
 
 DEFAULT_CONFIG = {
 
@@ -14,7 +15,7 @@ DEFAULT_CONFIG = {
     "Logger.level": 10,
 
     "HttpPublisher.ip": LOCAL_IP,
-    "HttpPublisher.port": 8080,
+    "HttpPublisher.port": HTTP_PORT,
     "HttpPublisher.endpoint": "tests",
 
     # Internal
@@ -25,7 +26,7 @@ DEFAULT_CONFIG = {
     "$$parameters$$.remote_server_port": TCP_PORT,
 
     "$$parameters$$.test_server_address": LOCAL_IP,
-    "$$parameters$$.test_server_port": 8080,
+    "$$parameters$$.test_server_port": HTTP_PORT,
 }
 
 class BaseCommand:

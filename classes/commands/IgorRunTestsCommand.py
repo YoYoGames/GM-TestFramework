@@ -14,7 +14,7 @@ import os
 import shutil
 import platform
 
-from classes.commands.BaseCommand import DEFAULT_CONFIG, TCP_PORT, BaseCommand
+from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.server.TestFrameworkServer import manage_server
 from utils import async_utils, file_utils, logging_utils, network_utils
@@ -38,8 +38,12 @@ DRIVER_DOWNLOAD_BASE_URL = 'https://chromedriver.storage.googleapis.com/'
 USER_DIR = ROOT_DIR / 'user'
 PROJECTS_DIR = ROOT_DIR / 'projects'
 WORKSPACE_DIR = ROOT_DIR / 'workspace'
+NODE_MODULES_DIR = ROOT_DIR / 'node_modules'
 
 PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
+
+PROGRAM_FILES = Path(os.environ.get("ProgramFiles"))
+NODEJS_NPM_PATH = PROGRAM_FILES / 'nodejs' / 'npm.cmd'
 
 IGOR_DIR = WORKSPACE_DIR / 'igor'
 CACHE_DIR = WORKSPACE_DIR / 'cache'
@@ -177,13 +181,17 @@ class IgorRunTestsCommand(BaseCommand):
         runtime_path = await self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
         assert(runtime_path.exists())
 
-        # TODO
         # Execute ProjectTool to ensure correct project format
-        # project_tool_path = runtime_path / 'bin' / 'projecttool' / 'windows' / 'x64' / 'ProjectTool.exe'
-        # assert(project_tool_path.exists())
+        core_resources_path = runtime_path / 'bin' / 'assetcompiler' / 'windows' / 'x64' / 'CoreResources.dll'
+        assert(core_resources_path.exists())
 
-        # os.environ['PROJECTTOOL'] = str(project_tool_path)
-        # subprocess.run([PROJECT_SCRIPT_PATH])
+        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"])
+        project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
+        assert(project_tool_path.exists())
+
+        os.environ['PROJECTTOOL'] = str(project_tool_path)
+        os.environ['CORERESOURCES_DLL'] = str(core_resources_path)
+        subprocess.run([PROJECT_SCRIPT_PATH])
 
         # Load settings
         settings_path = user_folder / 'local_settings.json'
@@ -400,7 +408,7 @@ class IgorRunTestsCommand(BaseCommand):
         run_args = args_base + ['Run']
         
         remote_server = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
-        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT))
+        await manage_server(lambda: remote_server.serve_or_wait_for_space(igor_path, run_args, port=TCP_PORT), port=HTTP_PORT)
  
         self.change_directory(ROOT_DIR)
 

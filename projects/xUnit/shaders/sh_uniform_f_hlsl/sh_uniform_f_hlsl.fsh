@@ -9,11 +9,11 @@ struct PixelShaderInput {
 };
 
 // Uniforms
-uniform float4 color; // Floats passed into the shader
+float4 colorPS; // Floats passed into the shader
 
 
 float4 main(PixelShaderInput INPUT) : SV_TARGET {
 	// Set the fragment colour to the uniform floats passed into the shader
-	float4 modColor = color;
-    return modColor;
+	float4 modColor = colorPS;
+  return modColor;
 }

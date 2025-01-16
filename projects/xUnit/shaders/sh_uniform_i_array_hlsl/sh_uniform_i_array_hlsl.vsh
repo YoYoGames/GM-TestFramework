@@ -16,7 +16,7 @@ struct VertexShaderOutput {
 };
 
 // Uniforms
-uniform int color[4]; // Array of ints passed into the shader
+int color[4]; // Array of ints passed into the shader
 
 
 VertexShaderOutput main(VertexShaderInput INPUT) {

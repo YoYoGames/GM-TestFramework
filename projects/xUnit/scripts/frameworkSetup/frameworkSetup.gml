@@ -226,3 +226,10 @@ config_set("Assert", {
 
 });
 
+exception_unhandled_handler(function(_exception) {
+	show_debug_message("###############################################################");
+	show_debug_message("# Exception Thrown");
+	show_debug_message("###############################################################");
+	show_debug_message(json_stringify(_exception, true));
+	show_debug_message("###############################################################");
+});

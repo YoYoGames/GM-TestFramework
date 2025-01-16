@@ -1,55 +1,35 @@
 name: CI
 
 on:
-  pull_request:
-
-  workflow_dispatch:
-    inputs:
-       CONFIG_FILE:
-         description: "CONFIG_FILE"
-         required: true
-       RSS_Feed:
-         description: "RSS_Feed"
-         required: false
-         type: string
-       EXTRA_PARAMS:
-          description: "EXTRA_PARAMS from config"
-          required: false
-          type: string         
+  pull_request:      
 
 jobs:
  
   CI:
     name: "CI"
     runs-on: Windows
+    timeout-minutes: 50
     steps:
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
         with:
           path: GM-TF
+      - name: Wait for 10 Minutes
+        run: Start-Sleep -Seconds 300
+        shell: pwsh        
       - run: .\setup.bat
         working-directory: GM-TF
-        shell: cmd          
-      - name: Testing Manually witth passing RSS_Feed for Beta and Monthly builds
-        if: github.event_name == 'workflow_dispatch'
-        run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
-        working-directory: GM-TF  
-        shell: cmd         
-      - name: Testing on PR
-        if: github.event_name == 'pull_request'
+        shell: cmd                  
+      - name: Testing on PR    
         run: run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
         working-directory: GM-TF   
         shell: cmd        
-      - name: Upload tests Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: test_results
-          path: ${{ github.workspace }}\GM-TF\workspace\results\tests\*\*.json
-      - name: Upload summary Artifacts
+      - name: Upload Results Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: summary_file
-          path: ${{ github.workspace }}\GM-TF\workspace\summary.json
+          path: ${{ github.workspace }}\GM-TF\results
 
         
       

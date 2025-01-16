@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"make_even",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"make_even",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Tests/Utils.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

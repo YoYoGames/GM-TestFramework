@@ -14,7 +14,7 @@ from utils.logging_utils import LOGGER
 from utils.path_utils import ROOT_DIR
 
 # Define the asynchronous function to manage the server
-async def manage_server(task_func: callable):
+async def manage_server(task_func: callable, port: int = 8080):
     """
     Starts the echo server, executes the provided asynchronous task, 
     and then stops the server.
@@ -26,7 +26,7 @@ async def manage_server(task_func: callable):
     
     # Start the server
     local_ip = network_utils.get_local_ip()
-    await server.start(local_ip)
+    await server.start(local_ip, port)
     
     try:
         # Create a task for the provided function so it can run concurrently with the server

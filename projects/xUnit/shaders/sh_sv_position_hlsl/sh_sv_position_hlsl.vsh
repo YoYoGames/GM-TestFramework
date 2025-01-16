@@ -16,7 +16,7 @@ struct VertexShaderOutput {
 };
 
 // Uniforms
-uniform float2 u_resolution; // The resolution of the window
+float2 u_resolutionVS; // The resolution of the window
 
 
 VertexShaderOutput main(VertexShaderInput INPUT) {
