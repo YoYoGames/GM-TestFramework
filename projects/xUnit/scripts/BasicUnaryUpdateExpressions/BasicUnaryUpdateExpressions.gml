@@ -203,15 +203,20 @@ function BasicUnaryUpdateExpressions() : TestSuite() constructor {
 		assert_equals(score  , 0, "Static variable get failed.");
     });
 	
-	//addFact("Function Call Unary Update", function() {
-	//	var _func = function(){ return 0 }
-	//	
-	//	assert_equals(_func()  , 0, "Function call get failed.");
-    //    assert_equals(++_func(), 0, "Function call PlusPlus Suffix failed.");
-	//	assert_equals(_func()++, 2, "Function call PlusPlus Prefix failed.");
-	//	assert_equals(--_func(), 2, "Function call MinusMinus Suffix failed.");
-	//	assert_equals(_func()--, 0, "Function call MinusMinus Prefix failed.");
-	//	assert_equals(_func()  , 0, "Function call get failed.");
-    //});
+	addFact("Function Call Unary Update", function() {
+		
+		assert_true(false, "This code should be uncommented when the bug #9040 is fixed!");
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		//var _func = function(){ return 0 }
+		//
+		//assert_equals(_func()  , 0, "Function call get failed.");
+		//assert_equals(++_func(), 0, "Function call PlusPlus Suffix failed.");
+		//assert_equals(_func()++, 2, "Function call PlusPlus Prefix failed.");
+		//assert_equals(--_func(), 2, "Function call MinusMinus Suffix failed.");
+		//assert_equals(_func()--, 0, "Function call MinusMinus Prefix failed.");
+		//assert_equals(_func()  , 0, "Function call get failed.");
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+    });
 	
 }
