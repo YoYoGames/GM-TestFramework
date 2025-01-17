@@ -81,8 +81,21 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 	}
 	
 	// Save the surface to a .png file (for manual checking)
-	surface_save(_test_surface, working_directory + _test_name + "Result.png");
+	var _path_surface = game_save_id + _test_name + "Result.png";
+	surface_save(_test_surface, _path_surface);
+	log_debug("Saving " + _path_surface);
 
+	// Save the surface as buffer (for manual checking)
+	var _buffer = buffer_create(
+		surface_get_width(_test_surface) * surface_get_height(_test_surface) * 4 * buffer_sizeof(buffer_u8),
+		buffer_fast, 1);
+	buffer_get_surface(_buffer, _test_surface, 0);
+	var _path_buffer = game_save_id + _test_name + "ResultBuffer";
+	buffer_save(_buffer, _path_buffer);
+	log_debug("Saving " + _path_buffer);
+	buffer_delete(_buffer);
+
+	// Make a temporary sprite out of the surface so we can use our function for comparing sprites
 	var _test_sprite = sprite_create_from_surface(
 		_test_surface, 0, 0,
 		surface_get_width(_test_surface), surface_get_height(_test_surface),
@@ -148,8 +161,21 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 		}
 	
 		// Save the surface to a .png file (for manual checking)
-		surface_save(_test_surfaces[i], working_directory + _test_name + "Result" + string(i) + ".png");
+		var _path_surface = game_save_id + _test_name + "Result" + string(i) + ".png";
+		surface_save(_test_surfaces[i], _path_surface);
+		log_debug("Saving " + _path_surface);
+		
+		// Save the surface as buffer (for manual checking)
+		var _buffer = buffer_create(
+			surface_get_width(_test_surfaces[i]) * surface_get_height(_test_surfaces[i]) * 4 * buffer_sizeof(buffer_u8),
+			buffer_fast, 1);
+		buffer_get_surface(_buffer, _test_surfaces[i], 0);
+		var _path_buffer = game_save_id + _test_name + "ResultBuffer" + string(i);
+		buffer_save(_buffer, _path_buffer);
+		log_debug("Saving " + _path_buffer);
+		buffer_delete(_buffer);
 
+		// Make a temporary sprite out of the surface so we can use our function for comparing sprites
 		var _test_sprite = sprite_create_from_surface(
 			_test_surfaces[i], 0, 0,
 			surface_get_width(_test_surfaces[i]), surface_get_height(_test_surfaces[i]),

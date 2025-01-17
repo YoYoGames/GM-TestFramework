@@ -886,7 +886,6 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			
 			// Stores which frame of the draw event we're on
 			draw_frame = 0;
-			
 		},
 		ev_draw: function() {
 			// Initialise test name and fail message to use in buffer comparison
@@ -943,73 +942,58 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			
 			// Generate a grid of rects to display light data
 			rects = generate_rect_grid(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE, 4, 2);
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise variable to indicate whether the lights should be set this frame
-			var _set_value = false;
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderUniformTests/LightsDirection/";
-			var _test_prefix = "Unset";
-			var _test_fail_message = test_current().name + ", failed draw buffer comparison with no lights set";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, set the lights' values to check they can be modified correctly
-				case 1:
-					_test_prefix = "Set";
-					_test_fail_message = test_current().name + ", failed draw buffer comparison with 8 directional lights set";
-					_set_value = true;
-					break;
-				// On the third frame, end the test
-				case 2:
-					test_end();
-					return;
-			}
+			var _test_path = "ShaderUniformTests/LightsDirection/Set";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with 8 directional lights set";
 			
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 4, SHADER_TEST_DEFAULT_SIZE * 2);
 			
-			// If lights should be set this frame, set them all to directional lights with different values
-			if (_set_value == true)
+			draw_set_lighting(true);
+			
+			for (var i = 0; i < 8; ++i)
 			{
-				draw_light_define_direction(0, 1, 0, 0, c_white);
-				draw_light_define_direction(1, 0, 1, 0, c_white);
-				draw_light_define_direction(2, 0, 0, 1, c_white);
-				draw_light_define_direction(3, 0.3, 0.3, 0.3, c_white);
-				// Set the light at index 3 to be disabled, to test how that effects the shader results
-				draw_light_enable(3, false)
-				draw_light_define_direction(4, -1, 0, 0, c_white);
-				draw_light_define_direction(5, 0, -1, 0, c_white);
-				draw_light_define_direction(6, 0, 0, -1, c_white);
-				draw_light_define_direction(7, -0.3, -0.3, -0.3, c_white);
+				draw_light_enable(i, true)
 			}
+			
+			draw_light_define_direction(0, 1, 0, 0, c_white);
+			draw_light_define_direction(1, 0, 1, 0, c_white);
+			draw_light_define_direction(2, 0, 0, 1, c_white);
+			draw_light_define_direction(3, 0.3, 0.3, 0.3, c_white);
+			// Set the light at index 3 to be disabled, to test how that effects the shader results
+			draw_light_enable(3, false)
+			draw_light_define_direction(4, -1, 0, 0, c_white);
+			draw_light_define_direction(5, 0, -1, 0, c_white);
+			draw_light_define_direction(6, 0, 0, -1, c_white);
+			draw_light_define_direction(7, -0.3, -0.3, -0.3, c_white);
 			
 			// Start using shader
 			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Draw grid of rectangles
-				for (i = 0; i < 8; i++)
+				for (var i = 0; i < 8; i++)
 				{
 					draw_rect(rects[i], i, 1);
 				}
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			draw_set_lighting(false);
 			
-			// Increment frame counter
-			draw_frame++;	
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
+			
+			test_end();
 		}
 	},
 	{ 
 		test_timeout_millis: 3000
 	});
 	
-	addTestAsync("gm_lights_pos_range", objTestAsyncDraw, { //KNOWN FAIL - https://github.com/YoYoGames/GameMaker-Bugs/issues/6509
+	addTestAsync("gm_lights_pos_range", objTestAsyncDraw, {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
@@ -1019,66 +1003,51 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			
 			// Generate a grid of rects to display light data
 			rects = generate_rect_grid(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE, 4, 2);
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise variable to indicate whether the lights should be set this frame
-			var _set_value = false;
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderUniformTests/LightsPosRange/";
-			var _test_prefix = "Unset";
-			var _test_fail_message = test_current().name + ", failed draw buffer comparison with no lights set";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, set the lights' values to check they can be modified correctly
-				case 1:
-					_test_prefix = "Set";
-					_test_fail_message = test_current().name + ", failed draw buffer comparison with 8 point lights set";
-					_set_value = true;
-					break;
-				// On the third frame, end the test
-				case 2:
-					test_end();
-					return;
-			}
+			var _test_path = "ShaderUniformTests/LightsPosRange/Set";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with 8 point lights set";
 		
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 4, SHADER_TEST_DEFAULT_SIZE * 2);
 			
-			// If lights should be set this frame, set them all to point lights with different values
-			if (_set_value == true)
+			draw_set_lighting(true);
+			
+			for (var i = 0; i < 8; ++i)
 			{
-				draw_light_define_point(0, 1, 0, 0, 1, c_white);
-				draw_light_define_point(1, 0, 1, 0, 1, c_white);
-				draw_light_define_point(2, 0, 0, 1, 1, c_white);
-				draw_light_define_point(3, 1, 1, 1, 1, c_white);
-				draw_light_define_point(4, -1, 0, 0, 0.7, c_white);
-				draw_light_define_point(5, 0, -1, 0, 0.7, c_white);
-				draw_light_define_point(6, 0, 0, -1, 0.7, c_white);
-				draw_light_define_point(7, -1, -1, -1, 1, c_white);
-				// Set the light at index 7 to be disabled, to test how that effects the shader results
-				draw_light_enable(7, false)
+				draw_light_enable(i, true)
 			}
+			
+			draw_light_define_point(0, 1, 0, 0, 1, c_white);
+			draw_light_define_point(1, 0, 1, 0, 1, c_white);
+			draw_light_define_point(2, 0, 0, 1, 1, c_white);
+			draw_light_define_point(3, 1, 1, 1, 1, c_white);
+			draw_light_define_point(4, -1, 0, 0, 0.7, c_white);
+			draw_light_define_point(5, 0, -1, 0, 0.7, c_white);
+			draw_light_define_point(6, 0, 0, -1, 0.7, c_white);
+			draw_light_define_point(7, -1, -1, -1, 1, c_white);
+			// Set the light at index 7 to be disabled, to test how that effects the shader results
+			draw_light_enable(7, false)
 			
 			// Start using shader
 			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Draw grid of rectangles
-				for (i = 0; i < 8; i++)
+				for (var i = 0; i < 8; i++)
 				{
 					draw_rect(rects[i], i, 1);
 				}
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			draw_set_lighting(false);
 			
-			// Increment frame counter
-			draw_frame++;
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
+			
+			test_end();
 		}
 	},
 	{ 
@@ -1095,65 +1064,49 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			
 			// Generate a grid of rects to display light data
 			rects = generate_rect_grid(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE, 4, 2);
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise variable to indicate whether the lights should be set this frame
-			var _set_value = false;
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderUniformTests/LightsColour/";
-			var _test_prefix = "Unset";
-			var _test_fail_message = test_current().name + ", failed draw buffer comparison with no lights set";
+			var _test_path = "ShaderUniformTests/LightsColour/Set";
+			var _test_fail_message = test_current().name + ", failed draw buffer comparison with lights set";
 			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, set the lights' values to check they can be modified correctly
-				case 1:
-					_test_prefix = "Set";
-					_test_fail_message = test_current().name + ", failed draw buffer comparison with 8 lights set";
-					_set_value = true;
-					break;
-				// On the third frame, end the test
-				case 2:
-					test_end();
-					return;
-			}
-		
 			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 4, SHADER_TEST_DEFAULT_SIZE * 2);
 			
-			// If lights should be set this frame, set them all to point and directional lights with different values
-			if (_set_value == true)
+			draw_set_lighting(true)
+			
+			for (var i = 0; i < 8; ++i)
 			{
-				draw_set_lighting(true)
-				draw_light_define_point(0, 0, 0, 0, 1, $FF0000FF);
-				draw_light_define_point(1, 0, 0, 0, 1, $FF00FF00);
-				draw_light_define_point(2, 0, 0, 0, 1, $FFFF0000);
-				draw_light_define_point(3, 0, 0, 0, 1, $77FFFFFF);
-				draw_light_define_direction(4, 1, 0, 0, $FFFFFF00);
-				draw_light_define_direction(5, 1, 0, 0, $FFFF00FF);
-				draw_light_define_direction(6, 1, 0, 0, $FF00FFFF);
-				draw_light_define_direction(7, 1, 0, 0, $FF000000);
+				draw_light_enable(i, true)
 			}
+			
+			draw_light_define_point(0, 0, 0, 0, 1, $FF0000FF);
+			draw_light_define_point(1, 0, 0, 0, 1, $FF00FF00);
+			draw_light_define_point(2, 0, 0, 0, 1, $FFFF0000);
+			draw_light_define_point(3, 0, 0, 0, 1, $77FFFFFF);
+			draw_light_define_direction(4, 1, 0, 0, $FFFFFF00);
+			draw_light_define_direction(5, 1, 0, 0, $FFFF00FF);
+			draw_light_define_direction(6, 1, 0, 0, $FF00FFFF);
+			draw_light_define_direction(7, 1, 0, 0, $FF000000);
 			
 			// Start using shader
 			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Draw grid of rectangles
-				for (i = 0; i < 8; i++)
+				for (var i = 0; i < 8; i++)
 				{
 					draw_rect(rects[i], i, 1);
 				}
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path + _test_prefix, _test_fail_message);
+			draw_set_lighting(false);
 			
-			// Increment frame counter
-			draw_frame++;
+			// End draw buffer comparison
+			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
+			
+			test_end();
 		}
 	},
 	{ 
@@ -1200,8 +1153,11 @@ function BasicShaderUniformsTestSuite() : TestSuite() constructor {
 			
 			// Start using shader
 			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
 				// Draw rectangle
 				draw_rect(rect);
+				gpu_pop_state();
 			// Stop using shader
 			shader_reset();
 			
