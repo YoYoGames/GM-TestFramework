@@ -13,6 +13,7 @@ testFramework = new TestFrameworkRun();
 // ################# TEST SUITE REGISTRATION #################
 
 // Register your test suites here...
+testFramework.addSuite(BasicAccessorExpressionsTestSuite);
 testFramework.addSuite(BasicArrayTestSuite);
 testFramework.addSuite(BasicAudioTestSuite);
 testFramework.addSuite(BasicBase64TestSuite);
