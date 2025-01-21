@@ -1044,9 +1044,10 @@ function BasicStatementExpressionsTestSuite() : TestSuite() constructor {
 	addFact("With statement with global", function() {
 	    global.x = 50;
     
-	    with (global) {
-	        x += 50;  // Should modify the global scope
-	    }
+		assert_true(false, "The block of code below should be uncommented after a YYC fix for using with (global).");
+	    //with (global) {
+	    //    x += 50;  // Should modify the global scope
+	    //}
     
 	    // Assertions
 	    assert_equals(global.x, 100, "With statement with global failed.");
