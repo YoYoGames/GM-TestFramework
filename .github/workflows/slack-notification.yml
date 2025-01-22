@@ -1,0 +1,39 @@
+name: Monitor and Restart Windows Runners
+
+on:
+  pull_request:
+  schedule:
+    - cron: "0 */3 * * *" # Runs every 10 minutes
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  monitor-runners:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Offline Runners
+        id: check_runners
+        run: |
+          echo "Checking for offline runners..."
+          OFFLINE_RUNNERS=$(gh api -X GET /orgs/YoYoGames/actions/runners | jq -r '.runners[] | select(.status != "online") | .name')
+          if [ -z "$OFFLINE_RUNNERS" ]; then
+            echo "No offline runners detected."
+            echo "::set-output name=offline_runners::"
+          else
+            echo "Offline runners detected: $OFFLINE_RUNNERS"
+            echo "::set-output name=offline_runners::$OFFLINE_RUNNERS"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Notify Slack (if runners restarted)
+        if: steps.check_runners.outputs.offline_runners != ''
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_CHANNEL: gmtestframework-pipeline
+            SLACK_COLOR: ${{ job.status }} 
+            SLACK_ICON: https://github.com/black.png?size=48
+            SLACK_MESSAGE: 'Runners are offline......'
+            SLACK_TITLE: Notification for Runers
+            SLACK_USERNAME: ${{ github.actor }}
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} 
+
