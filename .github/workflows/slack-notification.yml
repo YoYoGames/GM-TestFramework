@@ -1,4 +1,4 @@
-name: Monitor and Restart Windows Runners
+name: Slack Notification for Offline Runners
 
 on:
   pull_request:
