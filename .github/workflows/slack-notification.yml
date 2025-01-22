@@ -8,7 +8,7 @@ on:
 
 jobs:
   monitor-runners:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Check Offline Runners
         id: check_runners
@@ -17,10 +17,10 @@ jobs:
           OFFLINE_RUNNERS=$(gh api -X GET /orgs/YoYoGames/actions/runners | jq -r '.runners[] | select(.status != "online") | .name')
           if [ -z "$OFFLINE_RUNNERS" ]; then
             echo "No offline runners detected."
-            echo "::set-output name=offline_runners::"
+            echo "offline_runners=" >> $GITHUB_ENV
           else
             echo "Offline runners detected: $OFFLINE_RUNNERS"
-            echo "::set-output name=offline_runners::$OFFLINE_RUNNERS"
+            echo "offline_runners=$OFFLINE_RUNNERS" >> $GITHUB_ENV
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
