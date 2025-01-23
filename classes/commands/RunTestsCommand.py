@@ -32,22 +32,15 @@ class RunTestsCommand(BaseCommand):
             subparsers (argparse._SubParsersAction): The subparsers action from argparse to add the command to.
         """
         parser: argparse.ArgumentParser = subparsers.add_parser('runTests', help='Runs the test servers (useful for IDE execution)')
-        parser.add_argument('-yypc', '--yypc-path', type=str, required=True, help='The path to the project compiler')
-        parser.add_argument('-cr', '--coreresources-path', type=str, required=True, help='The path to the CoreResources dll')
+        parser.add_argument('-gmrt', '--gmrt-path', type=str, required=True, help='The path to GMRT folder')
         parser.add_argument('-yyp', '--project-path', type=str, required=True, help='The path to the project file (.yyp)')
         parser.add_argument('-o', '--output-folder', type=str, required=True, help='The path to the output folder')
-        parser.add_argument('-t', '--template-folder', type=str, required=True, help='The mode to be used during compilation')
-        parser.add_argument('-tc', '--toolchain-folder', type=str, required=True, help='The path to the GMRT toolchain')
-        parser.add_argument('-tt', '--target-triple', choices=['x86_64-pc-windows-msvc'], default='x86_64-pc-windows-msvc', help=f'The target platform to build to')
-        parser.add_argument('-ac', '--asset-compiler-path', type=str, required=True, help='The location of the GMRT asset compiler')
-        parser.add_argument('-aca', '--asset-compiler-args', type=str, default="", help='The arguments to be pass through to the asset compiler')
-        parser.add_argument('-m', '--mode', choices=['build-run', 'build-only'], default='build-run', help='The mode to be used during compilation')
+        parser.add_argument('-bg', '--build-graph', type=str, required=True, help='The build graph file to be used')
+        parser.add_argument('-bj', '--build-jobs', type=str, required=True, help='The build jobs to be ran from the build graph')
         parser.add_argument('-bt', '--build-type', choices=['Debug', 'Release'], default='Debug', help='The type of build (Debug|Release)')
         parser.add_argument('-sbt', '--script-build-type', choices=['Debug', 'Release'], default='Debug', help='The type of script build (Debug|Release)')
-        parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
-        parser.add_argument('-ra', '--run-arguments', type=str, default="", help="Arguments to pass to the run mode of YYPC")
         parser.add_argument('-v', '--verbose', action='store_true', help="Enables verbose output")
-
+        parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
         parser.set_defaults(command_class=cls)
 
     async def execute(self):
@@ -60,53 +53,50 @@ class RunTestsCommand(BaseCommand):
         self.project_write_config()
 
         run_name = self.get_argument('run_name')
-        remote = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
 
         # Clean results folder
         file_utils.clean_directory(ROOT_DIR / 'results')
 
+        # This is the root folder from GMRT
+        GMRT_PATH = Path(self.get_argument("gmrt_path"))
+        BUILD_TYPE: str = self.get_argument("build_type")
+
+        # The path to the gmrt executable
+        gmrt_exe = GMRT_PATH / BUILD_TYPE / "bin" / ('gmrt.exe' if BUILD_TYPE.lower() == 'release' else 'gmrtd.exe')
+        assert(gmrt_exe.exists())
+
         # Execute ProjectTool to ensure correct project format
-        core_resources_path = Path(self.get_argument("coreresources_path"))
+        core_resources_path = GMRT_PATH / BUILD_TYPE / "bin" / "CoreResources.dll"
         assert(core_resources_path.exists())
 
+        # Locally install the ProjectTool utility
         await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"])
         project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
         assert(project_tool_path.exists())
 
+        # Run the ProjecTool to downgrade of upgrade the project ot the correct version
         os.environ['PROJECTTOOL'] = str(project_tool_path)
         os.environ['CORERESOURCES_DLL'] = str(core_resources_path)
         subprocess.run([PROJECT_SCRIPT_PATH])
 
-        # THIS SHOULD BE JUST THE BUILD STEP
-        # await async_utils.run_and_capture(self.get_argument("yypc_path"), [
-        #     self.get_argument("project_path"), 
-        #     '-o', self.get_argument("output_folder"),
-        #     '-t', self.get_argument("template_folder"),
-        #     f'-toolchain={self.get_argument("toolchain_folder")}',
-        #     f'-target-triple={self.get_argument("target_triple")}',
-        #     f'-asset-compiler={self.get_argument("asset_compiler_path")}',
-        #     f'-asset-compiler-args={self.get_argument("asset_compiler_args")}',
-        #     f'-build-type=build-only',
-        #     f'-script-build-type={self.get_argument("script_build_type")}',
-        #     f'-mode={self.get_argument("mode")}',
-        #     f'-run-args={self.get_argument("run_arguments")}',
-        #     '-v'])
-        
-        # THIS SHOULD BE JUST THE RUN STEP
-        remote = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
-        await manage_server(lambda:  remote.serve_or_wait_for_space(self.get_argument("yypc_path"), [
+        # Base arguments
+        args = [
             self.get_argument("project_path"), 
             '-o', self.get_argument("output_folder"),
-            '-t', self.get_argument("template_folder"),
-            f'-toolchain={self.get_argument("toolchain_folder")}',
-            f'-target-triple={self.get_argument("target_triple")}',
-            f'-asset-compiler={self.get_argument("asset_compiler_path")}',
-            f'-asset-compiler-args={self.get_argument("asset_compiler_args")}',
-            f'-build-type=build-run',
-            f'-script-build-type={self.get_argument("script_build_type")}',
-            f'-mode={self.get_argument("mode")}',
-            f'-run-args={self.get_argument("run_arguments")}',
-            '-v'], port=TCP_PORT), port=HTTP_PORT)
+            f'-bg={self.get_argument("build_graph")}',
+            f'-bj={self.get_argument("build_jobs")}',
+            f'--build-type={self.get_argument("build_type")}',
+            f'--script-build-type={self.get_argument("script_build_type")}',
+            '--cache-dir=C:/Users/xdgam/Documents/GameMaker/Cache'
+            ]
+
+        # Make the output verbose
+        if self.get_argument("verbose"):
+            args.append('-vv')
+
+        # THIS SHOULD BE JUST THE RUN STEP
+        remote = RemoteControlServer(ExecutionMode.MANUAL, run_name=run_name)
+        await manage_server(lambda:  remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), port=HTTP_PORT)
 
     def project_write_config(self):
         project_path = self.get_argument("project_path")
