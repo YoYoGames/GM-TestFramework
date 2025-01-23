@@ -1,5 +1,5 @@
 
-#macro FRAMEWORK_SHOULD_CATCH false
+#macro FRAMEWORK_SHOULD_CATCH true
 
 #macro SINGLE_TEST_MODE false
 
