@@ -25,14 +25,9 @@ jobs:
             $startTime = Get-Date
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
-      
-            # Ensure configs directory exists
-            if (!(Test-Path -Path "C:\GM-TestFramework\configs")) {
-              Write-Host "Configs directory not found. Exiting."
-              exit 1
-            }
+
             Write-Host "Starting build..."
-            cmd /c "run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
+            cmd /c "run_ci.bat C:\\GM-TestFramework\\configs\\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
         
             # Monitor process for looping
             while ($true) {
