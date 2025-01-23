@@ -27,7 +27,7 @@ jobs:
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
 
             Write-Host "Starting build..."
-            cmd /c "C:\GM-TestFramework\GM-TF\run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
+            cmd /c "${{ github.workspace}}\GM-TF\run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
         
             # Monitor process for looping
             while ($true) {
