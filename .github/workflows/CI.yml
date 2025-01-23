@@ -27,7 +27,7 @@ jobs:
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
 
             Write-Host "Starting build..."
-            cmd /c "${{ github.workspace}}\GM-TF\run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
+            cmd /c "run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
         
             # Monitor process for looping
             while ($true) {
@@ -41,7 +41,9 @@ jobs:
                 throw "Build exceeded the 5-minute timeout and was terminated."
               }
               Start-Sleep -Seconds 10  # Check every 10 seconds
-            }       
+            }     
+        working-directory: ${{ github.workspace}}\GM-TF
+        shell: pwsh  
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
