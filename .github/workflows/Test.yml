@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  pull_request:      
+
+jobs:
+ 
+  CI:
+    name: "CI"
+    runs-on: runner4
+    timeout-minutes: 5
+    steps:
+      - name: Check out the GM-TestFramework repo
+        uses: actions/checkout@v4
+        with:
+          path: GM-TF       
+      - run: .\setup.bat
+        working-directory: GM-TF
+        shell: cmd                  
+      - name: Testing on PR    
+        run: run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
+        working-directory: GM-TF   
+        shell: cmd        
+
+        
+      
