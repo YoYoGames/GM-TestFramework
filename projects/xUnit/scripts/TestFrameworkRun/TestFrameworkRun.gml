@@ -16,7 +16,12 @@ function TestFrameworkRun() : TestBatch() constructor {
 	/// @description Adds a new test suite to the FrameworkRun process.
 	/// @param {Function} suite
 	static addSuite = function(_suite) {
-		add(new _suite());
+		try {
+			add(new _suite());
+		}
+		catch (_err) {
+			log_critical($"addSuite :: internal error during test suite instantiation (skipping)");
+		}
 	}
 
 	/// @function addWithName(name)
