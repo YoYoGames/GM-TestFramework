@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: GM-TF
-      - name: Wait for 10 Minutes
-        run: Start-Sleep -Seconds 300
-        shell: pwsh        
+      # - name: Wait for 10 Minutes
+      #   run: Start-Sleep -Seconds 300
+      #   shell: pwsh        
       - run: .\setup.bat
         working-directory: GM-TF
         shell: cmd                  
@@ -27,7 +27,7 @@ jobs:
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
 
             Write-Host "Starting build..."
-            & run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+            cmd /c "C:\GM-TestFramework\GM-TF\run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
         
             # Monitor process for looping
             while ($true) {
