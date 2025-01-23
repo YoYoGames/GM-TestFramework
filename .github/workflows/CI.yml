@@ -25,7 +25,12 @@ jobs:
             $startTime = Get-Date
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
-
+      
+            # Ensure configs directory exists
+            if (!(Test-Path -Path "C:\GM-TestFramework\configs")) {
+              Write-Host "Configs directory not found. Exiting."
+              exit 1
+            }
             Write-Host "Starting build..."
             cmd /c "run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}"
         
@@ -34,15 +39,14 @@ jobs:
               if ((Get-Date) -gt $maxTime) {
                 # If looping exceeds 5 minutes, send a Slack notification and exit
                 $slackPayload = @{
-                  channel = "C07AMRFCC0P"
                   text = "Build is stuck in a loop for more than 5 minutes. Exiting process."
                 } | ConvertTo-Json -Depth 10
                 Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
-                throw "Build exceeded the 5-minute timeout and was terminated."
+                throw "Test Framework Build exceeded the 5-minute timeout and was terminated."
               }
               Start-Sleep -Seconds 10  # Check every 10 seconds
             }     
-        working-directory: ${{ github.workspace}}\GM-TF
+        working-directory: GM-TF
         shell: pwsh  
       - name: Upload Results Artifacts
         if: always()
