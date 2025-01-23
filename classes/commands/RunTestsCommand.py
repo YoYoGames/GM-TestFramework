@@ -32,71 +32,100 @@ class RunTestsCommand(BaseCommand):
             subparsers (argparse._SubParsersAction): The subparsers action from argparse to add the command to.
         """
         parser: argparse.ArgumentParser = subparsers.add_parser('runTests', help='Runs the test servers (useful for IDE execution)')
+        # The GMRT filepath
         parser.add_argument('-gmrt', '--gmrt-path', type=str, required=True, help='The path to GMRT folder')
+        # The GMRT arguments
         parser.add_argument('-yyp', '--project-path', type=str, required=True, help='The path to the project file (.yyp)')
         parser.add_argument('-o', '--output-folder', type=str, required=True, help='The path to the output folder')
         parser.add_argument('-bg', '--build-graph', type=str, required=True, help='The build graph file to be used')
         parser.add_argument('-bj', '--build-jobs', type=str, required=True, help='The build jobs to be ran from the build graph')
         parser.add_argument('-bt', '--build-type', choices=['Debug', 'Release'], default='Debug', help='The type of build (Debug|Release)')
         parser.add_argument('-sbt', '--script-build-type', choices=['Debug', 'Release'], default='Debug', help='The type of script build (Debug|Release)')
+        # The GMRT optional arguments
+        parser.add_argument('-cd', '--cache-dir', type=str, required=False, help='The cache directory to be used')
         parser.add_argument('-v', '--verbose', action='store_true', help="Enables verbose output")
+        # TestFramework arguments
         parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
         parser.set_defaults(command_class=cls)
 
-    async def execute(self):
-
+    async def execute(self) -> None:
         """
-        Executes the command to run the server. If a project configuration file is provided, 
-        it adds server information to the configuration and saves it. Then, it manages the server's 
-        lifecycle, waiting for user input to stop the server.
-        """       
+        Executes the command to run the server. Manages configuration, cleans up directories, 
+        ensures project compatibility, and launches the server lifecycle.
+        """
         self.project_write_config()
+        run_name = self.get_argument("run_name")
+        
+        # Prepare environment and paths
+        self._clean_results_directory()
+        gmrt_exe, core_resources_path = self._prepare_gmrt_paths()
+        project_tool_path = await self._install_and_prepare_project_tool()
+        
+        # Ensure correct project format
+        self._run_project_tool(project_tool_path, core_resources_path)
+        
+        # Build server arguments
+        args = self._build_server_arguments()
 
-        run_name = self.get_argument('run_name')
-
-        # Clean results folder
-        file_utils.clean_directory(ROOT_DIR / 'results')
-
-        # This is the root folder from GMRT
-        GMRT_PATH = Path(self.get_argument("gmrt_path"))
-        BUILD_TYPE: str = self.get_argument("build_type")
-
-        # The path to the gmrt executable
-        gmrt_exe = GMRT_PATH / BUILD_TYPE / "bin" / ('gmrt.exe' if BUILD_TYPE.lower() == 'release' else 'gmrtd.exe')
-        assert(gmrt_exe.exists())
-
-        # Execute ProjectTool to ensure correct project format
-        core_resources_path = GMRT_PATH / BUILD_TYPE / "bin" / "CoreResources.dll"
-        assert(core_resources_path.exists())
-
-        # Locally install the ProjectTool utility
-        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"])
-        project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
-        assert(project_tool_path.exists())
-
-        # Run the ProjecTool to downgrade of upgrade the project ot the correct version
-        os.environ['PROJECTTOOL'] = str(project_tool_path)
-        os.environ['CORERESOURCES_DLL'] = str(core_resources_path)
-        subprocess.run([PROJECT_SCRIPT_PATH])
-
-        # Base arguments
-        args = [
-            self.get_argument("project_path"), 
-            '-o', self.get_argument("output_folder"),
-            f'-bg={self.get_argument("build_graph")}',
-            f'-bj={self.get_argument("build_jobs")}',
-            f'--build-type={self.get_argument("build_type")}',
-            f'--script-build-type={self.get_argument("script_build_type")}',
-            '--cache-dir=C:/Users/xdgam/Documents/GameMaker/Cache'
-            ]
-
-        # Make the output verbose
-        if self.get_argument("verbose"):
-            args.append('-vv')
-
-        # THIS SHOULD BE JUST THE RUN STEP
+        # Start the server
         remote = RemoteControlServer(ExecutionMode.MANUAL, run_name=run_name)
-        await manage_server(lambda:  remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), port=HTTP_PORT)
+        await manage_server(
+            lambda: remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), 
+            port=HTTP_PORT
+        )
+
+    def _clean_results_directory(self) -> None:
+        """Cleans the results directory."""
+        file_utils.clean_directory(ROOT_DIR / "results")
+
+    def _prepare_gmrt_paths(self) -> tuple[Path, Path]:
+        """Prepares and validates paths for GMRT and CoreResources."""
+        gmrt_path = Path(self.get_argument("gmrt_path"))
+        build_type = self.get_argument("build_type").lower()
+
+        gmrt_exe = gmrt_path / build_type / "bin" / ("gmrt.exe" if build_type == "release" else "gmrtd.exe")
+        core_resources_path = gmrt_path / build_type / "bin" / "CoreResources.dll"
+        
+        assert gmrt_exe.exists(), f"GMRT executable not found: {gmrt_exe}"
+        assert core_resources_path.exists(), f"CoreResources.dll not found: {core_resources_path}"
+        
+        return gmrt_exe, core_resources_path
+
+    async def _install_and_prepare_project_tool(self) -> Path:
+        """Installs and prepares the ProjectTool utility."""
+        await async_utils.run_and_capture(
+            NODEJS_NPM_PATH, 
+            ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"]
+        )
+        project_tool_path = NODE_MODULES_DIR / "@gm-tools" / "project-tool-win-x64" / "ProjectTool.exe"
+        assert project_tool_path.exists(), f"ProjectTool.exe not found: {project_tool_path}"
+        return project_tool_path
+
+    def _run_project_tool(self, project_tool_path: Path, core_resources_path: Path) -> None:
+        """Runs the ProjectTool for project compatibility adjustments."""
+        os.environ["PROJECTTOOL"] = str(project_tool_path)
+        os.environ["CORERESOURCES_DLL"] = str(core_resources_path)
+        subprocess.run([PROJECT_SCRIPT_PATH], check=True)
+
+    def _build_server_arguments(self) -> list[str]:
+        """Builds the argument list for the server."""
+        args = [
+            self.get_argument("project_path"),
+            "-o", self.get_argument("output_folder"),
+            f"-bg={self.get_argument('build_graph')}",
+            f"-bj={self.get_argument('build_jobs')}",
+            f"--build-type={self.get_argument('build_type')}",
+            f"--script-build-type={self.get_argument('script_build_type')}",
+        ]
+
+        cache_dir = self.get_argument("cache_dir")
+        if cache_dir:
+            args.append(f"--cache-dir={cache_dir}")
+
+        if self.get_argument("verbose"):
+            args.append("-vv")
+
+        return args
 
     def project_write_config(self):
         project_path = self.get_argument("project_path")
