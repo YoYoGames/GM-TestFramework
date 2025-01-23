@@ -21,9 +21,27 @@ jobs:
         working-directory: GM-TF
         shell: cmd                  
       - name: Testing on PR    
-        run: run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss       
-        working-directory: GM-TF   
-        shell: cmd        
+        run: |
+            $startTime = Get-Date
+            $timeoutMinutes = 5
+            $maxTime = $startTime.AddMinutes($timeoutMinutes)
+
+            Write-Host "Starting build..."
+            & run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+        
+            # Monitor process for looping
+            while ($true) {
+              if ((Get-Date) -gt $maxTime) {
+                # If looping exceeds 5 minutes, send a Slack notification and exit
+                $slackPayload = @{
+                  channel = "C07AMRFCC0P"
+                  text = "Build is stuck in a loop for more than 5 minutes. Exiting process."
+                } | ConvertTo-Json -Depth 10
+                Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
+                throw "Build exceeded the 5-minute timeout and was terminated."
+              }
+              Start-Sleep -Seconds 10  # Check every 10 seconds
+            }       
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
