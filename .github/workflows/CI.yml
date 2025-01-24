@@ -26,7 +26,8 @@ jobs:
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
             $logDirectory = "${{ github.workspace }}\GM-TF"
-            $logFile = Join-Path -Path $logDirectory -ChildPath "build_log.txt"
+            $stdoutFile = Join-Path -Path $logDirectory -ChildPath "build_stdout.txt"
+            $stderrFile = Join-Path -Path $logDirectory -ChildPath "build_stderr.txt"
 
             # Check if the directory exists; if not, create it
             if (-not (Test-Path -Path $logDirectory)) {
@@ -47,7 +48,7 @@ jobs:
             Write-Host "Starting build..."
             try {    
               # Start the external process and redirect output and error streams
-              $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" -RedirectStandardOutput $logFile -RedirectStandardError $logFile -NoNewWindow -PassThru
+              $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" -RedirectStandardOutput $stdoutFile -RedirectStandardError $stderrFile -NoNewWindow -PassThru
 
               # Monitor the process for looping
               while (-not $process.HasExited) {
@@ -62,7 +63,7 @@ jobs:
 
               # Check the exit code of the process
               if ($process.ExitCode -ne 0) {
-                  $errorOutput = Get-Content -Path $logFile -Raw
+                  $errorOutput = Get-Content -Path $stderrFile -Raw
                   Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $errorOutput"
                   throw "Build process exited with code $($process.ExitCode)."
               } else {
