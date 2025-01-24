@@ -22,35 +22,26 @@ jobs:
         shell: cmd                  
       - name: Testing on PR    
         run: |
-          @echo on
-          setlocal enabledelayedexpansion
-          set "startTime=%time%"
-          set "timeoutMinutes=5"
-          echo Starting build...
-
-          start "" /b run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
-
-          set /a "timeoutSeconds=timeoutMinutes*60"
-          set "elapsedTime=0"
-          :loop
-          timeout /t 10 >nul
-          set /a "elapsedTime+=10"
-          if !elapsedTime! geq !timeoutSeconds! (
-            echo Build is stuck in a loop for more than %timeoutMinutes% minutes. Exiting process.
-            powershell -Command "Invoke-RestMethod -Uri '%SLACK_WEBHOOK_URL%' -Method POST -ContentType 'application/json' -Body '{\"text\":\"Build is stuck in a loop for more than %timeoutMinutes% minutes. Exiting process.\"}'"
-            taskkill /im run_ci.bat /f
-            exit /b 1
-          )
-          tasklist /fi "imagename eq run_ci.bat" | find /i "run_ci.bat" >nul
-          if errorlevel 1 (
-            echo Build completed successfully.
-            exit /b 0
-          )
-          goto :loop
-        shell: cmd
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+            $startTime = Get-Date
+            $timeoutMinutes = 5
+            $maxTime = $startTime.AddMinutes($timeoutMinutes)
+            Write-Host "Starting build..."
+            cmd /c "run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"
+        
+            # Monitor process for looping
+            while ($true) {
+              if ((Get-Date) -gt $maxTime) {
+                # If looping exceeds 5 minutes, send a Slack notification and exit
+                $slackPayload = @{
+                  text = "Build is stuck in a loop for more than 5 minutes. Exiting process."
+                } | ConvertTo-Json -Depth 10
+                Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
+                throw "Test Framework Build exceeded the 5-minute timeout and was terminated."
+              }
+              Start-Sleep -Seconds 10  # Check every 10 seconds
+            }     
         working-directory: GM-TF
+        shell: pwsh           
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
