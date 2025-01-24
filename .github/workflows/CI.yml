@@ -25,70 +25,48 @@ jobs:
             $startTime = Get-Date
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
+            $logFile = "build_log.txt"
+
+            # Function to send Slack notification
+            function Send-SlackNotification {
+            param (
+                [string]$message
+            )
+            $slackPayload = @{
+                text = $message
+            } | ConvertTo-Json -Depth 10
+            Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
+            }
 
             Write-Host "Starting build..."
+            try {    
+              # Start the external process and redirect output and error streams
+              $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" -RedirectStandardOutput $logFile -RedirectStandardError $logFile -NoNewWindow -PassThru
 
-            # Initialize the process start information
-            $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
-            $processStartInfo.FileName = "cmd.exe"
-            $processStartInfo.Arguments = "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"
-            $processStartInfo.RedirectStandardOutput = $true
-            $processStartInfo.RedirectStandardError = $true
-            $processStartInfo.UseShellExecute = $false
-            $processStartInfo.CreateNoWindow = $true
+              # Monitor the process for looping
+              while (-not $process.HasExited) {
+                  if ((Get-Date) -gt $maxTime) {
+                    # If looping exceeds the timeout, send a Slack notification and terminate the process
+                    Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
+                    Stop-Process -Id $process.Id -Force
+                    throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
+                  }
+                  Start-Sleep -Seconds 10  # Check every 10 seconds
+              }
 
-            # Start the process
-            $process = New-Object System.Diagnostics.Process
-            $process.StartInfo = $processStartInfo
-            $process.Start() | Out-Null
-
-            # Read the output streams asynchronously
-            $stdOut = [System.Collections.ArrayList]::Synchronized((New-Object System.Collections.ArrayList))
-            $stdErr = [System.Collections.ArrayList]::Synchronized((New-Object System.Collections.ArrayList))
-
-            $stdOutEvent = {
-                param([object]$sender, [System.Diagnostics.DataReceivedEventArgs]$e)
-                if ($e.Data) {
-                    $stdOut.Add($e.Data) | Out-Null
-                }
-            }
-
-            $stdErrEvent = {
-                param([object]$sender, [System.Diagnostics.DataReceivedEventArgs]$e)
-                if ($e.Data) {
-                    $stdErr.Add($e.Data) | Out-Null
-                }
-            }
-
-            $process.BeginOutputReadLine()
-            $process.BeginErrorReadLine()
-            $process.add_OutputDataReceived($stdOutEvent)
-            $process.add_ErrorDataReceived($stdErrEvent)
-
-            # Monitor process for looping
-            while (-not $process.HasExited) {
-                if ((Get-Date) -gt $maxTime) {
-                  # If looping exceeds 5 minutes, send a Slack notification and exit
-                  $slackPayload = @{
-                      text = "Build is stuck in a loop for more than 5 minutes. Exiting process."
-                  } | ConvertTo-Json -Depth 10
-                  Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
-                  $process.Kill()
-                  throw "Test Framework Build exceeded the 5-minute timeout and was terminated."
-                }
-                Start-Sleep -Seconds 10  # Check every 10 seconds
-            }
-
-            # Ensure asynchronous read operations have completed
-            $process.WaitForExit()
-            $process.WaitForExit() | Out-Null
-
-            # Output the captured stdout and stderr
-            Write-Host "Standard Output:"
-            $stdOut | ForEach-Object { Write-Host $_ }
-
-            Write-Host "Standard Error:"
-            $stdErr | ForEach-Object { Write-Host $_ }    
+              # Check the exit code of the process
+              if ($process.ExitCode -ne 0) {
+                  $errorOutput = Get-Content -Path $logFile -Raw
+                  Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $errorOutput"
+                  throw "Build process exited with code $($process.ExitCode)."
+              } else {
+                  Write-Host "Build completed successfully."
+              }
+            } catch {
+                Write-Error "An error occurred: $_"
+                Send-SlackNotification "An error occurred during the build process: $_"
+                throw
+            } 
         working-directory: GM-TF
         shell: pwsh           
       - name: Upload Results Artifacts
