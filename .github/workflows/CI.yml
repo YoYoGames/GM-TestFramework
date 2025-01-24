@@ -49,18 +49,12 @@ jobs:
             Write-Host "Starting build..."
             try {
               # Initialize the process start info
-              $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-              $startInfo.FileName = "cmd.exe"
-              $startInfo.Arguments = "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"
-              $startInfo.RedirectStandardOutput = $true
-              $startInfo.RedirectStandardError = $true
-              $startInfo.UseShellExecute = $false
-              $startInfo.CreateNoWindow = $true
+              $startInfo.Arguments = "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" -RedirectStandardOutput $stdoutFile -RedirectStandardError $stderrFile -NoNewWindow -Wait -PassThru
 
               # Start the process
-              $process = New-Object System.Diagnostics.Process
-              $process.StartInfo = $startInfo
-              $process.Start() | Out-Null
+              # $process = New-Object System.Diagnostics.Process
+              # $process.StartInfo = $startInfo
+              # $process.Start() | Out-Null
 
               # Open the log files for writing
               $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
@@ -130,8 +124,8 @@ jobs:
               }
 
               # Close the log files
-              $stdoutWriter.Close()
-              $stderrWriter.Close()              
+              # $stdoutWriter.Close()
+              # $stderrWriter.Close()              
 
               # # Wait for the process to exit
               # $process.WaitForExit()
