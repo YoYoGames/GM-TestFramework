@@ -22,32 +22,32 @@ jobs:
         shell: cmd                  
       - name: Testing on PR    
         run: |
-          $startTime = Get-Date
-          $timeoutMinutes = 5
-          $maxTime = $startTime.AddMinutes($timeoutMinutes)
-          $logDirectory = "${{ github.workspace }}\GM-TF\logs"
+            $startTime = Get-Date
+            $timeoutMinutes = 5
+            $maxTime = $startTime.AddMinutes($timeoutMinutes)
+            $logDirectory = "${{ github.workspace }}\GM-TF\logs"
 
-          # Ensure the log directory exists
-          if (-not (Test-Path -Path $logDirectory)) {
-              New-Item -Path $logDirectory -ItemType Directory | Out-Null
-          }   
+            # Ensure the log directory exists
+            if (-not (Test-Path -Path $logDirectory)) {
+                New-Item -Path $logDirectory -ItemType Directory | Out-Null
+            }
 
-          $stdoutFile = Join-Path -Path $logDirectory -ChildPath "build_stdout.txt"
-          $stderrFile = Join-Path -Path $logDirectory -ChildPath "build_stderr.txt"
+            $stdoutFile = Join-Path -Path $logDirectory -ChildPath "build_stdout.txt"
+            $stderrFile = Join-Path -Path $logDirectory -ChildPath "build_stderr.txt"
 
-          # Function to send Slack notification
-          function Send-SlackNotification {
-              param (
-                  [string]$message
+            # Function to send Slack notification
+            function Send-SlackNotification {
+                param (
+                    [string]$message
               )
               $slackPayload = @{
                   text = $message
               } | ConvertTo-Json -Depth 10
               Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
-          }
+            }
 
-          Write-Host "Starting build..."
-          try {
+            Write-Host "Starting build..."
+            try {
               # Initialize the process start info
               $startInfo = New-Object System.Diagnostics.ProcessStartInfo
               $startInfo.FileName = "cmd.exe"
@@ -60,96 +60,64 @@ jobs:
               # Start the process
               $process = New-Object System.Diagnostics.Process
               $process.StartInfo = $startInfo
-              $process.Start() | Out-Null
+              $process.EnableRaisingEvents = $true
 
               # Event handlers for asynchronous read
-              # $outputLines = New-Object System.Collections.ArrayList
-              # $errorLines = New-Object System.Collections.ArrayList              
+              $outputLines = New-Object System.Collections.ArrayList
+              $errorLines = New-Object System.Collections.ArrayList
 
-              # # Open the log files for writing
-              $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
-              $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
+              $process.add_OutputDataReceived({
+                param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+                if ($e.Data) {
+                    $outputLines.Add($e.Data) | Out-Null
+                    Write-Host $e.Data
+                }
+              })
 
-              # # Event handler for standard output
-              # $process.add_OutputDataReceived({
-              #      param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-              #      if ($e.Data) {
-              #          $outputLines.Add($e.Data) | Out-Null
-              #          Write-Host $e.Data
-              #      }
-              #  })
+              $process.add_ErrorDataReceived({
+                param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+                if ($e.Data) {
+                    $errorLines.Add($e.Data) | Out-Null
+                    Write-Host $e.Data
+                }
+              })
 
-              # # # Event handler for standard error
-              #  $process.add_ErrorDataReceived({
-              #       param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-              #      if ($e.Data) {
-              #          $errorLines.Add($e.Data) | Out-Null
-              #          Write-Host $e.Data
-              #      }
-              #  })
-                  
-              # # # Start the process and begin asynchronous read
-              # $process.Start() | Out-Null
-              # $process.BeginOutputReadLine()
-              # $process.BeginErrorReadLine()
+              # Start the process and begin asynchronous read
+              $process.Start() | Out-Null
+              $process.BeginOutputReadLine()
+              $process.BeginErrorReadLine()
 
               # Monitor the process for timeout
               while (-not $process.HasExited) {
-                if ((Get-Date) -gt $maxTime) {
-                  # If execution exceeds the timeout, send a Slack notification and terminate the process
-                  Send-SlackNotification "TestFramework build ${{ github.run_number }} is stuck in a loop for more than 5 minutes when testing CI. Exiting process $($process.ExitCode). Error details: $errorOutput"
-                  $process.Kill()
-                  throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
-                }
-
-                # Read and display standard output
-                while (-not $process.StandardOutput.EndOfStream) {
-                    $outputLine = $process.StandardOutput.ReadLine()
-                    Write-Host $outputLine
-                    $stdoutWriter.WriteLine($outputLine)
-                }
-
-                # Read and display standard error
-                while (-not $process.StandardError.EndOfStream) {
-                    $errorLine = $process.StandardError.ReadLine()
-                    Write-Host $errorLine
-                    $stderrWriter.WriteLine($errorLine)
-                }
-                Start-Sleep -Milliseconds 100
-              }
-   
-              # Ensure all output is processed after the process exits
-              while (-not $process.StandardOutput.EndOfStream) {
-                  $outputLine = $process.StandardOutput.ReadLine()
-                  Write-Host $outputLine
-                  $stdoutWriter.WriteLine($outputLine)
+                  if ((Get-Date) -gt $maxTime) {
+                      # If execution exceeds the timeout, send a Slack notification and terminate the process
+                      Send-SlackNotification "TestFramework build ${{ github.run_number }} exceeded the $timeoutMinutes-minute timeout and was terminated."
+                      $process.Kill()
+                      throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
+                  }
+                  Start-Sleep -Seconds 1  # Check every second
               }
 
-              while (-not $process.StandardError.EndOfStream) {
-                  $errorLine = $process.StandardError.ReadLine()
-                  Write-Host $errorLine
-                  $stderrWriter.WriteLine($errorLine)
-              }
+              # Wait for the process to exit
+              $process.WaitForExit()
 
-              # Close the log files
-              $stdoutWriter.Close()
-              $stderrWriter.Close()
-              # # Wait for the process to exit
-              # $process.WaitForExit()
+              # Write output to log files
+              Set-Content -Path $stdoutFile -Value ($outputLines -join [Environment]::NewLine)
+              Set-Content -Path $stderrFile -Value ($errorLines -join [Environment]::NewLine)
 
               # Check the exit code of the process
               if ($process.ExitCode -ne 0) {
-                  $errorOutput = Get-Content -Path $stderrFile -Raw
-                  Send-SlackNotification "TestFramework build ${{ github.run_number }} is stuck in a loop for more than 5 minutes when testing CI. Exiting process $($process.ExitCode). Error details: $errorOutput"
-                  throw "Build process exited with code $($process.ExitCode)."
+                $errorOutput = $errorLines -join [Environment]::NewLine
+                Send-SlackNotification "TestFramework build ${{ github.run_number }} failed with exit code $($process.ExitCode). Error details: $errorOutput"
+                throw "Build process exited with code $($process.ExitCode)."
               } else {
                   Write-Host "Build completed successfully."
               }
-          } catch {
-                Write-Error "An error occurred: $_"
-                Send-SlackNotification "An error occurred during the build process: $_"
-                throw
-          }
+            } catch {
+              Write-Error "An error occurred: $_"
+              Send-SlackNotification "An error occurred during the build process: $_"
+              throw
+            }
         working-directory: GM-TF
         shell: pwsh           
       - name: Upload Results Artifacts
