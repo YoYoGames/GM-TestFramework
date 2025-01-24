@@ -60,32 +60,36 @@ jobs:
               # Start the process
               $process = New-Object System.Diagnostics.Process
               $process.StartInfo = $startInfo
-              $process.EnableRaisingEvents = $true
-
-              # Event handlers for asynchronous read
-              $outputLines = New-Object System.Collections.ArrayList
-              $errorLines = New-Object System.Collections.ArrayList
-
-              $process.add_OutputDataReceived({
-                param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-                if ($e.Data) {
-                    $outputLines.Add($e.Data) | Out-Null
-                    Write-Host $e.Data
-                }
-              })
-
-              $process.add_ErrorDataReceived({
-                param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-                if ($e.Data) {
-                    $errorLines.Add($e.Data) | Out-Null
-                    Write-Host $e.Data
-                }
-              })
-
-              # Start the process and begin asynchronous read
               $process.Start() | Out-Null
-              $process.BeginOutputReadLine()
-              $process.BeginErrorReadLine()
+
+              # Open the log files for writing
+              $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
+              $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
+
+              # # Event handlers for asynchronous read
+              # $outputLines = New-Object System.Collections.ArrayList
+              # $errorLines = New-Object System.Collections.ArrayList
+
+              # $process.add_OutputDataReceived({
+              #   param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+              #   if ($e.Data) {
+              #       $outputLines.Add($e.Data) | Out-Null
+              #       Write-Host $e.Data
+              #   }
+              # })
+
+              # $process.add_ErrorDataReceived({
+              #   param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+              #   if ($e.Data) {
+              #       $errorLines.Add($e.Data) | Out-Null
+              #       Write-Host $e.Data
+              #   }
+              # })
+
+              # # Start the process and begin asynchronous read
+              # $process.Start() | Out-Null
+              # $process.BeginOutputReadLine()
+              # $process.BeginErrorReadLine()
 
               # Monitor the process for timeout
               while (-not $process.HasExited) {
@@ -95,19 +99,51 @@ jobs:
                       $process.Kill()
                       throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
                   }
-                  Start-Sleep -Seconds 1  # Check every second
+
+                  # Read and display standard output
+                  while (-not $process.StandardOutput.EndOfStream) {
+                        $outputLine = $process.StandardOutput.ReadLine()
+                        Write-Host $outputLine
+                        $stdoutWriter.WriteLine($outputLine)
+                  }
+
+                  # Read and display standard error
+                  while (-not $process.StandardError.EndOfStream) {
+                        $errorLine = $process.StandardError.ReadLine()
+                        Write-Host $errorLine
+                        $stderrWriter.WriteLine($errorLine)
+                  }                  
+                  Start-Sleep -Milliseconds 100
               }
 
-              # Wait for the process to exit
-              $process.WaitForExit()
+              # Ensure all output is processed after the process exits
+              while (-not $process.StandardOutput.EndOfStream) {
+                  $outputLine = $process.StandardOutput.ReadLine()
+                  Write-Host $outputLine
+                  $stdoutWriter.WriteLine($outputLine)
+              }
 
-              # Write output to log files
-              Set-Content -Path $stdoutFile -Value ($outputLines -join [Environment]::NewLine)
-              Set-Content -Path $stderrFile -Value ($errorLines -join [Environment]::NewLine)
+              while (-not $process.StandardError.EndOfStream) {
+                  $errorLine = $process.StandardError.ReadLine()
+                  Write-Host $errorLine
+                  $stderrWriter.WriteLine($errorLine)
+              }
+
+              # Close the log files
+              $stdoutWriter.Close()
+              $stderrWriter.Close()              
+
+              # # Wait for the process to exit
+              # $process.WaitForExit()
+
+              # # Write output to log files
+              # Set-Content -Path $stdoutFile -Value ($outputLines -join [Environment]::NewLine)
+              # Set-Content -Path $stderrFile -Value ($errorLines -join [Environment]::NewLine)
 
               # Check the exit code of the process
               if ($process.ExitCode -ne 0) {
-                $errorOutput = $errorLines -join [Environment]::NewLine
+                # $errorOutput = $errorLines -join [Environment]::NewLine
+                $errorOutput = Get-Content -Path $stderrFile -Raw
                 Send-SlackNotification "TestFramework build ${{ github.run_number }} failed with exit code $($process.ExitCode). Error details: $errorOutput"
                 throw "Build process exited with code $($process.ExitCode)."
               } else {
