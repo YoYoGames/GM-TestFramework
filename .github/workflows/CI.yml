@@ -25,55 +25,70 @@ jobs:
             $startTime = Get-Date
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
-            $logDirectory = "${{ github.workspace }}\GM-TF"
+            $logDirectory = "${{ github.workspace }}\GM-TF\build_log.txt"
+
+            # Ensure the log directory exists
+            if (-not (Test-Path -Path $logDirectory)) {
+                New-Item -Path $logDirectory -ItemType Directory | Out-Null
+            }
+
             $stdoutFile = Join-Path -Path $logDirectory -ChildPath "build_stdout.txt"
             $stderrFile = Join-Path -Path $logDirectory -ChildPath "build_stderr.txt"
-
-            # Check if the directory exists; if not, create it
-            if (-not (Test-Path -Path $logDirectory)) {
-            New-Item -Path $logDirectory -ItemType Directory | Out-Null
-            }
+            $logFile = Join-Path -Path $logDirectory -ChildPath "build_log.txt"            
 
             # Function to send Slack notification
             function Send-SlackNotification {
-            param (
-                [string]$message
-            )
-            $slackPayload = @{
-                text = $message
-            } | ConvertTo-Json -Depth 10
-            Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
+                param (
+                    [string]$message
+                )
+                $slackPayload = @{
+                    text = $message
+                } | ConvertTo-Json -Depth 10
+                Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
             }
 
             Write-Host "Starting build..."
-            try {    
-              # Start the external process and redirect output and error streams
-              $process = Start-Process -FilePath "cmd.exe" -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" -RedirectStandardOutput $stdoutFile -RedirectStandardError $stderrFile -NoNewWindow -PassThru
+            try {
+                # Start the external process
+                $process = S  tart-Process -FilePath "cmd.exe" `
+                                           -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" `
+                                           -NoNewWindow -RedirectStandardOutput $stdoutFile -RedirectStandardError $stderrFile -PassThru
 
-              # Monitor the process for looping
-              while (-not $process.HasExited) {
+                # Monitor the process for looping
+                while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
-                    # If looping exceeds the timeout, send a Slack notification and terminate the process
-                    Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
-                    Stop-Process -Id $process.Id -Force
-                    throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
+                      # If looping exceeds the timeout, send a Slack notification and terminate the process
+                      Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
+                      Stop-Process -Id $process.Id -Force
+                      throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
                   }
                   Start-Sleep -Seconds 10  # Check every 10 seconds
               }
 
-              # Check the exit code of the process
-              if ($process.ExitCode -ne 0) {
-                  $errorOutput = Get-Content -Path $stderrFile -Raw
-                  Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $errorOutput"
-                  throw "Build process exited with code $($process.ExitCode)."
-              } else {
-                  Write-Host "Build completed successfully."
-              }
+                # Read and display the output
+                $standardOutput = Get-Content -Path $stdoutFile -Raw
+                $standardError = Get-Content -Path $stderrFile -Raw
+
+                # Write output to console
+                Write-Host $standardOutput
+                Write-Host $standardError
+
+                # Append output to log file
+                Add-Content -Path $logFile -Value $standardOutput
+                Add-Content -Path $logFile -Value $standardError
+
+                # Check the exit code of the process
+                if ($process.ExitCode -ne 0) {
+                    Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $standardError"
+                    throw "Build process exited with code $($process.ExitCode)."
+                } else {
+                    Write-Host "Build completed successfully."
+                }
             } catch {
                 Write-Error "An error occurred: $_"
                 Send-SlackNotification "An error occurred during the build process: $_"
                 throw
-            } 
+            }
         working-directory: GM-TF
         shell: pwsh           
       - name: Upload Results Artifacts
