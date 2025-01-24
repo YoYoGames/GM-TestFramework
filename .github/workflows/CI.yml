@@ -57,8 +57,8 @@ jobs:
               # $process.Start() | Out-Null
 
               # Open the log files for writing
-              $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
-              $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
+              # $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
+              # $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
 
               # # Event handlers for asynchronous read
               # $outputLines = New-Object System.Collections.ArrayList
@@ -85,7 +85,7 @@ jobs:
               # $process.BeginOutputReadLine()
               # $process.BeginErrorReadLine()
 
-              # Monitor the process for timeout
+              Monitor the process for timeout
               while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
                       # If execution exceeds the timeout, send a Slack notification and terminate the process
@@ -94,34 +94,34 @@ jobs:
                       throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
                   }
 
-                  # Read and display standard output
-                  while (-not $process.StandardOutput.EndOfStream) {
-                        $outputLine = $process.StandardOutput.ReadLine()
-                        Write-Host $outputLine
-                        $stdoutWriter.WriteLine($outputLine)
-                  }
+              #     # Read and display standard output
+              #     while (-not $process.StandardOutput.EndOfStream) {
+              #           $outputLine = $process.StandardOutput.ReadLine()
+              #           Write-Host $outputLine
+              #           $stdoutWriter.WriteLine($outputLine)
+              #     }
 
-                  # Read and display standard error
-                  while (-not $process.StandardError.EndOfStream) {
-                        $errorLine = $process.StandardError.ReadLine()
-                        Write-Host $errorLine
-                        $stderrWriter.WriteLine($errorLine)
-                  }                  
-                  Start-Sleep -Milliseconds 100
-              }
+              #     # Read and display standard error
+              #     while (-not $process.StandardError.EndOfStream) {
+              #           $errorLine = $process.StandardError.ReadLine()
+              #           Write-Host $errorLine
+              #           $stderrWriter.WriteLine($errorLine)
+              #     }                  
+              #     Start-Sleep -Milliseconds 100
+              # }
 
-              # Ensure all output is processed after the process exits
-              while (-not $process.StandardOutput.EndOfStream) {
-                  $outputLine = $process.StandardOutput.ReadLine()
-                  Write-Host $outputLine
-                  $stdoutWriter.WriteLine($outputLine)
-              }
+              # # Ensure all output is processed after the process exits
+              # while (-not $process.StandardOutput.EndOfStream) {
+              #     $outputLine = $process.StandardOutput.ReadLine()
+              #     Write-Host $outputLine
+              #     $stdoutWriter.WriteLine($outputLine)
+              # }
 
-              while (-not $process.StandardError.EndOfStream) {
-                  $errorLine = $process.StandardError.ReadLine()
-                  Write-Host $errorLine
-                  $stderrWriter.WriteLine($errorLine)
-              }
+              # while (-not $process.StandardError.EndOfStream) {
+              #     $errorLine = $process.StandardError.ReadLine()
+              #     Write-Host $errorLine
+              #     $stderrWriter.WriteLine($errorLine)
+              # }
 
               # Close the log files
               # $stdoutWriter.Close()
