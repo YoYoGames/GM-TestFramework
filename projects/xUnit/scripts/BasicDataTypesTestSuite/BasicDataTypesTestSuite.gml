@@ -380,14 +380,11 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	
 	addFact("int64_test #9", function() {
 		
-		var input, output;
-		
-		//#9 int64 ( string ), with real value, should be converted and floored
-		input = "1.72";
-		output = int64(input);
-		assert_equals(output, 1, "int64 ( string:local ), with real value, should be rounded value");
-		assert_typeof(output, "int64", "int64 ( string:local ), should return int64 type");
-			
+		//#9 int64 ( string ), with real value, should throw error
+		assert_throw(function() {
+			var input = "1.72";
+			var output = int64(input);
+		}, "int64 ( string:local ), with real value, should throw error");	
 	});
 	
 	addFact("int64_test #10", function() {
