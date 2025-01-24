@@ -55,58 +55,61 @@ jobs:
               $startInfo.RedirectStandardOutput = $true
               $startInfo.RedirectStandardError = $true
               $startInfo.UseShellExecute = $false
-              $startInfo.CreateNoWindow = $false
+              $startInfo.CreateNoWindow = $true
 
               # Start the process
               $process = New-Object System.Diagnostics.Process
               $process.StartInfo = $startInfo
-              $process.EnableRaisingEvents = $true
+              # $process.EnableRaisingEvents = $true
+
+              # Event handlers for asynchronous read
+              $outputLines = New-Object System.Collections.ArrayList
+              $errorLines = New-Object System.Collections.ArrayList              
 
               # # Open the log files for writing
               # $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
               # $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
 
               # # Event handler for standard output
-              # $process.OutputDataReceived += {
-              #     param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-              #     if ($e.Data) {
-              #         Write-Host $e.Data
-              #         $stdoutWriter.WriteLine($e.Data)
-              #     }
-              # }
+              $process.add_OutputDataReceived({
+                   param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+                   if ($e.Data) {
+                       $outputLines.Add($e.Data) | Out-Null
+                       Write-Host $e.Data
+                   }
+               }
 
               # # Event handler for standard error
-              # $process.ErrorDataReceived += {
-              #     param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-              #     if ($e.Data) {
-              #         Write-Host $e.Data
-              #         $stderrWriter.WriteLine($e.Data)
-              #     }
-              # }
+               $process.add_ErrorDataReceived({
+                    param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+                   if ($e.Data) {
+                       $errorLines.Add($e.Data) | Out-Null
+                       Write-Host $e.Data
+                   }
+               }
                   
               # # Start the process and begin asynchronous read
-              # $process.Start() | Out-Null
-              # $process.BeginOutputReadLine()
-              # $process.BeginErrorReadLine()
+              $process.Start() | Out-Null
+              $process.BeginOutputReadLine()
+              $process.BeginErrorReadLine()
 
               # Monitor the process for timeout
               while (-not $process.HasExited) {
                 if ((Get-Date) -gt $maxTime) {
                   # If execution exceeds the timeout, send a Slack notification and terminate the process
-                  Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
+                  Send-SlackNotification "TestFramework build ${{ github.run_number }} is stuck in a loop for more than 5 minutes when testing CI. Exiting process $($process.ExitCode). Error details: $errorOutput"
                   $process.Kill()
                   throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
                 }
                 Start-Sleep -Seconds 1  # Check every second
               }
 
-              # Capture the output
-              $stdout = $process.StandardOutput.ReadToEnd()
-              $stderr = $process.StandardError.ReadToEnd()
+              # Wait for the process to exit
+              $process.WaitForExit()
 
               # Write output to log files
-              Set-Content -Path $stdoutFile -Value $stdout
-              Set-Content -Path $stderrFile -Value $stderr
+              Set-Content -Path $stdoutFile -Value ($outputLines -join [Environment]::NewLine)
+              Set-Content -Path $stderrFile -Value ($errorLines -join [Environment]::NewLine)
 
               # Check the exit code of the process
               if ($process.ExitCode -ne 0) {
