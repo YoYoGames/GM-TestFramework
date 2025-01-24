@@ -25,7 +25,13 @@ jobs:
             $startTime = Get-Date
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
-            $logFile = "build_log.txt"
+            $logDirectory = "${{ github.workspace }}\GM-TF"
+            $logFile = Join-Path -Path $logDirectory -ChildPath "build_log.txt"
+
+            # Check if the directory exists; if not, create it
+            if (-not (Test-Path -Path $logDirectory)) {
+            New-Item -Path $logDirectory -ItemType Directory | Out-Null
+            }
 
             # Function to send Slack notification
             function Send-SlackNotification {
