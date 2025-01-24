@@ -22,73 +22,106 @@ jobs:
         shell: cmd                  
       - name: Testing on PR    
         run: |
-            $startTime = Get-Date
-            $timeoutMinutes = 5
-            $maxTime = $startTime.AddMinutes($timeoutMinutes)
-            $logDirectory = "${{ github.workspace }}\GM-TF\build_log.txt"
+          $startTime = Get-Date
+          $timeoutMinutes = 5
+          $maxTime = $startTime.AddMinutes($timeoutMinutes)
+          $logDirectory = "C:\Path\To\Log\Directory"
 
-            # Ensure the log directory exists
-            if (-not (Test-Path -Path $logDirectory)) {
-                New-Item -Path $logDirectory -ItemType Directory | Out-Null
-            }
+          # Ensure the log directory exists
+          if (-not (Test-Path -Path $logDirectory)) {
+              New-Item -Path $logDirectory -ItemType Directory | Out-Null
+          }   
 
-            $stdoutFile = Join-Path -Path $logDirectory -ChildPath "build_stdout.txt"
-            $stderrFile = Join-Path -Path $logDirectory -ChildPath "build_stderr.txt"
-            $logFile = Join-Path -Path $logDirectory -ChildPath "build_log.txt"            
+          $stdoutFile = Join-Path -Path $logDirectory -ChildPath "build_stdout.txt"
+          $stderrFile = Join-Path -Path $logDirectory -ChildPath "build_stderr.txt"
 
-            # Function to send Slack notification
-            function Send-SlackNotification {
-                param (
-                    [string]$message
-                )
-                $slackPayload = @{
-                    text = $message
-                } | ConvertTo-Json -Depth 10
-                Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
-            }
+          # Function to send Slack notification
+          function Send-SlackNotification {
+              param (
+                  [string]$message
+              )
+              $slackPayload = @{
+                  text = $message
+              } | ConvertTo-Json -Depth 10
+              Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
+          }
 
-            Write-Host "Starting build..."
-            try {
-                # Start the external process
-                $process = Start-Process -FilePath "cmd.exe" `
-                                           -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" `
-                                           -NoNewWindow -RedirectStandardOutput $stdoutFile -RedirectStandardError $stderrFile -PassThru
+          Write-Host "Starting build..."
+          try {
+              # Initialize the process start info
+              $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+              $startInfo.FileName = "cmd.exe"
+              $startInfo.Arguments = "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"
+              $startInfo.RedirectStandardOutput = $true
+              $startInfo.RedirectStandardError = $true
+              $startInfo.UseShellExecute = $false
+              $startInfo.CreateNoWindow = $true
 
-                # Monitor the process for looping
-                while (-not $process.HasExited) {
+              # Start the process
+              $process = New-Object System.Diagnostics.Process
+              $process.StartInfo = $startInfo
+              $process.Start() | Out-Null
+
+              # Open the log files for writing
+              $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
+              $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
+
+              # Monitor the process output
+              while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
                       # If looping exceeds the timeout, send a Slack notification and terminate the process
-                      Send-SlackNotification "TestFramework build ${{ github.run_number }} is stuck in a loop for more than 5 minutes when testing CI. Exiting process."
-                      Stop-Process -Id $process.Id -Force
+                      Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
+                      $process.Kill()
                       throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
                   }
-                  Start-Sleep -Seconds 10  # Check every 10 seconds
+
+                  # Read and display standard output
+                  if (-not $process.StandardOutput.EndOfStream) {
+                      $outputLine = $process.StandardOutput.ReadLine()
+                      Write-Host $outputLine
+                      $stdoutWriter.WriteLine($outputLine)
+                  }
+
+                  # Read and display standard error
+                  if (-not $process.StandardError.EndOfStream) {
+                      $errorLine = $process.StandardError.ReadLine()
+                      Write-Host $errorLine
+                      $stderrWriter.WriteLine($errorLine)
+                  }
+
+                  Start-Sleep -Milliseconds 100
               }
 
-                # Read and display the output
-                $standardOutput = Get-Content -Path $stdoutFile -Raw
-                $standardError = Get-Content -Path $stderrFile -Raw
+              # Ensure all output is processed after the process exits
+              while (-not $process.StandardOutput.EndOfStream) {
+                  $outputLine = $process.StandardOutput.ReadLine()
+                  Write-Host $outputLine
+                  $stdoutWriter.WriteLine($outputLine)
+              }
 
-                # Write output to console
-                Write-Host $standardOutput
-                Write-Host $standardError
+              while (-not $process.StandardError.EndOfStream) {
+                    $errorLine = $process.StandardError.ReadLine()
+                    Write-Host $errorLine
+                    $stderrWriter.WriteLine($errorLine)
+              }
 
-                # Append output to log file
-                Add-Content -Path $logFile -Value $standardOutput
-                Add-Content -Path $logFile -Value $standardError
+              # Close the log writers
+              $stdoutWriter.Close()
+              $stderrWriter.Close()
 
-                # Check the exit code of the process
-                if ($process.ExitCode -ne 0) {
-                    Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $standardError"
-                    throw "Build process exited with code $($process.ExitCode)."
-                } else {
-                    Write-Host "Build completed successfully."
-                }
-            } catch {
-                Write-Error "An error occurred: $_"
-                Send-SlackNotification "An error occurred during the build process: $_"
-                throw
-            }
+              # Check the exit code of the process
+              if ($process.ExitCode -ne 0) {
+                  $errorOutput = Get-Content -Path $stderrFile -Raw
+                  Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $errorOutput"
+                  throw "Build process exited with code $($process.ExitCode)."
+              } else {
+                  Write-Host "Build completed successfully."
+              }
+          } catch {
+              Write-Error "An error occurred: $_"
+              Send-SlackNotification "An error occurred during the build process: $_"
+              throw
+          }
         working-directory: GM-TF
         shell: pwsh           
       - name: Upload Results Artifacts
