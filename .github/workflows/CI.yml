@@ -77,7 +77,7 @@ jobs:
                        $outputLines.Add($e.Data) | Out-Null
                        Write-Host $e.Data
                    }
-               }
+               })
 
               # # Event handler for standard error
                $process.add_ErrorDataReceived({
@@ -86,7 +86,7 @@ jobs:
                        $errorLines.Add($e.Data) | Out-Null
                        Write-Host $e.Data
                    }
-               }
+               })
                   
               # # Start the process and begin asynchronous read
               $process.Start() | Out-Null
