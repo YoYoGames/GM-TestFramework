@@ -91,7 +91,7 @@ jobs:
               # $process.BeginOutputReadLine()
               # $process.BeginErrorReadLine()
 
-              Monitor the process for timeout
+              # Monitor the process for timeout
               while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
                       # If execution exceeds the timeout, send a Slack notification and terminate the process
