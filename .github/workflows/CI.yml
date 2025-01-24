@@ -50,7 +50,7 @@ jobs:
             Write-Host "Starting build..."
             try {
                 # Start the external process
-                $process = S  tart-Process -FilePath "cmd.exe" `
+                $process = Start-Process -FilePath "cmd.exe" `
                                            -ArgumentList "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss" `
                                            -NoNewWindow -RedirectStandardOutput $stdoutFile -RedirectStandardError $stderrFile -PassThru
 
