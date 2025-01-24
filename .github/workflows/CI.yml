@@ -60,49 +60,44 @@ jobs:
               # Start the process
               $process = New-Object System.Diagnostics.Process
               $process.StartInfo = $startInfo
-              $process.Start() | Out-Null
+              $process.EnableRaisingEvents = $true
 
               # Open the log files for writing
               $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
               $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
 
-              # Monitor the process output
+              # Event handler for standard output
+              $process.OutputDataReceived += {
+                  param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+                  if ($e.Data) {
+                      Write-Host $e.Data
+                      $stdoutWriter.WriteLine($e.Data)
+                  }
+              }
+
+              # Event handler for standard error
+              $process.ErrorDataReceived += {
+                  param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+                  if ($e.Data) {
+                      Write-Host $e.Data
+                      $stderrWriter.WriteLine($e.Data)
+                  }
+              }
+                  
+              # Start the process and begin asynchronous read
+              $process.Start() | Out-Null
+              $process.BeginOutputReadLine()
+              $process.BeginErrorReadLine()
+
+              # Monitor the process for timeout
               while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
-                      # If looping exceeds the timeout, send a Slack notification and terminate the process
+                      # If execution exceeds the timeout, send a Slack notification and terminate the process
                       Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
                       $process.Kill()
                       throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
-                  }
-
-                  # Read and display standard output
-                  if (-not $process.StandardOutput.EndOfStream) {
-                      $outputLine = $process.StandardOutput.ReadLine()
-                      Write-Host $outputLine
-                      $stdoutWriter.WriteLine($outputLine)
-                  }
-
-                  # Read and display standard error
-                  if (-not $process.StandardError.EndOfStream) {
-                      $errorLine = $process.StandardError.ReadLine()
-                      Write-Host $errorLine
-                      $stderrWriter.WriteLine($errorLine)
-                  }
-
-                  Start-Sleep -Milliseconds 100
-              }
-
-              # Ensure all output is processed after the process exits
-              while (-not $process.StandardOutput.EndOfStream) {
-                  $outputLine = $process.StandardOutput.ReadLine()
-                  Write-Host $outputLine
-                  $stdoutWriter.WriteLine($outputLine)
-              }
-
-              while (-not $process.StandardError.EndOfStream) {
-                    $errorLine = $process.StandardError.ReadLine()
-                    Write-Host $errorLine
-                    $stderrWriter.WriteLine($errorLine)
+                  } 
+                  Start-Sleep -Seconds 1  # Check every second
               }
 
               # Close the log writers
@@ -118,9 +113,9 @@ jobs:
                   Write-Host "Build completed successfully."
               }
           } catch {
-              Write-Error "An error occurred: $_"
-              Send-SlackNotification "An error occurred during the build process: $_"
-              throw
+                Write-Error "An error occurred: $_"
+                Send-SlackNotification "An error occurred during the build process: $_"
+                throw
           }
         working-directory: GM-TF
         shell: pwsh           
