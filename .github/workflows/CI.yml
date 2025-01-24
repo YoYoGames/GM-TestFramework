@@ -58,7 +58,7 @@ jobs:
                 while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
                       # If looping exceeds the timeout, send a Slack notification and terminate the process
-                      Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
+                      Send-SlackNotification "TestFramework build ${{ github.run_number }} is stuck in a loop for more than 5 minutes when testing CI. Exiting process."
                       Stop-Process -Id $process.Id -Force
                       throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
                   }
