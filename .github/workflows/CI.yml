@@ -62,52 +62,55 @@ jobs:
               $process.StartInfo = $startInfo
               $process.EnableRaisingEvents = $true
 
-              # Open the log files for writing
-              $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
-              $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
+              # # Open the log files for writing
+              # $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
+              # $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
 
-              # Event handler for standard output
-              $process.OutputDataReceived += {
-                  param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-                  if ($e.Data) {
-                      Write-Host $e.Data
-                      $stdoutWriter.WriteLine($e.Data)
-                  }
-              }
+              # # Event handler for standard output
+              # $process.OutputDataReceived += {
+              #     param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+              #     if ($e.Data) {
+              #         Write-Host $e.Data
+              #         $stdoutWriter.WriteLine($e.Data)
+              #     }
+              # }
 
-              # Event handler for standard error
-              $process.ErrorDataReceived += {
-                  param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-                  if ($e.Data) {
-                      Write-Host $e.Data
-                      $stderrWriter.WriteLine($e.Data)
-                  }
-              }
+              # # Event handler for standard error
+              # $process.ErrorDataReceived += {
+              #     param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
+              #     if ($e.Data) {
+              #         Write-Host $e.Data
+              #         $stderrWriter.WriteLine($e.Data)
+              #     }
+              # }
                   
-              # Start the process and begin asynchronous read
-              $process.Start() | Out-Null
-              $process.BeginOutputReadLine()
-              $process.BeginErrorReadLine()
+              # # Start the process and begin asynchronous read
+              # $process.Start() | Out-Null
+              # $process.BeginOutputReadLine()
+              # $process.BeginErrorReadLine()
 
               # Monitor the process for timeout
               while (-not $process.HasExited) {
-                  if ((Get-Date) -gt $maxTime) {
-                      # If execution exceeds the timeout, send a Slack notification and terminate the process
-                      Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
-                      $process.Kill()
-                      throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
-                  } 
-                  Start-Sleep -Seconds 1  # Check every second
+                if ((Get-Date) -gt $maxTime) {
+                  # If execution exceeds the timeout, send a Slack notification and terminate the process
+                  Send-SlackNotification "Build is stuck in a loop for more than $timeoutMinutes minutes. Exiting process."
+                  $process.Kill()
+                  throw "Test Framework Build exceeded the $timeoutMinutes-minute timeout and was terminated."
+                }
+                Start-Sleep -Seconds 1  # Check every second
               }
 
-              # Close the log writers
-              $stdoutWriter.Close()
-              $stderrWriter.Close()
+              # Capture the output
+              $stdout = $process.StandardOutput.ReadToEnd()
+              $stderr = $process.StandardError.ReadToEnd()
+
+              # Write output to log files
+              Set-Content -Path $stdoutFile -Value $stdout
+              Set-Content -Path $stderrFile -Value $stderr
 
               # Check the exit code of the process
               if ($process.ExitCode -ne 0) {
-                  $errorOutput = Get-Content -Path $stderrFile -Raw
-                  Send-SlackNotification "Build failed with exit code $($process.ExitCode). Error details: $errorOutput"
+                  Send-SlackNotification "TestFramework build ${{ github.run_number }} is stuck in a loop for more than 5 minutes when testing CI. Exiting process $($process.ExitCode). Error details: $errorOutput"
                   throw "Build process exited with code $($process.ExitCode)."
               } else {
                   Write-Host "Build completed successfully."
