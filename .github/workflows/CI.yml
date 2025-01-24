@@ -25,21 +25,70 @@ jobs:
             $startTime = Get-Date
             $timeoutMinutes = 5
             $maxTime = $startTime.AddMinutes($timeoutMinutes)
+
             Write-Host "Starting build..."
-            cmd /c "run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"
-        
+
+            # Initialize the process start information
+            $processStartInfo = New-Object System.Diagnostics.ProcessStartInfo
+            $processStartInfo.FileName = "cmd.exe"
+            $processStartInfo.Arguments = "/c run_ci.bat C:\GM-TestFramework\configs\config_windows.json https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss"
+            $processStartInfo.RedirectStandardOutput = $true
+            $processStartInfo.RedirectStandardError = $true
+            $processStartInfo.UseShellExecute = $false
+            $processStartInfo.CreateNoWindow = $true
+
+            # Start the process
+            $process = New-Object System.Diagnostics.Process
+            $process.StartInfo = $processStartInfo
+            $process.Start() | Out-Null
+
+            # Read the output streams asynchronously
+            $stdOut = [System.Collections.ArrayList]::Synchronized((New-Object System.Collections.ArrayList))
+            $stdErr = [System.Collections.ArrayList]::Synchronized((New-Object System.Collections.ArrayList))
+
+            $stdOutEvent = {
+                param([object]$sender, [System.Diagnostics.DataReceivedEventArgs]$e)
+                if ($e.Data) {
+                    $stdOut.Add($e.Data) | Out-Null
+                }
+            }
+
+            $stdErrEvent = {
+                param([object]$sender, [System.Diagnostics.DataReceivedEventArgs]$e)
+                if ($e.Data) {
+                    $stdErr.Add($e.Data) | Out-Null
+                }
+            }
+
+            $process.BeginOutputReadLine()
+            $process.BeginErrorReadLine()
+            $process.add_OutputDataReceived($stdOutEvent)
+            $process.add_ErrorDataReceived($stdErrEvent)
+
             # Monitor process for looping
-            while ($true) {
-              if ((Get-Date) -gt $maxTime) {
-                # If looping exceeds 5 minutes, send a Slack notification and exit
-                $slackPayload = @{
-                  text = "Build is stuck in a loop for more than 5 minutes. Exiting process."
-                } | ConvertTo-Json -Depth 10
-                Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
-                throw "Test Framework Build exceeded the 5-minute timeout and was terminated."
-              }
-              Start-Sleep -Seconds 10  # Check every 10 seconds
-            }     
+            while (-not $process.HasExited) {
+                if ((Get-Date) -gt $maxTime) {
+                  # If looping exceeds 5 minutes, send a Slack notification and exit
+                  $slackPayload = @{
+                      text = "Build is stuck in a loop for more than 5 minutes. Exiting process."
+                  } | ConvertTo-Json -Depth 10
+                  Invoke-RestMethod -Uri "${{ secrets.SLACK_WEBHOOK_URL }}" -Method POST -ContentType "application/json" -Body $slackPayload
+                  $process.Kill()
+                  throw "Test Framework Build exceeded the 5-minute timeout and was terminated."
+                }
+                Start-Sleep -Seconds 10  # Check every 10 seconds
+            }
+
+            # Ensure asynchronous read operations have completed
+            $process.WaitForExit()
+            $process.WaitForExit() | Out-Null
+
+            # Output the captured stdout and stderr
+            Write-Host "Standard Output:"
+            $stdOut | ForEach-Object { Write-Host $_ }
+
+            Write-Host "Standard Error:"
+            $stdErr | ForEach-Object { Write-Host $_ }    
         working-directory: GM-TF
         shell: pwsh           
       - name: Upload Results Artifacts
