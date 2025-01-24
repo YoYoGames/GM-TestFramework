@@ -66,31 +66,6 @@ jobs:
               $stdoutWriter = [System.IO.StreamWriter]::new($stdoutFile, $false)
               $stderrWriter = [System.IO.StreamWriter]::new($stderrFile, $false)
 
-              # # Event handlers for asynchronous read
-              # $outputLines = New-Object System.Collections.ArrayList
-              # $errorLines = New-Object System.Collections.ArrayList
-
-              # $process.add_OutputDataReceived({
-              #   param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-              #   if ($e.Data) {
-              #       $outputLines.Add($e.Data) | Out-Null
-              #       Write-Host $e.Data
-              #   }
-              # })
-
-              # $process.add_ErrorDataReceived({
-              #   param([System.Object] $sender, [System.Diagnostics.DataReceivedEventArgs] $e)
-              #   if ($e.Data) {
-              #       $errorLines.Add($e.Data) | Out-Null
-              #       Write-Host $e.Data
-              #   }
-              # })
-
-              # # Start the process and begin asynchronous read
-              # $process.Start() | Out-Null
-              # $process.BeginOutputReadLine()
-              # $process.BeginErrorReadLine()
-
               # Monitor the process for timeout
               while (-not $process.HasExited) {
                   if ((Get-Date) -gt $maxTime) {
@@ -101,14 +76,14 @@ jobs:
                   }
 
                   # Read and display standard output
-                  while (-not $process.StandardOutput.EndOfStream) {
+                  if (-not $process.StandardOutput.EndOfStream) {
                         $outputLine = $process.StandardOutput.ReadLine()
                         Write-Host $outputLine
                         $stdoutWriter.WriteLine($outputLine)
                   }
 
                   # Read and display standard error
-                  while (-not $process.StandardError.EndOfStream) {
+                  if (-not $process.StandardError.EndOfStream) {
                         $errorLine = $process.StandardError.ReadLine()
                         Write-Host $errorLine
                         $stderrWriter.WriteLine($errorLine)
@@ -132,13 +107,6 @@ jobs:
               # Close the log files
               $stdoutWriter.Close()
               $stderrWriter.Close()              
-
-              # # Wait for the process to exit
-              # $process.WaitForExit()
-
-              # # Write output to log files
-              # Set-Content -Path $stdoutFile -Value ($outputLines -join [Environment]::NewLine)
-              # Set-Content -Path $stderrFile -Value ($errorLines -join [Environment]::NewLine)
 
               # Check the exit code of the process
               if ($process.ExitCode -ne 0) {
