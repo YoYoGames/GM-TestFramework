@@ -130,8 +130,8 @@ jobs:
               }
 
               # Close the log files
-              # $stdoutWriter.Close()
-              # $stderrWriter.Close()              
+              $stdoutWriter.Close()
+              $stderrWriter.Close()              
 
               # # Wait for the process to exit
               # $process.WaitForExit()
