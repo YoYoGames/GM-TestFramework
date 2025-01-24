@@ -25,7 +25,7 @@ jobs:
           $startTime = Get-Date
           $timeoutMinutes = 5
           $maxTime = $startTime.AddMinutes($timeoutMinutes)
-          $logDirectory = "C:\Path\To\Log\Directory"
+          $logDirectory = "${{ github.workspace }}\GM-TF\logs"
 
           # Ensure the log directory exists
           if (-not (Test-Path -Path $logDirectory)) {
@@ -55,7 +55,7 @@ jobs:
               $startInfo.RedirectStandardOutput = $true
               $startInfo.RedirectStandardError = $true
               $startInfo.UseShellExecute = $false
-              $startInfo.CreateNoWindow = $true
+              $startInfo.CreateNoWindow = $false
 
               # Start the process
               $process = New-Object System.Diagnostics.Process
