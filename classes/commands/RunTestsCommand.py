@@ -68,7 +68,7 @@ class RunTestsCommand(BaseCommand):
         args = self._build_server_arguments()
 
         # Start the server
-        remote = RemoteControlServer(ExecutionMode.MANUAL, run_name=run_name)
+        remote = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
         await manage_server(
             lambda: remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), 
             port=HTTP_PORT

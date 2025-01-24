@@ -79,7 +79,7 @@ class TestResult(BaseModel):
         
         if self.exceptions:
             summary['exceptions'] = {
-                'count': self.exceptions.count(),
+                'count': len(self.exceptions),
                 'first': self.exceptions[0]
             }
         
