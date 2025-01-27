@@ -31,7 +31,7 @@ jobs:
         run: Start-Sleep -Seconds 300
         shell: pwsh     
       - name: Testing Manually witth passing RSS_Feed for Red builds
-        run: ./launcher C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
         shell: pwsh         
       - name: Upload Results Artifacts
