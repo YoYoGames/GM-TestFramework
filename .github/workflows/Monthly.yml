@@ -29,10 +29,7 @@ jobs:
           path: GM-TF
       - name: Wait for 10 Minutes
         run: Start-Sleep -Seconds 300
-        shell: pwsh        
-      - run: .\setup.bat
-        working-directory: GM-TF
-        shell: cmd          
+        shell: pwsh       
       - name: Testing Manually witth passing RSS_Feed for Monthly builds
         run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed 'https://gms.yoyogames.com/Zeus-Runtime-I.rss' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
