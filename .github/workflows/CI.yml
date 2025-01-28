@@ -18,7 +18,7 @@ jobs:
         run: Start-Sleep -Seconds 300
         shell: pwsh
       - name: Testing on PR
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed 'https://gms.yoyogames.com/Zeus-Runtime-Nocturnus-I.rss' ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF
         shell: pwsh
       - name: Upload Results Artifacts
