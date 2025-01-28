@@ -21,7 +21,7 @@ jobs:
   CI:
     name: "CI"
     runs-on: Windows
-    timeout-minutes: 50
+    timeout-minutes: 60
     steps:
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
@@ -29,14 +29,11 @@ jobs:
           path: GM-TF
       - name: Wait for 10 Minutes
         run: Start-Sleep -Seconds 300
-        shell: pwsh        
-      - run: .\setup.bat
-        working-directory: GM-TF
-        shell: cmd          
-      - name: Testing Manually witth passing RSS_Feed for Red builds
-        run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+        shell: pwsh     
+      - name: Testing Manually with passing RSS_Feed for Red builds
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
-        shell: cmd         
+        shell: pwsh         
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4

@@ -112,7 +112,7 @@ function BasicUnaryUpdateExpressions() : TestSuite() constructor {
 		
     });
 	
-	addFact("Array without @ accessor Unary Update", function() {
+	addFact("Array without symbolic accessor Unary Update", function() {
 		var _target = [];
 		_target[0] = 0;
 		assert_equals(_target[0]  , 0, "Array without @ accessor get failed.");
@@ -123,7 +123,7 @@ function BasicUnaryUpdateExpressions() : TestSuite() constructor {
 		assert_equals(_target[0]  , 0, "Array without @ accessor get failed.");
     });
 	
-	addFact("Array with @ accessor Unary Update", function() {
+	addFact("Array with symbolic accessor Unary Update", function() {
 		var _target = [];
 		_target[@ 0] = 0;
 		assert_equals(_target[@ 0]  , 0, "Array with @ accessor get failed.");

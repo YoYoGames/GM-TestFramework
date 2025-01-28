@@ -1,5 +1,5 @@
 
-#macro FRAMEWORK_SHOULD_CATCH false
+#macro FRAMEWORK_SHOULD_CATCH true
 
 #macro SINGLE_TEST_MODE false
 
@@ -40,9 +40,11 @@ testFramework.addSuite(BasicRoomTestSuite);
 testFramework.addSuite(BasicScriptTestSuite);
 testFramework.addSuite(BasicShaderTestSuite);
 testFramework.addSuite(BasicShaderUniformsTestSuite);
+testFramework.addSuite(BasicStatementExpressionsTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);
+testFramework.addSuite(BasicUnaryUpdateExpressions);
 testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
 testFramework.addSuite(ResourceAudioBuffersTestSuite);
