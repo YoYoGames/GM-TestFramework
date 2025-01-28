@@ -30,7 +30,7 @@ jobs:
       - name: Wait for 10 Minutes
         run: Start-Sleep -Seconds 300
         shell: pwsh         
-      - name: Testing Manually with passing RSS_Feed for Red builds
+      - name: Testing Manually with passing RSS_Feed for Beta builds
         run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed 'https://gms.yoyogames.com/Zeus-Runtime-NuBeta-I.rss' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
         shell: pwsh        
