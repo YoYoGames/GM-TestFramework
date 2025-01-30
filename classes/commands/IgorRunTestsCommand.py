@@ -164,21 +164,21 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Execute igor to get license file
         access_key: str = self.get_argument('access_key')
-        license_path = user_folder / 'licence.plist'
+        license_path = USER_DIR / 'licence.plist'
         await self.igor_get_license(access_key, license_path)
         assert(license_path.exists())
 
         # Exectute igor to get the latest runtime version
         runtime_version: str = self.get_argument('runtime_version')
         rss_feed: str = self.get_argument('feed')
-        runtime_version = await self.igor_get_runtime_version(user_folder, rss_feed, runtime_version)
+        runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, runtime_version)
         assert(runtime_version is not None)
 
         # Execute igor to install the requested runtime version
         targets = self.get_targets()
 
         platforms = targets.keys()
-        runtime_path = await self.igor_install_runtime(user_folder, rss_feed, runtime_version, platforms)
+        runtime_path = await self.igor_install_runtime(USER_DIR, rss_feed, runtime_version, platforms)
         assert(runtime_path.exists())
 
         # Execute ProjectTool to ensure correct project format

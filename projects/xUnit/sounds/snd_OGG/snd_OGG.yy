@@ -1,10 +1,7 @@
 {
   "$GMSound":"",
   "%Name":"snd_OGG",
-  "audioGroupId":{
-    "name":"audiogroup_OGG",
-    "path":"audiogroups/audiogroup_OGG",
-  },
+  "audioGroupId":null,
   "bitDepth":1,
   "bitRate":128,
   "compression":0,
