@@ -104,101 +104,105 @@ function TestAudioListenerUpVector(listenerCount, expectedX, expectedY, expected
 
 function ResourceAudioListenersTestSuite() : TestSuite() constructor {
 		
-		addFact("audio_get_listener_count test #1", function() {
+	addFact("audio_get_listener_count test #1", function() {
 			
-			// Get listener count
-			var listenerCount = audio_get_listener_count();
-			assert_greater_or_equal(listenerCount, 1, "audio_get_listener_count should return greater or equal to 1");
+		// Get listener count
+		var listenerCount = audio_get_listener_count();
+		assert_greater_or_equal(listenerCount, 1, "audio_get_listener_count should return greater or equal to 1");
 			
-		});
+	});
 		
-		addFact("audio_listener_set_position test #1", function() {
+	addFact("audio_listener_set_position test #1", function() {
 			
-			// Get listener count
-			var listenerCount = audio_get_listener_count();
+		// Get listener count
+		var listenerCount = audio_get_listener_count();
 			
-			for (var i = 0; i < listenerCount; i++) {
+		for (var i = 0; i < listenerCount; i++) {
 				
-				// Set data
-				// Position
-				audio_listener_set_position(i, room_width, room_height, 10);
+			// Set data
+			// Position
+			audio_listener_set_position(i, room_width, room_height, 10);
 			
-			}
+		}
 			
-			// Test listener data
-			TestAudioListenerPosition(listenerCount, room_width, room_height, 10);
+		// Test listener data
+		TestAudioListenerPosition(listenerCount, room_width, room_height, 10);
 			
-		});
+	});
 		
-		addFact("audio_listener_set_velocity test #1", function() {
+	addFact("audio_listener_set_velocity test #1", function() {
 			
-			// Get listener count
-			var listenerCount = audio_get_listener_count();
+		// Get listener count
+		var listenerCount = audio_get_listener_count();
 			
-			for (var i = 0; i < listenerCount; i++) {
+		for (var i = 0; i < listenerCount; i++) {
 				
-				// Set data
-				// Velocity
-				audio_listener_set_velocity(i, 5, 10, 15);
+			// Set data
+			// Velocity
+			audio_listener_set_velocity(i, 5, 10, 15);
 			
-			}
+		}
 			
-			// Test listener data
-			TestAudioListenerVelocity(listenerCount, 5, 10, 15);
+		// Test listener data
+		TestAudioListenerVelocity(listenerCount, 5, 10, 15);
 			
-		});
+	});
 		
-		addFact("audio_listener_set_orientation test #1", function() {
+	addFact("audio_listener_set_orientation test #1", function() {
 			
-			// Get listener count
-			var listenerCount = audio_get_listener_count();
+		// Get listener count
+		var listenerCount = audio_get_listener_count();
 			
-			for (var i = 0; i < listenerCount; i++) {
+		for (var i = 0; i < listenerCount; i++) {
 				
-				// Set data
-				// Orientation
-				audio_listener_set_orientation(i, 20, 25, 30, 0, 0, 1);
+			// Set data
+			// Orientation
+			audio_listener_set_orientation(i, 20, 25, 30, 0, 0, 1);
 			
-			}
+		}
 			
-			// Test listener data
-			TestAudioListenerLookAtVector(listenerCount, 20, 25, 30);
+		// Test listener data
+		TestAudioListenerLookAtVector(listenerCount, 20, 25, 30);
 			
-		});
+	});
 		
-		addFact("audio_listener_set_orientation test #2", function() {
+	addFact("audio_listener_set_orientation test #2", function() {
 			
-			// Get listener count
-			var listenerCount = audio_get_listener_count();
+		// Get listener count
+		var listenerCount = audio_get_listener_count();
 			
-			for (var i = 0; i < listenerCount; i++) {
+		for (var i = 0; i < listenerCount; i++) {
 				
-				// Set data
-				// Orientation
-				audio_listener_set_orientation(i, 20, 25, 30, 0, 0, 1);
+			// Set data
+			// Orientation
+			audio_listener_set_orientation(i, 20, 25, 30, 0, 0, 1);
 			
-			}
+		}
 			
-			// Test listener data
-			TestAudioListenerUpVector(listenerCount, 0, 0, 1);
+		// Test listener data
+		TestAudioListenerUpVector(listenerCount, 0, 0, 1);
 			
-		});
+	});
 		
-		addFact("Listener mask test #1", function() {
+	addFact("Listener mask test #1", function() {
 			
-			// Get listener count
-			var listenerCount = audio_get_listener_count();
+		// Get listener count
+		var listenerCount = audio_get_listener_count();
 			
-			for (var i = 0; i < listenerCount; i++) {
+		for (var i = 0; i < listenerCount; i++) {
 				
-				// Test listener mask
-				audio_set_listener_mask(i);
+			// Test listener mask
+			audio_set_listener_mask(i);
 				
-				var mask = audio_get_listener_mask();
-				assert_equals(mask, i, "audio_get_listener_mask should return " + string(i));
+			var mask = audio_get_listener_mask();
+			assert_equals(mask, i, "audio_get_listener_mask should return " + string(i));
 				
-			}
+		}
 			
-		});
+	});
+		
+	config({
+		suite_filter: runtime_not_gmrt
+	});
 		
 }

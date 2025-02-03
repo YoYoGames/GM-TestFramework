@@ -448,4 +448,8 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 		
 	});
 	
+	config({
+		suite_filter: runtime_not_gmrt
+	});
+	
 }
