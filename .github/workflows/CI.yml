@@ -14,9 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: GM-TF
-      - name: Wait for 10 Minutes
-        run: Start-Sleep -Seconds 300
-        shell: pwsh
       - name: Testing on PR
         run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF
