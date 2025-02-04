@@ -15,7 +15,7 @@ jobs:
         with:
           path: GM-TF
       - name: Testing on PR
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\config_ci.json" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF
         shell: pwsh
       - name: Upload Results Artifacts

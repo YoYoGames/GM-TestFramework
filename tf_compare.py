@@ -12,7 +12,7 @@ args = parser.parse_args()
 github_token = args.github_token
 
 # this path needs to be updated to a location on server
-baseSaveLocation = "C:\Users\ygbuild\AppData\Local\Test_Framework_Artefacts_Parser"  
+baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"  
 saveLocation = ['new_data', 'prev_data']
 
 # declare variables
@@ -22,7 +22,8 @@ _download_artifacts_url = []
 avail_workflows = {
     '1' : 'Beta',
     '2' : 'Monthly',
-    '3' : 'Red'
+    '3' : 'Red',
+    '4' : 'CI'
 }
 
 # Create new_data and prev_data directories if they don't exists
