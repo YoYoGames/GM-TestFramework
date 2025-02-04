@@ -25,7 +25,7 @@ jobs:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\results
       -  name: Running TF Compare Script
-         run: python .\tf_compare.py
+         run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
          working-directory: GM-TF
         
       
