@@ -14,11 +14,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: GM-TF
-      - name: Wait for 10 Minutes
-        run: Start-Sleep -Seconds 300
-        shell: pwsh
       - name: Testing on PR
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\config_ci.json" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF
         shell: pwsh
       - name: Upload Results Artifacts
@@ -27,6 +24,14 @@ jobs:
         with:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\results
-
+      - name: Running TF Compare Script
+        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
+        working-directory: GM-TF
+      - name: Upload TF Compare Output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+            name: tf_compare_output_file
+            path: ${{ github.workspace }}\GM-TF\TF_Output.txt         
         
       

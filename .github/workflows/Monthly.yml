@@ -40,6 +40,14 @@ jobs:
         with:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\results
-
+      - name: Running TF Compare Script
+        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
+        working-directory: GM-TF          
+      - name: Upload TF Compare Output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+           name: tf_compare_output_file
+           path: ${{ github.workspace }}\GM-TF\TF_Output.txt
         
       
