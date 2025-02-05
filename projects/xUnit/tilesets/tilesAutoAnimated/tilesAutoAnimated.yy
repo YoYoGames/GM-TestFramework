@@ -31,10 +31,7 @@
     "path":"sprites/sprTileset/sprTileset.yy",
   },
   "spriteNoExport":true,
-  "textureGroupId":{
-    "name":"Default",
-    "path":"texturegroups/Default",
-  },
+  "textureGroupId":null,
   "tileAnimationFrames":[
     {"$GMTileAnimation":"","%Name":"animatedTile","frames":[1,47,],"name":"animatedTile","resourceType":"GMTileAnimation","resourceVersion":"2.0",},
   ],

@@ -47,6 +47,24 @@ def copy_folder(src: Path, dest: Path, contents_only: bool = False):
     
     return Path(dest)
 
+def remove_directory(directory: Path):
+    if os.path.exists(directory):
+        try:
+            shutil.rmtree(directory)
+            LOGGER.info(f'Successfully removed directory: {directory}')
+        except OSError as e:
+            LOGGER.error(f'Error removing directory: {directory}')
+            LOGGER.error(e)
+    else:
+        LOGGER.warning(f'Directory does not exist: {directory}')
+
+def create_directory(directory: Path):
+    if not directory.exists():
+        LOGGER.info(f'Creating directory: {directory}')
+        os.makedirs(directory)
+    else:
+        LOGGER.info(f'Directory already exists: {directory}')
+
 def save_to_file(data, file_path: Path, mode='w'):
     """
     Saves data to a specified file. By default, it assumes the data is a string ('w' mode).

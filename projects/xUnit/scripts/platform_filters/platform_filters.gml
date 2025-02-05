@@ -52,11 +52,20 @@ function platform_not_console() {
 function runtime_gmrt() {
 	static _version_parts = string_split(GM_runtime_version, ".");
 	static _major = real(_version_parts[0]);
-	return (_major < 2000 && _major != 9);
+	static is_gmrt = NaN
+	
+	if (is_nan(is_gmrt)) {
+		try {
+			is_gmrt = GM_runtime_type == "gmrt";
+		}
+		catch (_er) {
+			is_gmrt = _major < 2000 && _major != 9;		
+		}
+	}
+	
+	return is_gmrt;
 }
 
 function runtime_not_gmrt() {
-	static _version_parts = string_split(GM_runtime_version, ".");
-	static _major = real(_version_parts[0]);
-	return (_major >= 2000 || _major == 9);
+	return !runtime_gmrt();
 }

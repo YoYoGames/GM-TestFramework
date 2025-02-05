@@ -1,5 +1,7 @@
 import argparse
 import os
+import requests
+import shutil
 from pathlib import Path
 import subprocess
 from typing import Any
@@ -10,12 +12,12 @@ from utils import async_utils, file_utils
 from utils.path_utils import ROOT_DIR
 
 PROJECTS_DIR = ROOT_DIR / 'projects'
-NODE_MODULES_DIR = ROOT_DIR / 'node_modules'
-
-PROGRAM_FILES = Path(os.environ.get("ProgramFiles"))
-NODEJS_NPM_PATH = PROGRAM_FILES / 'nodejs' / 'npm.cmd'
+WORKSPACE_DIR = ROOT_DIR / 'workspace'
 
 PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
+
+GMPM_REGISTRY_URL = 'https://gmpm.gamemaker.io'
+PROJECT_TOOL_PACKAGE = '@gm-tools/project-tool-win-x64'
 
 class RunTestsCommand(BaseCommand):
     """
@@ -53,6 +55,10 @@ class RunTestsCommand(BaseCommand):
         Executes the command to run the server. Manages configuration, cleans up directories, 
         ensures project compatibility, and launches the server lifecycle.
         """
+        # Clean workspace
+        file_utils.remove_directory(WORKSPACE_DIR)
+        file_utils.create_directory(WORKSPACE_DIR)
+
         self.project_write_config()
         run_name = self.get_argument("run_name")
         
@@ -92,14 +98,42 @@ class RunTestsCommand(BaseCommand):
         return gmrt_exe, core_resources_path
 
     async def _install_and_prepare_project_tool(self) -> Path:
-        """Installs and prepares the ProjectTool utility."""
-        await async_utils.run_and_capture(
-            NODEJS_NPM_PATH, 
-            ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"]
-        )
-        project_tool_path = NODE_MODULES_DIR / "@gm-tools" / "project-tool-win-x64" / "ProjectTool.exe"
-        assert project_tool_path.exists(), f"ProjectTool.exe not found: {project_tool_path}"
-        return project_tool_path
+
+        # The registry URL that returns the package information JSON
+        project_tool_package_url = f'{GMPM_REGISTRY_URL}/{PROJECT_TOOL_PACKAGE}'
+        
+        # Fetch the JSON metadata
+        response = requests.get(project_tool_package_url)
+        response.raise_for_status()
+        
+        data = response.json()
+
+        # 1. Get the latest version from "dist-tags"
+        latest_version = data["dist-tags"]["latest"]
+        
+        # 2. Retrieve the package info for that version
+        package_info = data["versions"][latest_version]
+        
+        # 3. Extract the tarball URL
+        tarball_url = package_info["dist"]["tarball"]
+        
+        # 4. Download the tarball
+        tarball_filename = WORKSPACE_DIR /f"project-tool-win-x64-{latest_version}.tgz"
+        with requests.get(tarball_url, stream=True) as tarball_response:
+            tarball_response.raise_for_status()
+            with open(tarball_filename, "wb") as f:
+                shutil.copyfileobj(tarball_response.raw, f)
+
+        print(f"[INFO] Downloaded ProjectTool tarball: {tarball_filename}")
+        
+        import tarfile
+        with tarfile.open(tarball_filename) as tf:
+            tf.extractall(WORKSPACE_DIR / "project_tool")
+
+        # 6. Delete the original tarball
+        os.remove(tarball_filename)
+
+        return WORKSPACE_DIR / "project_tool" / "package" / "ProjectTool.exe"
 
     def _run_project_tool(self, project_tool_path: Path, core_resources_path: Path) -> None:
         """Runs the ProjectTool for project compatibility adjustments."""

@@ -272,4 +272,8 @@ function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 			audio_emitter_free(_emitters[_i]);
 			
 	});
+	
+	config({
+		suite_filter: runtime_not_gmrt
+	});
 }

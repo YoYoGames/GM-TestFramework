@@ -29,20 +29,25 @@ jobs:
           path: GM-TF
       - name: Wait for 10 Minutes
         run: Start-Sleep -Seconds 300
-        shell: pwsh        
-      - run: .\setup.bat
-        working-directory: GM-TF
-        shell: cmd          
+        shell: pwsh       
       - name: Testing Manually witth passing RSS_Feed for Monthly builds
-        run: run_ci.bat C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }} ${{ github.event.inputs.RSS_Feed }} ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_GREEN }}' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
-        shell: cmd         
+        shell: pwsh     
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\results
-
+      - name: Running TF Compare Script
+        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
+        working-directory: GM-TF          
+      - name: Upload TF Compare Output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+           name: tf_compare_output_file
+           path: ${{ github.workspace }}\GM-TF\TF_Output.txt
         
       

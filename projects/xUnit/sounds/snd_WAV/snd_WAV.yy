@@ -1,10 +1,7 @@
 {
   "$GMSound":"",
   "%Name":"snd_WAV",
-  "audioGroupId":{
-    "name":"audiogroup_WAV",
-    "path":"audiogroups/audiogroup_WAV",
-  },
+  "audioGroupId":null,
   "bitDepth":1,
   "bitRate":128,
   "compression":0,
