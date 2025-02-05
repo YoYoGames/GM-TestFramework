@@ -6,12 +6,10 @@ import argparse
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
 parser.add_argument('--github-token', type=str, required=True, help="GitHub token for authentication")
-parser.add_argument('--workflow-choice', type=str, required=True, help="Test Framework workflow selection")
 args = parser.parse_args()
 
 # Get GitHub token from arguments
 github_token = args.github_token
-workflow_choice = args.workflow_choice
 
 # this path needs to be updated to a location on server
 baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"  
@@ -20,13 +18,6 @@ saveLocation = ['new_data', 'prev_data']
 # declare variables
 _artifactRunID = []
 _download_artifacts_url = []
-
-avail_workflows = {
-    '1' : 'Beta',
-    '2' : 'Monthly',
-    '3' : 'Red',
-    '4' : 'CI'
-}
 
 # Create new_data and prev_data directories if they don't exists
 for dir in saveLocation:
@@ -324,7 +315,7 @@ def get_artifact_URL():
 # Get the latest 2 workflow run
 def get_workflow_runs():
        
-    response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{avail_workflows[workflow_choice]}.yml/runs?status=completed&per_page=2")
+    response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/$WORKFLOW/runs?status=completed&per_page=2")
 
     if response.status_code == 200:
         # Parse the JSON response
