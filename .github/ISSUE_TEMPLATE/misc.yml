@@ -1,5 +1,5 @@
 name: Misc Task/Question
-description: File a task/question for something related to a project but not actually inside the project source - e.g., for someone to answer a question you have about the project or to edit a build machine or GitHub Action.
+description: Ask a general question/File a task for something that does not actually require a change to the project source - e.g., changing a build machine or GitHub Action.
 labels: misc
 type: Task
 body:
