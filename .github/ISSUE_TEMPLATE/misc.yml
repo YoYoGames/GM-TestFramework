@@ -1,6 +1,6 @@
-name: Docs and Research
-description: File a task for something someone needs to research and/or document - e.g., to make changes to the readme or wiki pages in this repo.
-labels: document
+name: Misc Task/Question
+description: File a task/question for something related to a project but not actually inside the project source - e.g., for someone to answer a question you have about the project or to edit a build machine or GitHub Action.
+labels: misc
 type: Task
 body:
   - type: textarea
