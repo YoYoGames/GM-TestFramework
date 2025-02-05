@@ -6,10 +6,12 @@ import argparse
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
 parser.add_argument('--github-token', type=str, required=True, help="GitHub token for authentication")
+parser.add_argument('--workflow-choice', type=str, required=True, help="Test Framework workflow selection")
 args = parser.parse_args()
 
 # Get GitHub token from arguments
 github_token = args.github_token
+workflow_choice = args.workflow_choice
 
 # this path needs to be updated to a location on server
 baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"  
@@ -77,13 +79,13 @@ def compare_artifacts(artifact_files):
                             for errorDetails in test['errors']:
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
-                                    "testSuite": testSuiteName,  # Proper key-value pair
+                                    "testSuite": testSuiteName,
                                     "errorDetails": errorDetails
                                 })
                             for exceptionDetails in test['exceptions']:
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
-                                    "testSuite": testSuiteName,  # Proper key-value pair
+                                    "testSuite": testSuiteName,
                                     "errorDetails": exceptionDetails
                                 })
                         elif testResult == "Skipped" and index in range(1,3):
@@ -123,109 +125,101 @@ def compare_artifacts(artifact_files):
                 prev_fails_map.setdefault(prevTestFail, testFails[testRun][prevTestFail])
 
     # Ouput fails
-    print("\n****************************************************************************************")
-    print("******************************* TEST FRAMEWORK FAILURES ********************************")
-    print("****************************************************************************************\n")
+    with open("TF_Output.txt", "w") as file:
 
-    # get first fails dict
-    first_fail_dict = allTestFiles[next(iter(allTestFiles))]
+        file.write("\n****************************************************************************************\n")
+        file.write("******************************* TEST FRAMEWORK FAILURES ********************************\n")
+        file.write("****************************************************************************************\n")
 
-    # Convert artifact timestamp to readable format
-    dt_object = datetime.strptime(first_fail_dict["timestamp_iso"], "%Y-%m-%dT%H:%M:%S")
-    # Format it in a readable way
-    print(f"Artifact Date/Time: {dt_object.strftime("%d %B, %Y at %I:%M %p")}\n")
-    # total number of testsuites
-    print(f"Total Testsuites: {len(first_fail_dict["testsuites"])}")
-    print(f"Total Tests: {first_fail_dict['tallies']["tests"]}")
-    print(f"Total Assertions: {first_fail_dict['tallies']["assertions"]}\n")
+        # get first fails dict
+        first_fail_dict = allTestFiles[next(iter(allTestFiles))]
 
-    print(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%")
-    print(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%")
-    #print(f"Total Errors: {first_fail_dict['tallies']["errors"]}")
-    
+        # Convert artifact timestamp to readable format
+        dt_object = datetime.strptime(first_fail_dict["timestamp_iso"], "%Y-%m-%dT%H:%M:%S")
+        # Format it in a readable way
+        file.write(f"\nArtifact Date/Time: {dt_object.strftime("%d %B, %Y at %I:%M %p")}\n")
+        # total number of testsuites
+        file.write(f"Total Testsuites: {len(first_fail_dict["testsuites"])}\n")
+        file.write(f"Total Tests: {first_fail_dict['tallies']["tests"]}\n")
+        file.write(f"Total Assertions: {first_fail_dict['tallies']["assertions"]}\n")
 
-    # iterate through each test suite
-    new_fails_map = {}
-    failsWrapper = [ALLFails, f1_Fails, f2_Fails]
-    compiler = ["VM and YYC", "VM ONLY", "YYC ONLY"]
-
-    for cIndex, fArray in enumerate(failsWrapper, start=0):
-
-        if len(fArray) > 0:
-
-            print(f"\n********************************** {compiler[cIndex]} Fails ***********************************\n")
-
-            # total number of failures in current test run
-            print(f"Total Failures: {len(fArray)}\n")
+        file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
+        file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
         
-            for failTest in fArray:
+        # iterate through each test suite
+        new_fails_map = {}
+        failsWrapper = [ALLFails, f1_Fails, f2_Fails]
+        compiler = ["VM and YYC", "VM ONLY", "YYC ONLY"]
+        testCounter = 1
 
-                print("----------------------------------------------------------------------------------------\n")
+        for cIndex, fArray in enumerate(failsWrapper, start=0):
 
-                print(f"Testsuite Name: {failTest["testSuite"]}")
+            if len(fArray) > 0:
 
-                if "description" in failTest['errorDetails']:
-                    print(f"Bug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['description']}")
+                file.write(f"\n********************************** {compiler[cIndex]} Fails ***********************************\n")
 
-                    # get details for all errors on each test
-                    #for errorDetails in failTest['errorDetails']:
-                    new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['description']}")
-                    print(f"Test Name: {failTest["testname"]}")
-                    print(f"Title: {failTest['errorDetails']['title']}")
-                    print(f"Description: {failTest['errorDetails']['description']}")
-                    print(f"Expected value: {failTest['errorDetails']['expected']}")
-                    print(f"Actual value: {failTest['errorDetails']['actual']}")
-                    print(f"Stack: {failTest['errorDetails']['stack']}\n")
-                else:
-                    print(f"Bug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['message']}")
-
-                    #for exceptionDetails in failTest['errorDetails']:
-                    new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['message']}")
-                    print(f"Test Name: {failTest["testname"]}")
-                    print(f"Message: {failTest['errorDetails']['message']}")
-                    print(f"Long Message: {failTest['errorDetails']['longMessage']}")
-                    print(f"Script: {failTest['errorDetails']['script']}\n")    
-        elif len(failsWrapper[0]) + len(failsWrapper[1]) + len(failsWrapper[2]) == 0:
-            sys.exit("No files found in the artifact archive.") # Print error details 
-
-    #check_new_errors(prev_fails_map, new_fails_map)
-    print("\n******************************* NEW FAILS HAVE OCCURRED *******************************\n")
-
-    failcount = 0
-    for new_error in new_fails_map:
-        if new_error not in new_fails_map:
-            print(new_error)
-            failcount +=1
-    
-    if failcount == 0:
-        print("No new fails have been identified")
+                # total number of failures in current test run
+                file.write(f"\nTotal Failures: {len(fArray)}\n")
             
+                for failTest in fArray:
 
-    #print("\n****************************************************************************************\n")
+                    file.write("\n----------------------------------------------------------------------------------------\n")
+                    
+                    file.write(f"\nFail No: {testCounter}\n")
+                    file.write(f"Testsuite Name: {failTest["testSuite"]}\n")
 
-    #check_for_fixed_errors(prev_fails_map, new_fails_map)
-    print("\n***************************** VERIFY THESE HAS BEEN FIXED ******************************\n")
+                    if "description" in failTest['errorDetails']:
+                        file.write(f"\nBug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['description']}\n")
+                        # get details for all errors on each test
+                        new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['description']}")
+                        file.write(f"Test Name: {failTest["testname"]}\n")
+                        file.write(f"Title: {failTest['errorDetails']['title']}\n")
+                        file.write(f"Description: {failTest['errorDetails']['description']}\n")
+                        file.write(f"Expected value: {failTest['errorDetails']['expected']}\n")
+                        file.write(f"Actual value: {failTest['errorDetails']['actual']}\n")
+                        file.write(f"Stack: {failTest['errorDetails']['stack']}\n")
+                    else:
+                        file.write(f"\nBug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['message']}\n")
+                        new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['message']}")
+                        file.write(f"Test Name: {failTest["testname"]}\n")
+                        file.write(f"Message: {failTest['errorDetails']['message']}\n")
+                        file.write(f"Long Message: {failTest['errorDetails']['longMessage']}\n")
+                        file.write(f"Script: {failTest['errorDetails']['script']}\n")
+                    # increment test number by 1
+                    testCounter +=1
+            elif len(failsWrapper[0]) + len(failsWrapper[1]) + len(failsWrapper[2]) == 0:
+                sys.exit("\nNo files found in the artifact archive.\n") # Print error details 
 
-    fixcount = 0
-    for prev_error in prev_fails_map:
-        if prev_error not in new_fails_map:
-            print(prev_error)
-            fixcount +=1
+        file.write("\n************************************** NEW FAILS ***************************************\n")
 
-    if fixcount == 0:
-        print("No fixes to verify")
+        failcount = 0
+        for new_error in new_fails_map:
+            if new_error not in new_fails_map:
+                file.write(f"\n{new_error}\n")
+                failcount +=1
+        
+        if failcount == 0:
+            file.write("\nNo new fails have been identified\n")
 
-    #print("\n****************************************************************************************\n")
+        file.write("\n**************************** RECENT FIXES TO MARK VERIFIED *****************************\n")
 
-    #display_skipped_errors(new_skips)
-    print("\n************************************ SKIPPED FAILS ************************************\n")
+        fixcount = 0
+        for prev_error in prev_fails_map:
+            if prev_error not in new_fails_map:
+                file.write(f"\n{prev_error}\n")
+                fixcount +=1
 
-    for skipped in new_skips:
-        print(f"{skipped} : in {new_skips[skipped]}")
+        if fixcount == 0:
+            file.write("\nNo fixes to verify\n")
 
-    print("\n****************************************************************************************")
-    print("*********************************** END OF FILTERING ***********************************")
-    print("****************************************************************************************\n")
+        file.write("\n************************************ SKIPPED TESTS ************************************\n\n")
+
+        for skipped in new_skips:
+            file.write(f"{skipped} : in {new_skips[skipped]}\n")
+
+        file.write("\n****************************************************************************************\n")
+        file.write("*********************************** END OF FILTERING ***********************************\n")
+        file.write("****************************************************************************************\n")
 
 
     # Remove all downloaded artifacts files
@@ -329,14 +323,8 @@ def get_artifact_URL():
 
 # Get the latest 2 workflow run
 def get_workflow_runs():
-    # User to select desired workflow
-    print("\nPlease select a workflow:")
-    for workflow in avail_workflows:
-        print(f"{workflow} : {avail_workflows[workflow]}")
-
-    workflow_user_input = input("\nWorkflow selection: ")
-    
-    response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{avail_workflows[workflow_user_input]}.yml/runs?status=completed&per_page=2")
+       
+    response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{avail_workflows[workflow_choice]}.yml/runs?status=completed&per_page=2")
 
     if response.status_code == 200:
         # Parse the JSON response
@@ -347,8 +335,6 @@ def get_workflow_runs():
         for run in workflow_runs:
             # add workflow run id to array
             _artifactRunID.append(run.get("id"))
-
-            #print(f"Run ID: {run_id}, Status: {status}, Conclusion: {conclusion}, Created At: {created_at}")
     
         get_artifact_URL()
     else:
