@@ -295,8 +295,9 @@ def get_artifact_URL():
 
     for runid in _artifactRunID:
         artifact_url = f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/runs/{runid}/artifacts"
+        print(f"Fetching artifacts from URL: {artifact_url}")  # Debugging information
 
-        response = requests.get(artifact_url)
+        response = requests.get(artifact_url, headers={"Authorization": f"token {github_token}"})
 
         if response.status_code == 200:
             # Parse the JSON response
@@ -316,8 +317,12 @@ def get_artifact_URL():
 
 # Get the latest 2 workflow run
 def get_workflow_runs():
-       
-    response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{workflow}/runs?status=completed&per_page=2")
+    headers = {
+        "Authorization": f"token {github_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    workflow_url = f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{workflow}/runs?status=completed&per_page=2"
+    response = requests.get(workflow_url, headers=headers)
 
     if response.status_code == 200:
         # Parse the JSON response
