@@ -1,12 +1,13 @@
-name: New Test Proposal
-description: Propose a new area/function/"feature request" to write tests for.
-labels: ["enhancement"]
+name: Test Proposal
+description: Propose an individual function or a specific functionality area that we should consider adding new tests for / you want to add your own PR for later on
+type: Feature
+projects: ["YoYoGames/26"]
 body:
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: Write a concise yet detailed description of the functionality area and what tests it must/should/should not contain. Include any relevant links/screenshots at suitable locations in the body of your text.
+      description: Write a concise yet detailed description of the specific function or functionality area/activity and what tests it must/should/should not contain. Include any relevant links/screenshots at suitable locations in the body of your text.
     validations:
       required: true
       
@@ -14,7 +15,7 @@ body:
     id: steps
     attributes:
       label: Steps To The Task
-      description: Add detailed, ordered steps for someone else to plan and execute this task (add as many steps into the middle as you require)
+      description: Add detailed, ordered steps for someone else to plan and execute this task (add as many steps here as you require)
       value: |
         - [ ] 
         - [ ] 
@@ -22,4 +23,11 @@ body:
         - [ ] 
     validations:
       required: true
-      
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: Give a short, clear summary of what outcome/artefact you are expecting this issue to result in
+    validations:
+      required: true

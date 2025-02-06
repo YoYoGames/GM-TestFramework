@@ -1,6 +1,7 @@
-name: Refactor/Addition
-description: Propose a refactor or small addition to an existing area of testing (if the addition is substantial enough to warrant a new script/fact being created, use the New Test Proposal template instead).
-labels: ["refactor"]
+name: Refactor/Optimisation/Clean-Up
+description: Propose a refactor or optimisation to an existing area of testing (if the addition is substantial enough to warrant a new script being created, use the new test template instead)
+labels: refactor
+type: Task
 body:
   - type: textarea
     id: description
@@ -14,7 +15,7 @@ body:
     id: scriptname
     attributes:
       label: Script Name
-      description: Which script is this change going to be located in?
+      description: Which script is this change located in?
     validations:
       required: true
       
@@ -22,7 +23,7 @@ body:
     id: steps
     attributes:
       label: Steps To The Task
-      description: Add detailed, ordered steps for someone else to plan and execute this task (add as many steps into the middle as you require)
+      description: Add detailed, ordered steps for someone else to plan and execute this task (add as many steps as you require)
       value: |
         - [ ] 
         - [ ] 
@@ -30,4 +31,3 @@ body:
         - [ ] 
     validations:
       required: true
-
