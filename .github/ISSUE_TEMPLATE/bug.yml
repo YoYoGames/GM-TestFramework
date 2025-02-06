@@ -1,6 +1,6 @@
 name: Bug
 description: File a report for a test which needs fixing because when those tests are performed incorrect results are being returned
-type: Bug
+type: "TestFramework Bug"
 projects: ["YoYoGames/26"]
 body:
   - type: textarea
