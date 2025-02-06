@@ -40,6 +40,14 @@ jobs:
         with:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\results
+      - name: Download Runtime Build Number 
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          name: buildnumber
+          path: ${{ github.workspace }}\GM-TF  
+          workflow: Zeus-Runtime-Green.yml       
+          repo: YoYoGames/GameMaker
+          github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}            
       - name: Running TF Compare Script
         run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
         working-directory: GM-TF          
