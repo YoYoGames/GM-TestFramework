@@ -290,7 +290,7 @@ def download_github_artifact():
             sys.exit(response.text) # Print error details
 
     # time to compare the artifact files
-    if len(artifact_files > 1):
+    if len(artifact_files) >= 1:
         compare_artifacts(artifact_files)
 
 
