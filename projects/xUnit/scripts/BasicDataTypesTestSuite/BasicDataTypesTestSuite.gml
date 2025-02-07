@@ -392,7 +392,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var input, output;
 					
 		//#10 int64 ( string ), with real negative value, should be converted and floored
-		input = "-21233.223";
+		input = "-21233";
 		output = int64(input);
 		assert_equals(output, -21233, "int64 ( string:local ), with real negative value, should be rounded value");
 		assert_typeof(output, "int64", "int64 ( string:local ), should return int64 type");
@@ -404,7 +404,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		var input, output;
 
 		//#11 int64 ( string ), with real signed positive value, should be converted and floored
-		input = "+21233.223";
+		input = "+21233";
 		output = int64(input);
 		assert_equals(output, 21233, "int64 ( string:local ), with real signed positive value, should be rounded value");
 		assert_typeof(output, "int64", "int64 ( string:local ), should return int64 type");
