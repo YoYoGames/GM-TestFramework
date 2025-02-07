@@ -262,6 +262,8 @@ def download_github_artifact():
 
     # iterate through the _download_artifacts_url array and download each artifact file
     urlCount = 0
+    artifact_files = []
+    
     for url in _download_artifacts_url:
 
         save_path = f"{baseSaveLocation}/{saveLocation[urlCount]}/"
@@ -288,7 +290,8 @@ def download_github_artifact():
             sys.exit(response.text) # Print error details
 
     # time to compare the artifact files
-    compare_artifacts(artifact_files)
+    if len(artifact_files) >= 1:
+        compare_artifacts(artifact_files)
 
 
 def get_artifact_URL():
@@ -306,8 +309,9 @@ def get_artifact_URL():
             artifact_details = artifact_data.get("artifacts", [])
 
             for artifact in artifact_details:
-                print(artifact.get("archive_download_url"))
-                _download_artifacts_url.append(artifact.get("archive_download_url"))
+                if artifact.get("name") == "summary_file":
+                    print(artifact.get("archive_download_url"))
+                    _download_artifacts_url.append(artifact.get("archive_download_url"))
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
             sys.exit(response.text) # Print error details
