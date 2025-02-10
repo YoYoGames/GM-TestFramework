@@ -55,7 +55,7 @@ def get_workflow_runs():
         headers['Authorization'] = f'Bearer {github_token}'
         headers['Accept'] = 'application/vnd.github.v3+json'
       
-    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/workflows/{workflow}/runs?status=completed&per_page=2", headers=headers, stream=True)
+    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/workflows/{workflow}/runs?per_page=2", headers=headers, stream=True)
 
     if response.status_code == 200:
         # Parse the JSON response
@@ -67,8 +67,8 @@ def get_workflow_runs():
             # add workflow run id to array
             _artifactRunID.append(run['id'])
 
-            # download workflow run log for new run
-            if index == 1:
+            # download workflow run log for new run that is currently in progress
+            if index == 1 and run['status'] == 'in_progress':
                 url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
 
                 # Download logs
@@ -109,7 +109,8 @@ def get_workflow_runs():
                             print(f"Error deleting folder {folder_to_delete}: {e}")
                 else:
                     print("Failed to fetch logs:", response.text)
-    
+            else:
+                sys.exit("Failed to get details from current runtime") # Print error details
         get_artifact_URL()
     else:
         print(f"Failed to download artifact. HTTP Status: {response.status_code}")
