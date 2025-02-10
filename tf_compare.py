@@ -62,56 +62,61 @@ def get_workflow_runs():
         artifact_data = response.json()
 
         workflow_runs = artifact_data.get("workflow_runs", [])
+
+        # download workflow run log for new run that is currently in progress
+        if (workflow_runs[0]['display_title'] in ['Beta', 'Monthly', 'Red'] and workflow_runs[1]['display_title'] in ['Beta', 'Monthly', 'Red']):
         
-        for index, run in enumerate(workflow_runs, start=1):
-            # add workflow run id to array
-            _artifactRunID.append(run['id'])
+            for index, run in enumerate(workflow_runs, start=1):
+                # add workflow run id to array
+                _artifactRunID.append(run['id'])
 
-            # download workflow run log for new run that is currently in progress
-            if index == 1 and run['status'] == 'in_progress':
-                url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
+                
+                if index == 1 and run['status'] == 'in_progress':
+                    url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
 
-                # Download logs
-                print(f"Downloading Log files for run: {run['id']}")
-                response = requests.get(url, headers=headers)
-                if response.status_code == 200:
-                    print(f"Log files downloaded for run: {run['id']}")
-                    with open("logs.zip", "wb") as f:
-                        f.write(response.content)
-                    testing = unzip_log_files()
+                    # Download logs
+                    print(f"Downloading Log files for run: {run['id']}")
+                    response = requests.get(url, headers=headers)
+                    if response.status_code == 200:
+                        print(f"Log files downloaded for run: {run['id']}")
+                        with open("logs.zip", "wb") as f:
+                            f.write(response.content)
+                        testing = unzip_log_files()
 
-                    with open(testing[0], "r") as file:
-                        content = file.read()
-                        match = re.search(r"Runtime: Version\s*(.*)", content)
-                        #return match.group(1) if match else None  # Returns only the version part
-                        global RTVersion
-                        RTVersion = match.group(1)
-                        print(f"Log files processed and Runtime version extracted: RT v{RTVersion}")
+                        with open(testing[0], "r") as file:
+                            content = file.read()
+                            match = re.search(r"Runtime: Version\s*(.*)", content)
+                            #return match.group(1) if match else None  # Returns only the version part
+                            global RTVersion
+                            RTVersion = match.group(1)
+                            print(f"Log files processed and Runtime version extracted: RT v{RTVersion}")
 
-                    # remove log files
-                    # Get all files in the directory
-                    files = glob.glob(os.path.join(baseSaveLocation, "logs.zip"))
+                        # remove log files
+                        # Get all files in the directory
+                        files = glob.glob(os.path.join(baseSaveLocation, "logs.zip"))
 
-                    for file in files:
-                        if os.path.isfile(file):  # Ensure it's a file (not a folder)
+                        for file in files:
+                            if os.path.isfile(file):  # Ensure it's a file (not a folder)
+                                try:
+                                    os.remove(file)
+                                    print("Log files deleted.\n")
+                                except Exception as e:
+                                    print(f"Error deleting Log Files {file}: {e}")
+
+                        # Define the folder to be deleted
+                        folder_to_delete = os.path.join(baseSaveLocation, "CI")
+                        if os.path.exists(folder_to_delete) and os.path.isdir(folder_to_delete):
                             try:
-                                os.remove(file)
-                                print("Log files deleted.\n")
+                                shutil.rmtree(folder_to_delete)
                             except Exception as e:
-                                print(f"Error deleting Log Files {file}: {e}")
-
-                    # Define the folder to be deleted
-                    folder_to_delete = os.path.join(baseSaveLocation, "CI")
-                    if os.path.exists(folder_to_delete) and os.path.isdir(folder_to_delete):
-                        try:
-                            shutil.rmtree(folder_to_delete)
-                        except Exception as e:
-                            print(f"Error deleting folder {folder_to_delete}: {e}")
+                                print(f"Error deleting folder {folder_to_delete}: {e}")
+                    else:
+                        print("Failed to fetch logs:", response.text)
                 else:
-                    print("Failed to fetch logs:", response.text)
-            else:
-                sys.exit("Failed to get details from current runtime") # Print error details
-        get_artifact_URL()
+                    sys.exit("Failed to get details from current runtime") # Print error details
+            get_artifact_URL()
+        else:
+            sys.exit("Valid workflow not used") # Print error details
     else:
         print(f"Failed to download artifact. HTTP Status: {response.status_code}")
         sys.exit(response.text) # Print error details
@@ -130,7 +135,10 @@ def unzip_log_files():
         # Get list of filenames in zipfile
         zip_files = zip_ref.namelist()
 
+        print(zip_files)
+
         # Only unzip the Testing log file whihc contains the RT verison
+        #log_files = [f for f in zip_files if f.startswith("CI/4_Testing")]
         log_files = [f for f in zip_files if fnmatch.fnmatch(f, "CI/*Testing*")]
 
         #check if artifact files exists
