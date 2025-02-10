@@ -1,4 +1,4 @@
-import requests, zipfile, sys, json, os, glob, re, shutil, time
+import requests, zipfile, sys, json, os, glob, re, shutil, time, fnmatch
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 import argparse
@@ -119,9 +119,9 @@ def get_workflow_runs():
 
 def unzip_log_files():
     # Path to the zip file
-    zip_file = f"{baseSaveLocation}/logs.zip"
+    zip_file = "logs.zip"
     # Path to extract the specific file to
-    extract_to = baseSaveLocation
+    extract_to = "./"
 
     # Extract the ZIP file
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
@@ -129,10 +129,8 @@ def unzip_log_files():
         # Get list of filenames in zipfile
         zip_files = zip_ref.namelist()
 
-        print(zip_files)
-
-        # List only JSON files without "sandbox" in their names
-        log_files = [f for f in zip_files if f.startswith("CI/4_Testing")]
+        # Only unzip the Testing log file whihc contains the RT verison
+        log_files = [f for f in zip_files if fnmatch.fnmatch(f, "CI/*Testing*")]
 
         #check if artifact files exists
         if len(log_files) > 0:
