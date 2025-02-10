@@ -119,9 +119,9 @@ def get_workflow_runs():
 
 def unzip_log_files():
     # Path to the zip file
-    zip_file = "logs.zip"
+    zip_file = f"{baseSaveLocation}/logs.zip"
     # Path to extract the specific file to
-    extract_to = "./"
+    extract_to = baseSaveLocation
 
     # Extract the ZIP file
     with zipfile.ZipFile(zip_file, 'r') as zip_ref:
