@@ -129,6 +129,8 @@ def unzip_log_files():
         # Get list of filenames in zipfile
         zip_files = zip_ref.namelist()
 
+        print(zip_files)
+
         # List only JSON files without "sandbox" in their names
         log_files = [f for f in zip_files if f.startswith("CI/4_Testing")]
 
