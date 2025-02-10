@@ -1,12 +1,15 @@
 {
   "$GMSound":"",
   "%Name":"snd_compressed",
-  "audioGroupId":null,
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
   "bitDepth":1,
   "bitRate":128,
   "compression":1,
   "conversionMode":0,
-  "duration":26.592,
+  "duration":26.56365,
   "name":"snd_compressed",
   "parent":{
     "name":"sounds",

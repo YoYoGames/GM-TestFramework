@@ -30,61 +30,54 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 	});
 
 	addFact("Default audio group test #2", function() {
-		
 		var loadProgress = audio_group_load_progress(audiogroup_default);
 		assert_equals(loadProgress, 100, "Default audiogroup's load progress should be at 100, as it should be loaded in by default");
-		
 	});
 	
 	addTestAsync("Audio groups loading test #1", objTestAsync, {
-		
 		ev_create: function() {
+            numFailed = 0;
 			
 			// Start loading audio groups
 			audioGroups = getAudioGroups();
+            numGroups = array_length(audioGroups);
 			
 			for (var i = 0; i < array_length(audioGroups); i++){
 				var group = audioGroups[i];
-				audio_group_load(group);
+				var loading = audio_group_load(group);
+                
+                if (!loading) {
+                    ++numFailed;
+                }
 			}
-			
 		},
 		
 		ev_step: function() {
-			
-			var loadedNum = 0;
-			
+            var numLoaded = 0;
+            
 			// Check if audio groups have been loaded
-			for (var i = 0; i < array_length(audioGroups); i++) {
-				
+			for (var i = 0; i < numGroups; i++) {
 				var group = audioGroups[i];
 				
 				if (audio_group_is_loaded(group)) {
-					loadedNum++;
-				}
-				
+					++numLoaded;
+                }
 			}
 			
-			show_debug_message("audio group numbers: " + string(array_length(audioGroups)));
-			show_debug_message("loaded groups : " + string(loadedNum));
-			
-			// If all audi groups have been loaded, end test
-			if (loadedNum == array_length(audioGroups)) {
-				
+			// If all audio groups have been loaded, end test
+			if (numLoaded + numFailed == numGroups) {
+                assert_equals(numFailed, 0, $"{numFailed} of {numGroups} audio groups failed to load");
+                
 				// Check that loading progress is at 100%
-				for (var i = 0; i < array_length(audioGroups); i++) {
-					
+				for (var i = 0; i < numGroups; i++) {
 					var group = audioGroups[i];
 					var loadProgress = audio_group_load_progress(group);
 					assert_equals(loadProgress, 100, "audio_group_load_progress should return 100% after loading in");
-					
 				}
 				
 				test_end();
 			}
-			
 		},
-		
 	});
 	
 	addFact("Sounds' associated audio group test #1", function() {
@@ -129,12 +122,10 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 	});
 	
 	addFact("Audio groups' assets test #1", function() {
-		
 		// Get audio groups that should be tested
 		var groupsToTest = getAudioGroups();
 		
 		for (var i = 0 ; i < array_length(groupsToTest); i++) {
-			
 			// Get current group
 			var group = groupsToTest[i];
 			
@@ -143,32 +134,22 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 			
 			// Test if assets are the correct ones
 			switch (group) {
-				
 				case audiogroup_default:
-					// Test just the frst sound in the default audio group
-					var sound = audioAssets[0];
-					assert_array_equals(sound, handle_testSound, "audio_group_get_assets should get the correct audio asset from audiogroup_default");
+					assert_true(array_contains(audioAssets, handleTestSound), "audio_group_get_assets should get the correct audio asset from audiogroup_default");
 					break;
-					
 				case audiogroup_MP3:
-					assert_array_equals(audioAssets, [snd_MP3], "audio_group_get_assets should get the correct audio assets from audiogroup_MP3");
+					assert_true(array_contains(audioAssets, snd_MP3), "audio_group_get_assets should get the correct audio assets from audiogroup_MP3");
 					break;
-				
 				case audiogroup_OGG:
-					assert_array_equals(audioAssets, [snd_OGG], "audio_group_get_assets should get the correct audio assets from audiogroup_OGG");
+					assert_true(array_contains(audioAssets, snd_OGG), "audio_group_get_assets should get the correct audio assets from audiogroup_OGG");
 					break;
-					
 				case audiogroup_WAV:
-					assert_array_equals(audioAssets, [snd_WAV], "audio_group_get_assets should get the correct audio assets from audiogroup_WAV");
+					assert_true(array_contains(audioAssets, snd_WAV), "audio_group_get_assets should get the correct audio assets from audiogroup_WAV");
 					break;
-					
 				default:
 					break;
-				
 			}
-			
 		}
-		
 	});
 
 	addFact("Audio group names test #1", function() {
@@ -242,7 +223,7 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			
-			// Set gain of auio group to 1
+			// Set gain of audio group to 1
 			audio_group_set_gain(audiogroup_OGG, 1, 0);
 			
 			gain = audio_group_get_gain(audiogroup_OGG);
@@ -275,51 +256,49 @@ function ResourceAudioGroupsTestSuite() : TestSuite() constructor {
 	});
 	
 	addTestAsync("Audio group unloading test #1", objTestAsync, {
-		
 		ev_create: function() {
+            numFailed = 0;
 			
 			// Start unloading audio groups
 			audioGroups = getAudioGroups();
+            numGroups = array_length(audioGroups);
 			
 			for (var i = 0; i < array_length(audioGroups); i++){
 				var group = audioGroups[i];
-				audio_group_unload(group);
+				var unloading = audio_group_unload(group);
+                
+                if (!unloading) {
+                    ++numFailed;
+                }
 			}
-			
 		},
 		
 		ev_step: function() {
-			
-			var unloadedNum = 0;
-			
+            var numUnloaded = 0;
+            
 			// Check if audio groups have been unloaded
-			for (var i = 0; i < array_length(audioGroups); i++) {
-				
+			for (var i = 0; i < numGroups; i++) {
 				var group = audioGroups[i];
 				
 				if (!audio_group_is_loaded(group)) {
-					unloadedNum++;
+					numUnloaded++;
 				}
-				
 			}
 			
 			// If all audio groups have been unloaded, end test
-			if (unloadedNum == array_length(audioGroups)) {
-				
+			if (numUnloaded + numFailed == numGroups) {
+                assert_equals(numFailed, 0, $"{numFailed} of {numGroups} audio groups failed to unload");
+                
 				// Check that loading progress is at 0% for unloaded audiogroups
-				for (var i = 0; i < array_length(audioGroups); i++) {
-					
+				for (var i = 0; i < numGroups; i++) {
 					var group = audioGroups[i];
 					var loadProgress = audio_group_load_progress(group);
 					assert_equals(loadProgress, 0, "audio_group_load_progress should return 0% once the audio group has been unloaded");
-					
 				}
 				
 				test_end();
 			}
-			
 		},
-		
 	});
 	
 	config({
