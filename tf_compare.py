@@ -63,9 +63,11 @@ def get_workflow_runs():
 
         workflow_runs = artifact_data.get("workflow_runs", [])
 
+        branch = workflow_runs[0]['pull_requests'][0]['base']['ref']
+
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
-        if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows:
+        if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows and branch == 'develop':
         
             for index, run in enumerate(workflow_runs, start=1):
                 # add workflow run id to array
@@ -117,7 +119,7 @@ def get_workflow_runs():
                     sys.exit("Failed to get details from current runtime") # Print error details
             get_artifact_URL()
         else:
-            print("Valid workflow not used, only Beta, Monthly or Red is accepted for the TF Compare script")
+            print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
     else:
         print(f"Failed to download artifact. HTTP Status: {response.status_code}")
         sys.exit(response.text) # Print error details
