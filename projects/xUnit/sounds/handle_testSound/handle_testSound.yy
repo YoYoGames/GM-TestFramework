@@ -1,7 +1,10 @@
 {
   "$GMSound":"",
   "%Name":"handle_testSound",
-  "audioGroupId":null,
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
   "bitDepth":1,
   "bitRate":128,
   "compression":0,

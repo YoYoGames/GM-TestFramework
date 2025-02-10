@@ -1,7 +1,10 @@
 {
   "$GMSound":"",
   "%Name":"snd_jump_OGG",
-  "audioGroupId":null,
+  "audioGroupId":{
+    "name":"audiogroup_OGG",
+    "path":"audiogroups/audiogroup_OGG",
+  },
   "bitDepth":1,
   "bitRate":128,
   "compression":0,
