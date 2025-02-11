@@ -2,8 +2,8 @@
   "$GMSound":"",
   "%Name":"snd_jump_MP3",
   "audioGroupId":{
-    "name":"audiogroup_MP3",
-    "path":"audiogroups/audiogroup_MP3",
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
   },
   "bitDepth":1,
   "bitRate":128,
