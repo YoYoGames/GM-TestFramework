@@ -13,7 +13,7 @@ jobs:
         id: check_runners
         run: |
           echo "Checking for offline runners..."
-          RESPONSE=$(gh api -X GET /orgs/YoYoGames/GM-TF/actions/runners)
+          RESPONSE=$(gh api -X GET /orgs/YoYoGames/GM-TestFramework/actions/runners)
           echo "Raw API response: $RESPONSE"
           OFFLINE_RUNNERS=$(echo "$RESPONSE" | jq -r '.runners[] | select(.status != "online") | .name')
           if [ -z "$OFFLINE_RUNNERS" ]; then
