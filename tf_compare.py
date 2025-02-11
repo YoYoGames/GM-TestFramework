@@ -115,8 +115,6 @@ def get_workflow_runs():
                                 print(f"Error deleting folder {folder_to_delete}: {e}")
                     else:
                         print("Failed to fetch logs:", response.text)
-                else:
-                    sys.exit("Failed to get details from current runtime") # Print error details
             get_artifact_URL()
         else:
             print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
@@ -137,8 +135,6 @@ def unzip_log_files():
 
         # Get list of filenames in zipfile
         zip_files = zip_ref.namelist()
-
-        print(zip_files)
 
         # Only unzip the Testing log file whihc contains the RT verison
         #log_files = [f for f in zip_files if f.startswith("CI/4_Testing")]
@@ -615,7 +611,7 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                         f"{test_code_details[1]}\n\n"
                         f"### Which platform(s) are you seeing the problem on?\n"
                         f"Windows",
-                "assignee" : "sihammill"
+                #"assignee" : "username"
             }
         else:
             issue_data = {
