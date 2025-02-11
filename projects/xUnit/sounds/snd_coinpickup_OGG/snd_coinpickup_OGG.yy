@@ -2,8 +2,8 @@
   "$GMSound":"",
   "%Name":"snd_coinpickup_OGG",
   "audioGroupId":{
-    "name":"audiogroup_OGG",
-    "path":"audiogroups/audiogroup_OGG",
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
   },
   "bitDepth":1,
   "bitRate":128,
