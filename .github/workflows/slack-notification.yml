@@ -16,7 +16,8 @@ jobs:
           RESPONSE=$(gh api -X GET /orgs/YoYoGames/GM-TestFramework/actions/runners || echo '{"runners":[]}')
           echo "Raw API response: $RESPONSE"
           # Check if the response contains any runners
-          if [[ $(echo "$RESPONSE" | jq '.runners | length') -eq 0 ]]; then
+          RUNNERS_COUNT=$(echo "$RESPONSE" | jq '.runners | length')
+          if [ "$RUNNERS_COUNT" -eq 0 ]; then
             echo "No runners found."
             echo "offline_runners=" >> $GITHUB_ENV
           else
