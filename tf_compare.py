@@ -63,7 +63,7 @@ def get_workflow_runs():
 
         workflow_runs = artifact_data.get("workflow_runs", [])
 
-        branch = workflow_runs[0]['pull_requests'][0]['base']['ref']
+        branch = workflow_runs[0]['head_branch']
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
