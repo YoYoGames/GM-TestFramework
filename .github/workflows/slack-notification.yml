@@ -13,7 +13,9 @@ jobs:
         id: check_runners
         run: |
           echo "Checking for offline runners..."
-          OFFLINE_RUNNERS=$(gh api -X GET /orgs/YoYoGames/actions/runners | jq -r '.runners[] | select(.status != "online") | .name')
+          RESPONSE=$(gh api -X GET /repos/YoYoGames/GM-TF/actions/runners)
+          echo "Raw API response: $RESPONSE"
+          OFFLINE_RUNNERS=$(echo "$RESPONSE" | jq -r '.runners[] | select(.status != "online") | .name')
           if [ -z "$OFFLINE_RUNNERS" ]; then
             echo "No offline runners detected."
             echo "offline_runners=" >> $GITHUB_ENV
