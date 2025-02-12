@@ -137,7 +137,6 @@ def unzip_log_files():
         zip_files = zip_ref.namelist()
 
         # Only unzip the Testing log file whihc contains the RT verison
-        #log_files = [f for f in zip_files if f.startswith("CI/4_Testing")]
         log_files = [f for f in zip_files if fnmatch.fnmatch(f, "CI/*Testing*")]
 
         #check if artifact files exists
@@ -171,7 +170,7 @@ def get_artifact_URL():
                     # add first new run artifact id to array
                     if index == 1:
                         _artifactID.append(artifact['id'])
-                    _download_artifacts_url.append(artifact.get("archive_download_url"))
+                        _download_artifacts_url.append(artifact.get("archive_download_url"))
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
             sys.exit(response.text) # Print error details
