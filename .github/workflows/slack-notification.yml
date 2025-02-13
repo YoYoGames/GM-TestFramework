@@ -13,13 +13,26 @@ jobs:
         id: check_runners
         run: |
           echo "Checking for offline runners..."
-          OFFLINE_RUNNERS=$(gh api -X GET /orgs/YoYoGames/actions/runners | jq -r '.runners[] | select(.status != "online") | .name')
-          if [ -z "$OFFLINE_RUNNERS" ]; then
-            echo "No offline runners detected."
+        
+          # Get the list of runners for the specific repository
+          RESPONSE=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/YoYoGames/GM-TF/actions/runners || echo '{"runners":[]}')
+          echo "Raw API response: $RESPONSE"
+    
+          # Check if the response contains any runners
+          RUNNERS_COUNT=$(echo "$RESPONSE" | jq '.runners | length')
+          if [ "$RUNNERS_COUNT" -eq 0 ]; then
+            echo "No runners found."
             echo "offline_runners=" >> $GITHUB_ENV
           else
-            echo "Offline runners detected: $OFFLINE_RUNNERS"
-            echo "offline_runners=$OFFLINE_RUNNERS" >> $GITHUB_ENV
+            # Look for offline runners
+            OFFLINE_RUNNERS=$(echo "$RESPONSE" | jq -r '.runners[] | select(.status != "online") | .name')
+            if [ -z "$OFFLINE_RUNNERS" ]; then
+              echo "No offline runners detected."
+              echo "offline_runners=" >> $GITHUB_ENV
+            else
+              echo "Offline runners detected: $OFFLINE_RUNNERS"
+              echo "offline_runners=$OFFLINE_RUNNERS" >> $GITHUB_ENV
+            fi
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
