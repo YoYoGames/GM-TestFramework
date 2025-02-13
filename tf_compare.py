@@ -73,13 +73,13 @@ def get_workflow_runs():
                 # add workflow run id to array
                 _artifactRunID.append(run['id'])
 
-                
-                if index == 1 and run['status'] == 'in_progress':
+                if index == 1:
                     url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
 
                     # Download logs
                     print(f"Downloading Log files for run: {run['id']}")
                     response = requests.get(url, headers=headers)
+                    time.sleep(1)
                     if response.status_code == 200:
                         print(f"Log files downloaded for run: {run['id']}")
                         with open("logs.zip", "wb") as f:
@@ -418,8 +418,8 @@ def compare_artifacts(artifact_files):
 
         failcount = 0
         for new_error in new_fails_map:
-            if new_error not in new_fails_map:
-                file.write(f"\n{new_error}\n")
+            if new_error not in prev_fails_map:
+                file.write(f"\n{new_error} - {new_fails_map[new_error]}\n")
                 failcount +=1
         
         if failcount == 0:
@@ -430,7 +430,7 @@ def compare_artifacts(artifact_files):
         fixcount = 0
         for prev_error in prev_fails_map:
             if prev_error not in new_fails_map:
-                file.write(f"\n{prev_error}\n")
+                file.write(f"\n{prev_error} - {prev_fails_map[prev_error]}\n")
                 fixcount +=1
 
         if fixcount == 0:
