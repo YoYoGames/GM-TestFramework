@@ -55,85 +55,71 @@ def get_workflow_runs():
         headers['Authorization'] = f'Bearer {github_token}'
         headers['Accept'] = 'application/vnd.github.v3+json'
       
-    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/workflows/{workflow}/runs?per_page=10", headers=headers, stream=True)
+    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/workflows/{workflow}/runs?per_page=2", headers=headers, stream=True)
 
     if response.status_code == 200:
         # Parse the JSON response
         artifact_data = response.json()
 
-        # Filter the runs for 'success' or 'in_progress' status (conclusion)
-        valid_runs = [run for run in artifact_data['workflow_runs'] if run['conclusion'] in ['success', 'in_progress']]
+        workflow_runs = artifact_data.get("workflow_runs", [])
 
-        # check that there is at least one run that is a success
-        if [run for run in valid_runs['workflow_runs'] if run['conclusion'] in ['success']]:
+        branch = workflow_runs[0]['head_branch']
 
-            # Sort by the 'created' field in descending order to get the latest first
-            sorted_runs = sorted(valid_runs, key=lambda x: datetime.fromisoformat(x['created_at'].replace('Z', '+00:00')), reverse=True)
+        # download workflow run log for new run that is currently in progress
+        allowed_workflows = {'Beta', 'Monthly', 'Red'}
+        if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows and branch == 'develop':
+        
+            for index, run in enumerate(workflow_runs, start=1):
+                # add workflow run id to array
+                _artifactRunID.append(run['id'])
 
-            workflow_runs = []
+                if index == 1:
+                    url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
 
-            # Add the latest 2 runs to an array
-            for run in sorted_runs[:2]:
-                workflow_runs.append(run)
+                    # Download logs
+                    print(f"Downloading Log files for run: {run['id']}")
+                    response = requests.get(url, headers=headers)
+                    time.sleep(1)
+                    if response.status_code == 200:
+                        print(f"Log files downloaded for run: {run['id']}")
+                        with open("logs.zip", "wb") as f:
+                            f.write(response.content)
+                        testing = unzip_log_files()
 
-            branch = workflow_runs[0]['head_branch']
+                        with open(testing[0], "r") as file:
+                            content = file.read()
+                            match = re.search(r"Runtime: Version\s*(.*)", content)
+                            #return match.group(1) if match else None  # Returns only the version part
+                            global RTVersion
+                            RTVersion = match.group(1)
+                            print(f"Log files processed and Runtime version extracted: RT v{RTVersion}")
 
-            # download workflow run log for new run that is currently in progress
-            allowed_workflows = {'Beta', 'Monthly', 'Red'}
-            if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows and branch == 'develop':
-            
-                for index, run in enumerate(workflow_runs, start=1):
-                    # add workflow run id to array
-                    _artifactRunID.append(run['id'])
+                        # remove log files
+                        # Get all files in the directory
+                        files = glob.glob(os.path.join(baseSaveLocation, "logs.zip"))
 
-                    if index == 1:
-                        url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
-
-                        # Download logs
-                        print(f"Downloading Log files for run: {run['id']}")
-                        response = requests.get(url, headers=headers)
-                        time.sleep(1)
-                        if response.status_code == 200:
-                            print(f"Log files downloaded for run: {run['id']}")
-                            with open("logs.zip", "wb") as f:
-                                f.write(response.content)
-                            testing = unzip_log_files()
-
-                            with open(testing[0], "r") as file:
-                                content = file.read()
-                                match = re.search(r"Runtime: Version\s*(.*)", content)
-                                #return match.group(1) if match else None  # Returns only the version part
-                                global RTVersion
-                                RTVersion = match.group(1)
-                                print(f"Log files processed and Runtime version extracted: RT v{RTVersion}")
-
-                            # remove log files
-                            # Get all files in the directory
-                            files = glob.glob(os.path.join(baseSaveLocation, "logs.zip"))
-
-                            for file in files:
-                                if os.path.isfile(file):  # Ensure it's a file (not a folder)
-                                    try:
-                                        os.remove(file)
-                                        print("Log files deleted.\n")
-                                    except Exception as e:
-                                        print(f"Error deleting Log Files {file}: {e}")
-
-                            # Define the folder to be deleted
-                            folder_to_delete = os.path.join(baseSaveLocation, "CI")
-                            if os.path.exists(folder_to_delete) and os.path.isdir(folder_to_delete):
+                        for file in files:
+                            if os.path.isfile(file):  # Ensure it's a file (not a folder)
                                 try:
-                                    shutil.rmtree(folder_to_delete)
+                                    os.remove(file)
+                                    print("Log files deleted.\n")
                                 except Exception as e:
-                                    print(f"Error deleting folder {folder_to_delete}: {e}")
-                        else:
-                            print("Failed to fetch logs:", response.text)
-                get_artifact_URL()
-            else:
-                print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
-        print(f"No successful previous runs available in the last 10 downloaded")
+                                    print(f"Error deleting Log Files {file}: {e}")
+
+                        # Define the folder to be deleted
+                        folder_to_delete = os.path.join(baseSaveLocation, "CI")
+                        if os.path.exists(folder_to_delete) and os.path.isdir(folder_to_delete):
+                            try:
+                                shutil.rmtree(folder_to_delete)
+                            except Exception as e:
+                                print(f"Error deleting folder {folder_to_delete}: {e}")
+                    else:
+                        print("Failed to fetch logs:", response.text)
+            get_artifact_URL()
+        else:
+            print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
     else:
-        print(f"Failed to download artifact. HTTP Status: {response.status_code}")
+        print(f"Failed to get workflow runs. HTTP Status: {response.status_code}")
 
 
 
@@ -186,7 +172,6 @@ def get_artifact_URL():
                         _download_artifacts_url.append(artifact.get("archive_download_url"))
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
-            sys.exit(response.text) # Print error details
 
     # Time to download the artifact files
     download_github_artifact()
@@ -270,15 +255,18 @@ def compare_artifacts(artifact_files):
         for art_file in artifact_files:
             
             # json file location
-            file_path = f"{baseSaveLocation}/{data}/{art_file}"
-            # open and read the json file
-            with open(file_path, 'r') as file:
+            file_path = Path(f"{baseSaveLocation}/{data}/{art_file}")
+            # check the file exists
+            if file_path.exists():
+                # open and read the json file
+                with open(file_path, 'r') as file:
 
-                #if fileCount == 0:
-                # eg. xUnit_windows_VM_1, xUnit_windows_YYC_1 - Latest Test Run
-                #     xUnit_windows_VM_2, xUnit_windows_YYC_2 - Previous Test Run
-                allTestFiles[f"{art_file}_{fileCount}"] = json.load(file)
-
+                    #if fileCount == 0:
+                    # eg. xUnit_windows_VM_1, xUnit_windows_YYC_1 - Latest Test Run
+                    #     xUnit_windows_VM_2, xUnit_windows_YYC_2 - Previous Test Run
+                    allTestFiles[f"{art_file}_{fileCount}"] = json.load(file)
+            else:
+                print(f"File in {file_path} does not exist.")
         fileCount +=1
 
     if len(allTestFiles) > 0:
@@ -359,6 +347,9 @@ def compare_artifacts(artifact_files):
 
         # get first fails dict
         first_fail_dict = allTestFiles[next(iter(allTestFiles))]
+
+        file.write(f"\nWorkflow: {workflow}\n")
+        file.write(f"Runtime Version: {RTVersion}\n")
 
         # Convert artifact timestamp to readable format
         dt_object = datetime.strptime(first_fail_dict["timestamp_iso"], "%Y-%m-%dT%H:%M:%S")
