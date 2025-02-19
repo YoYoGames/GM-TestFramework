@@ -1004,7 +1004,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// The project these land in is named after the test file itself.
 		// During the test framework run, each test is considered its own unique project.
-		var expectedPath = working_directory
+		var expectedPath = game_save_id
 		
 		var filePath = filename_path("testFile.txt");
 		assert_equals(filePath,  expectedPath, "filename_path didn't work correctly");
@@ -1028,7 +1028,7 @@ function BasicFileTestSuite() : TestSuite() constructor {
 			
 		// The project these land in is named after the test file itself.
 		// During the test framework run, each test is considered its own unique project.
-		var expectedDirectory = string_trim_end(working_directory, ["\\"])
+		var expectedDirectory = string_trim_end(game_save_id, ["\\"])
 		
 		var fileDirectory = filename_dir("testFile.txt");
 		assert_equals(fileDirectory,expectedDirectory, "filename_dir didn't work correctly");

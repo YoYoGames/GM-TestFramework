@@ -2061,7 +2061,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 
 			audio_mono: value,
 			audio_stereo: value,
-			audio_3D: value,
+			audio_3d: value,
 
 			cr_default: value,
 			cr_none: value,
@@ -2151,13 +2151,7 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 			os_android: value,
 			os_linux: value,
 			os_unknown: value,
-			os_winphone: value,
-			os_win8native: value,
-			os_psvita: value,
 			os_ps4: value,
-			os_xboxone: value,
-			os_ps3: value,
-			os_uwp: value,
 			os_tvos: value,
 			os_switch: value,
 			os_ps5: value,
