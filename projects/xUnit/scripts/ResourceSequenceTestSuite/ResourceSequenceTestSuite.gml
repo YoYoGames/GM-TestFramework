@@ -75,7 +75,7 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			var _valueDetails, _valueDetailsCount, _valueType, _value, _details, _expected;
 			
 			_valueDetails = [
-				[ "0.6",			"string" ],
+				[ "2",			"string" ],
 				[ 2,				"number" ],
 				[ int32(1),			"int32" ],
 				[ int64(0),			"int64" ] ];  
@@ -99,13 +99,13 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			_seq.loopmode = seqplay_oneshot;
 
 			_valueDetails = [
-				[ "19.6",			"string" ],
+				[ "19",			"string" ],
 				[ 233,				"number" ],
 				[ int32(100),		"int32" ],
 				[ int64(0x123),		"int64" ], 
 				[ infinity,			"infinity" ],
 				[ NaN,				"nan" ],
-				[ "-12.6",			"(-) string" ],
+				[ "-12",			"(-) string" ],
 				[ -233,				"(-) number" ],
 				[ int32(-100),		"(-) int32" ],
 				[ int64(-23),		"(-) int64" ], 
@@ -304,7 +304,7 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			var _valueDetails, _valueDetailsCount, _valueType, _value, _details, _expected;
 			
 			_valueDetails = [
-				[ "0.6",			"string" ],
+				[ "1",				"string" ],
 				[ 1.4,				"number" ],
 				[ int32(1),			"int32" ],
 				[ int64(0),			"int64" ] ];  
@@ -328,13 +328,13 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			_seq.playbackSpeedType = spritespeed_framespergameframe;
 
 			_valueDetails = [
-				[ "19.6",			"string" ],
+				[ "19",				"string" ],
 				[ 233,				"number" ],
 				[ int32(100),		"int32" ],
 				[ int64(0x123),		"int64" ], 
 				[ infinity,			"infinity" ],
 				[ NaN,				"nan" ],
-				[ "-12.6",			"(-) string" ],
+				[ "-12",			"(-) string" ],
 				[ -233,				"(-) number" ],
 				[ int32(-100),		"(-) int32" ],
 				[ int64(-23),		"(-) int64" ], 
@@ -1102,7 +1102,7 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			var _valueDetails, _valueDetailsCount, _valueType, _value, _details, _expected;
 			
 			_valueDetails = [
-				[ "1.6",			"string" ],
+				[ "1",			"string" ],
 				[ 0.1,				"number" ],
 				[ int32(1),			"int32" ],
 				[ int64(0),			"int64" ] ];  
@@ -1126,13 +1126,13 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			_track.interpolation = seqinterpolation_assign;
 
 			_valueDetails = [
-				[ "19.6",			"string" ],
+				[ "19",				"string" ],
 				[ 233,				"number" ],
 				[ int32(100),		"int32" ],
 				[ int64(0x123),		"int64" ], 
 				[ infinity,			"infinity" ],
 				[ NaN,				"nan" ],
-				[ "-12.6",			"(-) string" ],
+				[ "-12",			"(-) string" ],
 				[ -233,				"(-) number" ],
 				[ int32(-100),		"(-) int32" ],
 				[ int64(-23),		"(-) int64" ], 
