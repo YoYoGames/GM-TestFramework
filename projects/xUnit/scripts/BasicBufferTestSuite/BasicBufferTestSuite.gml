@@ -877,4 +877,30 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 		suite_filter: platform_not_browser
 	})
 		
+	addFact("buffer_get_used_size", function() {
+	
+		var _size, _used_size, _tell;
+	
+		var _buff = buffer_create(1024, buffer_grow, 1);
+		_size = buffer_get_size(_buff);
+		_used_size = buffer_get_used_size(_buff);
+		_tell = buffer_tell(_buff);
+		
+		assert_equals(_size, 1024, "The size of a created buffer doesn't match the defined size.");
+		assert_equals(_used_size, 0, "The used size of a newly created buffer is not 0.");
+		assert_equals(_tell, 0, "The tell|cursor of a newly created buffer is not 0.");
+
+		buffer_poke(_buff, 500, buffer_f32, 77);
+		_size = buffer_get_size(_buff);
+		_used_size = buffer_get_used_size(_buff);
+		_tell = buffer_tell(_buff);
+		
+		assert_equals(_size, 1024, "After a within bounds poke the size of the buffer is not maintained.");
+		assert_equals(_used_size, 504, "After a within bounds poke the used size didn't match");
+		assert_equals(_tell, 0, "After a poke the tell changed value");
+
+		buffer_delete(_buff);
+	
+	});
+	
 }
