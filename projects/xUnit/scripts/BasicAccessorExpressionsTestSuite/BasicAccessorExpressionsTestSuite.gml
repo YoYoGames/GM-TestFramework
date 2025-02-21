@@ -193,16 +193,7 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 
 	    // Array, Struct Hash Access
 	    assert_equals(struct_get_from_hash(arr[6], variable_get_hash("hashName")), "newHashValue", "Array, Struct Hash access failed.");
-
-	    // Array, Function Call Access (no write)
-		assert_true(false, "This code should be uncommented when the bug #8041 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(arr[7]()[0], 100, "Array, Function Call access failed (first return value).");
-//	    assert_equals(arr[7]()[1], 200, "Array, Function Call access failed (second return value).");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		// Work around for the lines above until a bug is fixed ::  https://github.com/YoYoGames/GameMaker-Bugs/issues/8041
-		// however both options should still be tested for
 		var _retArr = arr[7]()
 		assert_equals(_retArr[0], 100, "Array, Function Call access failed (first return value).");
 	    assert_equals(_retArr[1], 200, "Array, Function Call access failed (second return value).");
@@ -303,15 +294,6 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 	    // List, Struct Hash Access
 	    assert_equals(struct_get_from_hash(list[| 6], variable_get_hash("hashName")), "newHashValue", "List, Struct Hash access failed.");
 		
-	    // List, Function Call Access (no write)
-		assert_true(false, "This code should be uncommented when the bug #8041 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(list[| 7]()[| 0], 100, "List, Function Call access failed (first return value).");
-//		assert_equals(list[| 7]()[| 1], 200, "List, Function Call access failed (second return value).");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	    // Work around for the lines above until a bug is fixed ::  https://github.com/YoYoGames/GameMaker-Bugs/issues/8041
-		// however both options should still be tested for
 	    var _retList = list[| 7]();
 	    assert_equals(_retList[| 0], 100, "List, Function Call access failed (first return value).");
 	    assert_equals(_retList[| 1], 200, "List, Function Call access failed (second return value).");
@@ -413,14 +395,6 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 	    // Grid, Struct Hash Access
 	    assert_equals(struct_get_from_hash(grid[# 12, 13], variable_get_hash("hashName")), "newHashValue", "Grid, Struct Hash access failed.");
 
-	    // Grid, Function Call Access (no write)
-		assert_true(false, "This code should be uncommented when the bug #8041 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(grid[# 14, 15]()[# 1, 1], 100, "Grid, Function Call access failed.");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		// Work around for the lines above until a bug is fixed ::  https://github.com/YoYoGames/GameMaker-Bugs/issues/8041
-		// however both options should still be tested for
 	    var _retGrid = grid[# 14, 15]();
 	    assert_equals(_retGrid[# 1, 1], 100, "Grid, Function Call access failed.");
 
@@ -517,14 +491,6 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 	    // Map, Struct Hash Access
 	    assert_equals(struct_get_from_hash(map[? "structHash"], variable_get_hash("hashName")), "newHashValue", "Map, Struct Hash access failed.");
 
-	    // Map, Function Call Access (no write)
-		assert_true(false, "This code should be uncommented when the bug #8041 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(map[? "function"]()[? "funcKey"], 100, "Map, Function Call access failed.");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		// Work around for the lines above until a bug is fixed ::  https://github.com/YoYoGames/GameMaker-Bugs/issues/8041
-		// however both options should still be tested for
 	    var _retMap = map[? "function"]();
 	    assert_equals(_retMap[? "funcKey"], 100, "Map, Function Call access failed.");
 
@@ -722,13 +688,6 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 		assert_equals(struct_get_from_hash(struct[$ "structHash"], variable_get_hash("hashName")), "newHashValue",  "Struct Bracket :Const:, Struct Hash access failed.");
 
 		// Struct Hash, Function Call Access (no write)
-		assert_true(false, "This code should be uncommented when the bug #8041 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(struct[$ "functionCall"]()[$ "key"], "funcValue",  "Struct Bracket :Const:, Function Call access failed.");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		// Work around for the lines above until a bug is fixed ::  https://github.com/YoYoGames/GameMaker-Bugs/issues/8041
-		// however both options should still be tested for
 		var _retStruct = struct[$ "functionCall"]();
 		assert_equals(_retStruct[$ "key"], "funcValue",  "Struct Bracket :Const:, Function Call access failed.");
 
@@ -846,13 +805,7 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 		// Struct Hash, Function Call Access (no write)
 		_key = "functionCall";
 		var _key2 = "key";
-		assert_true(false, "This code should be uncommented when the bug #8041 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(struct[$ _key]()[$ _key2], "funcValue", "Struct Bracket with variable, Function Call access failed.");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		// Work around for the lines above until a bug is fixed ::  https://github.com/YoYoGames/GameMaker-Bugs/issues/8041
-		// however both options should still be tested for
+
 		var _retStruct = struct[$ _key]();
 		assert_equals(_retStruct[$ _key2], "funcValue", "Struct Bracket with variable, Function Call access failed.");
 
@@ -1031,14 +984,6 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 	    assert_equals(funcList()[| 1], 888, "Function Call, List write failed.");
 
 	    // Function Call, Grid Access - Modify value
-		assert_true(false, "This code should be uncommented when the bug #7799 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	    funcGrid()[# 2, 2] = 777;
-//	    assert_equals(funcGrid()[# 2, 2], 777, "Function Call, Grid write failed.");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		//work around for a bug :: https://github.com/YoYoGames/GameMaker-Bugs/issues/7799
-		// however both options should still be tested for
 		var _retGrid = funcGrid()
 	    _retGrid[# 2, 2] = 777;
 	    assert_equals(_retGrid[# 2, 2], 777, "Function Call, Grid write failed.");
@@ -1073,13 +1018,6 @@ function BasicAccessorExpressionsTestSuite() : TestSuite() constructor {
 	    assert_equals(funcList()[| 1], 888, "Function Call, List access failed.");
 
 	    // Function Call, Grid Access
-		assert_true(false, "This code should be uncommented when the bug #7799 is fixed!");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		assert_equals(funcGrid()[# 2, 2], 777, "Function Call, Grid access failed.");
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-	    //work around for a bug :: https://github.com/YoYoGames/GameMaker-Bugs/issues/7799
-		// however both options should still be tested for
 		var _retGrid = funcGrid()
 	    assert_equals(_retGrid[# 2, 2], 777, "Function Call, Grid access failed.");
 
