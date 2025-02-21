@@ -2051,7 +2051,7 @@ function BasicStringTestSuite() : TestSuite() constructor {
 			assert_equals(smileyFaceLen, 1, "string_length( string local ), should return length of 1 for string '🙂'");
 		});
 	
-		addFact("string_length_test #10", function() { // KNOWN FAIL: https://github.com/YoYoGames/GameMaker-Bugs/issues/7369
+		addFact("string_length_test #10", function() {
 			
 			// Check that the length of a literal string containg a 4-byte UTF-8 char is correctly returned
 			assert_equals(string_length("🙂"), 1, "string_length( string const ), Sshould return length of 1 for string literal '🙂'");
