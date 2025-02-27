@@ -9,38 +9,28 @@ jobs:
   monitor-runners:
     runs-on: ubuntu-24.04
     steps:
-      - name: Check Offline Runners
-        id: check_runners
-        run: |
-          echo "Checking for offline runners..."
-        
-          # Get the list of runners for the specific repository
-          RESPONSE=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/YoYoGames/GM-TF/actions/runners || echo '{"runners":[]}')
-          echo "Raw API response: $RESPONSE"
-    
-          # Check if the response contains any runners
-          RUNNERS_COUNT=$(echo "$RESPONSE" | jq '.runners | length')
-          if [ "$RUNNERS_COUNT" -eq 0 ]; then
-            echo "No runners found."
-            echo "offline_runners=" >> $GITHUB_ENV
-          else
-            # Look for offline runners
-            OFFLINE_RUNNERS=$(echo "$RESPONSE" | jq -r '.runners[] | select(.status != "online") | .name')
-            if [ -z "$OFFLINE_RUNNERS" ]; then
-              echo "No offline runners detected."
-              echo "offline_runners=" >> $GITHUB_ENV
-            else
-              echo "Offline runners detected: $OFFLINE_RUNNERS"
-              echo "offline_runners=$OFFLINE_RUNNERS" >> $GITHUB_ENV
-            fi
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+    - name: Set up GitHub CLI
+      run: |
+        echo "${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" | gh auth login --with-token
 
-      - name: Notify Slack (if runners restarted)
-        if: steps.check_runners.outputs.offline_runners != ''
-        uses: rtCamp/action-slack-notify@v2
-        env:
+    - name: Check Runner Status
+      id: check-runner
+      run: |
+        STATUS=$(gh api repos/YoYoGames/GM-TestFramework/actions/runners --jq '.runners[] | select(.status != "online") | .name')
+        
+        if [[ -n "$STATUS" ]]; then
+          echo "Offline runners detected: $STATUS"
+          echo "RUNNER_OFFLINE=true" >> $GITHUB_ENV
+          echo "OFFLINE_RUNNERS=$STATUS" >> $GITHUB_ENV
+        else
+          echo "All runners are online."
+          echo "RUNNER_OFFLINE=false" >> $GITHUB_ENV
+        fi
+
+    - name: Notify Slack (if runners restarted)
+      if: steps.check_runners.outputs.offline_runners != ''
+      uses: rtCamp/action-slack-notify@v2
+      env:
             SLACK_CHANNEL: gmtestframework-pipeline
             SLACK_COLOR: ${{ job.status }} 
             SLACK_ICON: https://github.com/black.png?size=48
