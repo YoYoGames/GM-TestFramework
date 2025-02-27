@@ -45,13 +45,25 @@ jobs:
           name: summary_file-${{ github.event.inputs.RUNTIME_VERSION }}
           path: ${{ github.workspace }}\GM-TF\results           
       - name: Running TF Compare Script
-        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
+        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --rt ${{ github.event.inputs.RUNTIME_VERSION }}
         working-directory: GM-TF
       - name: Upload TF Compare Output
         if: always()
         uses: actions/upload-artifact@v4
         with:
             name: tf_compare_output_file
-            path: ${{ github.workspace }}\GM-TF\TF_Output.txt         
+            path: ${{ github.workspace }}\GM-TF\TF_Output.txt    
+            
+      - name: Notify Slack (if runners restarted)
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: gmtestframework-pipeline
+          SLACK_COLOR: ${{ job.status }} 
+          SLACK_ICON: https://github.com/black.png?size=48
+          SLACK_MESSAGE: ${{ github.run_number}} Testframework Build with Runtime version ${{ github.event.inputs.RUNTIME_VERSION }} is ${{ job.status }} 
+          SLACK_TITLE: GM-Tesframework Beta Build
+          SLACK_USERNAME: ${{ github.actor }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}             
         
       
