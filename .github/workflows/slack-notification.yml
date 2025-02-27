@@ -2,7 +2,7 @@ name: Slack Notification for Offline Runners
 
 on:
   schedule:
-    - cron: "0 9-18/3 * * *" # Runs every 10 minutes
+    - cron: "0 9-18/5 * * *" # Runs every 5 hours
   workflow_dispatch: # Allows manual triggering
 
 jobs:
