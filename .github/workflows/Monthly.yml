@@ -14,7 +14,11 @@ on:
        EXTRA_PARAMS:
           description: "EXTRA_PARAMS from config"
           required: false
-          type: string         
+          type: string       
+       RUNTIME_VERSION:
+          description: "Full Runtime Version"
+          required: true
+          type: string              
 
 jobs:
  
@@ -38,16 +42,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: summary_file
-          path: ${{ github.workspace }}\GM-TF\results
-      - name: Download Runtime Build Number 
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          name: buildnumber
-          path: ${{ github.workspace }}\GM-TF  
-          workflow: Zeus-Runtime-Green.yml       
-          repo: YoYoGames/GameMaker
-          github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}            
+          name: summary_file-${{ github.event.inputs.RUNTIME_VERSION }}
+          path: ${{ github.workspace }}\GM-TF\results           
       - name: Running TF Compare Script
         run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
         working-directory: GM-TF          
