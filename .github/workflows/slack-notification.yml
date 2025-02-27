@@ -15,7 +15,7 @@ jobs:
           echo "Checking for offline runners..."
         
           # Get the list of runners for the specific repository
-          RESPONSE=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/YoYoGames/GM-TF/actions/runners 2>/dev/null || echo '{"runners":[]}')
+          RESPONSE=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/YoYoGames/GM-TF/actions/runners || echo '{"runners":[]}')
           echo "Raw API response: $RESPONSE"
     
           # Check if the response contains any runners
