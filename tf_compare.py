@@ -7,12 +7,14 @@ import urllib.parse
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
 parser.add_argument('--github-token', type=str, required=True, help="GitHub token for authentication")
-parser.add_argument('--workflow', type=str, required=True, help="GitHub token for authentication")
+parser.add_argument('--workflow', type=str, required=True, help="Workflow file name")
+parser.add_argument('--rt', type=str, required=True, help="Current Runtime Version")
 args = parser.parse_args()
 
 # Get GitHub token from arguments
 github_token = args.github_token
 workflow = args.workflow
+RTVersion = args.rt
 
 # this path needs to be updated to a location on server
 baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"  
@@ -20,7 +22,7 @@ saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
 issue_message_days = 7
-RTVersion = ''
+
 
 # declare variables
 _artifactRunID = []
@@ -37,14 +39,13 @@ for dir in saveLocation:
 
 # FUNCTION LIST:
 # 1. get_workflow_runs
-# 2. unzip_log_files
-# 3. get_artifact_URL
-# 4. download_github_artifact
-# 5. unzip_artifact_files
-# 6. compare_artifacts
-# 7. get_issues
-# 8. log_fail
-# 9. get_code
+# 2. get_artifact_URL
+# 3. download_github_artifact
+# 4. unzip_artifact_files
+# 5. compare_artifacts
+# 6. get_issues
+# 7. log_fail
+# 8. get_code
                                     
 
 # Get the latest 2 workflow run
@@ -69,84 +70,11 @@ def get_workflow_runs():
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
         if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows and branch == 'develop':
         
-            for index, run in enumerate(workflow_runs, start=1):
-                # add workflow run id to array
-                _artifactRunID.append(run['id'])
-
-                if index == 1:
-                    url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{run['id']}/logs"
-
-                    # Download logs
-                    print(f"Downloading Log files for run: {run['id']}")
-                    response = requests.get(url, headers=headers)
-                    time.sleep(1)
-                    if response.status_code == 200:
-                        print(f"Log files downloaded for run: {run['id']}")
-                        with open("logs.zip", "wb") as f:
-                            f.write(response.content)
-                        testing = unzip_log_files()
-
-                        with open(testing[0], "r") as file:
-                            content = file.read()
-                            match = re.search(r"Runtime: Version\s*(.*)", content)
-                            #return match.group(1) if match else None  # Returns only the version part
-                            global RTVersion
-                            RTVersion = match.group(1)
-                            print(f"Log files processed and Runtime version extracted: RT v{RTVersion}")
-
-                        # remove log files
-                        # Get all files in the directory
-                        files = glob.glob(os.path.join(baseSaveLocation, "logs.zip"))
-
-                        for file in files:
-                            if os.path.isfile(file):  # Ensure it's a file (not a folder)
-                                try:
-                                    os.remove(file)
-                                    print("Log files deleted.\n")
-                                except Exception as e:
-                                    print(f"Error deleting Log Files {file}: {e}")
-
-                        # Define the folder to be deleted
-                        folder_to_delete = os.path.join(baseSaveLocation, "CI")
-                        if os.path.exists(folder_to_delete) and os.path.isdir(folder_to_delete):
-                            try:
-                                shutil.rmtree(folder_to_delete)
-                            except Exception as e:
-                                print(f"Error deleting folder {folder_to_delete}: {e}")
-                    else:
-                        print("Failed to fetch logs:", response.text)
             get_artifact_URL()
         else:
             print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
     else:
         print(f"Failed to get workflow runs. HTTP Status: {response.status_code}")
-
-
-
-def unzip_log_files():
-    # Path to the zip file
-    zip_file = "logs.zip"
-    # Path to extract the specific file to
-    extract_to = "./"
-
-    # Extract the ZIP file
-    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-
-        # Get list of filenames in zipfile
-        zip_files = zip_ref.namelist()
-
-        # Only unzip the Testing log file whihc contains the RT verison
-        log_files = [f for f in zip_files if fnmatch.fnmatch(f, "CI/*Testing*")]
-
-        #check if artifact files exists
-        if len(log_files) > 0:
-            for art_file in log_files:
-                # Extract each josn file
-                zip_ref.extract(art_file, extract_to)
-        else:
-            sys.exit("No log files found to unzip.") # Print error details
-
-    return log_files
 
 
 
