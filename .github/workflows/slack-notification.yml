@@ -16,7 +16,7 @@ jobs:
     - name: Check Runner Status
       id: check-runner
       run: |
-        STATUS=$(gh api repos/YoYoGames/GM-TestFramework/actions/runners --jq '.runners[] | select(.status != "online") | .name' | tr '\n' ', ' | sed 's/, $//')
+        STATUS=$(gh api repos/YoYoGames/GM-TestFramework/actions/runners --jq '.runners[] | select(.status != "online") | .name' | paste -sd ',' -)
         
         if [[ -n "$STATUS" ]]; then
           echo "Offline runners detected: $STATUS"
@@ -34,8 +34,8 @@ jobs:
             SLACK_CHANNEL: gmtestframework-pipeline
             SLACK_COLOR: ${{ job.status }} 
             SLACK_ICON: https://github.com/black.png?size=48
-            SLACK_MESSAGE: "🚨 *Runner Offline Alert!* 🚨\nThe following runners are offline:$OFFLINE_RUNNERS Repository: GM-TestFramewor"
-            SLACK_TITLE: Notification for Runers
+            SLACK_MESSAGE: "🚨 *Runner Offline Alert!* 🚨The following runners are offline:${{ env.OFFLINE_RUNNERS }} Repository: GM-TestFramework"
+            SLACK_TITLE: Notification for Runners
             SLACK_USERNAME: ${{ github.actor }}
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} 
 
