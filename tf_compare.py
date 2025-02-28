@@ -8,16 +8,13 @@ import urllib.parse
 parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
 parser.add_argument('--github-token', type=str, required=True, help="GitHub token for authentication")
 parser.add_argument('--workflow', type=str, required=True, help="Workflow file name")
+parser.add_argument('--rt', type=str, required=False, help="Current Runtime Version")
 args = parser.parse_args()
 
 # Get GitHub token from arguments
 github_token = args.github_token
 workflow = args.workflow
-
-if (workflow != "CI.yml"):
-    parser.add_argument('--rt', type=str, required=True, help="Current Runtime Version")
-    args = parser.parse_args()
-    RTVersion = args.rt
+RTVersion = args.rt
 
 # this path needs to be updated to a location on server
 baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"  
