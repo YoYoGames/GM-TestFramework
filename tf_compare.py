@@ -17,7 +17,7 @@ workflow = args.workflow
 RTVersion = args.rt
 
 # this path needs to be updated to a location on server
-baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"  
+baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -70,6 +70,10 @@ def get_workflow_runs():
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
         if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows and branch == 'develop':
         
+            for run in workflow_runs:
+                # add workflow run id to array
+                _artifactRunID.append(run['id'])
+
             get_artifact_URL()
         else:
             print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
@@ -93,7 +97,7 @@ def get_artifact_URL():
 
             for index, artifact in enumerate(artifact_details, start=1):
 
-                if artifact.get("name") == "summary_file":
+                if "summary_file" in artifact.get("name"):
                     # add first new run artifact id to array
                     if index == 1:
                         _artifactID.append(artifact['id'])
