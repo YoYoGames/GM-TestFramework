@@ -22,13 +22,18 @@ saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
 issue_message_days = 7
-
+artifact_data_store = {"artifact_web_download_url": ""}
+testRunTimes = {
+    "VM" : "",
+    "YYC" : ""
+}
 
 # declare variables
 _artifactRunID = []
 _artifactID = []
 _download_artifacts_url = []
 artifact_files = []
+slack_stats = []
 
 # Create new_data and prev_data directories if they don't exists
 for dir in saveLocation:
@@ -102,6 +107,9 @@ def get_artifact_URL():
                     if index == 1:
                         _artifactID.append(artifact['id'])
                         _download_artifacts_url.append(artifact.get("archive_download_url"))
+                elif "tf_compare" in artifact.get("name"):
+                    if index == 2:
+                        artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{runid}/artifacts/{artifact['id']}"
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
@@ -206,6 +214,13 @@ def compare_artifacts(artifact_files):
         testFails = {}
         new_skips = {}
         for index, tfData in enumerate(allTestFiles, start=1):
+
+            # get VM and YYC test run times
+            if (index == 1):
+                testRunTimes['VM'] = allTestFiles[tfData]['time']
+            elif (index == 2):
+                testRunTimes['YYC'] = allTestFiles[tfData]['time']
+
             for testsuite in allTestFiles[tfData]["testsuites"]:
                 # check if testsuite contains any fails
                 if testsuite["tallies"]["failures"] > 0 or testsuite["tallies"]["skipped"]:
@@ -214,6 +229,7 @@ def compare_artifacts(artifact_files):
                     for test in testsuite["tests"]:
                         testResult = test["result"]
                         testName = test["name"]
+                        testTime = test['time']
 
                         failsIndex = f"f{index}"
 
@@ -226,13 +242,15 @@ def compare_artifacts(artifact_files):
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
                                     "testSuite": testSuiteName,
-                                    "errorDetails": errorDetails
+                                    "errorDetails": errorDetails,
+                                    "testTime" : testTime
                                 })
                             for exceptionDetails in test['exceptions']:
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
                                     "testSuite": testSuiteName,
-                                    "errorDetails": exceptionDetails
+                                    "errorDetails": exceptionDetails,
+                                    "testTime" : testTime
                                 })
                         elif testResult == "Skipped" and index in range(1,3):
                             new_skips.setdefault(testName, testSuiteName)
@@ -294,7 +312,19 @@ def compare_artifacts(artifact_files):
 
         file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
-        
+
+        # add stats to struct for creating json file for Slack Notification
+        slack_stats.append({
+            "totals" : {
+                "Windows VM time" : f"{testRunTimes['VM']:.2f} seconds",
+                "Windows YYC time" : f"{testRunTimes['YYC']:.2f} seconds",
+                "Total tests": first_fail_dict['tallies']["tests"],
+                "Total failed tests": f"{first_fail_dict['tallies']['failures']} ({round((first_fail_dict['tallies']['failures'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)",
+                "Total skipped tests": f"{first_fail_dict['tallies']['skipped']} ({round((first_fail_dict['tallies']['skipped'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)",
+                "Output file" : artifact_data_store["artifact_web_download_url"]
+            }
+        })
+
         # iterate through each test suite
         new_fails_map = {}
         failsWrapper = [ALLFails, f1_Fails, f2_Fails]
@@ -345,9 +375,9 @@ def compare_artifacts(artifact_files):
 
                     # increment test number by 1
                     testCounter +=1
-            elif len(failsWrapper[0]) + len(failsWrapper[1]) + len(failsWrapper[2]) == 0:
-                sys.exit("\nNo files found in the artifact archive.\n") # Print error details 
 
+            elif len(failsWrapper[0]) + len(failsWrapper[1]) + len(failsWrapper[2]) == 0:
+                sys.exit("\nNo files found in the artifact archive.\n") # Print error details
                 
 
         file.write("\n************************************** NEW FAILS ***************************************\n")
@@ -392,6 +422,11 @@ def compare_artifacts(artifact_files):
         for file in files:
             if os.path.isfile(file):  # Ensure it's a file (not a folder)
                 os.remove(file)
+
+    # write slack stats json file
+    with open("slack_stats.json", "w") as slackfile:
+        # Convert the list to a JSON-formatted string
+        json.dump(slack_stats, slackfile, indent=4)
 
     print("\nArtifact comparison has completed")
     print("All downloaded artifact files deleted.")
