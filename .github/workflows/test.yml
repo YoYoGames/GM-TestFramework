@@ -30,8 +30,8 @@ jobs:
       - name: Read test stats
         id: read-stats
         run: |
-          $stats = Get-Content "C:\GM-TestFramework\slack_stats.json" | jq -c .
-          echo "STATS=$stats" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          $stats = Get-Content "C:\GM-TestFramework\slack_stats.json" -Raw
+          echo "STATS=$stats" >> $GITHUB_ENV
         shell: pwsh
 
 #   Slack_Notification:
