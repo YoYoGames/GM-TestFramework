@@ -72,7 +72,7 @@ jobs:
                 {
                   "color": "${{ job.status == 'success' && 'good' || 'danger' }}",
                   "title": "GM-TestFramework Monthly Build",
-                  "text": "${{ github.run_number }} Testframework Build with Runtime version ${{ github.event.inputs.RUNTIME_VERSION }} is *${{ job.status }}*\n\n:bar_chart: *Test Run Statistics* :bar_chart:\n```$(cat ${{ github.workspace }}\GM-TF\slack_stats.json)```"
+                  "text": "${{ github.run_number }} Testframework Build with Runtime version ${{ github.event.inputs.RUNTIME_VERSION }} is *${{ job.status }}*\n\n:bar_chart: *Test Run Statistics* :bar_chart:\n```$(cat ${{ github.workspace }}/GM-TF/slack_stats.json)```"
                 }
                 ]
             }
