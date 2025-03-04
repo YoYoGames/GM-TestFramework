@@ -35,7 +35,7 @@ jobs:
             $statsJson = $stats | ConvertFrom-Json
 
             # Check that the content has been parsed correctly
-            Write-Host "Parsed Stats: $($statsJson | ConvertTo-Json)"
+            Write-Host "Parsed Stats: $($statsJson | ConvertTo-Json -Depth 3)" # Increased depth for better visibility
 
             # Ensure fields are populated correctly
             if ($statsJson.attachments[0].fields -eq $null -or $statsJson.attachments[0].fields.Count -eq 0) {
@@ -44,13 +44,13 @@ jobs:
                 # Format the fields into a human-readable string
                 $formattedFields = $statsJson.attachments[0].fields | ForEach-Object {
                     "*$($_.title)*: $($_.value)"
-             }
+                }
     
                 # Join all formatted fields into a single string with new lines
                 $statsFormatted = $formattedFields -join "`n"
                 # Output to environment variable for use in Slack message
                 echo "STATS=$statsFormatted" >> $GITHUB_ENV
-            }
+              }
         shell: pwsh
       - name: Send Test Stats to Slack
         uses: slackapi/slack-github-action@v2.0.0
