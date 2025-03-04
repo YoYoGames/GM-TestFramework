@@ -28,10 +28,18 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Read test stats
-        id: read-stats
         run: |
-          $stats = Get-Content "C:\GM-TestFramework\slack_stats.json" -Raw
-          echo "STATS=$stats" >> $GITHUB_ENV
+            # Read the contents of the slack_stats.json and store it in an environment variable
+            $stats = Get-Content "C:\\GM-TestFramework\\slack_stats.json" -Raw
+            # Convert JSON content to a string suitable for Slack (pretty print)
+            $statsFormatted = $stats | ConvertFrom-Json | ForEach-Object {
+                $fields = $_.attachments[0].fields | ForEach-Object {
+                    "*$($_.title)*: $($_.value)"
+                } -join "\n"
+                $fields
+            }
+            # Save the formatted stats to an environment variable
+            echo "STATS=$statsFormatted" >> $GITHUB_ENV
         shell: pwsh
 
 #   Slack_Notification:
