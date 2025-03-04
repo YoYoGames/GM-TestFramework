@@ -27,6 +27,10 @@ jobs:
     runs-on: Windows
     timeout-minutes: 60
     steps:
+      - name: Install jq
+        run: choco install jq
+        shell: pwsh
+
       - name: Read test stats
         id: read-stats
         run: |
