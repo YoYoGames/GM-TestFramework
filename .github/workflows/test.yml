@@ -50,6 +50,7 @@ jobs:
                 $statsFormatted = $formattedFields -join "`n"
                 # Output to environment variable for use in Slack message
                 echo "STATS=$statsFormatted" >> $GITHUB_ENV
+                Write-Host "Formatted Stats: $statsFormatted"
               }
         shell: pwsh
       - name: Send Test Stats to Slack
