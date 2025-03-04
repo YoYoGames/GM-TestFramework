@@ -30,10 +30,7 @@ jobs:
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
         with:
-          path: GM-TF
-      - name: Wait for 10 Minutes
-        run: Start-Sleep -Seconds 300
-        shell: pwsh     
+          path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
         run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
         working-directory: GM-TF  
