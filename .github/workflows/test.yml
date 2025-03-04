@@ -33,6 +33,8 @@ jobs:
             $stats = Get-Content "C:\\GM-TestFramework\\slack_stats.json" -Raw
             # Convert JSON content to an object
             $statsJson = $stats | ConvertFrom-Json
+
+            Write-Host "Parsed Stats: $($statsJson | ConvertTo-Json)"
             # Format each field into a string, and store them in an array
             $formattedFields = $statsJson.attachments[0].fields | ForEach-Object {
                 "*$($_.title)*: $($_.value)"
