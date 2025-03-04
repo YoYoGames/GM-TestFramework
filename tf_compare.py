@@ -222,7 +222,7 @@ def compare_artifacts(artifact_files):
 
             for testsuite in allTestFiles[tfData]["testsuites"]:
                 # check if testsuite contains any fails
-                if testsuite["tallies"]["failures"] > 0:
+                if testsuite["tallies"]["failures"] > 0 or testsuite["tallies"]['skipped'] > 0:
                     testSuiteName = testsuite["name"]
                     # iterate through the tests
                     for test in testsuite["tests"]:
@@ -253,7 +253,7 @@ def compare_artifacts(artifact_files):
                                     "testTime" : testTime,
                                     "errorType" : "exception"
                                 })
-                        elif testResult == "Skipped" and index in range(1,3):
+                        elif testResult.lower() == "skipped" and index in range(1,3):
                             new_skips.setdefault(testName, testSuiteName)
 
         
@@ -416,6 +416,9 @@ def compare_artifacts(artifact_files):
         file.write("*********************************** END OF FILTERING ***********************************\n")
         file.write("****************************************************************************************\n")
 
+        # confirm successful creation of output file
+        print("\nTEXT file 'TF_Output.txt' was created successfully!")
+
 
     # Remove all downloaded artifacts files
     for art_dir in saveLocation:
@@ -428,13 +431,14 @@ def compare_artifacts(artifact_files):
             if os.path.isfile(file):  # Ensure it's a file (not a folder)
                 os.remove(file)
 
+    print("\nArtifact comparison has completed")
+    print("All downloaded artifact files deleted.")
+
     # write slack stats json file
     with open("slack_stats.json", "w") as slackfile:
         # Convert the list to a JSON-formatted string
         json.dump(slack_stats, slackfile, indent=4)
-
-    print("\nArtifact comparison has completed")
-    print("All downloaded artifact files deleted.")
+        print("\nJSON file 'slack_stats.json' was created successfully!")
 
 
 
