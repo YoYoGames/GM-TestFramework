@@ -31,7 +31,7 @@ jobs:
         id: read-stats
         run: |
           STATS=$(cat C:\GM-TestFramework\slack_stats.json | jq -c .)
-          echo "STATS=$STATS" >> $GITHUB_ENVsage!"
+          echo "STATS=$STATS" >> $GITHUB_ENV"
 
 #   Slack_Notification:
 #     name: "Slack_Notification"
