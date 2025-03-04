@@ -32,12 +32,11 @@ jobs:
             # Read the contents of the slack_stats.json and store it in an environment variable
             $stats = Get-Content "C:\\GM-TestFramework\\slack_stats.json" -Raw
             # Convert JSON content to a string suitable for Slack (pretty print)
-            $statsFormatted = $stats | ConvertFrom-Json | ForEach-Object {
-                $fields = $_.attachments[0].fields | ForEach-Object {
-                    "*$($_.title)*: $($_.value)"
-                } -join "\n"
-                $fields
-            }
+            $statsJson = $stats | ConvertFrom-Json
+            # Format the fields to string suitable for Slack
+            $statsFormatted = $statsJson.attachments[0].fields | ForEach-Object {
+                "*$($_.title)*: $($_.value)"
+            } -join "`n"
             # Save the formatted stats to an environment variable
             echo "STATS=$statsFormatted" >> $GITHUB_ENV
         shell: pwsh
