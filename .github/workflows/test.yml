@@ -31,24 +31,17 @@ jobs:
         run: |
             # Read the contents of the slack_stats.json and store it in an environment variable
             $stats = Get-Content "C:\\GM-TestFramework\\slack_stats.json" -Raw
-            # Convert JSON content to a string suitable for Slack (pretty print)
+            # Convert JSON content to an object
             $statsJson = $stats | ConvertFrom-Json
             # Format each field into a string, and store them in an array
             $formattedFields = $statsJson.attachments[0].fields | ForEach-Object {
-              "*$($_.title)*: $($_.value)"
+                "*$($_.title)*: $($_.value)"
             }
             # Join the array of formatted fields into a single string with newlines
             $statsFormatted = $formattedFields -join "`n"
             # Save the formatted stats to an environment variable
             echo "STATS=$statsFormatted" >> $GITHUB_ENV
         shell: pwsh
-
-#   Slack_Notification:
-#     name: "Slack_Notification"
-#     needs: Red
-#     runs-on: ubuntu-24.04
-#     if: always()
-    # steps:
       - name: Send Test Stats to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
