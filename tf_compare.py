@@ -146,7 +146,6 @@ def download_github_artifact():
             urlCount +=1
         else:
             print(f"Failed to download artifact. HTTP Status: {response.status_code}")
-            sys.exit(response.text) # Print error details
 
     # time to compare the artifact files
     if len(artifact_files) >= 1:
@@ -176,7 +175,7 @@ def unzip_artifact_files(save_path, zipfilename):#
                 # Extract each josn file
                 zip_ref.extract(art_file, extract_to)
         else:
-            sys.exit("No files found in the artifact archive.") # Print error details
+            print("No files found in the artifact archive.") # Print error details
 
     return artifact_files
 
@@ -223,7 +222,7 @@ def compare_artifacts(artifact_files):
 
             for testsuite in allTestFiles[tfData]["testsuites"]:
                 # check if testsuite contains any fails
-                if testsuite["tallies"]["failures"] > 0 or testsuite["tallies"]["skipped"]:
+                if testsuite["tallies"]["failures"] > 0 or testsuite["tallies"]['skipped'] > 0:
                     testSuiteName = testsuite["name"]
                     # iterate through the tests
                     for test in testsuite["tests"]:
@@ -236,23 +235,25 @@ def compare_artifacts(artifact_files):
                         if failsIndex not in testFails:
                             testFails[failsIndex] = {}
 
-                        if testResult == "Failed":
+                        if testResult.lower() == "failed":
                             
                             for errorDetails in test['errors']:
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
                                     "testSuite": testSuiteName,
                                     "errorDetails": errorDetails,
-                                    "testTime" : testTime
+                                    "testTime" : testTime,
+                                    "errorType" : "error"
                                 })
                             for exceptionDetails in test['exceptions']:
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
                                     "testSuite": testSuiteName,
                                     "errorDetails": exceptionDetails,
-                                    "testTime" : testTime
+                                    "testTime" : testTime,
+                                    "errorType" : "exception"
                                 })
-                        elif testResult == "Skipped" and index in range(1,3):
+                        elif testResult.lower() == "skipped" and index in range(1,3):
                             new_skips.setdefault(testName, testSuiteName)
 
         
@@ -347,17 +348,21 @@ def compare_artifacts(artifact_files):
                     file.write(f"\nFail No: {testCounter}\n")
                     file.write(f"Testsuite Name: {failTest["testSuite"]}\n")
 
-                    if "description" in failTest['errorDetails']:
-                        file.write(f"\nBug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['description']}\n")
-                        # get details for all errors on each test
-                        new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['description']}")
+                    if failTest['errorType'] == 'error':
                         file.write(f"Test Name: {failTest["testname"]}\n")
-                        file.write(f"Title: {failTest['errorDetails']['title']}\n")
-                        file.write(f"Description: {failTest['errorDetails']['description']}\n")
-                        file.write(f"Expected value: {failTest['errorDetails']['expected']}\n")
-                        file.write(f"Actual value: {failTest['errorDetails']['actual']}\n")
-                        file.write(f"Stack: {failTest['errorDetails']['stack']}\n")
-                    else:
+                        if "description" in failTest['errorDetails']:
+                            file.write(f"\nBug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['description']}\n")
+                            # get details for all errors on each test
+                            new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['description']}")
+                            file.write(f"Title: {failTest['errorDetails']['title']}\n")
+                            file.write(f"Description: {failTest['errorDetails']['description']}\n")
+                            file.write(f"Expected value: {failTest['errorDetails']['expected']}\n")
+                            file.write(f"Actual value: {failTest['errorDetails']['actual']}\n")
+                            file.write(f"Stack: {failTest['errorDetails']['stack']}\n")
+                        else:
+                            new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['message']}")
+                            file.write(f"Description: {failTest['errorDetails']['message']}\n")
+                    elif failTest['errorType'] == 'exception':
                         file.write(f"\nBug Title: TestFrameWork: {failTest["testname"]} in {failTest["testSuite"]}, {failTest['errorDetails']['message']}\n")
                         new_fails_map.setdefault(failTest["testname"], f"{failTest["testSuite"]}, {failTest['errorDetails']['message']}")
                         file.write(f"Test Name: {failTest["testname"]}\n")
@@ -377,7 +382,7 @@ def compare_artifacts(artifact_files):
                     testCounter +=1
 
             elif len(failsWrapper[0]) + len(failsWrapper[1]) + len(failsWrapper[2]) == 0:
-                sys.exit("\nNo files found in the artifact archive.\n") # Print error details
+                print(f"\nNo fails have been identified in this run for {compiler[cIndex]}.") # Print error details
                 
 
         file.write("\n************************************** NEW FAILS ***************************************\n")
@@ -411,6 +416,9 @@ def compare_artifacts(artifact_files):
         file.write("*********************************** END OF FILTERING ***********************************\n")
         file.write("****************************************************************************************\n")
 
+        # confirm successful creation of output file
+        print("\nTEXT file 'TF_Output.txt' was created successfully!")
+
 
     # Remove all downloaded artifacts files
     for art_dir in saveLocation:
@@ -423,13 +431,14 @@ def compare_artifacts(artifact_files):
             if os.path.isfile(file):  # Ensure it's a file (not a folder)
                 os.remove(file)
 
+    print("\nArtifact comparison has completed")
+    print("All downloaded artifact files deleted.")
+
     # write slack stats json file
     with open("slack_stats.json", "w") as slackfile:
         # Convert the list to a JSON-formatted string
         json.dump(slack_stats, slackfile, indent=4)
-
-    print("\nArtifact comparison has completed")
-    print("All downloaded artifact files deleted.")
+        print("\nJSON file 'slack_stats.json' was created successfully!")
 
 
 
@@ -559,31 +568,52 @@ def log_fail(testName, failDetails, compiler, test_code_details):
         # Look at adding the new reports to a new holding repo
         print(f"No report found for: {testName}")
 
-        if "description" in failDetails['errorDetails']:
-            issue_data = {
-                "title" : f"TestFramework: [{compiler}] {failDetails["testname"]} in {failDetails["testSuite"]}, {failDetails['errorDetails']['description']}",
-                "body": f"### Workflow Artifact URL\n"
-                        f"https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{_artifactID[0]}\n\n"
-                        f"### Test Code\n"
-                        f"```\n"
-                        f"{test_code_details[0]}\n"
-                        f"```\n\n"
-                        f"### Output From The Test\n"
-                        f"Test Name: {failDetails["testname"]}\n"
-                        f"Title: {failDetails['errorDetails']['title']}\n"
-                        f"Description: {failDetails['errorDetails']['description']}\n"
-                        f"Expected Value: {failDetails['errorDetails']['expected']}\n"
-                        f"Actual Value: {failDetails['errorDetails']['actual']}\n"
-                        f"Stack: {failDetails['errorDetails']['stack']}\n\n"
-                        f"### Runtime Version\n"
-                        f"{RTVersion}\n\n"
-                        f"### Location Of The Test\n"
-                        f"{test_code_details[1]}\n\n"
-                        f"### Which platform(s) are you seeing the problem on?\n"
-                        f"Windows",
-                #"assignee" : "username"
-            }
-        else:
+        if failDetails['errorType'] == 'error':
+            if 'description' in failDetails['errorDetails']:
+                issue_data = {
+                    "title" : f"TestFramework: [{compiler}] {failDetails["testname"]} in {failDetails["testSuite"]}, {failDetails['errorDetails']['description']}",
+                    "body": f"### Workflow Artifact URL\n"
+                            f"https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{_artifactID[0]}\n\n"
+                            f"### Test Code\n"
+                            f"```\n"
+                            f"{test_code_details[0]}\n"
+                            f"```\n\n"
+                            f"### Output From The Test\n"
+                            f"Test Name: {failDetails["testname"]}\n"
+                            f"Title: {failDetails['errorDetails']['title']}\n"
+                            f"Description: {failDetails['errorDetails']['description']}\n"
+                            f"Expected Value: {failDetails['errorDetails']['expected']}\n"
+                            f"Actual Value: {failDetails['errorDetails']['actual']}\n"
+                            f"Stack: {failDetails['errorDetails']['stack']}\n\n"
+                            f"### Runtime Version\n"
+                            f"{RTVersion}\n\n"
+                            f"### Location Of The Test\n"
+                            f"{test_code_details[1]}\n\n"
+                            f"### Which platform(s) are you seeing the problem on?\n"
+                            f"Windows",
+                    #"assignee" : "username"
+                }
+            else:
+                issue_data = {
+                    "title" : f"TestFramework: [{compiler}] {failDetails["testname"]} in {failDetails["testSuite"]}, {failDetails['errorDetails']['message']}",
+                    "body": f"### Workflow Artifact URL\n"
+                            f"https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{_artifactID[0]}\n\n"
+                            f"### Test Code\n"
+                            f"```\n"
+                            f"{test_code_details[0]}\n"
+                            f"```\n\n"
+                            f"### Output From The Test\n"
+                            f"Test Name: {failDetails["testname"]}\n"
+                            f"Error Message: {failDetails['errorDetails']['message']}\n"
+                            f"### Runtime Version\n"
+                            f"{RTVersion}\n\n"
+                            f"### Location Of The Test\n"
+                            f"{test_code_details[1]}\n\n"
+                            f"### Which platform(s) are you seeing the problem on?\n"
+                            f"Windows",
+                    #"assignee" : "username"
+                }
+        elif failDetails['errorType'] == 'exception':
             issue_data = {
                 "title" : f"TestFramework: [{compiler}] {failDetails["testname"]} in {failDetails["testSuite"]}, {failDetails['errorDetails']['message']}",
                 "body": f"### Workflow Artifact URL\n"
