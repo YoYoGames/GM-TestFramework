@@ -45,7 +45,7 @@ jobs:
         with:
           payload: |
             {
-              "channel": "gmtestframework-pipeline",
+              "channel": "C07AMRFCC0P",
               "username": "${{ github.actor }}",
               "icon_url": "https://github.com/black.png?size=48",
               "attachments": [
@@ -56,7 +56,6 @@ jobs:
                 }
               ]
             }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
+          token: ${{ secrets.SLACK_BOT_TOKEN }} 
         
       
