@@ -27,8 +27,11 @@ jobs:
     runs-on: Windows
     timeout-minutes: 60
     steps:
-      - name: Check out the GM-TestFramework repo
-        run: echo "Hello, this is a test message!"
+      - name: Read test stats
+        id: read-stats
+        run: |
+          STATS=$(cat C:\GM-TestFramework\slack_stats.json | jq -c .)
+          echo "STATS=$STATS" >> $GITHUB_ENVsage!"
 
 #   Slack_Notification:
 #     name: "Slack_Notification"
@@ -36,7 +39,7 @@ jobs:
 #     runs-on: ubuntu-24.04
 #     if: always()
     # steps:
-      - name: Notify Slack 
+      - name: Send Test Stats to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
           payload: |
@@ -48,11 +51,11 @@ jobs:
                 {
                   "color": "${{ job.status == 'success' && 'good' || 'danger' }}",
                   "title": "GM-TestFramework Monthly Build",
-                  "text": "${{ github.run_number }} Testframework Build with Runtime version ${{ github.event.inputs.RUNTIME_VERSION }} is *${{ job.status }}*\n\n:bar_chart: *Test Run Statistics* :bar_chart:\n```$(cat C:\GM-TestFramework\slack_stats.json)```"
+                  "text": "${{ github.run_number }} Testframework Build with Runtime version ${{ github.event.inputs.RUNTIME_VERSION }} is *${{ job.status }}*\n\n:bar_chart: *Test Run Statistics* :bar_chart:\n```${{ env.STATS }}```"
                 }
-                ]
+              ]
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}      
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
         
       
