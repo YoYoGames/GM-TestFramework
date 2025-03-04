@@ -29,20 +29,28 @@ jobs:
     steps:
       - name: Read test stats
         run: |
-            # Read the contents of the slack_stats.json and store it in an environment variable
+            # Read the contents of the slack_stats.json file
             $stats = Get-Content "C:\\GM-TestFramework\\slack_stats.json" -Raw
-            # Convert JSON content to an object
+            # Convert the content to JSON format
             $statsJson = $stats | ConvertFrom-Json
 
+            # Check that the content has been parsed correctly
             Write-Host "Parsed Stats: $($statsJson | ConvertTo-Json)"
-            # Format each field into a string, and store them in an array
-            $formattedFields = $statsJson.attachments[0].fields | ForEach-Object {
-                "*$($_.title)*: $($_.value)"
+
+            # Ensure fields are populated correctly
+            if ($statsJson.attachments[0].fields -eq $null -or $statsJson.attachments[0].fields.Count -eq 0) {
+                Write-Host "No fields found in stats JSON."
+            } else {
+                # Format the fields into a human-readable string
+                $formattedFields = $statsJson.attachments[0].fields | ForEach-Object {
+                    "*$($_.title)*: $($_.value)"
+             }
+    
+                # Join all formatted fields into a single string with new lines
+                $statsFormatted = $formattedFields -join "`n"
+                # Output to environment variable for use in Slack message
+                echo "STATS=$statsFormatted" >> $GITHUB_ENV
             }
-            # Join the array of formatted fields into a single string with newlines
-            $statsFormatted = $formattedFields -join "`n"
-            # Save the formatted stats to an environment variable
-            echo "STATS=$statsFormatted" >> $GITHUB_ENV
         shell: pwsh
       - name: Send Test Stats to Slack
         uses: slackapi/slack-github-action@v2.0.0
