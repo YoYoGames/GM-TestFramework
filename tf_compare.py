@@ -33,7 +33,7 @@ _artifactRunID = []
 _artifactID = []
 _download_artifacts_url = []
 artifact_files = []
-slack_stats = []
+slack_stats = {}
 
 # Create new_data and prev_data directories if they don't exists
 for dir in saveLocation:
@@ -314,17 +314,34 @@ def compare_artifacts(artifact_files):
         file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
 
-        # add stats to struct for creating json file for Slack Notification
-        slack_stats.append({
-            "totals" : {
-                "Windows VM time" : f"{testRunTimes['VM']:.2f} seconds",
-                "Windows YYC time" : f"{testRunTimes['YYC']:.2f} seconds",
-                "Total tests": first_fail_dict['tallies']["tests"],
-                "Total failed tests": f"{first_fail_dict['tallies']['failures']} ({round((first_fail_dict['tallies']['failures'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)",
-                "Total skipped tests": f"{first_fail_dict['tallies']['skipped']} ({round((first_fail_dict['tallies']['skipped'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)",
-                "Output file" : artifact_data_store["artifact_web_download_url"]
+        # build JSON file content for Slack Notification
+        slack_stats["text"] = f"*{workflow.split(".")[0]} Test Results Summary*"
+        slack_stats["Runtime-Version"] = RTVersion
+        slack_stats["attachments"] = [
+            {
+                "color": "#36a64f",
+                "fields": [
+                    { "title": "Windows VM time", "value": f"{testRunTimes['VM']:.2f} seconds", "short": True },
+                    { "title": "Windows YYC time", "value": f"{testRunTimes['YYC']:.2f} seconds", "short": True },
+                    { "title": "Total tests", "value": str(first_fail_dict['tallies']["tests"]), "short": True },
+                    { 
+                        "title": "Total failed tests", 
+                        "value": f"{first_fail_dict['tallies']['failures']} ({round((first_fail_dict['tallies']['failures'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
+                        "short": True
+                    },
+                    { 
+                        "title": "Total skipped tests", 
+                        "value": f"{first_fail_dict['tallies']['skipped']} ({round((first_fail_dict['tallies']['skipped'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
+                        "short": True
+                    },
+                    { 
+                        "title": "Output file", 
+                        "value": f"<{artifact_data_store['artifact_web_download_url']}>", 
+                        "short": False
+                    }
+                ]
             }
-        })
+        ]
 
         # iterate through each test suite
         new_fails_map = {}
