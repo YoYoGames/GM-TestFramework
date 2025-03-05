@@ -315,7 +315,7 @@ def compare_artifacts(artifact_files):
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
 
         # build JSON file content for Slack Notification
-        slack_stats["text"] = f"*{workflow.split(".")[0]} Test Results Summary*"
+        slack_stats["text"] = f"*{RTVersion} {RTVersion} {workflow.split(".")[0]} Test Results Summary*"
         slack_stats["Runtime-Version"] = RTVersion
         slack_stats["attachments"] = [
             {
