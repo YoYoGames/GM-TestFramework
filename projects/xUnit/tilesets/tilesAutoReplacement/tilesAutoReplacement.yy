@@ -31,7 +31,10 @@
     "path":"sprites/sprTilesetReplacement/sprTilesetReplacement.yy",
   },
   "spriteNoExport":true,
-  "textureGroupId":null,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
   "tileAnimationFrames":[],
   "tileAnimationSpeed":15.0,
   "tileHeight":10,

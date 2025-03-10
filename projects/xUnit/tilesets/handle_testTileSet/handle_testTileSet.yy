@@ -19,7 +19,10 @@
   "resourceVersion":"2.0",
   "spriteId":null,
   "spriteNoExport":false,
-  "textureGroupId":null,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
   "tileAnimationFrames":[],
   "tileAnimationSpeed":15.0,
   "tileHeight":16,

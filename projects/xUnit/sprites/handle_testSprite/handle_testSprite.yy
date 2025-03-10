@@ -32,7 +32,7 @@
   "resourceType":"GMSprite",
   "resourceVersion":"2.0",
   "sequence":{
-    "$GMSequence":"v1",
+    "$GMSequence":"",
     "%Name":"handle_testSprite",
     "autoRecord":true,
     "backdropHeight":768,
@@ -78,7 +78,10 @@
   },
   "swatchColours":null,
   "swfPrecision":0.5,
-  "textureGroupId":null,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
   "type":0,
   "VTile":false,
   "width":64,
