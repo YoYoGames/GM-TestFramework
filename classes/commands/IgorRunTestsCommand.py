@@ -1,4 +1,5 @@
 
+import asyncio
 from functools import partial
 from pathlib import Path
 import re
@@ -169,10 +170,27 @@ class IgorRunTestsCommand(BaseCommand):
         assert(license_path.exists())
 
         # Exectute igor to get the latest runtime version
-        runtime_version: str = self.get_argument('runtime_version')
+        expt_runtime_version: str = self.get_argument('runtime_version')
         rss_feed: str = self.get_argument('feed')
-        runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, runtime_version)
+        runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
         assert(runtime_version is not None)
+
+        retries = 0
+        max_retries = 10
+        # If expected version doesn't match actual version, try to get the exact version for 10 minutes 
+        while expt_runtime_version != runtime_version and retries < max_retries:
+            # If we are returning a version older than the returned one exit the loop
+            # This should't really happen unless the version we requested doesn't exist at all
+            if self.compare_versions(expt_runtime_version, runtime_version) < 0:
+                break
+
+            # Wait one minute before retrying
+            await asyncio.sleep(60)
+            runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
+            retries += 1
+
+        if self.compare_versions(expt_runtime_version, runtime_version) != 0:
+            LOGGER.warning(f'Version match not found, using {runtime_version} instead.')
 
         # Execute igor to install the requested runtime version
         targets = self.get_targets()
@@ -328,6 +346,30 @@ class IgorRunTestsCommand(BaseCommand):
 
         # If none of the above conditions are met, the version is before August 2024
         return False
+
+    def compare_versions(self, version_a, version_b):
+        # Split each version into [ww, xx, yy, zz]
+        parts_a = [int(x) for x in version_a.split('.')]
+        parts_b = [int(x) for x in version_b.split('.')]
+
+        # Compare each position
+        for a, b in zip(parts_a, parts_b):
+            if a < b:
+                return -1
+            elif a > b:
+                return 1
+
+        # If one version has more parts, treat missing parts as 0
+        if len(parts_a) < len(parts_b):
+            # Check remaining parts in parts_b for any non-zero that might be "greater"
+            if any(x > 0 for x in parts_b[len(parts_a):]):
+                return -1
+        elif len(parts_a) > len(parts_b):
+            if any(x > 0 for x in parts_a[len(parts_b):]):
+                return 1
+        
+        # If we get here, they are considered equal
+        return 0
 
     # Igor
 
