@@ -189,8 +189,8 @@ class IgorRunTestsCommand(BaseCommand):
             runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
             retries += 1
 
-        if self.compare_versions(expt_runtime_version, runtime_version) != 0:
-            LOGGER.warning(f'Version match not found, using {runtime_version} instead.')
+        # Assert the versions match or abort execution
+        assert(self.compare_versions(expt_runtime_version, runtime_version) == 0)
 
         # Execute igor to install the requested runtime version
         targets = self.get_targets()
