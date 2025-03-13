@@ -36,18 +36,20 @@ jobs:
         with:
           path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}
-        working-directory: GM-TF  
-        shell: pwsh   
-        continue-on-error: false      
-      - name: Check if the job was halted or failed
         run: |
-          $errorOccurred = $LASTEXITCODE -ne 0
-          if ($errorOccurred) {
-            Write-Host "❌ Runner halted or failed early. Exiting the job."
-            exit 1
-          }
-        shell: pwsh        
+            $timeout = 1000  # Timeout in seconds (30 minutes)
+            $command = './launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}'
+            
+            $process = Start-Process -FilePath powershell -ArgumentList $command -PassThru
+            $process | Wait-Process -Timeout $timeout
+            
+            if ($process.HasExited -eq $false) {
+              Write-Error "Process exceeded timeout of $timeout seconds."
+              $process.Kill()
+              exit 1
+            }
+        working-directory: GM-TF
+        shell: pwsh       
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
