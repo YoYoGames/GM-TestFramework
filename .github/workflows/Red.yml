@@ -29,8 +29,7 @@ jobs:
     steps:
       - name: Clean Test Framework Cache
         run: |
-          Remove-Item -Recurse -Force "${{ github.workspace }}\GM-TF\workspace\cache"
-          Remove-Item -Recurse -Force "${{ github.workspace }}\GM-TF\workspace\temp"
+          Remove-Item -Recurse -Force "${{ github.workspace }}\GM-TF"
         shell: pwsh      
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
