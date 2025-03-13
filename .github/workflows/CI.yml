@@ -19,26 +19,21 @@ jobs:
             $maxIdleTime = 120  # Max idle time in seconds (e.g., 60 seconds)
             $lastActivityTime = Get-Date
 
-            # Define the log file
             $logFile = "activity_log.txt"
 
-            # Function to log messages
             function Log-Message {
                 param (
                   [string]$message
                 )
             $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-            "$timestamp - $message" | Out-File -FilePath $logFile -Append
-            $logEntry | Out-File -FilePath $logFile -Append
-            Write-Output $logEntry
+            $logEntry = "$timestamp - $message"
+            Write-Output "##[debug]$logEntry" 
             }
 
-            # Function to check for inactivity
             function Check-Activity {
                 $currentTime = Get-Date
                 $elapsedTime = ($currentTime - $lastActivityTime).TotalSeconds
                 Log-Message "Checking activity... Elapsed time: $elapsedTime seconds."
-                Write-Host "Checking activity... Elapsed time: $elapsedTime seconds."
                 if ($elapsedTime -ge $maxIdleTime) {
                     Log-Message "No activity for $elapsedTime seconds, exiting script..."
                     Stop-Process -Id $launcherProcess.Id  # Stop the launcher process if idle
@@ -46,17 +41,14 @@ jobs:
                 }
             }
 
-            # Function to track activity and reset timer
             function Track-Activity {
-              $global:lastActivityTime = Get-Date  # Use global scope to update the variable
+              $global:lastActivityTime = Get-Date  
               Write-Host "Activity detected, timer reset to $global:lastActivityTime"
             }
 
-            # Register an event to track activity (for example, by monitoring output from the tests)
             Register-EngineEvent -SourceIdentifier "TestActivity" -Action { Track-Activity }
 
-            # Start your original command and get process information
-            Write-Host "Starting the command..."
+            Log-Message "Starting the command..."
             $arguments = @(
                 "igorRunTests",
                 "--config-file", "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}",
@@ -66,7 +58,6 @@ jobs:
             )
             $launcherProcess = Start-Process -FilePath ".\launcher" -ArgumentList $arguments -PassThru
 
-            # Function to monitor the launcher process
             function Monitor-Process {
               while ($launcherProcess.HasExited -eq $false) {
                 Check-Activity
@@ -75,7 +66,6 @@ jobs:
             Log-Message "Launcher process has exited."
             }
 
-            # Start monitoring the process
             Monitor-Process
         working-directory: GM-TF
         shell: pwsh
