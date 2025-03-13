@@ -41,7 +41,9 @@ jobs:
           $timeout = 60  # Timeout for the command (in seconds)
           
           # Start the long-running process (launcher igorRunTests)
-          $process = Start-Process -FilePath ".\launcher" -ArgumentList "igorRunTests --config-file 'C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}' --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}" -PassThru -Wait
+          $process = Start-Process -FilePath ".\launcher" -ArgumentList "igorRunTests --config-file 'C:\GM-TestFramework\configs\config_windows.json' --feed '***' --runtime-version 9.9.1.1118" -PassThru -Wait
+          Write-Host "Process started: $($process.Id)"
+          Write-Output "Process started with ID: $($process.Id)"
 
           # Set a timeout for the process to exit if it hangs for too long
           $startTime = Get-Date
