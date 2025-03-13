@@ -26,14 +26,14 @@ jobs:
                   [string]$message
                 )
             $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-            $logEntry = "$timestamp - $message"
-            Write-Output "##[debug]$logEntry" 
+            "$timestamp - $message" | Out-File -FilePath $logFile -Append
             }
 
             function Check-Activity {
                 $currentTime = Get-Date
                 $elapsedTime = ($currentTime - $lastActivityTime).TotalSeconds
                 Log-Message "Checking activity... Elapsed time: $elapsedTime seconds."
+                Write-Host "Checking activity... Elapsed time: $elapsedTime seconds."
                 if ($elapsedTime -ge $maxIdleTime) {
                     Log-Message "No activity for $elapsedTime seconds, exiting script..."
                     Stop-Process -Id $launcherProcess.Id  # Stop the launcher process if idle
@@ -48,7 +48,7 @@ jobs:
 
             Register-EngineEvent -SourceIdentifier "TestActivity" -Action { Track-Activity }
 
-            Log-Message "Starting the command..."
+            Write-Host "Starting the command..."
             $arguments = @(
                 "igorRunTests",
                 "--config-file", "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}",
