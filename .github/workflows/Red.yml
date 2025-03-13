@@ -38,7 +38,16 @@ jobs:
       - name: Testing Manually with passing RSS_Feed for Red builds
         run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}
         working-directory: GM-TF  
-        shell: pwsh         
+        shell: pwsh   
+        continue-on-error: false      
+      - name: Check if the job was halted or failed
+        run: |
+          $errorOccurred = $LASTEXITCODE -ne 0
+          if ($errorOccurred) {
+            Write-Host "❌ Runner halted or failed early. Exiting the job."
+            exit 1
+          }
+        shell: pwsh        
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -60,6 +69,22 @@ jobs:
              webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
              webhook-type: incoming-webhook
              payload-file-path: ${{ github.workspace }}\GM-TF\slack_stats.json
-             payload-templated: true    
-        
+             payload-templated: true   
+       
+  Slack-Notifications:
+    name: "Slack-Notification"
+    runs-on: ubuntu-24.04
+    needs: [Red]
+    steps:      
+      - name: Slack Notification on Failure
+        if: (failure() || contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'stopped'))
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: gm-test-automation
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/pink.png?size=48
+          SLACK_MESSAGE: '${{ github.workflow }}-Build Failed'
+          SLACK_TITLE: GM-Tesframework Build Failed
+          SLACK_USERNAME: suchitra
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}        
       
