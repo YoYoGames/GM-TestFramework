@@ -44,6 +44,7 @@ jobs:
           function Check-Activity {
               $currentTime = Get-Date
               $elapsedTime = ($currentTime - $lastActivityTime).TotalSeconds
+              Write-Host "Checking activity... Elapsed time: $elapsedTime seconds."
               if ($elapsedTime -ge $maxIdleTime) {
                   Write-Host "No activity for $elapsedTime seconds, exiting script..."
                   exit 1  # Exit the script if idle
@@ -53,7 +54,7 @@ jobs:
           # Function to track activity and reset timer
           function Track-Activity {
               $global:lastActivityTime = Get-Date  # Use global scope to update the variable
-              Write-Host "Activity detected, timer reset to $lastActivityTime"
+              Write-Host "Activity detected, timer reset to $global:lastActivityTime"
           }
 
            # Register an event to track activity (for example, by monitoring output from the tests)
