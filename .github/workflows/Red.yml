@@ -52,7 +52,7 @@ jobs:
                   $process.Kill()  # Kill the process if it's hanging too long
                   exit 1  # Exit the script with an error code
               }
-              Start-Sleep -Seconds 5  # Check every 5 seconds
+              Start-Sleep -Seconds 60  # Check every 60 seconds
           }
         working-directory: GM-TF
         shell: pwsh       
