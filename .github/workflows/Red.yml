@@ -38,7 +38,8 @@ jobs:
       - name: Testing Manually with passing RSS_Feed for Red builds
         run: .\launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}
         working-directory: GM-TF
-        shell: pwsh       
+        shell: pwsh   
+        continue-on-error: false    
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4

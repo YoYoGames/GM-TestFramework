@@ -1,4 +1,4 @@
-@echo off
+@echo on
 setlocal EnableDelayedExpansion
 :: Check if .venv folder exists
 if not exist ".venv" (
@@ -31,12 +31,15 @@ echo %TIME% > %activity_file%
 goto :EOF
 
 :: Run your Python script
+echo Running launcher.py...
 python launcher.py %*
+echo launcher.py finished.
 
 :: Deactivate the virtual environment
 deactivate
 
 :: Stop the activity checker
+echo Stopping activity checker...
 taskkill /IM cmd.exe /FI "WINDOWTITLE eq ActivityChecker"
 
 echo Done!
