@@ -25,7 +25,7 @@ jobs:
   Red:
     name: "Red"
     runs-on: Windows
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - name: Clean Test Framework Cache
         run: |
@@ -36,15 +36,7 @@ jobs:
         with:
           path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
-        run: |
-            $command = './launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}'
-
-            try {
-              $process = Invoke-Expression $command
-            } catch {
-              Write-Error "Error occurred while executing the command: $_"
-              exit 1
-            }
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}'
         working-directory: GM-TF
         shell: pwsh       
       - name: Upload Results Artifacts
@@ -74,6 +66,7 @@ jobs:
     name: "Slack-Notification"
     runs-on: ubuntu-24.04
     needs: [Red]
+    if: always()
     steps:      
       - name: Slack Notification on Failure
         if: (failure() || contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'stopped'))
