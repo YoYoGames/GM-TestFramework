@@ -63,12 +63,13 @@ jobs:
                 Check-Activity
                 Start-Sleep -Seconds 60
               }
-            Log-Message "Launcher process has exited."
+              Log-Message "Launcher process has exited."
             }
 
             Monitor-Process
         working-directory: GM-TF
         shell: pwsh
+        continue-on-error: false 
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
