@@ -14,6 +14,12 @@ call .venv\Scripts\activate
 if exist "requirements.txt" (
     echo Installing requirements...
     pip install -r requirements.txt
+    if %ERRORLEVEL% NEQ 0 (
+        echo Failed to install requirements. Exiting...
+        exit /b 1
+    ) else (
+        echo Requirements installed successfully.
+    )
 ) else (
     echo No requirements.txt found. Skipping installation of dependencies.
 )
@@ -33,7 +39,12 @@ goto :EOF
 :: Run your Python script
 echo Running launcher.py...
 python launcher.py %*
-echo launcher.py finished.
+if %ERRORLEVEL% NEQ 0 (
+    echo launcher.py script failed. Exiting...
+    exit /b 1
+) else (
+    echo launcher.py finished successfully.
+)
 
 :: Deactivate the virtual environment
 deactivate
