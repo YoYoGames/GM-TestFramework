@@ -18,17 +18,17 @@ jobs:
         run: |
             $maxIdleTime = 120  # Max idle time in seconds (e.g., 60 seconds)
             $lastActivityTime = Get-Date
-
+            # Define the log file
             $logFile = "activity_log.txt"
-
+            # Function to log messages
             function Log-Message {
                 param (
-                  [string]$message
+                    [string]$message
                 )
             $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
             "$timestamp - $message" | Out-File -FilePath $logFile -Append
             }
-
+            # Function to check for inactivity
             function Check-Activity {
                 $currentTime = Get-Date
                 $elapsedTime = ($currentTime - $lastActivityTime).TotalSeconds
@@ -40,14 +40,14 @@ jobs:
                     exit 1  # Exit the script if idle
                 }
             }
-
+            # Function to track activity and reset timer
             function Track-Activity {
-              $global:lastActivityTime = Get-Date  
-              Write-Host "Activity detected, timer reset to $global:lastActivityTime"
+                $global:lastActivityTime = Get-Date  # Use global scope to update the variable
+                Write-Host "Activity detected, timer reset to $global:lastActivityTime"
             }
-
+            # Register an event to track activity (for example, by monitoring output from the tests)
             Register-EngineEvent -SourceIdentifier "TestActivity" -Action { Track-Activity }
-
+            # Start your original command and get process information
             Write-Host "Starting the command..."
             $arguments = @(
                 "igorRunTests",
@@ -57,15 +57,15 @@ jobs:
                 "--runtime-version", "${{ github.event.inputs.RUNTIME_VERSION }}"
             )
             $launcherProcess = Start-Process -FilePath ".\launcher" -ArgumentList $arguments -PassThru
-
+            # Function to monitor the launcher process
             function Monitor-Process {
               while ($launcherProcess.HasExited -eq $false) {
-                Check-Activity
-                Start-Sleep -Seconds 60
+                  Check-Activity
+                  Start-Sleep -Seconds 60
               }
               Log-Message "Launcher process has exited."
             }
-
+            # Start monitoring the process
             Monitor-Process
         working-directory: GM-TF
         shell: pwsh

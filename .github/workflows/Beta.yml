@@ -46,8 +46,6 @@ jobs:
               )
             $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
             "$timestamp - $message" | Out-File -FilePath $logFile -Append
-            $logEntry | Out-File -FilePath $logFile -Append
-            Write-Output $logEntry
             }
 
             # Function to check for inactivity
@@ -65,8 +63,8 @@ jobs:
 
             # Function to track activity and reset timer
             function Track-Activity {
-            $global:lastActivityTime = Get-Date  # Use global scope to update the variable
-            Write-Host "Activity detected, timer reset to $global:lastActivityTime"
+                $global:lastActivityTime = Get-Date  # Use global scope to update the variable
+                Write-Host "Activity detected, timer reset to $global:lastActivityTime"
             }
 
             # Register an event to track activity (for example, by monitoring output from the tests)
