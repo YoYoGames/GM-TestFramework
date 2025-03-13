@@ -50,6 +50,8 @@ jobs:
                 )
             $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
             "$timestamp - $message" | Out-File -FilePath $logFile -Append
+            $logEntry | Out-File -FilePath $logFile -Append
+            Write-Output $logEntry
             }
 
             # Function to check for inactivity
