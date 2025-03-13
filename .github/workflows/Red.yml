@@ -37,15 +37,12 @@ jobs:
           path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
         run: |
-            $timeout = 1000  # Timeout in seconds (30 minutes)
             $command = './launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}'
-            
-            $process = Start-Process -FilePath powershell -ArgumentList $command -PassThru
-            $process | Wait-Process -Timeout $timeout
-            
-            if ($process.HasExited -eq $false) {
-              Write-Error "Process exceeded timeout of $timeout seconds."
-              $process.Kill()
+
+            try {
+              $process = Invoke-Expression $command
+            } catch {
+              Write-Error "Error occurred while executing the command: $_"
               exit 1
             }
         working-directory: GM-TF
