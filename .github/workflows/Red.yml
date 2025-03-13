@@ -52,19 +52,32 @@ jobs:
 
           # Function to track activity and reset timer
           function Track-Activity {
-              $lastActivityTime = Get-Date
+              $global:lastActivityTime = Get-Date  # Use global scope to update the variable
+              Write-Host "Activity detected, timer reset to $lastActivityTime"
           }
 
            # Register an event to track activity (for example, by monitoring output from the tests)
           Register-EngineEvent -SourceIdentifier "TestActivity" -Action { Track-Activity }
 
+          # Simulate activity for demonstration purposes
+          function Simulate-Activity {
+              New-Event -SourceIdentifier "TestActivity" -MessageData "Activity detected"
+          }
 
           # Start your original command
+          Write-Host "Starting the command..."
           .\launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}
+
+          Start-Job -ScriptBlock {
+              while ($true) {
+                  Start-Sleep -Seconds 30
+                  Simulate-Activity
+              }
+          }
 
           while ($true) {
             Check-Activity
-            Start-Sleep -Seconds 30
+            Start-Sleep -Seconds 50
           }
         working-directory: GM-TF
         shell: pwsh       
