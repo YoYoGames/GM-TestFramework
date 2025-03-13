@@ -27,6 +27,11 @@ jobs:
     runs-on: Windows
     timeout-minutes: 60
     steps:
+      - name: Clean Test Framework Cache
+        run: |
+          Remove-Item -Recurse -Force "${{ github.workspace }}\GM-TF\workspace\cache"
+          Remove-Item -Recurse -Force "${{ github.workspace }}\GM-TF\workspace\temp"
+        shell: pwsh      
       - name: Check out the GM-TestFramework repo
         uses: actions/checkout@v4
         with:
