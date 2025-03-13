@@ -1,14 +1,27 @@
-@echo on
+@echo off
 setlocal EnableDelayedExpansion
+
 :: Check if .venv folder exists
 if not exist ".venv" (
     echo Creating virtual environment...
     python -m venv .venv
+    if %ERRORLEVEL% NEQ 0 (
+        echo Failed to create virtual environment. Exiting...
+        exit /b 1
+    )
 )
 
 :: Activate the virtual environment
 echo Initializing python environment
 call .venv\Scripts\activate
+
+:: Check if the virtual environment was activated
+if "%VIRTUAL_ENV%"=="" (
+    echo Failed to activate virtual environment. Exiting...
+    exit /b 1
+) else (
+    echo Virtual environment activated.
+)
 
 :: Install requirements
 if exist "requirements.txt" (
@@ -82,5 +95,3 @@ if !elapsed_time! GEQ !maxIdleTime! (
 :: Wait for 30 seconds and check again
 ping -n 31 127.0.0.1 >nul
 goto CheckActivity
-
-echo Done!
