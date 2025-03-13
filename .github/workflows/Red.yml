@@ -37,29 +37,23 @@ jobs:
           path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
         run: |
-            $maxIdleTime = 60  # Max idle time in seconds (e.g., 60 seconds)
-            $lastActivityTime = Get-Date
+          $maxIdleTime = 60  # Max idle time in seconds (e.g., 60 seconds)
+          $timeout = 60  # Timeout for the command (in seconds)
+          
+          # Start the long-running process (launcher igorRunTests)
+          $process = Start-Process -FilePath ".\launcher" -ArgumentList "igorRunTests --config-file 'C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}' --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}" -PassThru -Wait
 
-            # Function to check for inactivity
-            function Check-Activity {
-                $currentTime = Get-Date
-                $elapsedTime = ($currentTime - $lastActivityTime).TotalSeconds
-                if ($elapsedTime -ge $maxIdleTime) {
-                    Write-Host "No activity for $elapsedTime seconds, exiting script..."
-                    exit 1  # Exit the script if idle
-                }
-            }
-
-            # Start running tests or long process
-            .\launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}
-
-            # Continuously monitor activity
-            while ($true) {
-              # Simulate checking for activity every 5 seconds
-              $lastActivityTime = Get-Date
-              Start-Sleep -Seconds 5
-              Check-Activity
-            }
+          # Set a timeout for the process to exit if it hangs for too long
+          $startTime = Get-Date
+          while ($process.HasExited -eq $false) {
+              $elapsedTime = (Get-Date) - $startTime
+              if ($elapsedTime.TotalSeconds -gt $timeout) {
+                  Write-Host "Timeout reached. Killing process..."
+                  $process.Kill()  # Kill the process if it's hanging too long
+                  exit 1  # Exit the script with an error code
+              }
+              Start-Sleep -Seconds 5  # Check every 5 seconds
+          }
         working-directory: GM-TF
         shell: pwsh       
       - name: Upload Results Artifacts
