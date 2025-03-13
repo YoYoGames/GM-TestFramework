@@ -36,7 +36,7 @@ jobs:
         with:
           path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
-        run: .\activity_check.ps1
+        run: .\launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed "${{ secrets.RSS_FEED_RED }}" ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }}
         working-directory: GM-TF
         shell: pwsh       
       - name: Upload Results Artifacts
