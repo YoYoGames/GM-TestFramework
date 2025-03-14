@@ -175,22 +175,24 @@ class IgorRunTestsCommand(BaseCommand):
         runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
         assert(runtime_version is not None)
 
-        retries = 0
-        max_retries = 10
-        # If expected version doesn't match actual version, try to get the exact version for 10 minutes 
-        while expt_runtime_version != runtime_version and retries < max_retries:
-            # If we are returning a version older than the returned one exit the loop
-            # This should't really happen unless the version we requested doesn't exist at all
-            if self.compare_versions(expt_runtime_version, runtime_version) < 0:
-                break
+        # If it was provided a specific runtime version
+        if expt_runtime_version != None:
+            retries = 0
+            max_retries = 10
+            # If expected version doesn't match actual version, try to get the exact version for 10 minutes 
+            while expt_runtime_version != runtime_version and retries < max_retries:
+                # If we are returning a version older than the returned one exit the loop
+                # This should't really happen unless the version we requested doesn't exist at all
+                if self.compare_versions(expt_runtime_version, runtime_version) < 0:
+                    break
 
-            # Wait one minute before retrying
-            await asyncio.sleep(60)
-            runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
-            retries += 1
+                # Wait one minute before retrying
+                await asyncio.sleep(60)
+                runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
+                retries += 1
 
-        # Assert the versions match or abort execution
-        assert(self.compare_versions(expt_runtime_version, runtime_version) == 0)
+            # Assert the versions match or abort execution
+            assert(self.compare_versions(expt_runtime_version, runtime_version) == 0)
 
         # Execute igor to install the requested runtime version
         targets = self.get_targets()
@@ -209,7 +211,13 @@ class IgorRunTestsCommand(BaseCommand):
 
         os.environ['PROJECTTOOL'] = str(project_tool_path)
         os.environ['CORERESOURCES_DLL'] = str(core_resources_path)
-        subprocess.run([PROJECT_SCRIPT_PATH])
+
+        result = subprocess.run([PROJECT_SCRIPT_PATH])
+        if result.returncode != 0:
+            LOGGER.error(f"ProjectTool failed with code: {result.returncode}")
+            exit(result.returncode)
+        else:
+            LOGGER.info("ProjectTool ran successfully!")
 
         # Load settings
         settings_path = user_folder / 'local_settings.json'

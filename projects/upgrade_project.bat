@@ -53,6 +53,7 @@ for /d %%p in (*) do (
             "%PROJECTTOOL%" project save source=".\\%%p.yyp" RESOURCETYPESPATH="%BASE%\\resourceslist.json" PREFABSFOLDER="%BASE%\\Prefabs"
             if !errorlevel! neq 0 (
                 echo "[ERROR] [%DATE% %TIME%] Failed to save project for: %%p.yyp"
+                exit !errorlevel!
             ) else (
                 echo "[SUCCESS] [%DATE% %TIME%] Project saved successfully for: %%p.yyp"
             )
