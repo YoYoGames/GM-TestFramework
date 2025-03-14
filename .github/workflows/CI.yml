@@ -15,9 +15,10 @@ jobs:
         with:
           path: GM-TF
       - name: Testing on PR
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\config_ci.json" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} 
         working-directory: GM-TF
         shell: pwsh
+        continue-on-error: false 
       - name: Upload Results Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -32,6 +33,23 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
             name: tf_compare_output_file
-            path: ${{ github.workspace }}\GM-TF\TF_Output.txt         
+            path: ${{ github.workspace }}\GM-TF\TF_Output.txt        
+            
+  Slack-Notification:
+    name: "Slack Notification"
+    runs-on: ubuntu-latest
+    needs: [CI]
+    steps:
+      - name: Slack Notification on Failure
+        if: (failure() || contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'stopped'))
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: gm-test-automation
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/pink.png?size=48
+          SLACK_MESSAGE: '${{ github.workflow }}-Build Failed'
+          SLACK_TITLE: GM-Tesframework Build Failed
+          SLACK_USERNAME: suchitra
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}   
         
       
