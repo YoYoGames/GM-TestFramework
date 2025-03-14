@@ -32,7 +32,7 @@ jobs:
         with:
           path: GM-TF       
       - name: Testing Manually witth passing RSS_Feed for Monthly builds
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_GREEN }}' ${{ github.event.inputs.EXTRA_PARAMS }}
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_GREEN }}' ${{ github.event.inputs.EXTRA_PARAMS }} -rv ${{ github.event.inputs.RUNTIME_VERSION }}      
         working-directory: GM-TF  
         shell: pwsh     
       - name: Upload Results Artifacts
@@ -58,5 +58,20 @@ jobs:
             payload-file-path: ${{ github.workspace }}\GM-TF\slack_stats.json
             payload-templated: true   
             
-        
+  Slack-Notifications:
+    name: "Slack-Notification"
+    runs-on: ubuntu-24.04
+    needs: [Monthly]
+    if: always()
+    steps:      
+      - name: Slack Notification on Failure
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          SLACK_CHANNEL: gm-test-automation
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/pink.png?size=48
+          SLACK_MESSAGE: '${{ github.workflow }}-Build Failed'
+          SLACK_TITLE: GM-Tesframework Build Failed
+          SLACK_USERNAME: suchitra
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}       
       
