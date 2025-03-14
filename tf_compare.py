@@ -114,9 +114,10 @@ def get_artifact_URL():
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
     # Time to download the artifact files
-    download_github_artifact()
-
-
+    if (len(artifact_details) > 0):
+        download_github_artifact()
+    else:
+        print(f"No artifact files available!\nTF Compare script will not continue")
 
 def download_github_artifact():
 
