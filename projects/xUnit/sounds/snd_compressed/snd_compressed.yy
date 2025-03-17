@@ -1,5 +1,5 @@
 {
-  "$GMSound":"v1",
+  "$GMSound":"",
   "%Name":"snd_compressed",
   "audioGroupId":{
     "name":"audiogroup_default",
@@ -10,7 +10,6 @@
   "compression":1,
   "conversionMode":0,
   "duration":26.56365,
-  "exportDir":"",
   "name":"snd_compressed",
   "parent":{
     "name":"sounds",

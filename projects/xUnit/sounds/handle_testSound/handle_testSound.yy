@@ -1,5 +1,5 @@
 {
-  "$GMSound":"v1",
+  "$GMSound":"",
   "%Name":"handle_testSound",
   "audioGroupId":{
     "name":"audiogroup_default",
@@ -10,7 +10,6 @@
   "compression":0,
   "conversionMode":0,
   "duration":0.1,
-  "exportDir":"",
   "name":"handle_testSound",
   "parent":{
     "name":"handles",

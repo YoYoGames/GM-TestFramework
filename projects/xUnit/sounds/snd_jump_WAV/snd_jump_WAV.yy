@@ -1,5 +1,5 @@
 {
-  "$GMSound":"v1",
+  "$GMSound":"",
   "%Name":"snd_jump_WAV",
   "audioGroupId":{
     "name":"audiogroup_default",
@@ -10,7 +10,6 @@
   "compression":0,
   "conversionMode":0,
   "duration":0.862041,
-  "exportDir":"",
   "name":"snd_jump_WAV",
   "parent":{
     "name":"sounds",

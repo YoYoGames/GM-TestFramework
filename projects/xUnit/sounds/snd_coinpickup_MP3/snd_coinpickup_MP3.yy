@@ -1,5 +1,5 @@
 {
-  "$GMSound":"v1",
+  "$GMSound":"",
   "%Name":"snd_coinpickup_MP3",
   "audioGroupId":{
     "name":"audiogroup_default",
@@ -10,7 +10,6 @@
   "compression":0,
   "conversionMode":0,
   "duration":0.768,
-  "exportDir":"",
   "name":"snd_coinpickup_MP3",
   "parent":{
     "name":"sounds",
