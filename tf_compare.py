@@ -73,12 +73,13 @@ def get_workflow_runs():
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
-        if workflow_runs[0]['display_title'] in allowed_workflows and workflow_runs[1]['display_title'] in allowed_workflows and branch == 'develop':
         
-            for run in workflow_runs:
+        for run in workflow_runs:
+            if branch == 'develop' and run['name'] in allowed_workflows:
                 # add workflow run id to array
                 _artifactRunID.append(run['id'])
-
+                
+        if len(_artifactRunID) >= 1:
             get_artifact_URL()
         else:
             print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
