@@ -324,7 +324,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 			
 			// If there are any audio recorders present, start recording on the 1st one,
 			// otherwise, skip the test
-			if (count >= 0) {
+			if (count > 0) {
 			    
 				var recorderInfo = audio_get_recorder_info(0);
 				recorderSampleRate = ds_map_find_value(recorderInfo, "sample_rate");
@@ -337,7 +337,7 @@ function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 			    show_debug_message("Created audio buffer with id " + string(audioBuffer));
 			    
 			} else {
-			    show_debug_message("No audio recorders available.");
+			    show_debug_message("Skipping test - no audio recorders available.");
 				
 				test_end(TestResult.Skipped);
 			}
