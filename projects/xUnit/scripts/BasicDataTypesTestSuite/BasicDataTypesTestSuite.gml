@@ -1296,7 +1296,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		}, "ptr ( array:local ), should not throw an error, valid convertion");
 			
 	}, {
-		platformFilter: platform_not_browser
+		test_filter: platform_not_browser
 		
 	});
 	
