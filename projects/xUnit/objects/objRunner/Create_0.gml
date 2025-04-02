@@ -47,6 +47,7 @@ testFramework.addSuite(BasicTilemapTestSuite);
 testFramework.addSuite(BasicUnaryUpdateExpressions);
 testFramework.addSuite(BasicVariableTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
+testFramework.addSuite(BasicCompileEvalConsistencyTestSuite);
 testFramework.addSuite(ResourceAudioBuffersTestSuite);
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
 testFramework.addSuite(ResourceAudioEmittersTestSuite);
