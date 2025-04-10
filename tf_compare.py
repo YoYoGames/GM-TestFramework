@@ -31,7 +31,7 @@ testRunTimes = {
 # declare variables
 _artifactRunID = []
 _artifactID = []
-_download_artifacts_url = []
+_download_artifacts_url = {}
 artifact_files = []
 slack_stats = {}
 
@@ -90,7 +90,10 @@ def get_workflow_runs():
 
 def get_artifact_URL():
 
-    for runid in _artifactRunID:
+    for runindex, runid in enumerate(_artifactRunID, start=1):
+        # track which TF run we are getting artifact details for ('Current' or 'Previous')
+        runState = "Current" if runindex == 1 else "Previous"
+
         artifact_url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{runid}/artifacts"
 
         response = requests.get(artifact_url)
@@ -102,25 +105,30 @@ def get_artifact_URL():
             artifact_details = artifact_data.get("artifacts", [])
 
             for index, artifact in enumerate(artifact_details, start=1):
+                # define variable
+                summary_exists = False
 
-                if "summary_file" in artifact.get("name"):
+                # Index 1 should always refer to the main artifact file (summary_file)
+                # The summary_file needs to exist for the script to continue
+                if index == 1 and "summary_file" in artifact.get("name"):
+                    # mark that the summary_file exists and is in index 1
+                    summary_exists = True
                     # add first new run artifact id to array
-                    if index == 1:
-                        _artifactID.append(artifact['id'])
-                        _download_artifacts_url.append(artifact.get("archive_download_url"))
-                elif "tf_compare" in artifact.get("name"):
-                    if index == 2:
-                        artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{runid}/artifacts/{artifact['id']}"
+                    _artifactID.append(artifact['id'])
+                    _download_artifacts_url[runState] = artifact.get("archive_download_url")
+                
+                if summary_exists == True and index == 2 and "tf_compare" in artifact.get("name"):
+                    artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{runid}/artifacts/{artifact['id']}"
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
-    # Time to download the artifact files
-    if (len(_download_artifacts_url) > 0):
-        download_github_artifact()
+    # Time to download the artifact files, ensure the current run has a valid artifact file
+    if (len(_download_artifacts_url) > 0) and _download_artifacts_url.get('Current'):
+        download_github_artifact(_download_artifacts_url)
     else:
-        print(f"No artifact files available!\nTF Compare script will not continue")
+        print(f"No artifact files available in the current workflow run!\nTF Compare script will not continue")
 
-def download_github_artifact():
+def download_github_artifact(_download_artifacts_url):
 
     # iterate through the _download_artifacts_url array and download each artifact file
     urlCount = 0
@@ -135,7 +143,7 @@ def download_github_artifact():
             headers['Authorization'] = f'Bearer {github_token}'
             headers['Accept'] = 'application/vnd.github.v3+json'
 
-        response = requests.get(url, headers=headers, stream=True)
+        response = requests.get(_download_artifacts_url.get(url), headers=headers, stream=True)
         
         if response.status_code == 200:
             with open(f"{save_path}artifact.zip", 'wb') as file:
