@@ -104,6 +104,10 @@ function TestAudioListenerUpVector(listenerCount, expectedX, expectedY, expected
 
 function ResourceAudioListenersTestSuite() : TestSuite() constructor {
 		
+	config({
+		suite_filter: runtime_not_gmrt
+	});
+		
 	addFact("audio_get_listener_count test #1", function() {
 			
 		// Get listener count

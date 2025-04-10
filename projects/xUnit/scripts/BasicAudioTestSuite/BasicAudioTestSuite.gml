@@ -14,6 +14,10 @@ function GetSoundsToTest() {
 
 function BasicAudioTestSuite() : TestSuite() constructor {
 
+	config({
+		suite_filter: runtime_not_gmrt
+	});
+
 	// AUDIO SYSTEM INITIALIZATION TESTS
 	
 	addFact("Audio initialized test #1", function(){

@@ -13,6 +13,10 @@ function TestAudioEffectMembers(audioEffectType, membersArray) {
 
 function ResourceAudioEffectsTestSuite() : TestSuite() constructor {
 	
+	config({
+		suite_filter: runtime_not_gmrt
+	});
+	
 	addFact("Audio bus test #1", function() {
 		// Checks the members of the built-in bus struct audio_bus_main and a user-created bus
 		var _buses = [ 

@@ -30,6 +30,10 @@ function GetInterpolatedPitchAudioBuffer(initialHertz, finalHertz, rate, duratio
 
 function ResourceAudioBuffersTestSuite() : TestSuite() constructor {
 	
+	config({
+		suite_filter: runtime_not_gmrt
+	});
+	
 	addFact("Audio buffer creation test #1", function() {
 		
 		// Create sound with increasing pitch and test that he buffer is not null
