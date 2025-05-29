@@ -54,7 +54,7 @@ TEMP_FILE = OUTPUT_DIR / 'xUnit.win'
 TARGET_FILE = OUTPUT_DIR / 'xUnit.zip'
 RUNTIME_DIR = WORKSPACE_DIR / 'runtime'
 
-IGOR_PATH = IGOR_DIR / 'igor.exe'
+IGOR_PATH = IGOR_DIR / 'windows'/ 'x64' / 'igor.exe'
 
 SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
 
