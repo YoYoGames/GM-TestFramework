@@ -56,7 +56,8 @@ jobs:
              webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
              webhook-type: incoming-webhook
              payload-file-path: ${{ github.workspace }}\GM-TF\slack_stats.json
-             payload-templated: true               
+             payload-templated: true
+             
        
   Slack-Notifications:
     name: "Slack-Notification"
