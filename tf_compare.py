@@ -35,6 +35,10 @@ _download_artifacts_url = {}
 artifact_files = []
 slack_stats = {}
 
+time_taken = 0
+total_new_reports = 0
+total_reopened_reports = 0
+
 # Create new_data and prev_data directories if they don't exists
 for dir in saveLocation:
     directory = Path(f"{baseSaveLocation}/{dir}")
@@ -56,6 +60,8 @@ for dir in saveLocation:
 # Get the latest 2 workflow run
 def get_workflow_runs():
 
+    global time_taken
+
     headers = {}
     if github_token:
         headers['Authorization'] = f'Bearer {github_token}'
@@ -70,6 +76,13 @@ def get_workflow_runs():
         workflow_runs = artifact_data.get("workflow_runs", [])
 
         branch = workflow_runs[0]['head_branch']
+
+        # Parse the ISO 8601 timestamps
+        run_start = datetime.strptime(workflow_runs[0]['created_at'], '%Y-%m-%dT%H:%M:%SZ')
+        run_end = datetime.strptime(workflow_runs[0]['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
+
+        # Calculate the difference
+        time_taken = run_end - run_start
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
@@ -90,6 +103,8 @@ def get_workflow_runs():
 
 def get_artifact_URL():
 
+    global artifact_data_store
+
     for runindex, runid in enumerate(_artifactRunID, start=1):
         # track which TF run we are getting artifact details for ('Current' or 'Previous')
         runState = "Current" if runindex == 1 else "Previous"
@@ -104,21 +119,24 @@ def get_artifact_URL():
 
             artifact_details = artifact_data.get("artifacts", [])
 
+            # define variable
+            # summary_exists = False
+
             for index, artifact in enumerate(artifact_details, start=1):
-                # define variable
-                summary_exists = False
+                
 
                 # Index 1 should always refer to the main artifact file (summary_file)
                 # The summary_file needs to exist for the script to continue
                 if index == 1 and "summary_file" in artifact.get("name"):
                     # mark that the summary_file exists and is in index 1
-                    summary_exists = True
+                    # summary_exists = True
                     # add first new run artifact id to array
                     _artifactID.append(artifact['id'])
                     _download_artifacts_url[runState] = artifact.get("archive_download_url")
                 
-                if summary_exists == True and index == 2 and "tf_compare" in artifact.get("name"):
-                    artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{runid}/artifacts/{artifact['id']}"
+                # only get tf_output file for current run if it already exists (re-run)
+                # if summary_exists == True and index == 2 and "tf_compare" in artifact.get("name") and runState == "Current":
+                #     artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{runid}/artifacts/{artifact['id']}"
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
@@ -127,6 +145,7 @@ def get_artifact_URL():
         download_github_artifact(_download_artifacts_url)
     else:
         print(f"No artifact files available in the current workflow run!\nTF Compare script will not continue")
+
 
 def download_github_artifact(_download_artifacts_url):
 
@@ -192,6 +211,10 @@ def unzip_artifact_files(save_path, zipfilename):#
 
 
 def compare_artifacts(artifact_files):
+
+    global total_new_reports
+    global total_reopened_reports
+    global artifact_data_store
 
     allTestFiles = {}
     fileCount = 1
@@ -316,6 +339,7 @@ def compare_artifacts(artifact_files):
         dt_object = datetime.strptime(first_fail_dict["timestamp_iso"], "%Y-%m-%dT%H:%M:%S")
         # Format it in a readable way
         file.write(f"\nArtifact Date/Time: {dt_object.strftime("%d %B, %Y at %I:%M %p")}\n")
+        file.write(f"\nTotal Run Time: {time_taken}\n")
         # total number of testsuites
         file.write(f"Total Testsuites: {len(first_fail_dict["testsuites"])}\n")
         file.write(f"Total Tests: {first_fail_dict['tallies']["tests"]}\n")
@@ -323,35 +347,6 @@ def compare_artifacts(artifact_files):
 
         file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
-
-        # build JSON file content for Slack Notification
-        slack_stats["text"] = f"*{RTVersion} {workflow.split(".")[0]} Test Results Summary*"
-        slack_stats["Runtime-Version"] = RTVersion
-        slack_stats["attachments"] = [
-            {
-                "color": "#36a64f",
-                "fields": [
-                    { "title": "Windows VM time", "value": f"{testRunTimes['VM']:.2f} seconds", "short": True },
-                    { "title": "Windows YYC time", "value": f"{testRunTimes['YYC']:.2f} seconds", "short": True },
-                    { "title": "Total tests", "value": str(first_fail_dict['tallies']["tests"]), "short": True },
-                    { 
-                        "title": "Total failed tests", 
-                        "value": f"{first_fail_dict['tallies']['failures']} ({round((first_fail_dict['tallies']['failures'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
-                        "short": True
-                    },
-                    { 
-                        "title": "Total skipped tests", 
-                        "value": f"{first_fail_dict['tallies']['skipped']} ({round((first_fail_dict['tallies']['skipped'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
-                        "short": True
-                    },
-                    { 
-                        "title": "Output file", 
-                        "value": f"<{artifact_data_store['artifact_web_download_url']}>", 
-                        "short": False
-                    }
-                ]
-            }
-        ]
 
         # iterate through each test suite
         new_fails_map = {}
@@ -434,10 +429,10 @@ def compare_artifacts(artifact_files):
         if fixcount == 0:
             file.write("\nNo fixes to verify\n")
 
-        file.write("\n************************************ SKIPPED TESTS ************************************\n\n")
+        file.write("\n************************************ SKIPPED TESTS ************************************\n")
 
         for skipped in new_skips:
-            file.write(f"{skipped} : in {new_skips[skipped]}\n")
+            file.write(f"\n{skipped} : in {new_skips[skipped]}\n")
 
         file.write("\n****************************************************************************************\n")
         file.write("*********************************** END OF FILTERING ***********************************\n")
@@ -461,6 +456,51 @@ def compare_artifacts(artifact_files):
     print("\nArtifact comparison has completed")
     print("All downloaded artifact files deleted.")
 
+    # _artifactRunID
+    # _artifactID
+
+    artifact_url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts"
+    response = requests.get(artifact_url)
+    if response.status_code == 200:
+        # Parse the JSON response
+        artifact_data = response.json()
+        artifact_details = artifact_data.get("artifacts", [])
+        for index, artifact in enumerate(artifact_details, start=1):          
+            # only get tf_output file for current run if it already exists (re-run)
+            if "tf_compare" in artifact.get("name"):
+                artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{artifact['id']}"
+
+    # build JSON file content for Slack Notification
+    print("\nCreating Slack JSON Stats file")
+    slack_stats["text"] = f"*{RTVersion} {workflow.split(".")[0]} Test Results Summary*"
+    slack_stats["Runtime-Version"] = RTVersion
+    slack_stats["attachments"] = [
+        {
+            "color": "#36a64f",
+            "fields": [
+                { "title": "Total Run Time", "value": f"{time_taken}", "short": True },
+                { "title": "Total tests", "value": str(first_fail_dict['tallies']["tests"]), "short": True },
+                { 
+                    "title": "Total failed tests", 
+                    "value": f"{first_fail_dict['tallies']['failures']} ({round((first_fail_dict['tallies']['failures'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
+                    "short": True
+                },
+                { 
+                    "title": "Total skipped tests", 
+                    "value": f"{first_fail_dict['tallies']['skipped']} ({round((first_fail_dict['tallies']['skipped'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
+                    "short": True
+                },
+                { "title": "Total Reports Created", "value": f"{total_new_reports}", "short": True },
+                { "title": "Total Reports Reopened", "value": f"{total_reopened_reports}", "short": True },
+                { 
+                    "title": "Output file", 
+                    "value": f"<{artifact_data_store['artifact_web_download_url']}>", 
+                    "short": False
+                }
+            ]
+        }
+    ]
+
     # write slack stats json file
     with open("slack_stats.json", "w") as slackfile:
         # Convert the list to a JSON-formatted string
@@ -468,29 +508,64 @@ def compare_artifacts(artifact_files):
         print("\nJSON file 'slack_stats.json' was created successfully!")
 
 
+#Get failed test code block and lines
+def get_code(testname, testsuite):
 
-def get_issues(repo, testName, compiler):
-    """ Check if an issue with SEARCH_TERM exists in a repo """
-
-    ENCODED_TERM = urllib.parse.quote(f"TestFramework: [{compiler}] {testName}", safe="")
-    
-    # search issues for exists reports
     headers = {}
     if github_token:
         headers['Authorization'] = f'Bearer {github_token}'
-        headers['Accept'] = 'application/vnd.github.v3+json'
+        headers['Accept'] = 'application/vnd.github+json'
 
-    response = requests.get(f"https://api.github.com/search/issues?q=repo:{repo}+is:issue+in:title+{ENCODED_TERM}&per_page=1&sort=created&order=desc", headers=headers, stream=True)
-    
-    time.sleep(2) # give the request time to fetch the result before moving on
+     # Define repo and file info
+    BRANCH = "develop"
+    FILE_PATH = f"projects/xUnit/scripts/{testsuite}/{testsuite}.gml"
+
+    # Construct raw file URL
+    raw_url = f"https://raw.githubusercontent.com/{repos[1]}/{BRANCH}/{FILE_PATH}"
+
+    # Fetch raw file contents
+    response = requests.get(raw_url)
 
     if response.status_code == 200:
-        issues = response.json().get("items", [])
-        return [response.json(), repo] if len(issues) > 0 else None
+        lines = response.text.split("\n")
+
+        function_block = []
+        found = False
+        brace_count = 0  # Track { } balance
+
+        for i, line in enumerate(lines, start=1):
+            if testname in line and not found:
+                found = True
+                function_block.append(line)
+                start_line = i
+                brace_count += line.count("{") - line.count("}")  # Track opening braces
+                continue
+
+            if found:
+                function_block.append(line)
+                brace_count += line.count("{") - line.count("}")  # Update balance
+
+                if brace_count == 0:  # All braces closed → function ends
+                    end_line = i
+                    break
+
+        if found:
+            # Print extracted function block
+            function_code = "\n".join(function_block)
+            permalink = f"https://github.com/{repos[1]}/blob/{BRANCH}/{FILE_PATH}#L{start_line}-L{end_line}"
+            
+            return [function_code, permalink]
+        else:
+            print("Function not found in file.")
+    else:
+        print(f"Failed to fetch file. HTTP Status: {response.status_code}")
 
 
-
+# create new bug report / comment on existing report
 def log_fail(testName, failDetails, compiler, test_code_details):
+
+    global total_new_reports
+    global total_reopened_reports
 
     # ENCODED_TERM = urllib.parse.quote(f"{compiler} {testName}", safe="")
     
@@ -521,6 +596,8 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                 if response.status_code == 200:
                     print("This issue is currently marked as closed!")
                     print(f"Issue: {report['number']} - {testName}, successfully reopened")
+                    # add 1 to the reopened count
+                    total_reopened_reports += 1
                     # add new comment to bug report
                     if 'description' in failDetails['errorDetails']:
                         comment_data = {
@@ -670,61 +747,29 @@ def log_fail(testName, failDetails, compiler, test_code_details):
         if response.status_code == 201:
             issue_data = response.json()
             print(f"Issue: {issue_data['number']} - {testName}, successfully created!")
+            # add 1 to the new report created count
+            total_new_reports += 1
 
 
+# search for current issue
+def get_issues(repo, testName, compiler):
+    """ Check if an issue with SEARCH_TERM exists in a repo """
 
-#Get failed test code block and lines
-def get_code(testname, testsuite):
-
+    ENCODED_TERM = urllib.parse.quote(f"TestFramework: [{compiler}] {testName}", safe="")
+    
+    # search issues for exists reports
     headers = {}
     if github_token:
         headers['Authorization'] = f'Bearer {github_token}'
-        headers['Accept'] = 'application/vnd.github+json'
+        headers['Accept'] = 'application/vnd.github.v3+json'
 
-     # Define repo and file info
-    BRANCH = "develop"
-    FILE_PATH = f"projects/xUnit/scripts/{testsuite}/{testsuite}.gml"
-
-    # Construct raw file URL
-    raw_url = f"https://raw.githubusercontent.com/{repos[1]}/{BRANCH}/{FILE_PATH}"
-
-    # Fetch raw file contents
-    response = requests.get(raw_url)
+    response = requests.get(f"https://api.github.com/search/issues?q=repo:{repo}+is:issue+in:title+{ENCODED_TERM}&per_page=1&sort=created&order=desc", headers=headers, stream=True)
+    
+    time.sleep(2) # give the request time to fetch the result before moving on
 
     if response.status_code == 200:
-        lines = response.text.split("\n")
-
-        function_block = []
-        found = False
-        brace_count = 0  # Track { } balance
-
-        for i, line in enumerate(lines, start=1):
-            if testname in line and not found:
-                found = True
-                function_block.append(line)
-                start_line = i
-                brace_count += line.count("{") - line.count("}")  # Track opening braces
-                continue
-
-            if found:
-                function_block.append(line)
-                brace_count += line.count("{") - line.count("}")  # Update balance
-
-                if brace_count == 0:  # All braces closed → function ends
-                    end_line = i
-                    break
-
-        if found:
-            # Print extracted function block
-            function_code = "\n".join(function_block)
-            permalink = f"https://github.com/{repos[1]}/blob/{BRANCH}/{FILE_PATH}#L{start_line}-L{end_line}"
-            
-            return [function_code, permalink]
-        else:
-            print("Function not found in file.")
-    else:
-        print(f"Failed to fetch file. HTTP Status: {response.status_code}")
-
+        issues = response.json().get("items", [])
+        return [response.json(), repo] if len(issues) > 0 else None
 
 
 # start the comparison run
