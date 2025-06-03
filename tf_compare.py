@@ -695,7 +695,8 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                             f"{test_code_details[1]}\n\n"
                             f"### Which platform(s) are you seeing the problem on?\n"
                             f"Windows",
-                    #"assignee" : "username"
+                    "labels": ["Testframework"],
+                    "type": "In-Game Bug",
                 }
             else:
                 issue_data = {
@@ -715,7 +716,8 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                             f"{test_code_details[1]}\n\n"
                             f"### Which platform(s) are you seeing the problem on?\n"
                             f"Windows",
-                    #"assignee" : "username"
+                    "labels": ["Testframework"],
+                    "type": "In-Game Bug",
                 }
         elif failDetails['errorType'] == 'exception':
             issue_data = {
@@ -736,8 +738,9 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                         f"### Location Of The Test\n"
                         f"{test_code_details[1]}\n\n"
                         f"### Which platform(s) are you seeing the problem on?\n"
-                        f"Windows"
-                #"assignee" : "username"
+                        f"Windows",
+                "labels": ["Testframework"],
+                "type": "In-Game Bug",
             }
 
         url = f"https://api.github.com/repos/{repos[2]}/issues"
