@@ -56,17 +56,7 @@ jobs:
              webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
              webhook-type: incoming-webhook
              payload-file-path: ${{ github.workspace }}\GM-TF\slack_stats.json
-             payload-templated: true   
-      - name: Share a file to that channel            
-        uses: slackapi/slack-github-action@v2.1.0
-        with:
-          method: files.uploadV2
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-              channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-              initial_comment: "the results are in!"
-              file: "${{ github.workspace }}\GM-TF\TF_Output.txt"
-              filename: "tf_compare_output_file"             
+             payload-templated: true               
        
   Slack-Notifications:
     name: "Slack-Notification"
