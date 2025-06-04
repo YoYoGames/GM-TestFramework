@@ -3,6 +3,7 @@ from pathlib import Path
 from datetime import datetime, timezone, timedelta
 import argparse
 import urllib.parse
+from pprint import pprint
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
@@ -59,7 +60,6 @@ for dir in saveLocation:
 
 # Get the latest 2 workflow run
 def get_workflow_runs():
-
     global time_taken
 
     headers = {}
@@ -78,11 +78,23 @@ def get_workflow_runs():
         branch = workflow_runs[0]['head_branch']
 
         # Parse the ISO 8601 timestamps
-        run_start = datetime.strptime(workflow_runs[0]['created_at'], '%Y-%m-%dT%H:%M:%SZ')
+        created_at = datetime.strptime(workflow_runs[0]['created_at'], '%Y-%m-%dT%H:%M:%SZ')
+        run_start = datetime.strptime(workflow_runs[0]['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
         run_end = datetime.strptime(workflow_runs[0]['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
+
+        pprint(workflow_runs[0])
+
+        print("\n-------------------------------------------")
+        print(f"Run Created at: {created_at}")
+        print(f"Run Started at: {run_start}")
+        print(f"Run Finished at: {run_end}")
+        
 
         # Calculate the difference
         time_taken = run_end - run_start
+
+        print(f"Total Run Duration: {time_taken}")
+        print("-------------------------------------------\n")
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
