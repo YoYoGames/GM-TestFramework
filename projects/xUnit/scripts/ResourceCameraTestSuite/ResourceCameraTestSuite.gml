@@ -60,7 +60,7 @@ function ResourceCameraTestSuite() : TestSuite() constructor {
 		
 		camera_apply(_camera);
 		_output = camera_get_active()
-		assert_not_equals(_output, _camera, "camera_get_active(), failed to detect active camera"); 
+		assert_equals(_output, _camera, "camera_get_active(), incorrect active camera"); 
 		
 		camera_destroy(_camera);	
 		
