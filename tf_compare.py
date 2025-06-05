@@ -18,7 +18,8 @@ workflow = args.workflow
 RTVersion = args.rt
 
 # this path needs to be updated to a location on server
-baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
+# baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
+baseSaveLocation = "C:/Users/shammill/Documents/YoYo Games/QA Tools/Test Framework Compare Tool"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -36,7 +37,8 @@ _download_artifacts_url = {}
 artifact_files = []
 slack_stats = {}
 
-time_taken = 0
+run_start_time = 0
+run_time_taken = 0
 total_new_reports = 0
 total_reopened_reports = 0
 
@@ -60,7 +62,6 @@ for dir in saveLocation:
 
 # Get the latest 2 workflow run
 def get_workflow_runs():
-    global time_taken
 
     headers = {}
     if github_token:
@@ -78,23 +79,8 @@ def get_workflow_runs():
         branch = workflow_runs[0]['head_branch']
 
         # Parse the ISO 8601 timestamps
-        created_at = datetime.strptime(workflow_runs[0]['created_at'], '%Y-%m-%dT%H:%M:%SZ')
-        run_start = datetime.strptime(workflow_runs[0]['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
-        run_end = datetime.strptime(workflow_runs[0]['updated_at'], '%Y-%m-%dT%H:%M:%SZ')
-
-        pprint(workflow_runs[0])
-
-        print("\n-------------------------------------------")
-        print(f"Run Created at: {created_at}")
-        print(f"Run Started at: {run_start}")
-        print(f"Run Finished at: {run_end}")
-        
-
-        # Calculate the difference
-        time_taken = run_end - run_start
-
-        print(f"Total Run Duration: {time_taken}")
-        print("-------------------------------------------\n")
+        global run_start_time
+        run_start_time = datetime.strptime(workflow_runs[0]['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
@@ -145,10 +131,6 @@ def get_artifact_URL():
                     # add first new run artifact id to array
                     _artifactID.append(artifact['id'])
                     _download_artifacts_url[runState] = artifact.get("archive_download_url")
-                
-                # only get tf_output file for current run if it already exists (re-run)
-                # if summary_exists == True and index == 2 and "tf_compare" in artifact.get("name") and runState == "Current":
-                #     artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{runid}/artifacts/{artifact['id']}"
         else:
             print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
@@ -227,6 +209,8 @@ def compare_artifacts(artifact_files):
     global total_new_reports
     global total_reopened_reports
     global artifact_data_store
+    global run_start_time
+    global run_time_taken
 
     allTestFiles = {}
     fileCount = 1
@@ -334,6 +318,11 @@ def compare_artifacts(artifact_files):
             for prevTestFail in testFails[testRun]:
                 prev_fails_map.setdefault(prevTestFail, testFails[testRun][prevTestFail])
 
+    # get time now as workflow run end time
+    # Get current UTC time and format it as an ISO 8601 string with 'Z'
+    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    run_time_taken = timestamp - run_start_time
+
     # Ouput fails
     with open("TF_Output.txt", "w") as file:
 
@@ -351,7 +340,7 @@ def compare_artifacts(artifact_files):
         dt_object = datetime.strptime(first_fail_dict["timestamp_iso"], "%Y-%m-%dT%H:%M:%S")
         # Format it in a readable way
         file.write(f"\nArtifact Date/Time: {dt_object.strftime("%d %B, %Y at %I:%M %p")}\n")
-        file.write(f"\nTotal Run Time: {time_taken}\n")
+        file.write(f"\nTotal Run Time: {run_time_taken}\n")
         # total number of testsuites
         file.write(f"Total Testsuites: {len(first_fail_dict["testsuites"])}\n")
         file.write(f"Total Tests: {first_fail_dict['tallies']["tests"]}\n")
@@ -482,6 +471,7 @@ def compare_artifacts(artifact_files):
             if "tf_compare" in artifact.get("name"):
                 artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{artifact['id']}"
 
+
     # build JSON file content for Slack Notification
     print("\nCreating Slack JSON Stats file")
     slack_stats["text"] = f"*{RTVersion} {workflow.split(".")[0]} Test Results Summary*"
@@ -490,7 +480,7 @@ def compare_artifacts(artifact_files):
         {
             "color": "#36a64f",
             "fields": [
-                { "title": "Total Run Time", "value": f"{time_taken}", "short": True },
+                { "title": "Total Run Time", "value": f"{run_time_taken}", "short": True },
                 { "title": "Total tests", "value": str(first_fail_dict['tallies']["tests"]), "short": True },
                 { 
                     "title": "Total failed tests", 
