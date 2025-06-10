@@ -324,6 +324,7 @@ def compare_artifacts(artifact_files):
     calc_time_taken = timestamp - run_start_time
     total_run_time = timedelta(seconds=calc_time_taken.seconds)
 
+
     # Ouput fails
     with open("TF_Output.txt", "w") as file:
 
