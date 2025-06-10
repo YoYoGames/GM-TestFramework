@@ -18,8 +18,7 @@ workflow = args.workflow
 RTVersion = args.rt
 
 # this path needs to be updated to a location on server
-# baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
-baseSaveLocation = "C:/Users/shammill/Documents/YoYo Games/QA Tools/Test Framework Compare Tool"
+baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -81,6 +80,8 @@ def get_workflow_runs():
         # Parse the ISO 8601 timestamps
         global run_start_time
         run_start_time = datetime.strptime(workflow_runs[0]['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
+        # Parse the workflow run start time as datetime
+        run_start_time = run_start_time.replace(tzinfo=timezone.utc)  # make it timezone-aware
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red'}
@@ -318,10 +319,10 @@ def compare_artifacts(artifact_files):
             for prevTestFail in testFails[testRun]:
                 prev_fails_map.setdefault(prevTestFail, testFails[testRun][prevTestFail])
 
-    # get time now as workflow run end time
-    # Get current UTC time and format it as an ISO 8601 string with 'Z'
-    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
-    run_time_taken = timestamp - run_start_time
+    # Calculate the time difference
+    timestamp = datetime.now(timezone.utc)
+    calc_time_taken = timestamp - run_start_time
+    total_run_time = timedelta(seconds=calc_time_taken.seconds)
 
     # Ouput fails
     with open("TF_Output.txt", "w") as file:
@@ -340,7 +341,7 @@ def compare_artifacts(artifact_files):
         dt_object = datetime.strptime(first_fail_dict["timestamp_iso"], "%Y-%m-%dT%H:%M:%S")
         # Format it in a readable way
         file.write(f"\nArtifact Date/Time: {dt_object.strftime("%d %B, %Y at %I:%M %p")}\n")
-        file.write(f"\nTotal Run Time: {run_time_taken}\n")
+        file.write(f"\nTotal Run Time: {total_run_time}\n")
         # total number of testsuites
         file.write(f"Total Testsuites: {len(first_fail_dict["testsuites"])}\n")
         file.write(f"Total Tests: {first_fail_dict['tallies']["tests"]}\n")
@@ -480,7 +481,7 @@ def compare_artifacts(artifact_files):
         {
             "color": "#36a64f",
             "fields": [
-                { "title": "Total Run Time", "value": f"{run_time_taken}", "short": True },
+                { "title": "Total Run Time", "value": f"{total_run_time}", "short": True },
                 { "title": "Total tests", "value": str(first_fail_dict['tallies']["tests"]), "short": True },
                 { 
                     "title": "Total failed tests", 
