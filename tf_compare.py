@@ -471,7 +471,7 @@ def compare_artifacts(artifact_files):
         for index, artifact in enumerate(artifact_details, start=1):          
             # only get tf_output file for current run if it already exists (re-run)
             if "tf_compare" in artifact.get("name"):
-                artifact_data_store["artifact_web_download_url"] = f"https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{artifact['id']}"
+                artifact_data_store["artifact_web_download_url"] = f"<https://github.com/{repos[1]}/actions/runs/{_artifactRunID[0]}/artifacts/{artifact['id']}>"
 
 
     # build JSON file content for Slack Notification
@@ -498,7 +498,7 @@ def compare_artifacts(artifact_files):
                 { "title": "Total Reports Reopened", "value": f"{total_reopened_reports}", "short": True },
                 { 
                     "title": "Output file", 
-                    "value": f"<{artifact_data_store['artifact_web_download_url']}>", 
+                    "value": f"{artifact_data_store['artifact_web_download_url']}", 
                     "short": False
                 }
             ]
