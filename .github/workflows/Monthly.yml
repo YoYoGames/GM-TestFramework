@@ -50,6 +50,9 @@ jobs:
         with:
            name: tf_compare_output_file
            path: ${{ github.workspace }}\GM-TF\TF_Output.txt
+      - name: Retrieve Artifact Download URL for TF Output File
+        run: python .\get_output_file_url.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --rt ${{ github.event.inputs.RUNTIME_VERSION }}
+        working-directory: GM-TF
       - name: Send Test Stats to Slack
         uses: slackapi/slack-github-action@v2.0.0
         with:
