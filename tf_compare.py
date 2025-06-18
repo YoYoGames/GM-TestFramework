@@ -40,6 +40,7 @@ run_start_time = 0
 run_time_taken = 0
 total_new_reports = 0
 total_reopened_reports = 0
+total_existing_reports = 0
 
 # Create new_data and prev_data directories if they don't exists
 for dir in saveLocation:
@@ -209,6 +210,7 @@ def compare_artifacts(artifact_files):
 
     global total_new_reports
     global total_reopened_reports
+    global total_existing_reports
     global artifact_data_store
     global run_start_time
     global run_time_taken
@@ -310,6 +312,7 @@ def compare_artifacts(artifact_files):
             if f2Fails not in testFails["f1"]:
                 f2_Fails.append(testFails["f2"][f2Fails])
     else:
+        # store fails that only appear in YYC
         for f1Fails in testFails["f1"]:
             ALLFails.append(testFails["f1"][f1Fails])
 
@@ -327,6 +330,9 @@ def compare_artifacts(artifact_files):
 
     # Ouput fails
     with open("TF_Output.txt", "w") as file:
+
+        failsWrapper = [ALLFails, f1_Fails, f2_Fails]
+        totalFails = (len(ALLFails) + len(f1_Fails) + len(f2_Fails))
 
         file.write("\n****************************************************************************************\n")
         file.write("******************************* TEST FRAMEWORK FAILURES ********************************\n")
@@ -348,12 +354,14 @@ def compare_artifacts(artifact_files):
         file.write(f"Total Tests: {first_fail_dict['tallies']["tests"]}\n")
         file.write(f"Total Assertions: {first_fail_dict['tallies']["assertions"]}\n")
 
-        file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
+        # file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
+
+        file.write(f"Total Failed Tests: ({totalFails}) = ({round((totalFails / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
+        
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
 
         # iterate through each test suite
         new_fails_map = {}
-        failsWrapper = [ALLFails, f1_Fails, f2_Fails]
         compiler = ["VM and YYC", "VM", "YYC"]
         testCounter = 1
 
@@ -486,7 +494,7 @@ def compare_artifacts(artifact_files):
                 { "title": "Total tests", "value": str(first_fail_dict['tallies']["tests"]), "short": True },
                 { 
                     "title": "Total failed tests", 
-                    "value": f"{first_fail_dict['tallies']['failures']} ({round((first_fail_dict['tallies']['failures'] / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
+                    "value": f"{totalFails} ({round((totalFails / first_fail_dict['tallies']['tests']) * 100, 2)}%)", 
                     "short": True
                 },
                 { 
@@ -496,6 +504,7 @@ def compare_artifacts(artifact_files):
                 },
                 { "title": "Total Reports Created", "value": f"{total_new_reports}", "short": True },
                 { "title": "Total Reports Reopened", "value": f"{total_reopened_reports}", "short": True },
+                { "title": "Total Reports Unresolved (>= 7 Days)", "value": f"{total_existing_reports}", "short": True },
                 { 
                     "title": "Output file", 
                     "value": f"{artifact_data_store['artifact_web_download_url']}", 
@@ -570,6 +579,7 @@ def log_fail(testName, failDetails, compiler, test_code_details):
 
     global total_new_reports
     global total_reopened_reports
+    global total_existing_reports
 
     # ENCODED_TERM = urllib.parse.quote(f"{compiler} {testName}", safe="")
     
@@ -626,6 +636,8 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                         print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
                 else:
                     print(f"Issue: {report['number']} - {testName}, could not be reopened")
+
+            #  the found report is still open and unresolved
             elif report['state'] == 'open':
                 # comment on issue that the issue still occurs
                 # only comment if last comment from the script was at least 7 days old
@@ -649,6 +661,8 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                                 comment_data = {
                                             "body": f"TestFramework reports this still fails in [{compiler}] Runtime Version: {RTVersion}"
                                         }
+                                # increment the tally by 1
+                                total_existing_reports += 1
                         else:
                             for comment in sorted_comments:
 
@@ -662,6 +676,9 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                                         comment_data = {
                                             "body": f"TestFramework reports this still fails in [{compiler}] Runtime Version: {RTVersion}"
                                         }
+
+                                        # increment the tally by 1
+                                        total_existing_reports += 1
 
                                         response = requests.post(report['comments_url'], headers=headers, json=comment_data)
 

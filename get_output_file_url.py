@@ -1,10 +1,11 @@
-import os, json, requests
+import os, json, requests, time
 import argparse
 
 # Define the directory path and file path
 dir_path = ""
-file_path = os.path.join(dir_path, "slack_stats.json")
-new_output_link = "<https://example.com/new-output-file>"
+slack_file_path = os.path.join(dir_path, "slack_stats.json")
+output_file_path = os.path.join(dir_path, "TF_Output.txt")
+new_output_link = ""
 artifactRunID = 0
 
 parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
@@ -16,47 +17,89 @@ args = parser.parse_args()
 github_token = args.github_token
 workflow = args.workflow
 
+
+
 headers = {}
 if github_token:
     headers['Authorization'] = f'Bearer {github_token}'
     headers['Accept'] = 'application/vnd.github.v3+json'
 
-try:
+# Check if path exists (could be a file or directory)
+if os.path.exists(output_file_path):
+    print("TF Output file located.")
 
-    response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{workflow}/runs?per_page=1", headers=headers, stream=True)
+    # keep waiting until the output file artifact is ready
+    def wait_for_artifact_ready(artifact_id, token, timeout=60, interval=5):
+        """
+        Waits until the artifact is downloadable or timeout occurs.
+        """
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/vnd.github+json"
+        }
 
-    if response.status_code == 200:
-        # Parse the JSON response
-        artifact_data = response.json()
-        for run in artifact_data['workflow_runs']:
-            artifactRunID = run['id']
+        url = f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/runs/{artifactRunID}/artifacts"
 
-    artifact_url = f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/runs/{artifactRunID}/artifacts"
-    response = requests.get(artifact_url)
-    if response.status_code == 200:
-        # Parse the JSON response
-        artifact_data = response.json()
-        artifact_details = artifact_data.get("artifacts", [])
-        for artifact in artifact_details:          
-            # only get tf_output file for current run if it already exists (re-run)
-            if "tf_compare" in artifact.get("name"):
-                new_output_link = f"https://github.com/YoYoGames/GM-TestFramework/actions/runs/{artifactRunID}/artifacts/{artifact['id']}"
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            response = requests.get(url, headers=headers)
 
-    # Load the JSON data from the file
-    with open(file_path, "r") as file:
-        data = json.load(file)
+            if response.status_code == 200:
+                artifact_data = response.json()
+                artifact_details = artifact_data.get("artifacts", [])
+                # if artifact_data.get("expired") is False:
+                for artifact in artifact_details:          
+                    # only get tf_output file for current run if it already exists (re-run)
+                    if "tf_compare" in artifact.get("name"):
+                        return f"https://github.com/YoYoGames/GM-TestFramework/actions/runs/{artifactRunID}/artifacts/{artifact['id']}"
+            elif response.status_code == 404:
+                # Artifact not found yet – keep trying
+                pass
+            else:
+                print(f"Unexpected error: {response.status_code}")
+                return False
 
-    # Update the value
-    for field in data["attachments"][0]["fields"]:
-        if field["title"] == "Output file":
-            field["value"] = f"<{new_output_link}>"
-            break
+            print("Waiting for artifact to be ready...")
+            time.sleep(interval)
 
-    # Save the updated JSON back to the file
-    with open(file_path, "w") as file:
-        json.dump(data, file, indent=4)
+        print("Timeout: Artifact not ready in time.")
+        return False
 
-    print("Update successful.")
 
-except Exception as e:
-    print({"error": str(e)})
+    try:
+        response = requests.get(f"https://api.github.com/repos/YoYoGames/GM-TestFramework/actions/workflows/{workflow}/runs?per_page=1", headers=headers, stream=True)
+
+        if response.status_code == 200:
+            # Parse the JSON response
+            artifact_data = response.json()
+            for run in artifact_data['workflow_runs']:
+                artifactRunID = run['id']
+
+        new_output_link = wait_for_artifact_ready(artifactRunID, github_token)
+
+        if (new_output_link):
+
+            # Load the JSON data from the file
+            with open(slack_file_path, "r") as file:
+                data = json.load(file)
+
+            # Update the value
+            for field in data["attachments"][0]["fields"]:
+                if field["title"] == "Output file":
+                    print(f"Output file URL: {new_output_link}")
+                    field["value"] = new_output_link
+                    break
+
+            # Save the updated JSON back to the file
+            with open(slack_file_path, "w") as file:
+                json.dump(data, file, indent=4)
+
+            print("Slack Stats JSON updated successfully.")
+
+    except Exception as e:
+        print({"error": str(e)})
+else:
+    print("TF Output file does not exist.")
+
+
+
