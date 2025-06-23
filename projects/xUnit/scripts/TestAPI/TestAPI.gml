@@ -121,7 +121,7 @@ function test_end(_forcedResult = TestResult.Unset) {
 	
 	// Run the 'ev_cleanup' in-place (if there is one)
 	test_run_event("ev_cleanup");
-	instance_destroy(id, true);
+	instance_destroy(self, true);
 	
 	_test.postRunFunc();
 	
