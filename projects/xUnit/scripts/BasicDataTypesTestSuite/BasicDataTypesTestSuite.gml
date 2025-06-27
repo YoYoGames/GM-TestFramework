@@ -460,26 +460,20 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	});
 	
 	addFact("int64_test #16", function() {
+		//#16 int64 ( struct ), should throw
+		assert_throw(function() {
+			var input = { key: "value" };
+			var output = int64(input);
+		}, "int64 ( struct:local ), should throw")
 		
-		var input, output;
-
-		//#16 int64 ( struct ), should be NaN
-		input = { key: "value" };
-		output = int64(input);
-		assert_equals(output, 0, "int64 ( struct:local ), should be 0");
-		assert_typeof(output, "int64", "int64 ( struct:local ), should return int64 type");
-			
 	});
 	
 	addFact("int64_test #17", function() {
-		
-		var input, output;
-
-		//#17 int64 ( function ), should be NaN
-		input = function() {};
-		output = int64(input);
-		assert_equals(output, 0, "int64 ( function:local ), should be NaN 0");
-		assert_typeof(output, "int64", "int64 ( function:local ), should return int64 type");
+		//#17 int64 ( function ), should throw
+		assert_throw(function() {
+			var input = function(){};
+			var output = int64(input);
+		}, "int64 ( function:local ), should throw")
 			
 	});
 	
@@ -945,26 +939,20 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	
 	addFact("real_test #14", function() {
 			
-		var input, output;
-
-		//#14 real ( struct ), should be NaN
-		input = { key: "value" };
-		output = real(input);
-		assert_nan(output, "real ( struct:local ), should be NaN");
-		assert_typeof(output, "number", "real ( struct:local ), should return number type");
-		
+		//#14 real ( struct ), should throw
+		assert_throw(function() {
+			var input = { key: "value" };
+			var output = real(input);
+		}, "real ( struct:local ), should throw")
 	});
 	
 	addFact("real_test #15", function() {
 			
-		var input, output;
-
-		//#15 int64 ( function ), should be NaN
-		input = function() {};
-		output = real(input);
-		assert_nan(output, "real ( function:local ), should be NaN");
-		assert_typeof(output, "number", "real ( function:local ), should return number type");
-		
+		//#15 int64 ( function ), should throw
+		assert_throw(function() {
+			var input = function() {};
+			var output = real(input);
+		}, "real ( function:local ), should throw");		
 	});
 	
 	addFact("real_test #16", function() {
