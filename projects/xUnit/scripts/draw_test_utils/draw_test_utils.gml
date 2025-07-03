@@ -102,10 +102,16 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 		false, false, 0, 0);
 
 	// Check that an expected sprite exists for this test
-	if (file_exists(_test_name + "Expected.png"))
+	var _expected_fname = _test_name + "Expected.png";
+	var _expected_file = file_bin_open(_expected_fname, 2);
+	var _expected_size = file_bin_size(_expected_file);
+	file_bin_close(_expected_file);
+
+	if (file_exists(_expected_fname))
 	{
 		// check the test sprite against the expected sprite (showing the fail message in the assert if they don't match)
-		var _expected_sprite = sprite_add(_test_name + "Expected.png", 1, false, false, 0, 0);
+		log_debug($"end_draw_comparison :: adding sprite \"{_expected_fname}\", size {_expected_size} bytes");
+		var _expected_sprite = sprite_add(_expected_fname, 1, false, false, 0, 0);
 		if (!assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
 		{
 			_result = false;
@@ -114,7 +120,7 @@ function end_draw_comparison(_test_surface, _test_name, _fail_message) {
 	}
 	else
 	{
-		_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _test_name + "Expected.png)");
+		_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _expected_fname + ")");
 	}
 	
 	// Delete created resources
@@ -182,10 +188,16 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 			false, false, 0, 0);
 
 		// Check that an expected sprite exists for this test
-		if (file_exists(_test_name + "Expected" + string(i) + ".png"))
+		var _expected_fname = _test_name + "Expected" + string(i) + ".png";
+		var _expected_file = file_bin_open(_expected_fname, 2);
+		var _expected_size = file_bin_size(_expected_file);
+		file_bin_close(_expected_file);
+
+		if (file_exists(_expected_fname))
 		{
 			// check the test sprite against the expected sprite (showing the fail message in the assert if they don't match)
-			var _expected_sprite = sprite_add(_test_name + "Expected" + string(i) + ".png", 1, false, false, 0, 0);
+			log_debug($"end_draw_comparison :: adding sprite \"{_expected_fname}\", size {_expected_size} bytes");
+			var _expected_sprite = sprite_add(_expected_fname, 1, false, false, 0, 0);
 			if (!assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
 			{
 				_result = false;
@@ -194,7 +206,7 @@ function end_draw_comparison_ext(_test_surfaces, _test_name, _fail_message) {
 		}
 		else
 		{
-			_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _test_name + "Expected" + string(i) + ".png)");
+			_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _expected_fname + ")");
 		}
 	
 		// Delete created resources
