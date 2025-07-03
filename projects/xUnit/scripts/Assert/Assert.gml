@@ -839,8 +839,13 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		var _height = surface_get_height(_surface1);
 
 		// If the surfaces aren't the same size then they can't be equal
-		if (surface_get_width(_surface2) != _width
-			|| surface_get_height(_surface2) != _height) {
+		var _width_other = surface_get_width(_surface2);
+		var _height_other = surface_get_height(_surface2);
+
+		log_debug($"_surfaceEqualsImpl :: comparing surfaces - {_width}x{_height}px vs {_width_other}x{_height_other}px");
+
+		if (_width_other != _width || _height_other != _height) {
+			log_error("_surfaceEqualsImpl :: surface sizes aren't the same - returning false!");
 			return false;
 		}
 
@@ -862,6 +867,9 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		gpu_set_blendenable(false);
 		gpu_set_tex_filter(false);
 		gpu_set_tex_repeat(false);
+		gpu_set_zwriteenable(false);
+		gpu_set_ztestenable(false);
+
 
 		// Get per-pixel diff of the two surfaces
 		var _surface_diff = surface_create(_width, _height, _format);
@@ -880,6 +888,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 
 		var _u_texture_size = shader_get_uniform(shSurfaceDiffDownsample, "u_texture_size");
 		var _surface_prev = _surface_diff;
+		var _downsample_count = 0;
 
 		while (_width > 1 || _height > 1) {
 			var _width_prev = _width;
@@ -896,7 +905,11 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 
 			surface_free(_surface_prev);
 			_surface_prev = _surface_temp;
+
+			++_downsample_count;
 		}
+
+		log_debug($"_surfaceEqualsImpl :: downsampled to 1x1px in {_downsample_count} steps");
 
 		shader_reset();
 
@@ -911,6 +924,9 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 
 		// Calculate the error percentage
 		var _error = (_diff_sum / (_width_original * _height_original * 4)) * 100;
+		var _result = (_error < _max_error);
+
+		log_debug($"_surfaceEqualsImpl :: resulting error {_error}% out of maximum allowed {_max_error}% - returning {_result ? "true" : "false"}");
 
 		// Free created resources from memory
 		buffer_delete(_buffer);
@@ -919,7 +935,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		// Restore previous GPU state
 		gpu_pop_state();
 
-		return (_error < _max_error);
+		return _result;
 	}
 
 	/// @function surfaceEquals(surface1, surface2, max_error, description)
