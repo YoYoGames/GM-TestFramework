@@ -376,9 +376,16 @@ def compare_artifacts(artifact_files):
             
                 for failTest in fArray:
 
+                    # get code
+                    test_code_details = get_code(failTest["testname"], failTest["testSuite"])
+
+                    # log fail as an issue on GitHub - return report URL
+                    bug_report_url = log_fail(failTest["testname"], failTest, compiler[cIndex], test_code_details)
+
                     file.write("\n----------------------------------------------------------------------------------------\n")
                     
                     file.write(f"\nFail No: {testCounter}\n")
+                    file.write(f"Bug Report URL: {bug_report_url}\n")
                     file.write(f"Testsuite Name: {failTest["testSuite"]}\n")
 
                     if failTest['errorType'] == 'error':
@@ -404,12 +411,12 @@ def compare_artifacts(artifact_files):
                         file.write(f"Script: {failTest['errorDetails']['script']}\n")
                     
 
-                    # get code
-                    test_code_details = get_code(failTest["testname"], failTest["testSuite"])
+                    # # get code
+                    # test_code_details = get_code(failTest["testname"], failTest["testSuite"])
 
 
-                    # log fail as an issue on GitHub
-                    log_fail(failTest["testname"], failTest, compiler[cIndex], test_code_details)
+                    # # log fail as an issue on GitHub
+                    # log_fail(failTest["testname"], failTest, compiler[cIndex], test_code_details)
 
                     # increment test number by 1
                     testCounter +=1
@@ -610,6 +617,7 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                 if response.status_code == 200:
                     print("This issue is currently marked as closed!")
                     print(f"Issue: {report['number']} - {testName}, successfully reopened")
+                    print(f"Bug Report URL{report['url']}")
                     # add 1 to the reopened count
                     total_reopened_reports += 1
                     # add new comment to bug report
@@ -632,8 +640,12 @@ def log_fail(testName, failDetails, compiler, test_code_details):
 
                     if response.status_code == 201:
                         print(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
+                        print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                        break
                     else:
                         print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
+                        print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                        break
                 else:
                     print(f"Issue: {report['number']} - {testName}, could not be reopened")
 
@@ -683,11 +695,18 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                                         response = requests.post(report['comments_url'], headers=headers, json=comment_data)
 
                                         if response.status_code == 201:
-                                            print(f"\nIssue: {report['number']} - {testName}, new comment successfully added to report")
+                                            print(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
+                                            print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                                            break
                                         else:
-                                            print(f"\nIssue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
+                                            print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
+                                            print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                                            break
                     else:
                         print(f"Error: {response.status_code} - {response.json()}")
+            
+            # return existing bug report url
+            return f"https://github.com/{issue_search[1]}/issues/{report['number']}"
     else:
         # new report to be written up
         # Look at adding the new reports to a new holding repo
@@ -771,8 +790,11 @@ def log_fail(testName, failDetails, compiler, test_code_details):
         if response.status_code == 201:
             issue_data = response.json()
             print(f"Issue: {issue_data['number']} - {testName}, successfully created!")
+            print(f"Bug Report URL: {issue_data['url']}")
             # add 1 to the new report created count
             total_new_reports += 1
+
+    return f"https://github.com/{issue_search[1]}/issues/{issue_data['number']}"
 
 
 # search for current issue
