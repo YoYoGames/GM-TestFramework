@@ -305,6 +305,7 @@
     {"id":{"name":"Logger","path":"scripts/Logger/Logger.yy",},},
     {"id":{"name":"LoggerAPI","path":"scripts/LoggerAPI/LoggerAPI.yy",},},
     {"id":{"name":"make_even","path":"scripts/make_even/make_even.yy",},},
+    {"id":{"name":"make_pow2","path":"scripts/make_pow2/make_pow2.yy",},},
     {"id":{"name":"normalize","path":"scripts/normalize/normalize.yy",},},
     {"id":{"name":"os_type_to_string","path":"scripts/os_type_to_string/os_type_to_string.yy",},},
     {"id":{"name":"platform_filters","path":"scripts/platform_filters/platform_filters.yy",},},
