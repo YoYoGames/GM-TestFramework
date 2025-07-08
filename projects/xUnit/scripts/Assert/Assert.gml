@@ -853,9 +853,13 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		var _width_original = _width;
 		var _height_original = _height;
 
-		// Round the size up to closest even number to make downsampling easier
-		_width = make_even(_width);
-		_height = make_even(_height);
+		// Round the size up to closest power-of-two value
+		_width = make_pow2(_width);
+		_height = make_pow2(_height);
+
+		if (_width != _width_original || _height != _height_original) {
+			log_debug($"_surfaceEqualsImpl :: rounded size up to the closest power-of-two - {_width}x{_height}px");
+		}
 
 		var _format = surface_rgba16float;
 		if (!surface_format_is_supported(_format)) {
@@ -867,9 +871,9 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		gpu_set_blendenable(false);
 		gpu_set_tex_filter(false);
 		gpu_set_tex_repeat(false);
+		gpu_set_tex_mip_enable(mip_off);
 		gpu_set_zwriteenable(false);
 		gpu_set_ztestenable(false);
-
 
 		// Get per-pixel diff of the two surfaces
 		var _surface_diff = surface_create(_width, _height, _format);
