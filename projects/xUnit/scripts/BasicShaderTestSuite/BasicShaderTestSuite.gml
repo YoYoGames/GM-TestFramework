@@ -864,7 +864,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			verify_shader_compiled(test_shader);
 			
 			// Generate rectangle data to draw, filling the window
-			rect = new Rect(0, 0, window_get_width(), window_get_height());
+			rect = new Rect(0, 0, 256, 256);
 			
 			// Get window resolution uniform handle
 			u_resolution = shader_get_uniform(test_shader, "u_resolutionPS");
@@ -875,12 +875,12 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
 			
 			// Start draw buffer comparison
-			var _test_surface = start_draw_comparison();
+			var _test_surface = start_draw_comparison(rect.right, rect.bottom);
 			
 			// Start using shader
 			shader_set(test_shader);
 				// Set the resolution uniform
-				shader_set_uniform_f(u_resolution, window_get_width(), window_get_height());
+				shader_set_uniform_f(u_resolution, rect.right, rect.bottom);
 				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
