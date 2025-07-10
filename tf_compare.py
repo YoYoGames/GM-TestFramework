@@ -1,4 +1,13 @@
 import requests, zipfile, sys, json, os, glob, re, shutil, time, fnmatch
+from dotenv import load_dotenv
+# Load the .env file
+load_dotenv()
+
+# Access the variables
+baseSaveLocation = os.getenv("BASE_SAVE_LOCATION")
+
+print("Base Save Location:", baseSaveLocation)
+
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 import argparse
@@ -18,7 +27,7 @@ workflow = args.workflow
 RTVersion = args.rt
 
 # this path needs to be updated to a location on server
-baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
+# baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -47,8 +56,6 @@ for dir in saveLocation:
     directory = Path(f"{baseSaveLocation}/{dir}")
     directory.mkdir(parents=True, exist_ok=True)
 
-
-
 # FUNCTION LIST:
 # 1. get_workflow_runs
 # 2. get_artifact_URL
@@ -59,7 +66,6 @@ for dir in saveLocation:
 # 7. log_fail
 # 8. get_code
                                     
-
 # Get the latest 2 workflow run
 def get_workflow_runs():
 
