@@ -1,6 +1,5 @@
 workspace/
 user/
-.env
 .venv/
 __pycache__/
 projects/xUnit/Build
