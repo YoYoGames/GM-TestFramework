@@ -18,7 +18,8 @@ workflow = args.workflow
 RTVersion = args.rt
 
 # this path needs to be updated to a location on server
-baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
+# baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
+baseSaveLocation = "C:/Users/shammill/Documents/YoYo Games/QA Tools/Test Framework Compare Tool"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -349,15 +350,11 @@ def compare_artifacts(artifact_files):
         # Format it in a readable way
         file.write(f"\nArtifact Date/Time: {dt_object.strftime("%d %B, %Y at %I:%M %p")}\n")
         file.write(f"\nTotal Run Time: {total_run_time}\n")
-        # total number of testsuites
+        # total number of testsuites and fail stats
         file.write(f"Total Testsuites: {len(first_fail_dict["testsuites"])}\n")
         file.write(f"Total Tests: {first_fail_dict['tallies']["tests"]}\n")
         file.write(f"Total Assertions: {first_fail_dict['tallies']["assertions"]}\n")
-
-        # file.write(f"Total Failed Tests: ({first_fail_dict['tallies']["failures"]}) = ({round((first_fail_dict['tallies']["failures"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
-
         file.write(f"Total Failed Tests: ({totalFails}) = ({round((totalFails / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
-        
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
 
         # iterate through each test suite
@@ -409,14 +406,6 @@ def compare_artifacts(artifact_files):
                         file.write(f"Message: {failTest['errorDetails']['message']}\n")
                         file.write(f"Long Message: {failTest['errorDetails']['longMessage']}\n")
                         file.write(f"Script: {failTest['errorDetails']['script']}\n")
-                    
-
-                    # # get code
-                    # test_code_details = get_code(failTest["testname"], failTest["testSuite"])
-
-
-                    # # log fail as an issue on GitHub
-                    # log_fail(failTest["testname"], failTest, compiler[cIndex], test_code_details)
 
                     # increment test number by 1
                     testCounter +=1
@@ -617,7 +606,7 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                 if response.status_code == 200:
                     print("This issue is currently marked as closed!")
                     print(f"Issue: {report['number']} - {testName}, successfully reopened")
-                    print(f"Bug Report URL{report['url']}")
+                    print(f"Bug Report URL{report['html_url']}")
                     # add 1 to the reopened count
                     total_reopened_reports += 1
                     # add new comment to bug report
@@ -640,11 +629,11 @@ def log_fail(testName, failDetails, compiler, test_code_details):
 
                     if response.status_code == 201:
                         print(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
-                        print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                        # print(f"Bug Report URL: {report['html_url']}")
                         break
                     else:
                         print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
-                        print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                        # print(f"Bug Report URL: {report['html_url']}")
                         break
                 else:
                     print(f"Issue: {report['number']} - {testName}, could not be reopened")
@@ -696,17 +685,18 @@ def log_fail(testName, failDetails, compiler, test_code_details):
 
                                         if response.status_code == 201:
                                             print(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
-                                            print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                                            # print(f"Bug Report URL: {report['html_url']}")
                                             break
                                         else:
                                             print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
-                                            print(f"Bug Report URL: https://github.com/{issue_search[1]}/issues/{report['number']}")
+                                            # print(f"Bug Report URL: {report['html_url']}")
                                             break
                     else:
                         print(f"Error: {response.status_code} - {response.json()}")
             
             # return existing bug report url
-            return f"https://github.com/{issue_search[1]}/issues/{report['number']}"
+            print(f"Bug Report URL: {report['html_url']}")
+            return f"{report['html_url']}"
     else:
         # new report to be written up
         # Look at adding the new reports to a new holding repo
@@ -794,7 +784,7 @@ def log_fail(testName, failDetails, compiler, test_code_details):
             # add 1 to the new report created count
             total_new_reports += 1
 
-    return f"https://github.com/{issue_search[1]}/issues/{issue_data['number']}"
+    return f"{issue_data['html_url']}"
 
 
 # search for current issue
