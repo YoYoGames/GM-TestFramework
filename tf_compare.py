@@ -18,8 +18,7 @@ workflow = args.workflow
 RTVersion = args.rt
 
 # this path needs to be updated to a location on server
-# baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
-baseSaveLocation = "C:/Users/shammill/Documents/YoYo Games/QA Tools/Test Framework Compare Tool"
+baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
