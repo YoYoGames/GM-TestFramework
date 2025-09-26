@@ -181,18 +181,16 @@ class IgorRunTestsCommand(BaseCommand):
             max_retries = 10
             # If expected version doesn't match actual version, try to get the exact version for 10 minutes 
             while expt_runtime_version != runtime_version and retries < max_retries:
-                # If we are returning a version older than the returned one exit the loop
-                # This should't really happen unless the version we requested doesn't exist at all
-                if self.compare_versions(expt_runtime_version, runtime_version) < 0:
-                    break
+                LOGGER.info(f"The requested version '{expt_runtime_version}' is not available, retrying in 1 minute")
 
                 # Wait one minute before retrying
                 await asyncio.sleep(60)
                 runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
                 retries += 1
 
-            # Assert the versions match or abort execution
-            assert(self.compare_versions(expt_runtime_version, runtime_version) == 0)
+            if expt_runtime_version != runtime_version:
+                LOGGER.error(f"The requested version '{expt_runtime_version}' is not available.")
+                exit(1)
 
         # Execute igor to install the requested runtime version
         targets = self.get_targets()
@@ -384,13 +382,13 @@ class IgorRunTestsCommand(BaseCommand):
     async def igor_get_license(self, access_key: str, output_path: Path):
         await async_utils.run_and_capture(IGOR_PATH, [f'-ak={access_key}', f'-of={output_path}', 'Runtime', 'FetchLicense'])
 
-    async def igor_get_runtime_version(self, user_folder: Path, feed: str, version: str):
+    async def igor_get_runtime_version(self, user_folder: Path, feed: str, expected_version: str):
         # This will prevent browser cache
         cacheBust = random.randint(111111111, 999999999)
         # Setup arguments
         args = [f'/uf={user_folder}', f'/ru={feed}?cachebust={cacheBust}', 'Runtime', 'Info']
-        if version:
-            args.append(version)
+        if expected_version:
+            args.append(expected_version)
         
         # Execute command
         result = await async_utils.run_and_capture(IGOR_PATH, args)
@@ -399,6 +397,8 @@ class IgorRunTestsCommand(BaseCommand):
         match = pattern.search(result)
         if match:
             version = match.group(1)
+            LOGGER.info(f"Expected version: {expected_version if expected_version else 'NA'}")
+            LOGGER.info(f"Available version: {version}")
             return version
         else:
             return None
