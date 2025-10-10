@@ -65,7 +65,6 @@
   ],
   "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -204,7 +203,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"9.9.1.945",
+    "IDEVersion":"2024.1300.0.785",
   },
   "name":"xUnit",
   "resources":[
@@ -248,6 +247,7 @@
     {"id":{"name":"BasicAudioTestSuite","path":"scripts/BasicAudioTestSuite/BasicAudioTestSuite.yy",},},
     {"id":{"name":"BasicBase64TestSuite","path":"scripts/BasicBase64TestSuite/BasicBase64TestSuite.yy",},},
     {"id":{"name":"BasicBufferTestSuite","path":"scripts/BasicBufferTestSuite/BasicBufferTestSuite.yy",},},
+    {"id":{"name":"BasicCompileEvalConsistencyTestSuite","path":"scripts/BasicCompileEvalConsistencyTestSuite/BasicCompileEvalConsistencyTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresGridTestSuite","path":"scripts/BasicDataStructuresGridTestSuite/BasicDataStructuresGridTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresListTestSuite","path":"scripts/BasicDataStructuresListTestSuite/BasicDataStructuresListTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresMapTestSuite","path":"scripts/BasicDataStructuresMapTestSuite/BasicDataStructuresMapTestSuite.yy",},},

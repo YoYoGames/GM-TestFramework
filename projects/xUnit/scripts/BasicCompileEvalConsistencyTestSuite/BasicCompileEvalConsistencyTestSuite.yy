@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"BasicCompileEvalConsistencyTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BasicCompileEvalConsistencyTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
