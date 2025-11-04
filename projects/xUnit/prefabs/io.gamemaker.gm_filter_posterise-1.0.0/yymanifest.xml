@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_posterise-1.0.0.resource_order</file>
+	<file md5="8FCB45C1DF3846C8535E3FC379AB6643">io.gamemaker.gm_filter_posterise-1.0.0.yyp</file>
+	<file md5="BD3E207126F9465E1AD4F356E2E9404B">prefab.json</file>
+	<file md5="D2CE45CB30A6A1537CC83532BC586245">datafiles\filterdef.json</file>
+	<file md5="F2CF5B03B973BF33E3AD1D83D3B408F6">datafiles\_filter_posterise.fxb</file>
+	<file md5="7CCFFBEABA07126E39778368E49BD9B9">shaders\_filter_posterise_shader\_filter_posterise_shader.fsh</file>
+	<file md5="6E4DB77F5EE3073001374788C14B1B95">shaders\_filter_posterise_shader\_filter_posterise_shader.vsh</file>
+	<file md5="B8D2D3F3811B017D5BAC321B21A41AE5">shaders\_filter_posterise_shader\_filter_posterise_shader.yy</file>
+</files>

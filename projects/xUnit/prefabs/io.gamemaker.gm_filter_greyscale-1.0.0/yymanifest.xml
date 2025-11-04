@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_greyscale-1.0.0.resource_order</file>
+	<file md5="FB28B967830AFFA4C2FF203D9BBC2B67">io.gamemaker.gm_filter_greyscale-1.0.0.yyp</file>
+	<file md5="A240A3383A6979B27AD92BB3042189E5">prefab.json</file>
+	<file md5="35EBB1EF21A287DC85E1DB3DC36CA497">datafiles\filterdef.json</file>
+	<file md5="A01FDB50F7C4BA82F8DE8034D689AFC9">datafiles\_filter_greyscale.fxb</file>
+	<file md5="52E9490B32960E0FDA42AAA518AA1588">shaders\_filter_greyscale_shader\_filter_greyscale_shader.fsh</file>
+	<file md5="6E4DB77F5EE3073001374788C14B1B95">shaders\_filter_greyscale_shader\_filter_greyscale_shader.vsh</file>
+	<file md5="3E691E48E53432DEC6E812921DD54682">shaders\_filter_greyscale_shader\_filter_greyscale_shader.yy</file>
+</files>

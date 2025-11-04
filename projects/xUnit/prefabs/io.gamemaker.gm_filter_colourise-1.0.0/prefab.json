@@ -1,0 +1,11 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Colourise Filter",
+  "DisplayName":"Colourise Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_colourise_shader","Description":"Shader","DisplayName":"_filter_colourise_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_colourise",
+  "Version":"1.0.0",
+}

@@ -1,0 +1,16 @@
+{
+    "name": "_filter_posterise",
+    "displayname": "filter_posterise",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_ColourLevels",
+            "displayname": "Colour Levels",
+            "type": "float",
+            "elements": 1,
+			"default": 4,
+            "min": 1,
+            "max": 32
+        }
+	]
+}

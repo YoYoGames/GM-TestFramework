@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"_filter_edgedetect_shader",
+  "name":"_filter_edgedetect_shader",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

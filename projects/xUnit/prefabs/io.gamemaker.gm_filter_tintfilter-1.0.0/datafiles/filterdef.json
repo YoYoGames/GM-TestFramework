@@ -1,0 +1,18 @@
+{
+    "name": "_filter_tintfilter",
+    "displayname": "filter_tintfilter",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_TintCol",
+            "displayname": "Tint colour",
+            "type": "float",
+			"gadget": "colour",
+            "elements": 4,
+            "arraysize": 0,
+            "defaults": [ 1.0, 1.0, 1.0, 1.0 ],
+            "min": [ 0.0, 0.0, 0.0, 1.0 ],
+            "max": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+    ]
+}

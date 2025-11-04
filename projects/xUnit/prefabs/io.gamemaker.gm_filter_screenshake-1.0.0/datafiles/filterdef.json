@@ -1,0 +1,39 @@
+{
+    "name": "_filter_screenshake",
+    "displayname": "filter_screenshake",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_Magnitude",
+            "displayname": "Magnitude",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 10.0,
+            "min": 0.0,
+            "max": 512.0
+        },
+		
+		{
+            "name": "g_ShakeSpeed",
+            "displayname": "Shake Speed",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 0.25,
+            "min": 0.0,
+            "max": 4.0,
+			"convertValueToTimeModulated": 1.0
+        },
+		
+		{
+            "name": "g_NoiseTexture",
+            "displayname": "Noise Texture",
+            "type": "sampler",
+            "elements": 1,
+			"arraysize": 0,
+			"default": "_filter_screenshake_noise",
+            "options": "repeat|filter"
+        }
+    ]
+}

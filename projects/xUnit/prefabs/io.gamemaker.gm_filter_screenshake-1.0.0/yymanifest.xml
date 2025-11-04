@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_screenshake-1.0.0.resource_order</file>
+	<file md5="34BC31EC1CA3E3D38359954E13985767">io.gamemaker.gm_filter_screenshake-1.0.0.yyp</file>
+	<file md5="4D56075FC80793577C089D58A435933A">prefab.json</file>
+	<file md5="2E5EB85AD5B7E9E6A17BEE3CBF6F40F8">datafiles\filterdef.json</file>
+	<file md5="D571CECC2F3B979C39D733796EF853D7">datafiles\_filter_screenshake.fxb</file>
+	<file md5="80EA813C906246847C8CAC10886FFF8E">datafiles\_filter_screenshake_noise.png</file>
+	<file md5="0E86932A286348805C45194F7251DB80">shaders\_filter_screenshake_shader\_filter_screenshake_shader.fsh</file>
+	<file md5="3C1DD4789CAA2101CBCEED2E51CEA132">shaders\_filter_screenshake_shader\_filter_screenshake_shader.vsh</file>
+	<file md5="20F57D51DF8517338E5D05893E9A15D9">shaders\_filter_screenshake_shader\_filter_screenshake_shader.yy</file>
+	<file md5="80EA813C906246847C8CAC10886FFF8E">sprites\_filter_screenshake_noise\fad9e5b8-2537-47dd-bbc6-ba905c046d46.png</file>
+	<file md5="80EA813C906246847C8CAC10886FFF8E">sprites\_filter_screenshake_noise\_filter_screenshake_noise.png</file>
+	<file md5="C3E1E1EEF86CA3D549AFDF746428E821">sprites\_filter_screenshake_noise\_filter_screenshake_noise.yy</file>
+	<file md5="80EA813C906246847C8CAC10886FFF8E">sprites\_filter_screenshake_noise\layers\fad9e5b8-2537-47dd-bbc6-ba905c046d46\63910b92-5d66-41d8-9e47-0f4ae263ea5a.png</file>
+</files>

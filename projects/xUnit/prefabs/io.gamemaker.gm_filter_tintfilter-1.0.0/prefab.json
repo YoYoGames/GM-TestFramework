@@ -1,0 +1,11 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Tint Filter",
+  "DisplayName":"Tint Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_tintfilter_shader","Description":"Shader","DisplayName":"_filter_tintfilter_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_tintfilter",
+  "Version":"1.0.0",
+}
