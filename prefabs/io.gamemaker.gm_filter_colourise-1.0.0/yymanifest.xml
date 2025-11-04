@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_colourise-1.0.0.resource_order</file>
+	<file md5="BFC31BC32B37777ABB47AD410B125E6D">io.gamemaker.gm_filter_colourise-1.0.0.yyp</file>
+	<file md5="1EB0A294F43F7CB49EB4A8C294FD4216">prefab.json</file>
+	<file md5="270CFAA18BEC19B6B3DA661A4D46A190">datafiles\filterdef.json</file>
+	<file md5="DC8C5A705E4193E53E4E97CD1EBEB9C4">datafiles\_filter_colourise.fxb</file>
+	<file md5="FF6582F3821F639E2D645BE93D51CE99">shaders\_filter_colourise_shader\_filter_colourise_shader.fsh</file>
+	<file md5="C22BD6D520CEE935215E321FE03BE1FA">shaders\_filter_colourise_shader\_filter_colourise_shader.vsh</file>
+	<file md5="E8445728515AD3EA4A7B372FDD56D7B4">shaders\_filter_colourise_shader\_filter_colourise_shader.yy</file>
+</files>

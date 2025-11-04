@@ -1,0 +1,17 @@
+{
+    "name": "_filter_edgedetect",
+    "displayname": "filter_edgedetect",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_Threshold",
+            "displayname": "Difference threshold",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+            "min": 0.0,
+            "max": 1.0
+        }
+    ]
+}

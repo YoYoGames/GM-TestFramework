@@ -1,0 +1,17 @@
+{
+    "name": "_filter_pixelate",
+    "displayname": "filter_pixelate",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_CellSize",
+            "displayname": "Cell Size",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 16.0,
+            "min": 1.0,
+            "max": 512.0
+        }
+    ]
+}

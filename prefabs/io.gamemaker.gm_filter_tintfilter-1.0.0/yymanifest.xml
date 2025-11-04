@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_tintfilter-1.0.0.resource_order</file>
+	<file md5="6C391C3596FA95D17AAB6A66653BAB44">io.gamemaker.gm_filter_tintfilter-1.0.0.yyp</file>
+	<file md5="D34ED55E83A07D25DF4B47932F4877A5">prefab.json</file>
+	<file md5="7F78D16CEAA3B710745064D72D715C78">datafiles\filterdef.json</file>
+	<file md5="144430F4EC7A0AA7E24E96598E2A6D61">datafiles\_filter_tintfilter.fxb</file>
+	<file md5="DF767B433F534F5C4ECFDB6B7D65E81A">shaders\_filter_tintfilter_shader\_filter_tintfilter_shader.fsh</file>
+	<file md5="6E4DB77F5EE3073001374788C14B1B95">shaders\_filter_tintfilter_shader\_filter_tintfilter_shader.vsh</file>
+	<file md5="3529AB3A8A2867A8555C0AC624408B43">shaders\_filter_tintfilter_shader\_filter_tintfilter_shader.yy</file>
+</files>

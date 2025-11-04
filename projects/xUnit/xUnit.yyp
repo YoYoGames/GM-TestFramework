@@ -63,7 +63,15 @@
     {"$GMFolder":"","%Name":"Rects","folderPath":"folders/Tests/Utils/ShaderTests/Rects.yy","name":"Rects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Vectors","folderPath":"folders/Tests/Utils/ShaderTests/Vectors.yy","name":"Vectors","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],
-  "ForcedPrefabProjectReferences":[],
+  "ForcedPrefabProjectReferences":[
+    {"link":"io.gamemaker.gm_filter_colourise-1.0.0","name":"io.gamemaker.gm_filter_colourise-1.0.0","path":"io.gamemaker.gm_filter_colourise-1.0.0.yyp",},
+    {"link":"io.gamemaker.gm_filter_edgedetect-1.0.0","name":"io.gamemaker.gm_filter_edgedetect-1.0.0","path":"io.gamemaker.gm_filter_edgedetect-1.0.0.yyp",},
+    {"link":"io.gamemaker.gm_filter_greyscale-1.0.0","name":"io.gamemaker.gm_filter_greyscale-1.0.0","path":"io.gamemaker.gm_filter_greyscale-1.0.0.yyp",},
+    {"link":"io.gamemaker.gm_filter_pixelate-1.0.0","name":"io.gamemaker.gm_filter_pixelate-1.0.0","path":"io.gamemaker.gm_filter_pixelate-1.0.0.yyp",},
+    {"link":"io.gamemaker.gm_filter_posterise-1.0.0","name":"io.gamemaker.gm_filter_posterise-1.0.0","path":"io.gamemaker.gm_filter_posterise-1.0.0.yyp",},
+    {"link":"io.gamemaker.gm_filter_screenshake-1.0.0","name":"io.gamemaker.gm_filter_screenshake-1.0.0","path":"io.gamemaker.gm_filter_screenshake-1.0.0.yyp",},
+    {"link":"io.gamemaker.gm_filter_tintfilter-1.0.0","name":"io.gamemaker.gm_filter_tintfilter-1.0.0","path":"io.gamemaker.gm_filter_tintfilter-1.0.0.yyp",},
+  ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},

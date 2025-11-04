@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_pixelate-1.0.0.resource_order</file>
+	<file md5="734C4FF948F097D4C5D71F5B9B19962C">io.gamemaker.gm_filter_pixelate-1.0.0.yyp</file>
+	<file md5="82512D1AFE74E65B9EF97718233FE6CA">prefab.json</file>
+	<file md5="6AA4D4CB784477DDC1505807111C78A0">datafiles\filterdef.json</file>
+	<file md5="63D623257A101F35CB80420810C7FAB4">datafiles\_filter_pixelate.fxb</file>
+	<file md5="8B2F87C44977512DE42525BF27C1D63A">shaders\_filter_pixelate_shader\_filter_pixelate_shader.fsh</file>
+	<file md5="3C1DD4789CAA2101CBCEED2E51CEA132">shaders\_filter_pixelate_shader\_filter_pixelate_shader.vsh</file>
+	<file md5="B0AA7338436E5DB319E91C900198B42E">shaders\_filter_pixelate_shader\_filter_pixelate_shader.yy</file>
+</files>

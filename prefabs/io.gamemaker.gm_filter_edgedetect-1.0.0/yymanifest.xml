@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_edgedetect-1.0.0.resource_order</file>
+	<file md5="CDD1D09610032338B2AE403EBC62025D">io.gamemaker.gm_filter_edgedetect-1.0.0.yyp</file>
+	<file md5="D915C55D535956F8D23D7EB480661BA6">prefab.json</file>
+	<file md5="B9A3CAA106D6BCFA0BD701D9F378A759">datafiles\filterdef.json</file>
+	<file md5="9C653BB6D856F49414FE4F1563FB327D">datafiles\_filter_edgedetect.fxb</file>
+	<file md5="8AE41DA7A117B0FBFF29B4232854170D">shaders\_filter_edgedetect_shader\_filter_edgedetect_shader.fsh</file>
+	<file md5="2B3A6CA8CC28AC8863377AF9F617ED64">shaders\_filter_edgedetect_shader\_filter_edgedetect_shader.vsh</file>
+	<file md5="C3D230CA28F12ABDD019286D57670764">shaders\_filter_edgedetect_shader\_filter_edgedetect_shader.yy</file>
+</files>

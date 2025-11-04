@@ -40,6 +40,7 @@ USER_DIR = ROOT_DIR / 'user'
 PROJECTS_DIR = ROOT_DIR / 'projects'
 WORKSPACE_DIR = ROOT_DIR / 'workspace'
 NODE_MODULES_DIR = ROOT_DIR / 'node_modules'
+PREFABS_DIR = ROOT_DIR / 'prefabs'
 
 PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
 
@@ -433,6 +434,7 @@ class IgorRunTestsCommand(BaseCommand):
             f'/of={TEMP_FILE}',
             f'/tf={TARGET_FILE}',
             f'/device={device}',
+            f'/prefabs={PREFAB_PATH}',
         ]
 
         # Optionally add the runner argument

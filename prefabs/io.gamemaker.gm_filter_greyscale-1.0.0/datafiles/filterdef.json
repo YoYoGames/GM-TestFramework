@@ -1,0 +1,16 @@
+{
+    "name": "_filter_greyscale",
+    "displayname": "filter_desaturate",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_Intensity",
+            "displayname": "Intensity",
+            "type": "float",
+            "elements": 1,
+			"default": 1.0,
+            "min": 0.0,
+            "max": 1.0
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Edge Detect Filter",
+  "DisplayName":"Edge Detect Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_edgedetect_shader","Description":"Shader","DisplayName":"_filter_edgedetect_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_edgedetect",
+  "Version":"1.0.0",
+}
