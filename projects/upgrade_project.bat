@@ -19,8 +19,8 @@ pushd "%~dp0" || (
 set "BASE=%cd%"
 
 REM Create Prefabs directory if it doesn't exist
-if not exist "Prefabs" (
-    mkdir "Prefabs"
+if not exist "..\Prefabs" (
+    mkdir "..\Prefabs"
     if !errorlevel! neq 0 (
         echo "[ERROR] Failed to create Prefabs directory."
         popd
@@ -50,7 +50,7 @@ for /d %%p in (*) do (
         REM Check if the .yyp file exists
         if exist "%%p.yyp" (
             echo "[INFO] [%DATE% %TIME%] Processing file: %%p.yyp in directory: %%p"
-            "%PROJECTTOOL%" project save source=".\\%%p.yyp" RESOURCETYPESPATH="%BASE%\\resourceslist.json" PREFABSFOLDER="%BASE%\\Prefabs"
+            "%PROJECTTOOL%" project save source=".\\%%p.yyp" RESOURCETYPESPATH="%BASE%\\resourceslist.json" PREFABSFOLDER="%BASE%\\..\\Prefabs"
             if !errorlevel! neq 0 (
                 echo "[ERROR] [%DATE% %TIME%] Failed to save project for: %%p.yyp"
                 exit !errorlevel!
@@ -71,11 +71,10 @@ for /d %%p in (*) do (
 REM Clean up generated files and directories
 cd "%BASE%"
 del /f /q "resourceslist.json" >nul 2>&1
-rmdir /s /q "Prefabs" >nul 2>&1
 if !errorlevel! neq 0 (
-    echo "[WARNING] Failed to delete Prefabs directory or it does not exist."
+    echo "[WARNING] Failed to delete resourceslist.json or it does not exist."
 ) else (
-    echo "[INFO] Cleaned up resourceslist.json and Prefabs directory."
+    echo "[INFO] Cleaned up resourceslist.json."
 )
 
 REM Return to the original directory
