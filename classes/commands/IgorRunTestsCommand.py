@@ -434,7 +434,7 @@ class IgorRunTestsCommand(BaseCommand):
             f'/of={TEMP_FILE}',
             f'/tf={TARGET_FILE}',
             f'/device={device}',
-            f'/prefabs={PREFAB_PATH}',
+            f'/prefabs={PREFABS_DIR}',
         ]
 
         # Optionally add the runner argument
