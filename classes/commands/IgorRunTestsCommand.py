@@ -208,6 +208,7 @@ class IgorRunTestsCommand(BaseCommand):
         project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
         assert(project_tool_path.exists())
 
+        os.environ['PREFABS'] = str(PREFABS_DIR)
         os.environ['PROJECTTOOL'] = str(project_tool_path)
         os.environ['CORERESOURCES_DLL'] = str(core_resources_path)
 
@@ -434,7 +435,6 @@ class IgorRunTestsCommand(BaseCommand):
             f'/of={TEMP_FILE}',
             f'/tf={TARGET_FILE}',
             f'/device={device}',
-            f'/prefabs={PREFAB_PATH}',
         ]
 
         # Optionally add the runner argument
