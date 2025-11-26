@@ -6,6 +6,7 @@ import re
 import base64
 import argparse
 import subprocess
+import json
 import time
 from typing import Any, Optional, Tuple
 import requests
@@ -15,6 +16,8 @@ import random
 import os
 import shutil
 import platform
+import sys
+from urllib.parse import urlparse
 
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
@@ -214,27 +217,12 @@ class IgorRunTestsCommand(BaseCommand):
         username = self.get_argument('gmpm_username')
         password = self.get_argument('gmpm_password')
 
-        env = {
-            "NPM_CONFIG_REGISTRY": registry,
-        }
-
-        temp_npmrc = Path.cwd() / "ci-npmrc"
-        temp_npmrc.touch()  # ensure it exists
-
-        # Use dummy folder as the config folder
-        env["NPM_CONFIG_USERCONFIG"] = str(temp_npmrc)
-
         if username and password:
-            LOGGER.info("Using custom GMPM registry...")
-            # Build base64("user:pass") for _auth
-            auth_str = f"{username}:{password}"
-            auth_b64 = base64.b64encode(auth_str.encode("utf-8")).decode("ascii")
+            token = self.verdaccio_login(registry, username, password)
+            if token:
+                self.npm_set_auth(registry, token)
 
-            env["NPM_CONFIG__AUTH"] = auth_b64          # _auth=<base64>
-            env["NPM_CONFIG_ALWAYS_AUTH"] = "true"      # always-auth=true
-
-
-        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "@gm-tools/project-tool-win-x64", "--no-save"], extra_env=env)
+        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", f"--reg={registry}", "@gm-tools/project-tool-win-x64", "--no-save"], extra_env=env)
         project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
         assert(project_tool_path.exists())
 
@@ -334,6 +322,82 @@ class IgorRunTestsCommand(BaseCommand):
                 LOGGER.error(e)
         else:
             LOGGER.warning(f'Directory does not exist: {directory}')
+
+    def find_npm(self) -> str:
+        npm = shutil.which("npm") or shutil.which("npm.cmd")
+        if not npm:
+            print("Could not find 'npm' on PATH. Make sure Node.js is installed.")
+            sys.exit(1)
+        return npm
+
+    def verdaccio_login(self, registry: str, username: str, password: str) -> str | None:
+        """
+        Equivalent to VerdaccioRegistryLogin in C#:
+        PUT <registry>/-/user/org.couchdb.user:{username}
+        with Basic auth and JSON body { name, password }
+        expects JSON with a 'token' field.
+        """
+        base = registry.rstrip("/") + "/"
+        url = base + f"-/user/org.couchdb.user:{username}"
+
+        auth_b64 = base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("ascii")
+        headers = {
+            "Authorization": f"Basic {auth_b64}",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+        payload = {"name": username, "password": password}
+
+        print(f"Logging in to Verdaccio at: {url}")
+        resp = requests.put(url, headers=headers, data=json.dumps(payload), timeout=15)
+
+        if not (200 <= resp.status_code < 300):
+            print(f"Login failed: {resp.status_code}")
+            print(resp.text)
+            return None
+
+        try:
+            data = resp.json()
+        except ValueError:
+            print("Login response was not valid JSON:")
+            print(resp.text)
+            return None
+
+        token = data.get("token")
+        if not token:
+            print("Login succeeded but 'token' not found in response:")
+            print(data)
+            return None
+
+        print("Login succeeded, got token from Verdaccio.")
+        return token
+
+    def npm_set_auth(self, registry: str, token: str, userconfig: str | None = None) -> int:
+        """
+        Equivalent of your C# NPMSetAuth:
+        npm set //host/:_authToken <token>
+
+        If userconfig is provided, we write to that .npmrc instead of the default.
+        """
+        npm = self.find_npm()
+        host = urlparse(registry).netloc
+
+        cmd = [npm, "config", "set", f"//{host}/:_authToken", token]
+        env = os.environ.copy()
+
+        if userconfig:
+            env["NPM_CONFIG_USERCONFIG"] = userconfig
+
+        print("\nSetting npm auth token with:")
+        print(" ", " ".join(cmd))
+
+        result = subprocess.run(cmd, env=env, capture_output=True, text=True)
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr, file=sys.stderr)
+        print(f"npm config set exit code: {result.returncode}")
+        return result.returncode
 
     def ensure_directories_exist(self, directories: list[Path]):
         for directory in directories:
