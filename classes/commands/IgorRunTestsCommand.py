@@ -222,7 +222,7 @@ class IgorRunTestsCommand(BaseCommand):
             if token:
                 self.npm_set_auth(registry, token)
 
-        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", f"--reg={registry}", "@gm-tools/project-tool-win-x64", "--no-save"], extra_env=env)
+        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", f"--reg={registry}", "@gm-tools/project-tool-win-x64", "--no-save"])
         project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
         assert(project_tool_path.exists())
 
