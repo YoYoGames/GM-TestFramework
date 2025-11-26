@@ -128,6 +128,10 @@ class IgorRunTestsCommand(BaseCommand):
         parser.add_argument('-rv', '--runtime-version', type=validate_version, default=None, help='Runner version to use (default: <latest>)')
         parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
         parser.add_argument('-h5r', '--html5-runner', type=partial(validate_path, arg='--html5-runner', required=False), required=False, help='A custom HTML5 runner to use instead of the runtime one')
+        # Custom GMPM registry information
+        parser.add_argument('-gmpmreg', '--gmpm-registry', type=str, required=False, default='https://gmpm.gamemaker.io/', help='What registry to use when fetching gamemaker packages')
+        parser.add_argument('-gmpmusr', '--gmpm-username', type=str, required=False, default=None, help='Username to be used for custom GMPM registry')
+        parser.add_argument('-gmpmpsw', '--gmpm-password', type=str, required=False, default=None, help='Password to be used for custom GMPM registry')
 
         parser.set_defaults(command_class=cls)
 
@@ -204,7 +208,24 @@ class IgorRunTestsCommand(BaseCommand):
         core_resources_path = runtime_path / 'bin' / 'assetcompiler' / 'windows' / 'x64' / 'CoreResources.dll'
         assert(core_resources_path.exists())
 
-        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"])
+        # Building env for GMPM registry authentication
+        registry = self.get_argument('gmpm_registry') or "https://gmpm.gamemaker.io/"
+        username = self.get_argument('gmpm_username')
+        password = self.get_argument('gmpm_password')
+
+        env = {
+            "NPM_CONFIG_REGISTRY": registry,
+        }
+
+        if username and password:
+            env["NPM_CONFIG_ALWAYS_AUTH"] = "true"
+            env["NPM_CONFIG_USERNAME"] = username
+            env["NPM_CONFIG_PASSWORD"] = password
+            # or instead of username/password:
+            # env["NPM_CONFIG__AUTH_TOKEN"] = token_value
+
+
+        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "@gm-tools/project-tool-win-x64", "--no-save"], extra_env=env)
         project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
         assert(project_tool_path.exists())
 

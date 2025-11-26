@@ -1,4 +1,5 @@
 import asyncio
+import os
 import sys
 import psutil
 import signal
@@ -31,24 +32,30 @@ def kill_process_tree(pid: int, sig=signal.SIGTERM):
     except psutil.NoSuchProcess:
         pass  # The parent process is already terminated
 
-async def run_exe(exe_path, args) -> asyncio.subprocess.Process:
+async def run_exe(exe_path, args, extra_env: dict[str, str] | None = None) -> asyncio.subprocess.Process:
 
     LOGGER.info(f'Running {exe_path} with arguments {args}')
+
+    # Start from current environment and extend with any overrides
+    env = os.environ.copy()
+    if extra_env:
+        env.update(extra_env)
 
     process = await asyncio.create_subprocess_exec(
         exe_path,
         *args,
         stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.STDOUT
+        stderr=asyncio.subprocess.STDOUT,
+        env=env,
     )
     return process
 
-async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asyncio.Event, reboot_event: asyncio.Event, restart_delay: float = 0.5):
+async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asyncio.Event, reboot_event: asyncio.Event, restart_delay: float = 0.5, extra_env: dict[str, str] | None = None):
     while not stop_event.is_set():
         LOGGER.info(f"Starting executable: {exe_path} with arguments: {args}")
 
         # Start the subprocess
-        process = await run_exe(exe_path, args)
+        process = await run_exe(exe_path, args, extra_env=extra_env)
 
         # Capture the output and monitor the process
         try:
@@ -158,12 +165,12 @@ async def wait_for_space_key(stop_event: asyncio.Event = None):
     else:
         await check_keypress_unix()
 
-async def run_and_capture(exe_path: str, args: list[str]):
+async def run_and_capture(exe_path: str, args: list[str], extra_env: dict[str, str] | None = None):
     # Create a stop event for capturing output
     stop_event = asyncio.Event()
 
     # Start the subprocess
-    process = await run_exe(exe_path, args)
+    process = await run_exe(exe_path, args, extra_env=extra_env)
 
     # Capture the output
     stdout_output = await capture_output(process, stop_event)
