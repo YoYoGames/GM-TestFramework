@@ -3,6 +3,7 @@ import asyncio
 from functools import partial
 from pathlib import Path
 import re
+import base64
 import argparse
 import subprocess
 import time
@@ -218,11 +219,13 @@ class IgorRunTestsCommand(BaseCommand):
         }
 
         if username and password:
-            env["NPM_CONFIG_ALWAYS_AUTH"] = "true"
-            env["NPM_CONFIG_USERNAME"] = username
-            env["NPM_CONFIG_PASSWORD"] = password
-            # or instead of username/password:
-            # env["NPM_CONFIG__AUTH_TOKEN"] = token_value
+            LOGGER.info("Using custom GMPM registry...")
+            # Build base64("user:pass") for _auth
+            auth_str = f"{username}:{password}"
+            auth_b64 = base64.b64encode(auth_str.encode("utf-8")).decode("ascii")
+
+            env["NPM_CONFIG__AUTH"] = auth_b64          # _auth=<base64>
+            env["NPM_CONFIG_ALWAYS_AUTH"] = "true"      # always-auth=true
 
 
         await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "@gm-tools/project-tool-win-x64", "--no-save"], extra_env=env)
