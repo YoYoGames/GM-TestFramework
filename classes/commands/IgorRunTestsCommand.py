@@ -209,12 +209,6 @@ class IgorRunTestsCommand(BaseCommand):
         core_resources_path = runtime_path / 'bin' / 'assetcompiler' / 'windows' / 'x64' / 'CoreResources.dll'
         assert(core_resources_path.exists())
 
-        # Remove old credentials (if any)
-        npmrc = Path.home() / ".npmrc"
-        if npmrc.exists():
-            LOGGER.info("Removing stale auth credentials...")
-            npmrc.unlink()
-
         # Building env for GMPM registry authentication
         registry = self.get_argument('gmpm_registry') or "https://gmpm.gamemaker.io/"
         username = self.get_argument('gmpm_username')
@@ -223,6 +217,12 @@ class IgorRunTestsCommand(BaseCommand):
         env = {
             "NPM_CONFIG_REGISTRY": registry,
         }
+
+        temp_npmrc = Path.cwd() / "ci-npmrc"
+        temp_npmrc.touch()  # ensure it exists
+
+        # Use dummy folder as the config folder
+        env["NPM_CONFIG_USERCONFIG"] = str(temp_npmrc)
 
         if username and password:
             LOGGER.info("Using custom GMPM registry...")
