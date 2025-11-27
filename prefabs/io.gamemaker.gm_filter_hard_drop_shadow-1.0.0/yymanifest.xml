@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_hard_drop_shadow-1.0.0.resource_order</file>
+	<file md5="2EF450CA99A0F0F0F1075A53F6817B09">io.gamemaker.gm_filter_hard_drop_shadow-1.0.0.yyp</file>
+	<file md5="5029129084465AEB9DD876769DFD61FE">prefab.json</file>
+	<file md5="95A0D6909EB44CE13DD86280692D7BD1">datafiles\filterdef.json</file>
+	<file md5="8DCE4646BF6D719F03572D242712CB88">datafiles\_filter_hard_drop_shadow.fxb</file>
+	<file md5="178873CE85A173C117885ADA425742F0">shaders\_filter_hard_drop_shadow_shader\_filter_hard_drop_shadow_shader.fsh</file>
+	<file md5="CE1012F3DFC281F4D72E5886ADC99D51">shaders\_filter_hard_drop_shadow_shader\_filter_hard_drop_shadow_shader.vsh</file>
+	<file md5="2F6411CB46D75AC7ABC0C2D6836502EF">shaders\_filter_hard_drop_shadow_shader\_filter_hard_drop_shadow_shader.yy</file>
+</files>

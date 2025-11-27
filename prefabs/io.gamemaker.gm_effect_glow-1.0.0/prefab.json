@@ -1,0 +1,12 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Effect Glow",
+  "DisplayName":"Effect Glow",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_glow_script","Description":"Script","DisplayName":"_effect_glow_script","FolderPath":"Scripts","ResourceType":"GMScript","ResourceVersion":1,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_glow_shader","Description":"Shader","DisplayName":"_effect_glow_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_effect_glow",
+  "Version":"1.0.0",
+}

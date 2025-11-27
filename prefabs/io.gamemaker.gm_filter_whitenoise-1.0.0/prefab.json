@@ -1,0 +1,13 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Whitenoise Filter",
+  "DisplayName":"Whitenoise Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_whitenoise_noise","Description":"Sprite","DisplayName":"_filter_whitenoise_noise","FolderPath":"Sprites","ResourceType":"GMSprite","ResourceVersion":2,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_whitenoise_shader","Description":"Shader","DisplayName":"_filter_whitenoise_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v3","AssetName":"Default","Description":"TextureGroup","DisplayName":"Default","FolderPath":"","IsDependency":true,"ParentName":"io.gamemaker.gm_filter_whitenoise-1.0.0","ResourceType":"GMTextureGroup","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_whitenoise",
+  "Version":"1.0.0",
+}

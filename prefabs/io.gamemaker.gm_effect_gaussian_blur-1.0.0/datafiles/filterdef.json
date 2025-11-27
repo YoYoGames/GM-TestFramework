@@ -1,0 +1,37 @@
+{
+    "name": "_effect_gaussian_blur",
+    "displayname": "effect_gaussian_blur",
+    "type": "effect",
+    "parameters": [
+		{
+			"name": "g_numDownsamples",
+			"displayname": "Downsample count",
+			"type": "float",
+			"elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+			"min": 1.0,
+			"max": 8.0
+		},
+		{
+			"name": "g_numPasses",
+			"displayname": "Passes",
+			"type": "float",
+			"elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+			"min":  1.0,
+			"max": 16.0
+		},
+		{
+			"name": "g_intensity",
+			"displayname": "Intensity",
+			"type": "float",
+			"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 0.0,
+			"max": 1.0
+		}
+    ]
+}

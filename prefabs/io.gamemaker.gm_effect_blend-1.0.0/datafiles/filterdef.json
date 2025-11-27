@@ -1,0 +1,20 @@
+{
+    "name": "_effect_blend",
+    "displayname": "effect_blend",
+    "type": "effect",
+		"layertype": "single",
+    "parameters": [
+        {
+            "name": "g_Blend",
+            "displayname": "Blend Mode",
+            "type": "float",
+            "gadget": "dropdown",
+			"dropdown_values": ["bm_add", "bm_max", "bm_subtract" ],
+            "elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+            "min": 1.0,
+            "max": 3.0
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_old_film-1.0.0.resource_order</file>
+	<file md5="A4FEBFE688BC8B5ACA5CA20F7B8FA564">io.gamemaker.gm_filter_old_film-1.0.0.yyp</file>
+	<file md5="630086CC13780F25AD02FF98C8658DD5">prefab.json</file>
+	<file md5="35161135236503C639EB7EB156AE4871">datafiles\filterdef.json</file>
+	<file md5="1E30CB68DDD427004595ED406765B562">datafiles\_filter_old_film.fxb</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">datafiles\_filter_old_film_texture.png</file>
+	<file md5="5312117A277C92E4DEEACCD4371478DB">shaders\_filter_old_film_shader\_filter_old_film_shader.fsh</file>
+	<file md5="DA822D4123C534FD5B50FF5E40F16C9D">shaders\_filter_old_film_shader\_filter_old_film_shader.vsh</file>
+	<file md5="218F7E44869441F25B7F0462F353462E">shaders\_filter_old_film_shader\_filter_old_film_shader.yy</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_old_film_texture\12ad1de7-2407-4af5-850b-d4305683535b.png</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_old_film_texture\_filter_old_film_texture.png</file>
+	<file md5="9D301A669B9EE847A00A6AAEFDBB2653">sprites\_filter_old_film_texture\_filter_old_film_texture.yy</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_old_film_texture\layers\12ad1de7-2407-4af5-850b-d4305683535b\d0a1107b-a059-4980-be4e-f2f9ebcc1ce9.png</file>
+</files>

@@ -1,0 +1,37 @@
+{
+	"name": "_filter_colour_balance",
+	"displayname": "filter_colour_balance",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_ColourBalanceShadows",
+        	"displayname": "Shadows RGB",
+        	"type": "float",
+        	"elements": 3,
+			"arraysize": 0,
+			"default": [0.0, 0.0, 0.0],
+			"min": [-1.0, -1.0, -1.0],
+			"max": [1.0, 1.0, 1.0]
+      	},
+		{
+        	"name": "g_ColourBalanceMidtones",
+        	"displayname": "Midtones RGB",
+        	"type": "float",
+        	"elements": 3,
+			"arraysize": 0,
+			"default": [0.0, 0.0, 0.0],
+			"min": [-1.0, -1.0, -1.0],
+			"max": [1.0, 1.0, 1.0]
+      	},
+		{
+        	"name": "g_ColourBalanceHighlights",
+        	"displayname": "Highlights RGB",
+        	"type": "float",
+        	"elements": 3,
+			"arraysize": 0,
+			"default": [0.0, 0.0, 0.0],
+			"min": [-1.0, -1.0, -1.0],
+			"max": [1.0, 1.0, 1.0]
+      	}
+  	]
+}

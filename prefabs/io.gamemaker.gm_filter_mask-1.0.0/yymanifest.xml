@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_mask-1.0.0.resource_order</file>
+	<file md5="E4874C5AA903319D9C698AC547F2E8E4">io.gamemaker.gm_filter_mask-1.0.0.yyp</file>
+	<file md5="E19F6AC94B4A8B0420A01D443339DB6F">prefab.json</file>
+	<file md5="3281C1D6044A1FAE0AAB29E5932E88AC">datafiles\filterdef.json</file>
+	<file md5="0A16CC051E5115CFD54503827A318D44">datafiles\_filter_mask.fxb</file>
+	<file md5="44555B6BBD76CC04D205B6A77EA3E6D9">datafiles\_filter_mask_sprite.png</file>
+	<file md5="498F83D9ACACF1783003A96F7CFE2BF5">shaders\_filter_mask_shader\_filter_mask_shader.fsh</file>
+	<file md5="AE052ADD6FF304A47A18E95F21F623DF">shaders\_filter_mask_shader\_filter_mask_shader.vsh</file>
+	<file md5="23052E8EA2154DCCE3DFB01FBA56A4D1">shaders\_filter_mask_shader\_filter_mask_shader.yy</file>
+	<file md5="44555B6BBD76CC04D205B6A77EA3E6D9">sprites\_filter_mask_sprite\7e9fec5f-ef30-41dc-b0cf-fbbb33e547eb.png</file>
+	<file md5="44555B6BBD76CC04D205B6A77EA3E6D9">sprites\_filter_mask_sprite\_filter_mask_sprite.png</file>
+	<file md5="C6851F91ECA44C64E90E63DF58419A99">sprites\_filter_mask_sprite\_filter_mask_sprite.yy</file>
+	<file md5="44555B6BBD76CC04D205B6A77EA3E6D9">sprites\_filter_mask_sprite\layers\7e9fec5f-ef30-41dc-b0cf-fbbb33e547eb\82964030-99de-4df7-ac4f-2df57bcf6f37.png</file>
+</files>

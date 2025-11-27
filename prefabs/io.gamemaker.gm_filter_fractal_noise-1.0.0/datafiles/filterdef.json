@@ -1,0 +1,68 @@
+{
+	"name": "_filter_fractal_noise",
+	"displayname": "filter_fractal_noise",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_FractalNoiseScale",
+        	"displayname": "Scale",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 128.0,
+			"min": 1.0,
+			"max": 512.0
+      	},
+		{
+        	"name": "g_FractalNoisePersistence",
+        	"displayname": "Persistence",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_FractalNoiseOffset",
+        	"displayname": "Offset",
+        	"type": "float",
+			"fields": ["X","Y"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.0],
+			"min": [-512.0, -512.0],
+			"max": [512.0, 512.0]
+      	},
+		{
+        	"name": "g_FractalNoiseSpeed",
+        	"displayname": "Animation Speed",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 2.0
+      	},
+		{
+			"name": "g_FractalNoiseTintColour",
+			"displayname": "Tint Colour",
+			"type": "float",
+			"gadget": "colour",
+			"elements": 4,
+			"arraysize": 0,
+			"defaults": [ 1.0, 1.0, 1.0, 1.0 ],
+			"min": [ 0.0, 0.0, 0.0, 1.0 ],
+			"max": [ 1.0, 1.0, 1.0, 1.0 ]
+		},
+		{
+        	"name": "g_FractalNoiseTexture",
+        	"displayname": "Noise Texture",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_fractal_noise_texture",
+			"options": "repeat|filter"
+      	}
+  	]
+}

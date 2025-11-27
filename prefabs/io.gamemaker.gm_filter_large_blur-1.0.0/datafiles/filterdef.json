@@ -1,0 +1,27 @@
+{
+    "name": "_filter_large_blur",
+    "displayname": "filter_large_blur",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_Radius",
+            "displayname": "Radius",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 10.0,
+            "min": 0.0,
+            "max": 1024.0
+        },
+		
+		{
+            "name": "g_NoiseTexture",
+            "displayname": "Noise Texture",
+            "type": "sampler",
+            "elements": 1,
+			"arraysize": 0,
+			"default": "_filter_large_blur_noise",
+			"options": "repeat|filter"            
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_vignette-1.0.0.resource_order</file>
+	<file md5="36984885476858EF223D533CB3655914">io.gamemaker.gm_filter_vignette-1.0.0.yyp</file>
+	<file md5="C71BBA45CC29F1CD1F2BD2489B1A948D">prefab.json</file>
+	<file md5="5CF35A1BD8B26DAD4D90858E107385EA">datafiles\filterdef.json</file>
+	<file md5="967221003C2F2312DDEE6F09B8F18F4A">datafiles\_filter_vignette.fxb</file>
+	<file md5="6F9588D827A8D8F67ACC72E2A26632E3">datafiles\_filter_vignette_texture.png</file>
+	<file md5="8F62A3E599B000D1FB38F3A1C5682881">shaders\_filter_vignette_shader\_filter_vignette_shader.fsh</file>
+	<file md5="99133210580C3C60061A8A13CA8F43C8">shaders\_filter_vignette_shader\_filter_vignette_shader.vsh</file>
+	<file md5="D75CFEBD8E7B5DBE272FA21BE404CBC8">shaders\_filter_vignette_shader\_filter_vignette_shader.yy</file>
+	<file md5="6F9588D827A8D8F67ACC72E2A26632E3">sprites\_filter_vignette_texture\b825c0bb-5288-47c5-81a7-55e4457871c5.png</file>
+	<file md5="6F9588D827A8D8F67ACC72E2A26632E3">sprites\_filter_vignette_texture\_filter_vignette_texture.png</file>
+	<file md5="D438D09AF0DE27E6F1BCF23FF7BFC83A">sprites\_filter_vignette_texture\_filter_vignette_texture.yy</file>
+	<file md5="6F9588D827A8D8F67ACC72E2A26632E3">sprites\_filter_vignette_texture\layers\b825c0bb-5288-47c5-81a7-55e4457871c5\032eada9-950b-44e6-a791-00005c15ce90.png</file>
+</files>

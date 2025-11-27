@@ -1,0 +1,11 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Outline Filter",
+  "DisplayName":"Outline Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_outline_shader","Description":"Shader","DisplayName":"_filter_outline_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_outline",
+  "Version":"1.0.0",
+}

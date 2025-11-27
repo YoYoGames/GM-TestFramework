@@ -1,0 +1,13 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Vignette Filter",
+  "DisplayName":"Vignette Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_vignette_shader","Description":"Shader","DisplayName":"_filter_vignette_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_vignette_texture","Description":"Sprite","DisplayName":"_filter_vignette_texture","FolderPath":"Sprites","ResourceType":"GMSprite","ResourceVersion":2,},
+    {"$PrefabExportMetadata":"v3","AssetName":"Default","Description":"TextureGroup","DisplayName":"Default","FolderPath":"","IsDependency":true,"ParentName":"io.gamemaker.gm_filter_vignette-1.0.0","ResourceType":"GMTextureGroup","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_vignette",
+  "Version":"1.0.0",
+}

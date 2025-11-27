@@ -1,0 +1,13 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Windblown Particles Effect",
+  "DisplayName":"Windblown Particle Effect",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_windblown_particles_leaf_sprite","Description":"Sprite","DisplayName":"_effect_windblown_particles_leaf_sprite","FolderPath":"Sprites","ResourceType":"GMSprite","ResourceVersion":2,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_windblown_particles_script","Description":"Script","DisplayName":"_effect_windblown_particles_script","FolderPath":"Scripts","ResourceType":"GMScript","ResourceVersion":1,},
+    {"$PrefabExportMetadata":"v3","AssetName":"Default","Description":"TextureGroup","DisplayName":"Default","FolderPath":"","IsDependency":true,"ParentName":"io.gamemaker.gm_effect_windblown_particles-1.0.0","ResourceType":"GMTextureGroup","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_effect_windblown_particles",
+  "Version":"1.0.0",
+}

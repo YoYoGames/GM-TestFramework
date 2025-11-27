@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_stripes-1.0.0.resource_order</file>
+	<file md5="9B92C78C71090E35C32DEB8774C17A82">io.gamemaker.gm_filter_stripes-1.0.0.yyp</file>
+	<file md5="63FA94EA5AF7C0400A069CC4095E87AE">prefab.json</file>
+	<file md5="EFB9302F8D45EEAA6E0EF7739F82C44B">datafiles\filterdef.json</file>
+	<file md5="D2E7789CBAF61931F3743287E47A2E2F">datafiles\_filter_stripes.fxb</file>
+	<file md5="77DD20E4319893996804A149AA88D98A">datafiles\_filter_stripes_palette.png</file>
+	<file md5="68374329B02484744727F07CBF824EEE">shaders\_filter_stripes_shader\_filter_stripes_shader.fsh</file>
+	<file md5="E46EEB14AEEB8265B905C26DFF42EB9C">shaders\_filter_stripes_shader\_filter_stripes_shader.vsh</file>
+	<file md5="F6CD19CF103C406121B670D6AD2F4A7D">shaders\_filter_stripes_shader\_filter_stripes_shader.yy</file>
+	<file md5="77DD20E4319893996804A149AA88D98A">sprites\_filter_stripes_palette\9e4a9be5-241f-428b-9f99-19c0549a80e9.png</file>
+	<file md5="77DD20E4319893996804A149AA88D98A">sprites\_filter_stripes_palette\_filter_stripes_palette.png</file>
+	<file md5="9B5371A73D3AC5BC970886DF3E66A609">sprites\_filter_stripes_palette\_filter_stripes_palette.yy</file>
+	<file md5="77DD20E4319893996804A149AA88D98A">sprites\_filter_stripes_palette\layers\9e4a9be5-241f-428b-9f99-19c0549a80e9\a1544fd6-193e-4372-803a-3b7e8847d4ed.png</file>
+</files>

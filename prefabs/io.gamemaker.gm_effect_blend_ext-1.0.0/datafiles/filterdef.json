@@ -1,0 +1,52 @@
+{
+    "name": "_effect_blend_ext",
+    "displayname": "effect_blend_ext",
+    "type": "effect",
+		"layertype": "single",
+    "parameters": [
+        {
+            "name": "g_BlendExt_Src",
+            "displayname": "Source Blend Mode",
+                        "gadget": "blend_enum",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+            "min": 1.0,
+            "max": 11.0
+        },
+        {
+            "name": "g_BlendExt_Dest",
+            "displayname": "Destination Blend Mode",
+                        "gadget": "blend_enum",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+            "min": 1.0,
+            "max": 11.0
+        },
+        {
+            "name": "g_BlendExt_AlphaSrc",
+            "displayname": "Alpha Source Blend Mode",
+                        "gadget": "blend_enum",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+            "min": 1.0,
+            "max": 11.0
+        },
+        {
+            "name": "g_BlendExt_AlphaDest",
+            "displayname": "Alpha Destination Blend Mode",
+                        "gadget": "blend_enum",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+            "min": 1.0,
+            "max": 11.0
+        }
+    ]
+}

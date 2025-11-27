@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_blocks-1.0.0.resource_order</file>
+	<file md5="B58C3E1E48D5EDF9AF0DA860674E72E2">io.gamemaker.gm_filter_blocks-1.0.0.yyp</file>
+	<file md5="1B3CC79CE395D86EC3876F3370D58BED">prefab.json</file>
+	<file md5="4823EB9FA4A419AA26C116B7E21E5BA7">datafiles\filterdef.json</file>
+	<file md5="097553C6B918A44A7281517E985B2FBC">datafiles\_filter_blocks.fxb</file>
+	<file md5="58037D9645AE91B2058B3D814E04AB03">datafiles\_filter_blocks_texture.png</file>
+	<file md5="B0E74BDE85947FDD41755429D39E0988">shaders\_filter_blocks_shader\_filter_blocks_shader.fsh</file>
+	<file md5="F4C360AE1C49B9A79BEA14594516F34A">shaders\_filter_blocks_shader\_filter_blocks_shader.vsh</file>
+	<file md5="B7083B73520F80E2B6B4A02534230181">shaders\_filter_blocks_shader\_filter_blocks_shader.yy</file>
+	<file md5="58037D9645AE91B2058B3D814E04AB03">sprites\_filter_blocks_texture\083545c7-5d00-49b7-a51f-0796213871d6.png</file>
+	<file md5="58037D9645AE91B2058B3D814E04AB03">sprites\_filter_blocks_texture\_filter_blocks_texture.png</file>
+	<file md5="D29EB60164525A21C2C07F8CDCB0E1ED">sprites\_filter_blocks_texture\_filter_blocks_texture.yy</file>
+	<file md5="58037D9645AE91B2058B3D814E04AB03">sprites\_filter_blocks_texture\layers\083545c7-5d00-49b7-a51f-0796213871d6\18f6f840-25e9-4d89-986a-ddaffb0774fd.png</file>
+</files>

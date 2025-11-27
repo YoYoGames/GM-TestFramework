@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_underwater-1.0.0.resource_order</file>
+	<file md5="B73D4C6D26CCABC4C050514BE47DD229">io.gamemaker.gm_filter_underwater-1.0.0.yyp</file>
+	<file md5="59C338D7BD7732859DA335DD656EF137">prefab.json</file>
+	<file md5="E89C8416DEB61B962DB049C9E6149A0D">datafiles\filterdef.json</file>
+	<file md5="A103A931E58B80588E1F0B1EDC0D78CE">datafiles\_filter_underwater.fxb</file>
+	<file md5="0E481876FBC9DB7CAFA24053BBC45AB6">datafiles\_filter_underwater_noise_sprite.png</file>
+	<file md5="46DF217644BD7236B6F3BD82195C7E23">shaders\_filter_underwater_shader\_filter_underwater_shader.fsh</file>
+	<file md5="6E4DB77F5EE3073001374788C14B1B95">shaders\_filter_underwater_shader\_filter_underwater_shader.vsh</file>
+	<file md5="2F3690B6EB03ACE12FA458BFD83AF227">shaders\_filter_underwater_shader\_filter_underwater_shader.yy</file>
+	<file md5="0E481876FBC9DB7CAFA24053BBC45AB6">sprites\_filter_underwater_noise_sprite\65d62f09-8194-4115-9cc4-ad2fdfff9926.png</file>
+	<file md5="0E481876FBC9DB7CAFA24053BBC45AB6">sprites\_filter_underwater_noise_sprite\_filter_underwater_noise_sprite.png</file>
+	<file md5="0488D2BA9B92D5CFBA483B50EC546636">sprites\_filter_underwater_noise_sprite\_filter_underwater_noise_sprite.yy</file>
+	<file md5="0E481876FBC9DB7CAFA24053BBC45AB6">sprites\_filter_underwater_noise_sprite\layers\65d62f09-8194-4115-9cc4-ad2fdfff9926\58a2e40f-5b5b-4e60-b52c-4e50b0532b28.png</file>
+</files>

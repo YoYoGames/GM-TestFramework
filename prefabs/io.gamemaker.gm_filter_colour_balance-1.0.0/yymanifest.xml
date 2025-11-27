@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_colour_balance-1.0.0.resource_order</file>
+	<file md5="6183E678F4E7F317E2CCF33C4E206F37">io.gamemaker.gm_filter_colour_balance-1.0.0.yyp</file>
+	<file md5="1EEEBBEB612FB7E766DB0408BDCD2C3E">prefab.json</file>
+	<file md5="1995B3225DBDE4A793C12B0A878F12A2">datafiles\filterdef.json</file>
+	<file md5="E82F09C5B9D0C69499674DE7887284F4">datafiles\_filter_colour_balance.fxb</file>
+	<file md5="C72550361E87E37D8F244ED726E2F363">shaders\_filter_colour_balance_shader\_filter_colour_balance_shader.fsh</file>
+	<file md5="0DE40648EC3566BE6256A20F9F6835FC">shaders\_filter_colour_balance_shader\_filter_colour_balance_shader.vsh</file>
+	<file md5="3C86B56DBC9B6C97D9737B89952A8159">shaders\_filter_colour_balance_shader\_filter_colour_balance_shader.yy</file>
+</files>

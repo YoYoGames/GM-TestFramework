@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_panorama-1.0.0.resource_order</file>
+	<file md5="8BFC882EBEF43378B456450C9D64A4EB">io.gamemaker.gm_filter_panorama-1.0.0.yyp</file>
+	<file md5="B55953C175CA441A872FE0A8C28D1294">prefab.json</file>
+	<file md5="5B524D2476EB938E1C95DB8B533B2DF6">datafiles\filterdef.json</file>
+	<file md5="AC99ECCBB5BCC9D62A4F364063B5C685">datafiles\_filter_panorama.fxb</file>
+	<file md5="379FC33B6D10D31CA4FC318F3F3E948F">datafiles\_filter_panorama_texture.png</file>
+	<file md5="66D4200BDF18D7881A0CA9B47FCE4308">shaders\_filter_panorama_shader\_filter_panorama_shader.fsh</file>
+	<file md5="B7D423AF48AFEA490E8C494364009220">shaders\_filter_panorama_shader\_filter_panorama_shader.vsh</file>
+	<file md5="DDDC4BB492F8685792C60F355EFBC576">shaders\_filter_panorama_shader\_filter_panorama_shader.yy</file>
+	<file md5="379FC33B6D10D31CA4FC318F3F3E948F">sprites\_filter_panorama_texture\80d2abc6-8d60-42da-8553-c3e92a255c20.png</file>
+	<file md5="379FC33B6D10D31CA4FC318F3F3E948F">sprites\_filter_panorama_texture\_filter_panorama_texture.png</file>
+	<file md5="6706E6111E9ED3FC6BDED281BAAC5444">sprites\_filter_panorama_texture\_filter_panorama_texture.yy</file>
+	<file md5="379FC33B6D10D31CA4FC318F3F3E948F">sprites\_filter_panorama_texture\layers\80d2abc6-8d60-42da-8553-c3e92a255c20\4a7ef9a7-b086-4a93-8617-5221da56ea05.png</file>
+</files>

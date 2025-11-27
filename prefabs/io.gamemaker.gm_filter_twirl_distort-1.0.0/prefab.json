@@ -1,0 +1,11 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Twirl Distort Filter",
+  "DisplayName":"Twirl Distort",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_twirl_distort_shader","Description":"Shader","DisplayName":"_filter_twirl_distort_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_twirl_distort",
+  "Version":"1.0.0",
+}

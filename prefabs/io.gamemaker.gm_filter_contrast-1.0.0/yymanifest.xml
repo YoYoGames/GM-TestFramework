@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_contrast-1.0.0.resource_order</file>
+	<file md5="F2E226211193AFBBCE01D9F363AE04D8">io.gamemaker.gm_filter_contrast-1.0.0.yyp</file>
+	<file md5="64CDD12F254AC8E3BA72647E645BEACE">prefab.json</file>
+	<file md5="816214B24B5DC17DDFB04B556CF0D8AF">datafiles\filterdef.json</file>
+	<file md5="27950F3A1A4AF7F067D8D5E41982CCD2">datafiles\_filter_contrast.fxb</file>
+	<file md5="050E1527EA1F3F278E4B2024A4108E62">shaders\_filter_contrast_shader\_filter_contrast_shader.fsh</file>
+	<file md5="49F50122850A278615B82AFACC8CBAD9">shaders\_filter_contrast_shader\_filter_contrast_shader.vsh</file>
+	<file md5="7976BB9BF351537CA4C4B3B95912E1B9">shaders\_filter_contrast_shader\_filter_contrast_shader.yy</file>
+</files>

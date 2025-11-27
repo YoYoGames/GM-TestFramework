@@ -1,0 +1,65 @@
+{
+	"name": "_filter_gradient",
+	"displayname": "filter_gradient",
+	"type": "filter",
+	"parameters": [
+		{
+			"name": "g_GradientColour1",
+			"displayname": "Start Colour",
+			"type": "float",
+			"gadget": "colour",
+			"useAlpha": "true",
+			"elements": 4,
+			"arraysize": 0,
+			"defaults": [ 1.0, 0.0, 0.0, 1.0 ],
+			"min": [ 0.0, 0.0, 0.0, 1.0 ],
+			"max": [ 1.0, 1.0, 1.0, 1.0 ]
+		},
+		{
+			"name": "g_GradientColour2",
+			"displayname": "End Colour",
+			"type": "float",
+			"gadget": "colour",
+			"useAlpha": "true",
+			"elements": 4,
+			"arraysize": 0,
+			"defaults": [ 0.0, 0.0, 1.0, 1.0 ],
+			"min": [ 0.0, 0.0, 0.0, 1.0 ],
+			"max": [ 1.0, 1.0, 1.0, 1.0 ]
+		},
+		{
+        	"name": "g_GradientPosition1",
+        	"displayname": "Start Point",
+        	"type": "float",
+			"fields": ["X","Y"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.0],
+			"min": [0.0, 0.0],
+			"max": [1.0, 1.0]
+      	},
+		{
+        	"name": "g_GradientPosition2",
+        	"displayname": "End Point",
+        	"type": "float",
+			"fields": ["X","Y"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [1.0, 1.0],
+			"min": [0.0, 0.0],
+			"max": [1.0, 1.0]
+      	},
+		{
+        	"name": "g_GradientMode",
+        	"displayname": "Gradient Mode",
+        	"type": "float",
+					"gadget": "dropdown",
+					"dropdown_values": ["Linear", "Radial", "Rectangle", "Rotated Square", "Symmetrical conic", "Asymmetrical conic" ],
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 5.0
+      	}
+  	]
+}

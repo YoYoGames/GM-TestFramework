@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_zoom_blur-1.0.0.resource_order</file>
+	<file md5="F3E5BE30A2D5B3D331FA57C256C46C79">io.gamemaker.gm_filter_zoom_blur-1.0.0.yyp</file>
+	<file md5="9773D165123DAB90727BFD2E7147CFE7">prefab.json</file>
+	<file md5="B6C157266068DC2734CB438BAA78B1C0">datafiles\filterdef.json</file>
+	<file md5="A061949FCC9D2A967451CE5860CCBD8C">datafiles\_filter_zoom_blur.fxb</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">datafiles\_filter_zoom_blur_noise.png</file>
+	<file md5="3ADEE5436F53A003803FEBF8D6F9EA92">shaders\_filter_zoom_blur_shader\_filter_zoom_blur_shader.fsh</file>
+	<file md5="1029B0581B145DAA0886B0BEF6C06BF6">shaders\_filter_zoom_blur_shader\_filter_zoom_blur_shader.vsh</file>
+	<file md5="F86B0B9C92DBE6DF34FEF837B2BAD78E">shaders\_filter_zoom_blur_shader\_filter_zoom_blur_shader.yy</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_zoom_blur_noise\12ad1de7-2407-4af5-850b-d4305683535b.png</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_zoom_blur_noise\_filter_zoom_blur_noise.png</file>
+	<file md5="073C7E0CF8A3E0B34F776EBD32B1D7F0">sprites\_filter_zoom_blur_noise\_filter_zoom_blur_noise.yy</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_zoom_blur_noise\layers\12ad1de7-2407-4af5-850b-d4305683535b\d0a1107b-a059-4980-be4e-f2f9ebcc1ce9.png</file>
+</files>

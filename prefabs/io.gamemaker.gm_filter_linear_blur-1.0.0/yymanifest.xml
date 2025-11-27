@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_linear_blur-1.0.0.resource_order</file>
+	<file md5="0692FEB300095DD2FADAC31956A4FA9E">io.gamemaker.gm_filter_linear_blur-1.0.0.yyp</file>
+	<file md5="79F04CFFEC6189FCE15363BB855E75D5">prefab.json</file>
+	<file md5="C6E254E1943FFA069FD4021C085A835B">datafiles\filterdef.json</file>
+	<file md5="7D102FC8CEC727CBA0E1F4502C396BE7">datafiles\_filter_linear_blur.fxb</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">datafiles\_filter_linear_blur_noise.png</file>
+	<file md5="1622E8EB1E865C4FEABBF2307A561516">shaders\_filter_linear_blur_shader\_filter_linear_blur_shader.fsh</file>
+	<file md5="F2824FDC2EF087486C3BC2800442EA33">shaders\_filter_linear_blur_shader\_filter_linear_blur_shader.vsh</file>
+	<file md5="BB82E95417C2D1CD9F6A06CC70E979A0">shaders\_filter_linear_blur_shader\_filter_linear_blur_shader.yy</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_linear_blur_noise\12ad1de7-2407-4af5-850b-d4305683535b.png</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_linear_blur_noise\_filter_linear_blur_noise.png</file>
+	<file md5="C1C710C903F9EDB626AFB5A5112B7461">sprites\_filter_linear_blur_noise\_filter_linear_blur_noise.yy</file>
+	<file md5="B38282CA86952D4260BFDB044932D706">sprites\_filter_linear_blur_noise\layers\12ad1de7-2407-4af5-850b-d4305683535b\d0a1107b-a059-4980-be4e-f2f9ebcc1ce9.png</file>
+</files>

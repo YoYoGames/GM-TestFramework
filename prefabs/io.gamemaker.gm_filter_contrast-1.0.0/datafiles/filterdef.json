@@ -1,0 +1,27 @@
+{
+	"name": "_filter_contrast",
+	"displayname": "filter_contrast",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_ContrastIntensity",
+        	"displayname": "Contrast",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 0.0,
+			"max": 2.0
+      	},
+		{
+        	"name": "g_ContrastBrightness",
+        	"displayname": "Brightness",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 0.0,
+			"max": 2.0
+      	}
+  	]
+}

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_fractal_noise-1.0.0.resource_order</file>
+	<file md5="7ADBFA3F1EE0D348346EAAB1DFA38FA8">io.gamemaker.gm_filter_fractal_noise-1.0.0.yyp</file>
+	<file md5="C76A1EB6E6C5FC0BDE945A78A63D38AA">prefab.json</file>
+	<file md5="E55EEAD5BBCEECE4AB8C6E9765D8F975">datafiles\filterdef.json</file>
+	<file md5="C1217DF7749136576745B5B333F10154">datafiles\_filter_fractal_noise.fxb</file>
+	<file md5="511E9C7733EF0C3EB9716F98446A52DE">datafiles\_filter_fractal_noise_texture.png</file>
+	<file md5="00B921B9C2B5D41F03BCFBBBB3FBDF29">shaders\_filter_fractal_noise_shader\_filter_fractal_noise_shader.fsh</file>
+	<file md5="FD799B2C84C435A65470B69A599DF0BE">shaders\_filter_fractal_noise_shader\_filter_fractal_noise_shader.vsh</file>
+	<file md5="C81D6344CAA4125C8831A349E21FE935">shaders\_filter_fractal_noise_shader\_filter_fractal_noise_shader.yy</file>
+	<file md5="511E9C7733EF0C3EB9716F98446A52DE">sprites\_filter_fractal_noise_texture\bce65a7f-1e84-44d3-b78c-beb8fa6cea24.png</file>
+	<file md5="511E9C7733EF0C3EB9716F98446A52DE">sprites\_filter_fractal_noise_texture\_filter_fractal_noise_texture.png</file>
+	<file md5="0377483C0D1B584B80127BE3F1CBAEF8">sprites\_filter_fractal_noise_texture\_filter_fractal_noise_texture.yy</file>
+	<file md5="7DD6B9F1E3A598FB038D7140F18808AC">sprites\_filter_fractal_noise_texture\layers\bce65a7f-1e84-44d3-b78c-beb8fa6cea24\d0a1107b-a059-4980-be4e-f2f9ebcc1ce9.png</file>
+</files>

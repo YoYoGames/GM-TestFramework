@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_effect_glow-1.0.0.resource_order</file>
+	<file md5="B1B397E302CB83ED60B7FB2DEF60E4F1">io.gamemaker.gm_effect_glow-1.0.0.yyp</file>
+	<file md5="84B2608D8409524394EADA377E7F38B3">prefab.json</file>
+	<file md5="D746E29D02B8E5B5375B96C949DABAA8">datafiles\filterdef.json</file>
+	<file md5="8D39779CC1989B22847A4320B3220CE2">datafiles\_effect_glow.fxb</file>
+	<file md5="8667A4A67386287232B7CF8778CC6770">scripts\_effect_glow_script\_effect_glow_script.gml</file>
+	<file md5="4881F7E9BAD28D75AC56FB0EE0123E39">scripts\_effect_glow_script\_effect_glow_script.yy</file>
+	<file md5="4509EBB1ABA76F610C1C3353A807DF62">shaders\_effect_glow_shader\_effect_glow_shader.fsh</file>
+	<file md5="D0DCE544073D1841DEE2AD9B42F5F713">shaders\_effect_glow_shader\_effect_glow_shader.vsh</file>
+	<file md5="E3151482CA50059FC0A6B495636E1DDF">shaders\_effect_glow_shader\_effect_glow_shader.yy</file>
+</files>

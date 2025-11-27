@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_effect_gaussian_blur-1.0.0.resource_order</file>
+	<file md5="76D077A21D9008F8EC52DAD44DBBC057">io.gamemaker.gm_effect_gaussian_blur-1.0.0.yyp</file>
+	<file md5="8EB0A1615558B10B1B13DDFE30F993AA">prefab.json</file>
+	<file md5="5D087CF52D83532CB1B8167676065A98">datafiles\filterdef.json</file>
+	<file md5="5F61FD9B93388DF9C69885365896E405">scripts\_effect_gaussian_blur_script\_effect_gaussian_blur_script.gml</file>
+	<file md5="853E57DAF2C5B3D225D369BB53547F04">scripts\_effect_gaussian_blur_script\_effect_gaussian_blur_script.yy</file>
+	<file md5="1BBFC2C91D03547A0A50A99A9C74B116">shaders\_effect_gaussian_blur_mix_shader\_effect_gaussian_blur_mix_shader.fsh</file>
+	<file md5="15CBFC5CA049B6402641B553FA0464F8">shaders\_effect_gaussian_blur_mix_shader\_effect_gaussian_blur_mix_shader.vsh</file>
+	<file md5="F7FA987F001D0CEB8FB457D9B3C23A57">shaders\_effect_gaussian_blur_mix_shader\_effect_gaussian_blur_mix_shader.yy</file>
+	<file md5="EA48F39DC48ED2F31C6BC907C990528D">shaders\_effect_gaussian_blur_shader\_effect_gaussian_blur_shader.fsh</file>
+	<file md5="4F14FD660F5B227A3C57BD84E901E297">shaders\_effect_gaussian_blur_shader\_effect_gaussian_blur_shader.vsh</file>
+	<file md5="2EA1BD4327D2B9C894642427A50E6CDC">shaders\_effect_gaussian_blur_shader\_effect_gaussian_blur_shader.yy</file>
+	<file md5="F5BB232C0A6970FCEE8596D86C4D2A85">shaders\_effect_gaussian_blur_write_shader\_effect_gaussian_blur_write_shader.fsh</file>
+	<file md5="15CBFC5CA049B6402641B553FA0464F8">shaders\_effect_gaussian_blur_write_shader\_effect_gaussian_blur_write_shader.vsh</file>
+	<file md5="817BBD1C381D18CCEEAE5574B38CCEAE">shaders\_effect_gaussian_blur_write_shader\_effect_gaussian_blur_write_shader.yy</file>
+</files>

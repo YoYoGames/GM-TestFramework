@@ -1,0 +1,118 @@
+{
+	"name": "_filter_boxes",
+	"displayname": "filter_boxes",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_BoxesScale",
+        	"displayname": "Scale",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 64.0,
+			"min": 1.0,
+			"max": 512.0
+      	},
+		{
+        	"name": "g_BoxesSize",
+        	"displayname": "Size",
+        	"type": "float",
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.4, 0.6],
+			"min": [0.0, 0.0],
+			"max": [1.0, 1.0]
+      	},
+		{
+        	"name": "g_BoxesDisplacement",
+        	"displayname": "Displacement",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_BoxesSpeed",
+        	"displayname": "Animation Speed",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 2.0,
+			"convertValueToTimeModulated": 6.283185307
+      	},
+		{
+        	"name": "g_BoxesAngle",
+        	"displayname": "Angle",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 90.0
+      	},
+		{
+        	"name": "g_BoxesRotation",
+        	"displayname": "Rotation Speed",
+        	"type": "float",
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.0],
+			"min": [-5.0, -5.0],
+			"max": [5.0, 5.0]
+      	},
+		{
+        	"name": "g_BoxesRoundness",
+        	"displayname": "Roundness",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.1,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_BoxesColourSpeed",
+        	"displayname": "Colour Speed",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 2.0,
+			"convertValueToTimeModulated": 1.0
+      	},
+		{
+        	"name": "g_BoxesColours",
+        	"displayname": "Colour Count",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 4.0,
+			"min": 1.0,
+			"max": 256.0
+      	},
+		{
+        	"name": "g_BoxesSharpness",
+        	"displayname": "Sharpness",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.1,
+			"max": 2.0
+      	},
+		{
+        	"name": "g_BoxesPalette",
+        	"displayname": "Colour Palette",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_boxes_palette",
+			"options": "repeat|filter"
+      	}
+  	]
+}

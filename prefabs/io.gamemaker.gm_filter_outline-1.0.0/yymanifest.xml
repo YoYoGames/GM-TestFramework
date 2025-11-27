@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_outline-1.0.0.resource_order</file>
+	<file md5="83ED8CED2696F6E525A9437117FFC957">io.gamemaker.gm_filter_outline-1.0.0.yyp</file>
+	<file md5="411B9235E8437D00CE921B7ACBE1FA63">prefab.json</file>
+	<file md5="62095F9C05255E0432AC27678B84FE0B">datafiles\filterdef.json</file>
+	<file md5="623798709892289EE998AB2FB2146122">datafiles\_filter_outline.fxb</file>
+	<file md5="5E2371A4BB6C961EE7F7702F47CE55ED">shaders\_filter_outline_shader\_filter_outline_shader.fsh</file>
+	<file md5="E4120BEF27B2319402B1EBD2E6D858C5">shaders\_filter_outline_shader\_filter_outline_shader.vsh</file>
+	<file md5="CDB9F844F81893A775AD919A7E5C9018">shaders\_filter_outline_shader\_filter_outline_shader.yy</file>
+</files>

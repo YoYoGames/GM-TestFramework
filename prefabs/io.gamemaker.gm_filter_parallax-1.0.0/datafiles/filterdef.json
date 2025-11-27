@@ -1,0 +1,99 @@
+{
+	"name": "_filter_parallax",
+	"displayname": "filter_parallax",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_ParallaxDirection",
+        	"displayname": "View Direction",
+        	"type": "float",
+			"fields": ["X","Y"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.7],
+			"min": [0.0, 0.0],
+			"max": [1.0, 1.0]
+      	},
+		{
+        	"name": "g_ParallaxPerspective",
+        	"displayname": "Perspective",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 0.1,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_ParallaxPosition",
+        	"displayname": "View Position",
+        	"type": "float",
+			"fields": ["X","Y","Z"],
+        	"elements": 3,
+			"arraysize": 0,
+			"default": [0.0, 2.0, 0.0],
+			"min": [-64.0, 0.1, -64.0],
+			"max": [64.0, 64.0, 64.0]
+      	},
+		{
+        	"name": "g_ParallaxScale",
+        	"displayname": "Texture Scale",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.1,
+			"min": 0.01,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_ParallaxDepth",
+        	"displayname": "Texture Depth",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 0.0,
+			"max": 4.0
+      	},
+		{
+			"name": "g_ParallaxFogColour",
+			"displayname": "Fog Colour",
+			"type": "float",
+			"gadget": "colour",
+			"elements": 4,
+			"arraysize": 0,
+			"defaults": [ 0.6, 0.7, 0.8, 1.0 ],
+			"min": [ 0.0, 0.0, 0.0, 0.0 ],
+			"max": [ 1.0, 1.0, 1.0, 1.0 ]
+		},
+		{
+        	"name": "g_ParallaxFogRange",
+        	"displayname": "Fog Range",
+        	"type": "float",
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [10.0, 40.0],
+			"min": [0.0, 0.0],
+			"max": [256.0, 256.0]
+      	},
+		{
+        	"name": "g_ParallaxFogDepth",
+        	"displayname": "Fog Depth",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 8.0,
+			"min": 1.0,
+			"max": 32.0
+      	},
+		{
+        	"name": "g_ParallaxTexture",
+        	"displayname": "Parallax Texture",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_parallax_texture",
+			"options": "repeat|filter"
+      	}
+  	]
+}

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_gradient-1.0.0.resource_order</file>
+	<file md5="4680A7F235BACCB14595F9DA4D157803">io.gamemaker.gm_filter_gradient-1.0.0.yyp</file>
+	<file md5="AFC82D523B4553BC0DD2CAF59BD478A3">prefab.json</file>
+	<file md5="79EB35240B75F7E6BF44DBF5C51A089A">datafiles\filterdef.json</file>
+	<file md5="26FC21B9E2E7F2F5CB0359094F0E6979">datafiles\_filter_gradient.fxb</file>
+	<file md5="05CFF0899EBD6563FBA079B2DF7821A9">shaders\_filter_gradient_shader\_filter_gradient_shader.fsh</file>
+	<file md5="864955FC274646A3AFB767BF11B11D9C">shaders\_filter_gradient_shader\_filter_gradient_shader.vsh</file>
+	<file md5="FB5190DE724392B4F1E4F2EDF437CBD9">shaders\_filter_gradient_shader\_filter_gradient_shader.yy</file>
+</files>

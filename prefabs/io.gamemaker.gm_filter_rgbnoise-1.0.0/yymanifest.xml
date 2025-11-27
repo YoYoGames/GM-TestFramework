@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_rgbnoise-1.0.0.resource_order</file>
+	<file md5="C9107764D7C717F3C855E96C4BDEAD27">io.gamemaker.gm_filter_rgbnoise-1.0.0.yyp</file>
+	<file md5="158E0E59C3A857291A59185B931845F6">prefab.json</file>
+	<file md5="A4A933FCFFD73CFB90755BAE199068A2">datafiles\filterdef.json</file>
+	<file md5="5E22D981EB646F7BDAD55BF1E2F4716C">datafiles\_filter_rgbnoise.fxb</file>
+	<file md5="3A62650A1466DDE17CD77F789D4ED95B">datafiles\_filter_rgbnoise_noise.png</file>
+	<file md5="9EBDC2FE82155B16BB13EC17764C063D">shaders\_filter_rgbnoise_shader\_filter_rgbnoise_shader.fsh</file>
+	<file md5="E274E77F8CBA127392DDC67B155D2C29">shaders\_filter_rgbnoise_shader\_filter_rgbnoise_shader.vsh</file>
+	<file md5="963B422FFBA41F88F2E794FB0205E597">shaders\_filter_rgbnoise_shader\_filter_rgbnoise_shader.yy</file>
+	<file md5="3A62650A1466DDE17CD77F789D4ED95B">sprites\_filter_rgbnoise_noise\12ad1de7-2407-4af5-850b-d4305683535b.png</file>
+	<file md5="3A62650A1466DDE17CD77F789D4ED95B">sprites\_filter_rgbnoise_noise\_filter_rgbnoise_noise.png</file>
+	<file md5="2EB1D7FC7ECF888A90DF4911B0142CA3">sprites\_filter_rgbnoise_noise\_filter_rgbnoise_noise.yy</file>
+	<file md5="3A62650A1466DDE17CD77F789D4ED95B">sprites\_filter_rgbnoise_noise\layers\12ad1de7-2407-4af5-850b-d4305683535b\d0a1107b-a059-4980-be4e-f2f9ebcc1ce9.png</file>
+</files>

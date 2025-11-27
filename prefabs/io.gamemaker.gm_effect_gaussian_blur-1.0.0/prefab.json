@@ -1,0 +1,14 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Gaussian Blur Effect",
+  "DisplayName":"Gaussian Blur Effect",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_gaussian_blur_mix_shader","Description":"Shader","DisplayName":"_effect_gaussian_blur_mix_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_gaussian_blur_script","Description":"Script","DisplayName":"_effect_gaussian_blur_script","FolderPath":"Scripts","ResourceType":"GMScript","ResourceVersion":1,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_gaussian_blur_shader","Description":"Shader","DisplayName":"_effect_gaussian_blur_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_effect_gaussian_blur_write_shader","Description":"Shader","DisplayName":"_effect_gaussian_blur_write_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_effect_gaussian_blur",
+  "Version":"1.0.0",
+}

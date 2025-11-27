@@ -1,0 +1,91 @@
+{
+    "name": "_filter_heathaze",
+    "displayname": "filter_heathaze",
+    "type": "filter",
+    "parameters": [        
+		{
+            "name": "g_Distort1Speed",
+            "displayname": "Distort 1 Speed",
+            "type": "float",
+            "elements": 1,
+			"default": 0.01,
+            "min": 0.0,
+            "max": 0.1,
+			"convertValueToTimeModulated": 1.0
+        },
+		{
+            "name": "g_Distort2Speed",
+            "displayname": "Distort 2 Speed",
+            "type": "float",
+            "elements": 1,
+			"default": 0.025,
+            "min": 0.0,
+            "max": 0.1,
+			"convertValueToTimeModulated": 1.0
+        },
+		{
+            "name": "g_Distort1Scale",
+            "displayname": "Distort 1 Scale",
+            "type": "float",
+						"fields": ["1","2"],
+            "elements": 2,
+			"defaults": [13.3,1.3],
+            "min": [0.0001,0.0001],
+            "max": [100.0,100.0]
+        },
+		{
+            "name": "g_Distort2Scale",
+            "displayname": "Distort 2 Scale",
+            "type": "float",
+						"fields": ["1","2"],
+            "elements": 2,
+			"defaults": [33.3,3.3],
+            "min": [0.0001,0.0001],
+            "max": [100.0,100.0]
+        },
+		{
+            "name": "g_Distort1Amount",
+            "displayname": "Distort 1 Amount",
+            "type": "float",
+            "elements": 1,
+			"default": 2.0,
+            "min": 0.0,
+            "max": 100.0
+        },
+		{
+            "name": "g_Distort2Amount",
+            "displayname": "Distort 2 Amount",
+            "type": "float",
+            "elements": 1,
+			"default": 4.0,
+            "min": 0.0,
+            "max": 100.0
+        },
+		{
+            "name": "g_ChromaSpreadAmount",
+            "displayname": "Chroma Spread",
+            "type": "float",
+            "elements": 1,
+			"default": 0.5,
+            "min": 0.0,
+            "max": 10.0
+        },
+        {
+            "name": "g_CamOffsetScale",
+            "displayname": "Camera Offset Scale",
+            "type": "float",
+            "elements": 1,
+			"default": 1.0,
+            "min": 0.0,
+            "max": 10.0
+        },
+		{
+            "name": "g_DistortTexture",
+            "displayname": "Distort Texture",
+            "type": "sampler",
+            "elements": 1,
+			"default": "_filter_heathaze_noise_sprite",
+			"options": "repeat|filter"
+        }
+    ]
+}

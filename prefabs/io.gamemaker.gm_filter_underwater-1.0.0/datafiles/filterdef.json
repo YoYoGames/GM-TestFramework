@@ -1,0 +1,121 @@
+{
+    "name": "_filter_underwater",
+    "displayname": "filter_underwater",
+    "type": "filter",
+    "parameters": [        
+		{
+            "name": "g_Distort1Speed",
+            "displayname": "Distort 1 Speed",
+            "type": "float",
+            "elements": 1,
+			"default": 0.01,
+            "min": 0.0,
+            "max": 0.1,
+			"convertValueToTimeModulated": 1.0
+        },
+		{
+            "name": "g_Distort2Speed",
+            "displayname": "Distort 2 Speed",
+            "type": "float",
+            "elements": 1,
+			"default": 0.025,
+            "min": 0.0,
+            "max": 0.1,
+			"convertValueToTimeModulated": 1.0
+        },
+		{
+            "name": "g_Distort1Scale",
+            "displayname": "Distort 1 Scale",
+            "type": "float",
+						"fields": ["1","2"],
+            "elements": 2,
+			"defaults": [20.0,2.0],
+            "min": [0.0001,0.0001],
+            "max": [500.0,500.0]
+        },
+		{
+            "name": "g_Distort2Scale",
+            "displayname": "Distort 2 Scale",
+            "type": "float",
+						"fields": ["1","2"],
+            "elements": 2,
+			"defaults": [100.0,10.0],
+            "min": [0.0001,0.0001],
+            "max": [500.0,500.0]
+        },
+		{
+            "name": "g_Distort1Amount",
+            "displayname": "Distort 1 Amount",
+            "type": "float",
+            "elements": 1,
+			"default": 3.0,
+            "min": 0.0,
+            "max": 100.0
+        },
+		{
+            "name": "g_Distort2Amount",
+            "displayname": "Distort 2 Amount",
+            "type": "float",
+            "elements": 1,
+			"default": 6.0,
+            "min": 0.0,
+            "max": 100.0
+        },
+		{
+            "name": "g_ChromaSpreadAmount",
+            "displayname": "Chroma Spread",
+            "type": "float",
+            "elements": 1,
+			"default": 1.0,
+            "min": 0.0,
+            "max": 10.0
+        },
+		{
+            "name": "g_CamOffsetScale",
+            "displayname": "Camera Offset Scale",
+            "type": "float",
+            "elements": 1,
+			"default": 1.0,
+            "min": 0.0,
+            "max": 10.0
+        },
+		{
+            "name": "g_GlintCol",
+            "displayname": "Glint Colour",
+            "type": "float",
+			"gadget": "colour",
+            "elements": 4,
+			"defaults": [ 0.10, 0.10, 0.10, 1.0 ],
+            "min": [ 0.0, 0.0, 0.0, 1.0 ],
+            "max": [ 1.0, 1.0, 1.0, 1.0 ]
+        },
+		{
+            "name": "g_TintCol",
+            "displayname": "Tint colour",
+            "type": "float",
+			"gadget": "colour",
+            "elements": 4,
+			"defaults": [ 0.5, 0.8, 1.0, 1.0 ],
+            "min": [ 0.0, 0.0, 0.0, 1.0 ],
+            "max": [ 1.0, 1.0, 1.0, 1.0 ]
+        },
+		{
+            "name": "g_AddCol",
+            "displayname": "Add Colour",
+            "type": "float",
+			"gadget": "colour",
+            "elements": 4,
+			"defaults": [ 0.0, 0.1, 0.2, 1.0 ],
+            "min": [ 0.0, 0.0, 0.0, 1.0 ],
+            "max": [ 1.0, 1.0, 1.0, 1.0 ]
+        },
+		{
+            "name": "g_DistortTexture",
+            "displayname": "Distort Texture",
+            "type": "sampler",
+            "elements": 1,
+			"default": "_filter_underwater_noise_sprite",
+			"options": "repeat|filter"
+        }
+    ]
+}

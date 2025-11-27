@@ -1,0 +1,38 @@
+{
+	"name": "_filter_outline",
+	"displayname": "filter_outline",
+	"type": "filter",
+	"parameters": [
+		{
+			"name": "g_OutlineColour",
+			"displayname": "Outline colour",
+			"type": "float",
+			"gadget": "colour",
+			"elements": 4,
+			"arraysize": 0,
+			"defaults": [ 1.0, 1.0, 1.0, 1.0 ],
+			"min": [ 0.0, 0.0, 0.0, 1.0 ],
+			"max": [ 1.0, 1.0, 1.0, 1.0 ]
+		},
+		{
+        	"name": "g_OutlineRadius",
+        	"displayname": "Radius",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+			"min": 0.0,
+			"max": 3.0
+      	},
+		{
+        	"name": "g_OutlinePixelScale",
+        	"displayname": "Pixel Scale",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 1.0,
+			"max": 8.0
+      	}
+  	]
+}

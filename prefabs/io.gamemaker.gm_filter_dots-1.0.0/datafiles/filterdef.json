@@ -1,0 +1,100 @@
+{
+	"name": "_filter_dots",
+	"displayname": "filter_dots",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_DotsScale",
+        	"displayname": "Scale",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 64.0,
+			"min": 1.0,
+			"max": 512.0
+      	},
+		{
+        	"name": "g_DotsSize",
+        	"displayname": "Size",
+        	"type": "float",
+					"fields": ["1","2"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.4, 0.6],
+			"min": [0.0, 0.0],
+			"max": [1.0, 1.0]
+      	},
+		{
+        	"name": "g_DotsOffset",
+        	"displayname": "Offset",
+        	"type": "float",
+					"fields": ["X","Y"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.0],
+			"min": [-512.0, -512.0],
+			"max": [512.0, 512.0]
+      	},
+		{
+        	"name": "g_DotsDisplacement",
+        	"displayname": "Displacement",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_DotsSpeed",
+        	"displayname": "Animation Speed",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 2.0,
+			"convertValueToTimeModulated": 6.283185307
+      	},
+		{
+        	"name": "g_DotsColourSpeed",
+        	"displayname": "Colour Speed",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 2.0,
+			"convertValueToTimeModulated": 0.2
+      	},
+		{
+        	"name": "g_DotsColours",
+        	"displayname": "Colour Count",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 4.0,
+			"min": 1.0,
+			"max": 256.0
+      	},
+		{
+        	"name": "g_DotsSharpness",
+        	"displayname": "Sharpness",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.1,
+			"max": 2.0
+      	},
+		{
+        	"name": "g_DotsPalette",
+        	"displayname": "Colour Palette",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_dots_palette",
+			"options": "repeat|filter"
+      	}
+  	]
+}

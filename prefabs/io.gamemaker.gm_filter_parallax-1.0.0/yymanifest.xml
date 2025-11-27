@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_parallax-1.0.0.resource_order</file>
+	<file md5="3A15B200F1142F94E6E957F73831CC99">io.gamemaker.gm_filter_parallax-1.0.0.yyp</file>
+	<file md5="1EB4B2CEBE16348478966F6BBD5061FC">prefab.json</file>
+	<file md5="0FFE0685DC49896428BB6F23C9841D64">datafiles\filterdef.json</file>
+	<file md5="04355C616A9C82AAD47E85E5EFF187C3">datafiles\_filter_parallax.fxb</file>
+	<file md5="A66F6C7310F4238A768301537596FEC3">datafiles\_filter_parallax_texture.png</file>
+	<file md5="427015F5B90BDA3D0C2AD887A49660EE">shaders\_filter_parallax_shader\_filter_parallax_shader.fsh</file>
+	<file md5="1283B4102C5335A34BECDE7E2F187CC0">shaders\_filter_parallax_shader\_filter_parallax_shader.vsh</file>
+	<file md5="62A10DE16D4D2DAF30EB4D5FE4A6FB74">shaders\_filter_parallax_shader\_filter_parallax_shader.yy</file>
+	<file md5="A66F6C7310F4238A768301537596FEC3">sprites\_filter_parallax_texture\4d36ef78-810f-47ba-85a3-83da4033769a.png</file>
+	<file md5="A66F6C7310F4238A768301537596FEC3">sprites\_filter_parallax_texture\_filter_parallax_texture.png</file>
+	<file md5="26A05044DD52BB3F1802CFFF865B1048">sprites\_filter_parallax_texture\_filter_parallax_texture.yy</file>
+	<file md5="A66F6C7310F4238A768301537596FEC3">sprites\_filter_parallax_texture\layers\4d36ef78-810f-47ba-85a3-83da4033769a\d34001d8-fb5a-4090-98b5-876c6684bc08.png</file>
+</files>

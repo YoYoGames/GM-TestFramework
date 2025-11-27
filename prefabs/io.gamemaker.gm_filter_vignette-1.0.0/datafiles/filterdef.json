@@ -1,0 +1,37 @@
+{
+	"name": "_filter_vignette",
+	"displayname": "filter_vignette",
+	"type": "filter",
+	"parameters": [
+
+		{
+        	"name": "g_VignetteEdges",
+        	"displayname": "Edges",
+        	"type": "float",
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.5, 1.2],
+			"min": [0.0, 0.0],
+			"max": [2.0, 2.0]
+      	},
+		{
+        	"name": "g_VignetteSharpness",
+        	"displayname": "Sharpness",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 2.0,
+			"min": 0.5,
+			"max": 8.0
+      	},
+		{
+        	"name": "g_VignetteTexture",
+        	"displayname": "Vignette Texture",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_vignette_texture",
+			"options": "repeat|filter"
+      	}
+  	]
+}
