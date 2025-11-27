@@ -239,13 +239,6 @@ class IgorRunTestsCommand(BaseCommand):
         else:
             LOGGER.info("ProjectTool ran successfully!")
 
-        # Write build file
-        build_options = { 
-            "prefabs": str(PREFABS_DIR),
-            "projecttool": str(project_tool_path)
-        }
-        file_utils.save_data_as_json(build_options, BUILD_FILE_PATH)
-
         # Load settings
         settings_path = user_folder / 'local_settings.json'
         settings = file_utils.read_from_file(settings_path)
@@ -527,6 +520,13 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
+
+        # Write build file
+        build_options = { 
+            "prefabs": str(PREFABS_DIR),
+            "applicationPath": "applicationPath"
+        }
+        file_utils.save_data_as_json(build_options, BUILD_FILE_PATH)
 
         # Setup arguments
         args_base += [
