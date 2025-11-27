@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<files>
-	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_effect_blend_ext-1.0.0.resource_order</file>
-	<file md5="2C8E30E9C8514E19F436B3B398EA4F68">io.gamemaker.gm_effect_blend_ext-1.0.0.yyp</file>
-	<file md5="452A4F2D3B3BEFC18AA1F85EA4CB9B0B">prefab.json</file>
-	<file md5="22AA1A849D3A80AFB4D450F63DE03B81">datafiles\filterdef.json</file>
-	<file md5="64C677A7234A06F664CF6BAC3E4969DA">scripts\_effect_blend_ext_script\_effect_blend_ext_script.gml</file>
-	<file md5="4897A3C4A897FCE6A1D5DF2CB353A870">scripts\_effect_blend_ext_script\_effect_blend_ext_script.yy</file>
-</files>
