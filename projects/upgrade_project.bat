@@ -19,8 +19,8 @@ pushd "%~dp0" || (
 set "BASE=%cd%"
 
 REM Create Prefabs directory if it doesn't exist
-if not exist "..\Prefabs" (
-    mkdir "..\Prefabs"
+if not exist "%PREFABS%" (
+    mkdir "%PREFABS%"
     if !errorlevel! neq 0 (
         echo "[ERROR] Failed to create Prefabs directory."
         popd
@@ -50,7 +50,7 @@ for /d %%p in (*) do (
         REM Check if the .yyp file exists
         if exist "%%p.yyp" (
             echo "[INFO] [%DATE% %TIME%] Processing file: %%p.yyp in directory: %%p"
-            "%PROJECTTOOL%" project save source=".\\%%p.yyp" RESOURCETYPESPATH="%BASE%\\resourceslist.json" PREFABSFOLDER="%BASE%\\..\\Prefabs"
+            "%PROJECTTOOL%" project save source=".\\%%p.yyp" RESOURCETYPESPATH="%BASE%\\resourceslist.json" PREFABSFOLDER="%PREFABS%"
             if !errorlevel! neq 0 (
                 echo "[ERROR] [%DATE% %TIME%] Failed to save project for: %%p.yyp"
                 exit !errorlevel!

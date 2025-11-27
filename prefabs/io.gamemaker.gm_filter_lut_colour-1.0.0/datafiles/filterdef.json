@@ -1,0 +1,26 @@
+{
+	"name": "_filter_lut_colour",
+	"displayname": "filter_lut_colour",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_LUTColourIntensity",
+        	"displayname": "Intensity",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_LUTColourTexture",
+        	"displayname": "LUT Texture",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_lut_colour_texture",
+			"options": ""
+      	}
+  	]
+}

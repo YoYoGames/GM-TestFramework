@@ -1,0 +1,13 @@
+{
+  "$PrefabMetadata":"v2",
+  "Author":"GameMaker",
+  "Description":"GameMaker Old Film Filter",
+  "DisplayName":"Old Film Filter",
+  "Exports":[
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_old_film_shader","Description":"Shader","DisplayName":"_filter_old_film_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_old_film_texture","Description":"Sprite","DisplayName":"_filter_old_film_texture","FolderPath":"Sprites","ResourceType":"GMSprite","ResourceVersion":2,},
+    {"$PrefabExportMetadata":"v3","AssetName":"Default","Description":"TextureGroup","DisplayName":"Default","FolderPath":"","IsDependency":true,"ParentName":"io.gamemaker.gm_filter_old_film-1.0.0","ResourceType":"GMTextureGroup","ResourceVersion":0,},
+  ],
+  "PackageId":"io.gamemaker.gm_filter_old_film",
+  "Version":"1.0.0",
+}

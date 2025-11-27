@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_large_blur-1.0.0.resource_order</file>
+	<file md5="D24438F1351715F013812AD216F7B4E0">io.gamemaker.gm_filter_large_blur-1.0.0.yyp</file>
+	<file md5="618FBF77140567AC0AE67E767180F171">prefab.json</file>
+	<file md5="DE664FC6344943E5ED985AEF2CD2713B">datafiles\filterdef.json</file>
+	<file md5="98F19645AC438ACA14F3023E5EE1054D">datafiles\_filter_large_blur.fxb</file>
+	<file md5="361B448151C64FDA1E9023E1647E023E">datafiles\_filter_large_blur_noise.png</file>
+	<file md5="86FE5A0084788B3CF9516C75C7F734E1">shaders\_filter_large_blur_shader\_filter_large_blur_shader.fsh</file>
+	<file md5="3C1DD4789CAA2101CBCEED2E51CEA132">shaders\_filter_large_blur_shader\_filter_large_blur_shader.vsh</file>
+	<file md5="5A091DA463074E4868F2F561842A1B90">shaders\_filter_large_blur_shader\_filter_large_blur_shader.yy</file>
+	<file md5="361B448151C64FDA1E9023E1647E023E">sprites\_filter_large_blur_noise\248269d2-5333-4e53-ab0d-81e10557494b.png</file>
+	<file md5="361B448151C64FDA1E9023E1647E023E">sprites\_filter_large_blur_noise\_filter_large_blur_noise.png</file>
+	<file md5="C4001AD369BBEABA56223E72BE19B438">sprites\_filter_large_blur_noise\_filter_large_blur_noise.yy</file>
+	<file md5="361B448151C64FDA1E9023E1647E023E">sprites\_filter_large_blur_noise\layers\248269d2-5333-4e53-ab0d-81e10557494b\d33a26dc-0ec0-4425-8d36-32b50d718d37.png</file>
+</files>

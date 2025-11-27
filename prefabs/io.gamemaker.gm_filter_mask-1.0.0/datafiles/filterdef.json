@@ -1,0 +1,33 @@
+{
+    "name": "_filter_mask",
+    "displayname": "filter_mask",
+    "type": "filter",
+    "parameters": [
+		{
+            "name": "g_MaskStart",
+            "displayname": "Alpha Start",
+            "type": "float",
+            "elements": 1,
+			"defaults": 0.0,
+            "min": 0.0,
+            "max": 1.0
+        },
+        {
+            "name": "g_MaskEnd",
+            "displayname": "Alpha End",
+            "type": "float",
+            "elements": 1,
+			"defaults": 1.0,
+            "min": 0.0,
+            "max": 1.0
+        },
+		{
+            "name": "g_MaskTexture",
+            "displayname": "Mask Texture",
+            "type": "sampler",
+            "elements": 1,
+			"default": "_filter_mask_sprite",
+			"options": "repeat|filter"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_hue-1.0.0.resource_order</file>
+	<file md5="7111DD726F94652853BE90A7FD5D6E0E">io.gamemaker.gm_filter_hue-1.0.0.yyp</file>
+	<file md5="54FE2A4B32FA761D8C5842708A279E81">prefab.json</file>
+	<file md5="D223FCE8A2CD9E9C991A80AB445AF960">datafiles\filterdef.json</file>
+	<file md5="D6A3FD4D2B364D774A49CDA42A448646">datafiles\_filter_hue.fxb</file>
+	<file md5="A2AFD41FF76131DAFC86BA8636A1733E">shaders\_filter_hue_shader\_filter_hue_shader.fsh</file>
+	<file md5="78D67EB996D2E833C98294C1969F67A5">shaders\_filter_hue_shader\_filter_hue_shader.vsh</file>
+	<file md5="A9D69B258A345D23EA0514AA9FF42435">shaders\_filter_hue_shader\_filter_hue_shader.yy</file>
+</files>

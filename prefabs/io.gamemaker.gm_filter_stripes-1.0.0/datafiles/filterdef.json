@@ -1,0 +1,108 @@
+{
+	"name": "_filter_stripes",
+	"displayname": "filter_stripes",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_StripesWidth",
+        	"displayname": "Width",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 64.0,
+			"min": 1.0,
+			"max": 512.0
+      	},
+		{
+        	"name": "g_StripesDirection",
+        	"displayname": "Angle",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 360.0
+      	},
+		{
+        	"name": "g_StripesOffset",
+        	"displayname": "Offset",
+        	"type": "float",
+					"fields": ["X","Y"],
+        	"elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.0],
+			"min": [-512.0, -512.0],
+			"max": [512.0, 512.0]
+      	},
+		{
+        	"name": "g_StripesDisplacement",
+        	"displayname": "Displacement",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_StripesSpeed",
+        	"displayname": "Animation Speed",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 2.0,
+			"convertValueToTimeModulated": 6.283185307
+      	},
+		{
+        	"name": "g_StripesFrequency",
+        	"displayname": "Wave Scale",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 128.0,
+			"min": 1.0,
+			"max": 512.0
+      	},
+		{
+        	"name": "g_StripesAmplitude",
+        	"displayname": "Wave Amplitude",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 256.0
+      	},
+		{
+        	"name": "g_StripesColours",
+        	"displayname": "Colour Count",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 4.0,
+			"min": 2.0,
+			"max": 256.0
+      	},
+		{
+        	"name": "g_StripesSharpness",
+        	"displayname": "Sharpness",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.0,
+			"max": 2.0
+      	},
+		{
+        	"name": "g_StripesPalette",
+        	"displayname": "Colour Palette",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_stripes_palette",
+			"options": "repeat|filter"
+      	}
+  	]
+}

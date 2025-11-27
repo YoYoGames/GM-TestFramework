@@ -1,0 +1,40 @@
+{
+    "name": "_filter_twirl_distort",
+    "displayname": "filter_twirl_distort",
+    "type": "filter",
+    "parameters": [
+        {
+            "name": "g_DistortAngle",
+            "displayname": "Angle",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+            "min": -720.0,
+            "max": 720.0
+        },
+		
+		{
+            "name": "g_DistortRadius",
+            "displayname": "Radius",
+            "type": "float",
+            "elements": 1,
+			"arraysize": 0,
+			"default": 1.0,
+            "min": 0.01,
+            "max": 2.0
+        },
+		
+		{
+            "name": "g_DistortOffset",
+            "displayname": "Offset",
+            "type": "float",
+						"fields": ["X","Y"],
+            "elements": 2,
+			"arraysize": 0,
+			"default": [0.0, 0.0],
+			"min": [-1.0, -1.0],
+			"max": [1.0, 1.0]
+        }
+    ]
+}

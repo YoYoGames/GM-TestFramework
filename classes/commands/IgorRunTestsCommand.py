@@ -3,8 +3,10 @@ import asyncio
 from functools import partial
 from pathlib import Path
 import re
+import base64
 import argparse
 import subprocess
+import json
 import time
 from typing import Any, Optional, Tuple
 import requests
@@ -14,6 +16,8 @@ import random
 import os
 import shutil
 import platform
+import sys
+from urllib.parse import urlparse
 
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
@@ -56,6 +60,8 @@ TARGET_FILE = OUTPUT_DIR / 'xUnit.zip'
 RUNTIME_DIR = WORKSPACE_DIR / 'runtime'
 
 IGOR_PATH = IGOR_DIR / 'windows'/ 'x64' / 'igor.exe'
+
+BUILD_FILE_PATH = USER_DIR / "build.bff"
 
 SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
 
@@ -128,6 +134,10 @@ class IgorRunTestsCommand(BaseCommand):
         parser.add_argument('-rv', '--runtime-version', type=validate_version, default=None, help='Runner version to use (default: <latest>)')
         parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
         parser.add_argument('-h5r', '--html5-runner', type=partial(validate_path, arg='--html5-runner', required=False), required=False, help='A custom HTML5 runner to use instead of the runtime one')
+        # Custom GMPM registry information
+        parser.add_argument('-gmpmreg', '--gmpm-registry', type=str, required=False, default='https://gmpm.gamemaker.io/', help='What registry to use when fetching gamemaker packages')
+        parser.add_argument('-gmpmusr', '--gmpm-username', type=str, required=False, default=None, help='Username to be used for custom GMPM registry')
+        parser.add_argument('-gmpmpsw', '--gmpm-password', type=str, required=False, default=None, help='Password to be used for custom GMPM registry')
 
         parser.set_defaults(command_class=cls)
 
@@ -204,7 +214,17 @@ class IgorRunTestsCommand(BaseCommand):
         core_resources_path = runtime_path / 'bin' / 'assetcompiler' / 'windows' / 'x64' / 'CoreResources.dll'
         assert(core_resources_path.exists())
 
-        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", "--reg=https://gmpm.gamemaker.io/", "@gm-tools/project-tool-win-x64", "--no-save"])
+        # Setup NPM registry and credentials
+        registry = self.get_argument('gmpm_registry') or "https://gmpm.gamemaker.io/"
+        username = self.get_argument('gmpm_username')
+        password = self.get_argument('gmpm_password')
+
+        if username and password:
+            token = self.verdaccio_login(registry, username, password)
+            if token:
+                self.npm_set_auth(registry, token)
+
+        await async_utils.run_and_capture(NODEJS_NPM_PATH, ["install", f"--reg={registry}", "@gm-tools/project-tool-win-x64", "--no-save"])
         project_tool_path = NODE_MODULES_DIR / '@gm-tools' / 'project-tool-win-x64' / 'ProjectTool.exe'
         assert(project_tool_path.exists())
 
@@ -304,6 +324,82 @@ class IgorRunTestsCommand(BaseCommand):
                 LOGGER.error(e)
         else:
             LOGGER.warning(f'Directory does not exist: {directory}')
+
+    def find_npm(self) -> str:
+        npm = shutil.which("npm") or shutil.which("npm.cmd")
+        if not npm:
+            print("Could not find 'npm' on PATH. Make sure Node.js is installed.")
+            sys.exit(1)
+        return npm
+
+    def verdaccio_login(self, registry: str, username: str, password: str) -> str | None:
+        """
+        Equivalent to VerdaccioRegistryLogin in C#:
+        PUT <registry>/-/user/org.couchdb.user:{username}
+        with Basic auth and JSON body { name, password }
+        expects JSON with a 'token' field.
+        """
+        base = registry.rstrip("/") + "/"
+        url = base + f"-/user/org.couchdb.user:{username}"
+
+        auth_b64 = base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("ascii")
+        headers = {
+            "Authorization": f"Basic {auth_b64}",
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        }
+        payload = {"name": username, "password": password}
+
+        print(f"Logging in to Verdaccio at: {url}")
+        resp = requests.put(url, headers=headers, data=json.dumps(payload), timeout=15)
+
+        if not (200 <= resp.status_code < 300):
+            print(f"Login failed: {resp.status_code}")
+            print(resp.text)
+            return None
+
+        try:
+            data = resp.json()
+        except ValueError:
+            print("Login response was not valid JSON:")
+            print(resp.text)
+            return None
+
+        token = data.get("token")
+        if not token:
+            print("Login succeeded but 'token' not found in response:")
+            print(data)
+            return None
+
+        print("Login succeeded, got token from Verdaccio.")
+        return token
+
+    def npm_set_auth(self, registry: str, token: str, userconfig: str | None = None) -> int:
+        """
+        Equivalent of your C# NPMSetAuth:
+        npm set //host/:_authToken <token>
+
+        If userconfig is provided, we write to that .npmrc instead of the default.
+        """
+        npm = self.find_npm()
+        host = urlparse(registry).netloc
+
+        cmd = [npm, "config", "set", f"//{host}/:_authToken", token]
+        env = os.environ.copy()
+
+        if userconfig:
+            env["NPM_CONFIG_USERCONFIG"] = userconfig
+
+        print("\nSetting npm auth token with:")
+        print(" ", " ".join(cmd))
+
+        result = subprocess.run(cmd, env=env, capture_output=True, text=True)
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr, file=sys.stderr)
+        print(f"npm config set exit code: {result.returncode}")
+        return result.returncode
 
     def ensure_directories_exist(self, directories: list[Path]):
         for directory in directories:
@@ -425,8 +521,16 @@ class IgorRunTestsCommand(BaseCommand):
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
 
+        # Write build file
+        build_options = { 
+            "prefabs": str(PREFABS_DIR),
+            "applicationPath": "applicationPath"
+        }
+        file_utils.save_data_as_json(build_options, BUILD_FILE_PATH)
+
         # Setup arguments
         args_base += [
+            f'-options={BUILD_FILE_PATH}',
             f'/uf={user_folder}',
             f'/rp={runtime_path}',
             f'/project={project_file}',

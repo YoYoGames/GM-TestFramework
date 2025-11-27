@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_lut_colour-1.0.0.resource_order</file>
+	<file md5="AF3BADD8D9A1306A092ADD31DB1E88B1">io.gamemaker.gm_filter_lut_colour-1.0.0.yyp</file>
+	<file md5="7618311BD80D031457D88B38337BC498">prefab.json</file>
+	<file md5="56345590A58576D94E892A8398F49765">datafiles\filterdef.json</file>
+	<file md5="866233FAF8BB4EF88A0E0652FBC95218">datafiles\_filter_lut_colour.fxb</file>
+	<file md5="852FF3A123A9D333F3C16F508498248A">datafiles\_filter_lut_colour_texture.png</file>
+	<file md5="B23CFA07E1F511809E220C21230CF584">shaders\_filter_lut_colour_shader\_filter_lut_colour_shader.fsh</file>
+	<file md5="548725052D40DA47FEA26419BA6A1E34">shaders\_filter_lut_colour_shader\_filter_lut_colour_shader.vsh</file>
+	<file md5="C8C090FA72413A713C99AD04D257C148">shaders\_filter_lut_colour_shader\_filter_lut_colour_shader.yy</file>
+	<file md5="852FF3A123A9D333F3C16F508498248A">sprites\_filter_lut_colour_texture\0686b1a9-235f-4238-a1bb-99c92c06875c.png</file>
+	<file md5="852FF3A123A9D333F3C16F508498248A">sprites\_filter_lut_colour_texture\_filter_lut_colour_texture.png</file>
+	<file md5="A39713D1FA2DFF7B15B7BDBD36D2F8FD">sprites\_filter_lut_colour_texture\_filter_lut_colour_texture.yy</file>
+	<file md5="852FF3A123A9D333F3C16F508498248A">sprites\_filter_lut_colour_texture\layers\0686b1a9-235f-4238-a1bb-99c92c06875c\bb4defff-0ebf-4dd4-954f-13fbaf2e3560.png</file>
+</files>

@@ -1,0 +1,48 @@
+{
+	"name": "_filter_rgbnoise",
+	"displayname": "filter_rgbnoise",
+	"type": "filter",
+	"parameters": [
+		{
+        	"name": "g_RGBNoiseIntensity",
+        	"displayname": "Intensity",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.5,
+			"min": 0.0,
+			"max": 1.0
+      	},
+		{
+        	"name": "g_RGBNoiseAnimation",
+        	"displayname": "Animation",
+        	"type": "float",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": 0.0,
+			"min": 0.0,
+			"max": 1.0,
+			"convertValueToTimeModulated": 6.283185307
+      	},
+		{
+			"name": "g_RGBNoiseColour",
+			"displayname": "Tint Colour",
+			"type": "float",
+			"gadget": "colour",
+			"elements": 4,
+			"arraysize": 0,
+			"defaults": [ 1.0, 1.0, 1.0, 1.0 ],
+			"min": [ 0.0, 0.0, 0.0, 1.0 ],
+			"max": [ 1.0, 1.0, 1.0, 1.0 ]
+		},
+		{
+        	"name": "g_RGBNoiseTexture",
+        	"displayname": "Noise Texture",
+        	"type": "sampler",
+        	"elements": 1,
+			"arraysize": 0,
+			"default": "_filter_rgbnoise_noise",
+			"options": "repeat|filter"
+      	}
+  	]
+}

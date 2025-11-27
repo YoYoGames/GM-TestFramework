@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<files>
+	<file md5="D9C4589C5B627C9CAE8048F296EBC923">io.gamemaker.gm_filter_ripples-1.0.0.resource_order</file>
+	<file md5="1A52D5F3A45B4AE024161631091584DF">io.gamemaker.gm_filter_ripples-1.0.0.yyp</file>
+	<file md5="5BDCD534C9B4153CBF36CA2A94064BF8">prefab.json</file>
+	<file md5="DA0CBA5C2A30737D1766BF65944A2C11">datafiles\filterdef.json</file>
+	<file md5="970B6248C50BA155CD989D1E8CCC332B">datafiles\_filter_ripples.fxb</file>
+	<file md5="ACEB700070AA893801F116895226AC50">shaders\_filter_ripples_shader\_filter_ripples_shader.fsh</file>
+	<file md5="F8741C5089BCDD5015C6CD9A132EFECD">shaders\_filter_ripples_shader\_filter_ripples_shader.vsh</file>
+	<file md5="A2666FE0DE14BB935FC6C18C5C0BECA3">shaders\_filter_ripples_shader\_filter_ripples_shader.yy</file>
+</files>
