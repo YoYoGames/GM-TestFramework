@@ -61,6 +61,8 @@ RUNTIME_DIR = WORKSPACE_DIR / 'runtime'
 
 IGOR_PATH = IGOR_DIR / 'windows'/ 'x64' / 'igor.exe'
 
+BUILD_FILE_PATH = USER_DIR / "build.bff"
+
 SANDBOXED_PLATFORMS = ['windows', 'mac', 'linux']
 
 class IgorRunTestsCommand(BaseCommand):
@@ -212,7 +214,7 @@ class IgorRunTestsCommand(BaseCommand):
         core_resources_path = runtime_path / 'bin' / 'assetcompiler' / 'windows' / 'x64' / 'CoreResources.dll'
         assert(core_resources_path.exists())
 
-        # Building env for GMPM registry authentication
+        # Setup NPM registry and credentials
         registry = self.get_argument('gmpm_registry') or "https://gmpm.gamemaker.io/"
         username = self.get_argument('gmpm_username')
         password = self.get_argument('gmpm_password')
@@ -236,6 +238,13 @@ class IgorRunTestsCommand(BaseCommand):
             exit(result.returncode)
         else:
             LOGGER.info("ProjectTool ran successfully!")
+
+        # Write build file
+        build_options = { 
+            "prefabs": str(PREFABS_DIR),
+            "projecttool": str(project_tool_path)
+        }
+        file_utils.save_data_as_json(build_options, BUILD_FILE_PATH)
 
         # Load settings
         settings_path = user_folder / 'local_settings.json'
@@ -521,6 +530,7 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Setup arguments
         args_base += [
+            f'-options={BUILD_FILE_PATH}',
             f'/uf={user_folder}',
             f'/rp={runtime_path}',
             f'/project={project_file}',
