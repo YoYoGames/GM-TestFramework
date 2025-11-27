@@ -11,7 +11,7 @@ if [ -z $PROJECTTOOL ]; then
 fi
 
 BASE=`pwd`
-mkdir ../Prefabs
+mkdir $PREFABS
 
 $PROJECTTOOL SHOWVERSIONEDTYPES DESTINATION=resourceslist.json SOURCE="$CORERESOURCES_DLL"
 
@@ -27,7 +27,7 @@ for project in *; do
             pushd "$project" > /dev/null
 
             # Execute the project save command
-            "$PROJECTTOOL" project save format=versioned source="./$project.yyp" RESOURCETYPESPATH="$BASE/resourceslist.json" PREFABSFOLDER="$BASE/../Prefabs"
+            "$PROJECTTOOL" project save format=versioned source="./$project.yyp" RESOURCETYPESPATH="$BASE/resourceslist.json" PREFABSFOLDER="$PREFABS"
 
             # Remove the resource_order file if it exists
             if [ -f "$project.resource_order" ]; then

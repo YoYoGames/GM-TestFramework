@@ -526,7 +526,6 @@ class IgorRunTestsCommand(BaseCommand):
             f'/project={project_file}',
             f'/cache={CACHE_DIR}',
             f'/temp={TEMP_DIR}',
-            f'/prefabs={PREFABS_DIR}',
             f'/of={TEMP_FILE}',
             f'/tf={TARGET_FILE}',
             f'/device={device}',
