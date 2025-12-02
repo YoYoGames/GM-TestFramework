@@ -521,16 +521,9 @@ class IgorRunTestsCommand(BaseCommand):
         # Setup verbosity level
         args_base = ['/v' for _ in range(verbosity_level)]
 
-        # Write build file
-        build_options = { 
-            "prefabs": str(PREFABS_DIR),
-            "applicationPath": "applicationPath"
-        }
-        file_utils.save_data_as_json(build_options, BUILD_FILE_PATH)
-
         # Setup arguments
         args_base += [
-            f'-options={BUILD_FILE_PATH}',
+            f'-prefabs={PREFABS_DIR}',
             f'/uf={user_folder}',
             f'/rp={runtime_path}',
             f'/project={project_file}',
