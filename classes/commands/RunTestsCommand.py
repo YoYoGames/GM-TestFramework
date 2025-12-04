@@ -37,6 +37,7 @@ class RunTestsCommand(BaseCommand):
         # The GMRT filepath
         parser.add_argument('-gmrt', '--gmrt-path', type=str, required=True, help='The path to GMRT folder')
         # The GMRT arguments
+        parser.add_argument('-pf', '--prefab-dir', type=str, required=True, help='The path to prefabs folder')
         parser.add_argument('-yyp', '--project-path', type=str, required=True, help='The path to the project file (.yyp)')
         parser.add_argument('-o', '--output-folder', type=str, required=True, help='The path to the output folder')
         parser.add_argument('-bg', '--build-graph', type=str, required=True, help='The build graph file to be used')
@@ -139,6 +140,7 @@ class RunTestsCommand(BaseCommand):
         """Runs the ProjectTool for project compatibility adjustments."""
         os.environ["PROJECTTOOL"] = str(project_tool_path)
         os.environ["CORERESOURCES_DLL"] = str(core_resources_path)
+        os.environ["PREFABS"] = self.get_argument('prefab_dir')
         subprocess.run([PROJECT_SCRIPT_PATH], check=True)
 
     def _build_server_arguments(self) -> list[str]:
@@ -150,6 +152,7 @@ class RunTestsCommand(BaseCommand):
             f"-bj={self.get_argument('build_jobs')}",
             f"--build-type={self.get_argument('build_type')}",
             f"--script-build-type={self.get_argument('script_build_type')}",
+            f"--prefab-dir={self.get_argument('prefab_dir')}"
         ]
 
         cache_dir = self.get_argument("cache_dir")
