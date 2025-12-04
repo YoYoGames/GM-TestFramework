@@ -19,6 +19,7 @@ pushd "%~dp0" || (
 set "BASE=%cd%"
 
 REM Create Prefabs directory if it doesn't exist
+echo "[INFO] Selected prefabs directory: %PREFABS%"
 if not exist "%PREFABS%" (
     mkdir "%PREFABS%"
     if !errorlevel! neq 0 (
