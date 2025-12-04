@@ -68,13 +68,14 @@ jobs:
     if: always()
     steps:      
       - name: Slack Notification on Failure
+        if: (failure() || contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'stopped'))
         uses: rtCamp/action-slack-notify@v2
-        with:
+        env:
           SLACK_CHANNEL: gm-test-automation
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
           SLACK_ICON: https://github.com/pink.png?size=48
           SLACK_MESSAGE: '${{ github.workflow }}-Build Failed'
           SLACK_TITLE: GM-Tesframework Build Failed
           SLACK_USERNAME: suchitra
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}       
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} 
       
