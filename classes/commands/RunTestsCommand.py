@@ -140,6 +140,7 @@ class RunTestsCommand(BaseCommand):
         """Runs the ProjectTool for project compatibility adjustments."""
         os.environ["PROJECTTOOL"] = str(project_tool_path)
         os.environ["CORERESOURCES_DLL"] = str(core_resources_path)
+        os.environ["PREFABS"] = self.get_argument('prefab_dir')
         subprocess.run([PROJECT_SCRIPT_PATH], check=True)
 
     def _build_server_arguments(self) -> list[str]:
