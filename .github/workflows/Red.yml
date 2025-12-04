@@ -36,7 +36,7 @@ jobs:
         with:
           path: GM-TF   
       - name: Testing Manually with passing RSS_Feed for Red builds
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} -rv ${{ github.event.inputs.RUNTIME_VERSION }} --gmpm-registry '${{ secrets.GMPM_REGISTRY }}' --gmpm-username '${{ secrets.GMPM_USERNAME }}' --gmpm-password '${{ secrets.GMPM_PASSWORD }}'
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_RED }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }} --gmpm-registry '${{ secrets.GMPM_REGISTRY }}' --gmpm-username '${{ secrets.GMPM_USERNAME }}' --gmpm-password '${{ secrets.GMPM_PASSWORD }}'
         working-directory: GM-TF
         shell: pwsh   
         continue-on-error: false    
