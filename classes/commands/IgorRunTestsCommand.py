@@ -184,7 +184,6 @@ class IgorRunTestsCommand(BaseCommand):
         expt_runtime_version: str = self.get_argument('runtime_version')
         rss_feed: str = self.get_argument('feed')
         runtime_version = await self.igor_get_runtime_version(USER_DIR, rss_feed, expt_runtime_version)
-        assert(runtime_version is not None)
 
         # If it was provided a specific runtime version
         if expt_runtime_version != None:
@@ -509,6 +508,7 @@ class IgorRunTestsCommand(BaseCommand):
         t = platforms
         modules = ','.join(t).lower()
         # Setup arguments
+        version = version or ""
         args = [f'/uf={user_folder}', f'/ru={feed}?cachebust={cacheBust}', f'/rp={RUNTIME_DIR}', f'/m={modules}', 'Runtime', 'Install', version]
         
         # Execute command
