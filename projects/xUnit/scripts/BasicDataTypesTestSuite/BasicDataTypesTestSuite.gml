@@ -1,3 +1,9 @@
+function instanceofTestParentConstructor() constructor {
+	
+}
+function instanceofTestChildConstructor() : instanceofTestParentConstructor() constructor {
+	
+}
 
 
 function BasicDataTypesTestSuite() : TestSuite() constructor {
@@ -1500,7 +1506,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_method ( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_method ( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_method( int64:local ), should be false (enum entries are always int64)"],
 		
 		["-21233.223",		assert_false,	"#8 is_method ( string:local ), numeric string should be false"],
 		[true,				assert_false,	"#9 is_method ( bool:local ), should be false"],
@@ -1534,7 +1540,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_nan ( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_nan ( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_nan( int64:local ), should be false (enum entries are always int64)"],
 		
 		["-21233.223",		assert_false,	"#8 is_nan ( string:local ), numeric string should be false"],
 		["",				assert_true,	"#9 is_nan ( string:local ), empty string should be true"],
@@ -1577,7 +1583,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_true,	"#5 is_numeric ( int32:local ), should be true"],
 		[int64(12),			assert_true,	"#6 is_numeric ( int64:local ), should be true"],
 		
-		[RainbowColors.Orange,	assert_true,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_true,	"#7 is_numeric ( int64:local ), should be false (enum entries are always int64)"],
 		
 		["-21233.223",		assert_false,	"#8 is_numeric ( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_numeric ( string:local ), empty string should be false"],
@@ -1615,7 +1621,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_ptr ( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_ptr ( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_ptr( int64:local ), should be false (enum entries are always int64)"],
 		
 		["-21233.223",		assert_false,	"#8 is_ptr ( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_ptr ( string:local ), empty string should be false"],
@@ -1653,7 +1659,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
 		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_real( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_false,	"#8 is_real( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_real( string:local ), empty string should be false"],
@@ -1690,7 +1696,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
 		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_real( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_true,	"#8 is_real( string:local ), numeric string should be true"],
 		["",				assert_true,	"#9 is_real( string:local ), empty string should be true"],
@@ -1727,7 +1733,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_struct( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_struct( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_struct( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_false,	"#8 is_struct( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_struct( string:local ), empty string should be false"],
@@ -1764,7 +1770,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_struct( int32:local ), should be false"],
 		[int64(12),			assert_false,	"#6 is_struct( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_struct( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_false,	"#8 is_struct( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_struct( string:local ), empty string should be false"],
@@ -1802,7 +1808,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			"int32",		"#5 typeof( int32:local )",	platform_not_browser],
 		[int64(12),			"int64",		"#6 typeof( int64:local )"],
 		
-		[RainbowColors.Orange,	"int64",	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	"int64",	"#7 typeof ( int64:local ), should be true (enum entries are always int64)"],
 
 		["-21233.223",		"string",		"#8 typeof( string:local )"],
 		["",				"string",		"#9 typeof( string:local )"],
@@ -1827,5 +1833,44 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		assert_typeof(_input, _expected, _desc);
 		
 	})
+	
+	addTheory("instanceof_test", [
+	
+		[ptr({}),				undefined,		"#1 instanceof( pointer:local, Pointer ) should be undefined"],
+		[pointer_invalid,		undefined,		"#2 instanceof( pointer_invalid:local, Pointer ) should be undefined"],
+		[pointer_null,			undefined,		"#3 instanceof( pointer_null:local, Pointer ) should be undefined"],
+		
+		[32.33,					undefined,		"#4 instanceof( real:local, Number ) should be undefined"],
+		[int32(22),				undefined,		"#5 instanceof( int32:local, Int32 ) should be undefined"],
+		[int64(12),				undefined,		"#6 instanceof( int64:local, Int64 ) should be undefined"],
+		
+		[RainbowColors.Orange,	undefined,		"#7 instanceof( int64:local ), should be undefined (enum entries are always int64)"],
 
+		["-21233.223",			undefined,		"#8 instanceof( string:local ) should be undefined"],
+		["",					undefined,		"#9 instanceof( string:local ) should be undefined"],
+		["abc",					undefined,		"#10 instanceof( string:local ) should be undefined"],
+
+		[true,					undefined,		"#11 instanceof( bool:local ) should be undefined"],
+		[NaN,					undefined,		"#12 instanceof( NaN:local ) should be undefined"],
+		[infinity,				undefined,		"#13 instanceof( infinity:local ) should be undefined"],
+		[undefined,				undefined,	"#14 instanceof( undefined:local ) should be undefined"],
+
+		[[],					undefined,		"#15 instanceof( array:local ) should be undefined"],
+		[{ key: "value" },		"struct",		"#16 instanceof( struct:local ) should be \"struct\""],
+		[function() {},			"function",		"#17 instanceof( method:local ) should be \"function\""],
+		[get_timer,				undefined,		"#18 instanceof( function:local ) should be undefined"],
+		
+		[new instanceofTestParentConstructor(),		"instanceofTestParentConstructor",	"#18 instanceof( function:global ) should be \"instanceofTestParentConstructor\""],
+		[new instanceofTestChildConstructor(),		"instanceofTestChildConstructor",		"#18 instanceof( function:global ) should be \"instanceofTestChildConstructor\""],
+		
+	], function(_input, _expected, _desc, _condition = undefined) {
+		
+		if (is_callable(_condition) && !_condition()) {
+			return log_info("Skipping test: {0}", _desc);
+		}
+		
+		var _result = (instanceof(_input) == _expected);
+		assert_true(_result, _desc);
+		
+	})
 }
