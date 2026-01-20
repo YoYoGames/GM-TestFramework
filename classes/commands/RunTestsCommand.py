@@ -77,10 +77,18 @@ class RunTestsCommand(BaseCommand):
         except:
             logging.error(f"Invalid build jobs format: {self.get_argument('build_jobs')}. Expected format: <build_job>;<run_job>")
             return
-        
-        # Build the project first
-        await async_utils.run_exe(gmrt_exe, self._build_gmrt_arguments(build_job))
 
+        if Path(self.get_argument("output_folder")).exists() and any(Path(self.get_argument("output_folder")).iterdir()):
+            logging.warning(f"Output folder '{self.get_argument('output_folder')}' is not empty. Previous results may affect the test run.")
+            logging.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
+
+        # Build the project first
+        build_event = await async_utils.run_exe(gmrt_exe, self._build_gmrt_arguments(build_job))
+        await build_event.wait()
+        if build_event.returncode != 0:
+            logging.error("Build job failed. Aborting test run.")
+            return
+        
         # Now we can start the remote control server to run tests.
         # This two-step approach prevents rebuilding the project on restarts (test timeout, crash, ...)
         args = self._build_gmrt_arguments(run_job)
@@ -89,6 +97,7 @@ class RunTestsCommand(BaseCommand):
             lambda: remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), 
             port=HTTP_PORT
         )
+
 
     def _clean_results_directory(self) -> None:
         """Cleans the results directory."""
