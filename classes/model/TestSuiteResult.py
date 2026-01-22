@@ -44,7 +44,7 @@ class TestSuiteResult(BaseModel):
         element.set("timestamp", self.get_iso_timestamp())
 
         for test in self.tests:
-            element.append(test.to_xml())
+            element.append(test.to_xml(classname=self.name))
         return element
     
     def to_dict(self) -> dict:

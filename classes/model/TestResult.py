@@ -3,8 +3,6 @@ import xml.etree.ElementTree as ElementTree
 
 from pydantic import BaseModel
 
-from utils import data_utils
-
 class TestResult(BaseModel):
     name: str = ""
     result: str = ""
@@ -25,13 +23,10 @@ class TestResult(BaseModel):
     def was_skipped(self):
         return self.result.lower() == "skipped"
     
-    def to_xml(self) -> ElementTree.Element:
+    def to_xml(self, classname: str = "") -> ElementTree.Element:
         element = ElementTree.Element('testcase')
         element.set("name", self.name)
-
-        # Extract classname from test name (part before first hyphen, if any)
-        classname = self.name.split('-')[0] if '-' in self.name else self.name
-        element.set("classname", classname)
+        element.set("classname", classname if classname else self.name)
 
         element.set("time", str(self.duration / 1000000))
         element.set("status", "run")
@@ -40,12 +35,25 @@ class TestResult(BaseModel):
             exception_element = ElementTree.Element('error')
             exception_element.set("type", "ExceptionThrownError")
 
-            # Handle both string and dict exceptions
+            # Format exception as human-readable text
             if isinstance(exception, dict):
-                exception_element.set("message", str(exception.get('message', 'Exception occurred')))
-                exception_element.text = data_utils.json_stringify(exception)
+                lines = []
+
+                if exception.get('message'):
+                    lines.append(f"Message: {exception['message']}")
+
+                if exception.get('description'):
+                    lines.append(f"Description: {exception['description']}")
+
+                if exception.get('stack'):
+                    lines.append("Callstack:")
+                    stack_lines = exception['stack'].strip().split('\n')
+                    for stack_line in stack_lines:
+                        if stack_line.strip():
+                            lines.append(f"  {stack_line.strip()}")
+
+                exception_element.text = '\n'.join(lines) if lines else str(exception)
             else:
-                exception_element.set("message", str(exception))
                 exception_element.text = str(exception)
 
             element.append(exception_element)
@@ -54,17 +62,32 @@ class TestResult(BaseModel):
             error_element = ElementTree.Element('failure')
             error_element.set("type", "AssertionError")
 
-            # Create a meaningful message from error details
-            message_parts = []
+            # Create a human-friendly formatted message
             if isinstance(error, dict):
+                lines = []
+
+                if error.get('title'):
+                    lines.append(f"Title: {error['title']}")
+
                 if error.get('description'):
-                    message_parts.append(error['description'])
-                if error.get('expected') is not None and error.get('actual') is not None:
-                    message_parts.append(f"Expected: {error['expected']}, Actual: {error['actual']}")
-                error_element.set("message", ' - '.join(message_parts) if message_parts else "Assertion failed")
-                error_element.text = data_utils.json_stringify(error)
+                    lines.append(f"Description: {error['description']}")
+
+                if error.get('expected') is not None:
+                    lines.append(f"Expected value: {error['expected']}")
+
+                if error.get('actual') is not None:
+                    lines.append(f"Got value: {error['actual']}")
+
+                if error.get('stack'):
+                    lines.append("Callstack:")
+                    # Split stack trace by newlines and format each line with indentation
+                    stack_lines = error['stack'].strip().split('\n')
+                    for stack_line in stack_lines:
+                        if stack_line.strip():
+                            lines.append(f"  {stack_line.strip()}")
+
+                error_element.text = '\n'.join(lines) if lines else "Assertion failed"
             else:
-                error_element.set("message", str(error))
                 error_element.text = str(error)
 
             element.append(error_element)
@@ -72,7 +95,7 @@ class TestResult(BaseModel):
         if self.did_expire():
             error_element = ElementTree.Element('failure')
             error_element.set("type", "ExpiredError")
-            error_element.set("message", "Test execution expired")
+            error_element.text = "Test execution expired"
             element.append(error_element)
 
         if self.was_skipped():
