@@ -32,7 +32,7 @@ class RemoteControlServer:
     def __init__(self, mode: ExecutionMode, timeout: int = 1, run_name = 'xUnit'):
         """
         Initialize the RemoteControlServer with the given mode.
-        
+
         Args:
             mode (Mode): The mode of operation, either AUTOMATIC or MANUAL.
         """
@@ -40,13 +40,21 @@ class RemoteControlServer:
         self.timeout = timeout
         self.run_name = run_name
 
+        # Parse platform metadata from run_name (format: name:platform:config)
+        self.properties = {}
+        run_name_parts = run_name.split(':')
+        if len(run_name_parts) >= 2:
+            self.properties['platform'] = run_name_parts[1]
+        if len(run_name_parts) >= 3:
+            self.properties['config'] = run_name_parts[2]
+
         self.tests = []
         self.current_test_index = 0
         self.state = State.WAITING
         self.stop_event = asyncio.Event()
         self.reboot_event = asyncio.Event()
         self.strategy = self._select_strategy()
-        
+
         self.framework_result: TestFrameworkResult = None
         self.suite_results: dict[str, TestSuiteResult] = {}
 
@@ -90,7 +98,7 @@ class RemoteControlServer:
     def _add_test_result(self, result_data: dict, suite: str, timestamp: float):
         # Initialize framework result if not already set
         if not self.framework_result:
-            self.framework_result = TestFrameworkResult(name=self.run_name, timestamp=timestamp)
+            self.framework_result = TestFrameworkResult(name=self.run_name, timestamp=timestamp, properties=self.properties)
             LOGGER.info(f"Initialized framework result: {self.framework_result.name} at {timestamp}")
 
         # Initialize suite result or switch to a new suite if necessary
