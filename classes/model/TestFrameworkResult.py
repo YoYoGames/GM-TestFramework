@@ -11,6 +11,7 @@ class TestFrameworkResult(BaseModel):
     name: str = ""
     timestamp: float = 0
     testsuites: Optional[list[TestSuiteResult]] = []
+    properties: Optional[dict[str, str]] = {}
 
     def get_duration(self):
         return sum(testsuite.get_duration() for testsuite in self.testsuites)
@@ -55,12 +56,20 @@ class TestFrameworkResult(BaseModel):
         element.set("failures", str(self.get_failure_count()))
         element.set("errors", str(self.get_error_count()))
         element.set("skipped", str(self.get_skipped_count()))
-        element.set("assertions", str(self.get_assertion_count()))
         element.set("time", str(self.get_duration() / 1000000))
         element.set("timestamp", self.get_iso_timestamp())
 
+        if self.properties:
+            properties_element = ElementTree.Element('properties')
+            for key, value in self.properties.items():
+                property_element = ElementTree.Element('property')
+                property_element.set("name", key)
+                property_element.set("value", value)
+                properties_element.append(property_element)
+            element.append(properties_element)
+
         for testsuite in self.testsuites:
-            element.append(testsuite.to_xml(self.name))
+            element.append(testsuite.to_xml())
         return element
     
     def to_dict(self) -> dict:

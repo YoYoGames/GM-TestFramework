@@ -33,14 +33,13 @@ class TestSuiteResult(BaseModel):
         iso_format = dt.isoformat()
         return iso_format
 
-    def to_xml(self, suffix: str = "") -> ElementTree.Element:
+    def to_xml(self) -> ElementTree.Element:
         element = ElementTree.Element('testsuite')
-        element.set("name", f'{self.name}:{suffix}')
+        element.set("name", self.name)
         element.set("tests", str(self.get_test_count()))
         element.set("failures", str(self.get_failure_count()))
         element.set("errors", str(self.get_error_count()))
         element.set("skipped", str(self.get_skipped_count()))
-        element.set("assertions", str(self.get_assertion_count()))
         element.set("time", str(self.get_duration() / 1000000))
         element.set("timestamp", self.get_iso_timestamp())
 
