@@ -199,17 +199,17 @@ function BasicDataStructuresMapTestSuite() : TestSuite() constructor {
 			
 		var _map, _output;
 		
-		_map = ds_map_create();
+		_map = ds_map_create(); // Ref00
 			
-		ds_map_add_map(_map, "Map", ds_map_create());
+		ds_map_add_map(_map, "Map", ds_map_create() /* Ref01 */); 
 		
-		var _copiedMap = ds_map_create();
-		ds_map_copy(_copiedMap, _map);
+		var _copiedMap = ds_map_create(); // Ref02
+		ds_map_copy(_copiedMap, _map); // _copiedMap = { "Map": Ref01 }
 		
-		var _writtenMap = ds_map_write(_map);
+		var _writtenMap = ds_map_write(_map); // in GMS2 we store the ref as the handle in GMRT we store 
 		ds_map_clear(_map);
 		
-		ds_map_read(_map, _writtenMap);
+		ds_map_read(_map, _writtenMap); // { "Map": Ref01 } 
 		assert_map_equals(_map, _copiedMap, "ds_map_read(), failed to correctly read map from encoded string");
 			
 		// Clean up

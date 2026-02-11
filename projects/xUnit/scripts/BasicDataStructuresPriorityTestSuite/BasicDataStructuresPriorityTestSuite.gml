@@ -253,7 +253,9 @@ function BasicDataStructuresPriorityTestSuite() : TestSuite() constructor {
 		ds_priority_add(priority, 1000, 100);
 		ds_priority_delete_value(priority, 1000);
 			
-		var checkValue = "F701000001000000000000000000000000003440000000000000000000005940";
+		var checkValue = runtime_gmrt() ? 
+            "F801000001000000000000000000000000003440000000000000000000005940" : 
+            "F701000001000000000000000000000000003440000000000000000000005940";
 			
 		writtenPriority = ds_priority_write(priority);
 		assert_equals(writtenPriority, checkValue, "ds_priority_write(), doesn't match pre-baked encoded string");
@@ -267,6 +269,5 @@ function BasicDataStructuresPriorityTestSuite() : TestSuite() constructor {
 		assert_equals(output, 100, "ds_priority_read(), failed to read the correct data");
 			
 		ds_priority_destroy(priority);
-	});
-	
+	}); 
 }

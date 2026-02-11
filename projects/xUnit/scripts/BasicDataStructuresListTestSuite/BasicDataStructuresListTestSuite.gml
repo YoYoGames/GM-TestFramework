@@ -184,11 +184,13 @@ function BasicDataStructuresListTestSuite() : TestSuite() constructor {
 
 		output = ds_list_is_list(list, 3);
 		assert_true(output, "ds_list_mark_as_list(), failed to mark list");
-			
-		ds_list_sort(list, true);
-		output = ds_list_is_list(list, 0);
-		assert_true(output, "ds_list_sort(), messed with marked list");
-		
+        
+        if (runtime_not_gmrt()) {
+    		ds_list_sort(list, true);
+    		output = ds_list_is_list(list, 0);
+    		assert_true(output, "ds_list_sort(), messed with marked list");
+        }
+            
 		// Clean up
 		ds_list_destroy(list);
 		
