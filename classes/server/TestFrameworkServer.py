@@ -186,6 +186,14 @@ class TestFrameworkServer:
             run_name: str = body["data"]["run_name"]
             results: list[dict] = body["data"]["results"]
 
+            # Parse platform metadata from run_name (format: name:platform:config)
+            properties = {}
+            run_name_parts = run_name.split(':')
+            if len(run_name_parts) >= 2:
+                properties['platform'] = run_name_parts[1]
+            if len(run_name_parts) >= 3:
+                properties['config'] = run_name_parts[2]
+
             framework_result: Optional[TestFrameworkResult] = None
             suite_results: dict[str, TestSuiteResult] = {}
 
@@ -198,7 +206,7 @@ class TestFrameworkServer:
 
                 # Initialize framework result if not already set
                 if not framework_result:
-                    framework_result = TestFrameworkResult(name=run_name, timestamp=timestamp)
+                    framework_result = TestFrameworkResult(name=run_name, timestamp=timestamp, properties=properties)
                     LOGGER.debug(f"Initialized framework result: {framework_result.name} at {timestamp}")
 
                 # Initialize suite result or switch to a new suite if necessary

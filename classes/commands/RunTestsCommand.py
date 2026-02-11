@@ -1,10 +1,11 @@
 import argparse
+import logging
 import os
 import requests
 import shutil
-from pathlib import Path
 import subprocess
-from typing import Any
+from pathlib import Path
+
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
@@ -71,15 +72,32 @@ class RunTestsCommand(BaseCommand):
         # Ensure correct project format
         self._run_project_tool(project_tool_path, core_resources_path)
         
-        # Build server arguments
-        args = self._build_server_arguments()
+        try:
+            build_job, run_job = self.get_argument("build_jobs").split(";")
+        except:
+            logging.error(f"Invalid build jobs format: {self.get_argument('build_jobs')}. Expected format: <build_job>;<run_job>")
+            return
 
-        # Start the server
+        if Path(self.get_argument("output_folder")).exists() and any(Path(self.get_argument("output_folder")).iterdir()):
+            logging.warning(f"Output folder '{self.get_argument('output_folder')}' is not empty. Previous results may affect the test run.")
+            logging.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
+
+        # Build the project first
+        build_event = await async_utils.run_exe(gmrt_exe, self._build_gmrt_arguments(build_job))
+        await build_event.wait()
+        if build_event.returncode != 0:
+            logging.error("Build job failed. Aborting test run.")
+            return
+        
+        # Now we can start the remote control server to run tests.
+        # This two-step approach prevents rebuilding the project on restarts (test timeout, crash, ...)
+        args = self._build_gmrt_arguments(run_job)
         remote = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
         await manage_server(
             lambda: remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), 
             port=HTTP_PORT
         )
+
 
     def _clean_results_directory(self) -> None:
         """Cleans the results directory."""
@@ -143,13 +161,13 @@ class RunTestsCommand(BaseCommand):
         os.environ["PREFABS"] = self.get_argument('prefab_dir')
         subprocess.run([PROJECT_SCRIPT_PATH], check=True)
 
-    def _build_server_arguments(self) -> list[str]:
+    def _build_gmrt_arguments(self, build_jobs: str) -> list[str]:
         """Builds the argument list for the server."""
         args = [
             self.get_argument("project_path"),
             "-o", self.get_argument("output_folder"),
             f"-bg={self.get_argument('build_graph')}",
-            f"-bj={self.get_argument('build_jobs')}",
+            f"-bj={build_jobs}",
             f"--build-type={self.get_argument('build_type')}",
             f"--script-build-type={self.get_argument('script_build_type')}",
             f"--prefab-dir={self.get_argument('prefab_dir')}"

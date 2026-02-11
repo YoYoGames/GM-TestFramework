@@ -159,6 +159,10 @@ async def wait_for_space_key(stop_event: asyncio.Event = None):
                     stop_event.set()  # Signal to stop the server
                 break
 
+    if "CI" in os.environ:
+        print("CI environment detected. Skipping wait for space key.")
+        return
+
     print("Press the space key to stop the server...")
     if sys.platform == 'win32':
         await check_keypress_win()
