@@ -1653,7 +1653,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
 		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_real ( int64:local ), should be false (enum entries are always int64)"],
 
 		["-21233.223",		assert_false,	"#8 is_real( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_real( string:local ), empty string should be false"],
