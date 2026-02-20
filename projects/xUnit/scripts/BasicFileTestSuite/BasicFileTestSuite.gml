@@ -1001,15 +1001,14 @@ function BasicFileTestSuite() : TestSuite() constructor {
 		var fileName = filename_name(file_find_first("*.txt", 0));
 		assert_equals(fileName, "testFile.txt", "Filename didn't work correctly");
 		file_find_close();
-			
-		// The project these land in is named after the test file itself.
-		// During the test framework run, each test is considered its own unique project.
-		var expectedPath = game_save_id
+
+		var expectedPath = game_save_id;
 		
 		var filePath = filename_path("testFile.txt");
+        filePath = string_replace_all(filePath, "/", "\\");
 		assert_equals(filePath,  expectedPath, "filename_path didn't work correctly");
 		
-		//file_delete("testFile.txt");
+		file_delete("testFile.txt");
 		
 	}, { test_filter: platform_windows });
 	

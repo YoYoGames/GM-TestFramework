@@ -838,7 +838,9 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 			assert_true(_asyncLoad[? "status"], "buffer_async_group_begin/end(), fail to save the file");
 				
             // Clean up & end test
-			file_delete("asyncBuffer.sav");
+            var _directory = "Test";
+			file_delete($"{_directory}/asyncBuffer.sav");
+            if (platform_not_browser()) directory_destroy(_directory);
 			test_end();
 		}
 			
@@ -859,7 +861,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 		},
 			
 		ev_async_save_load: function() {
-				
             // Check if the load event matches the ID returned by buffer_load_async, and if it does, check if it's status is true
 			var _asyncLoad = async_load;
 			if (_asyncLoad[? "id"] != requestID) exit;
