@@ -78,6 +78,9 @@ class TestResult(BaseModel):
                 if error.get('actual') is not None:
                     lines.append(f"Got value: {error['actual']}")
 
+                if error.get('message'):
+                    lines.append(error['message'])
+
                 if error.get('stack'):
                     lines.append("Callstack:")
                     # Split stack trace by newlines and format each line with indentation
