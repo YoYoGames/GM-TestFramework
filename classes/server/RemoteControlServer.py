@@ -77,7 +77,7 @@ class RemoteControlServer:
 
         try:
             # Parse the incoming data as JSON
-            data_json: dict = data_utils.json_parse(data[:-1])
+            data_json: dict = data_utils.json_parse(data)
 
             # Extract necessary fields from the parsed JSON
             result_data: Optional[dict] = data_json.get('details')
@@ -339,7 +339,7 @@ class RemoteControlServer:
             if not data:
                 LOGGER.info("Client disconnected.")
                 return None
-            decoded_data = data.decode().strip()
+            decoded_data = data.decode().strip().strip("\x00")
             LOGGER.debug(f"Received: {decoded_data}")
             return decoded_data
         except asyncio.TimeoutError:
