@@ -71,8 +71,9 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		
 		// Select only the stack portion we want
 		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
-		array_delete(_stack, 0, stackBaseDepth - 1);
-				
+        if (array_length(_stack) > 0)
+    		array_delete(_stack, 0, stackBaseDepth - 1);
+        
 		failHook(_title, _description, _value, _expected, _stack, userData);
 		
 		return false;
@@ -94,7 +95,8 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 
 		// Select only the stack portion we want
 		var _stack = debug_get_callstack(stackBaseDepth + stackDepth);
-		array_delete(_stack, 0, stackBaseDepth - 1);
+        if (array_length(_stack) > 0)
+    		array_delete(_stack, 0, stackBaseDepth - 1);
 
 		passHook(_title, _description, _value, _expected, _stack, userData);
 		
@@ -2160,7 +2162,7 @@ function Assert(_configuration = undefined) : PropertyHolder() constructor {
 		static assertTitle = "Asserted value to be of a given type";
 
 		var _resolver = typeof(_value) == _expected ? pass : fail;
-	
+	 
 		if (_resolver == fail) {
 			show_debug_message($"{_value} :: {typeof(_value)} != {_expected}");
 		}
