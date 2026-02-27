@@ -86,11 +86,7 @@ if (using_remote_server) {
 	
 	if (SINGLE_TEST_MODE) {
 		var _test = testFramework.findTestByPath(single_test_path);
-		_test.run(function(_test) {
-	
-			show_debug_message(_test.getResultData());
-	
-		}, { suite: "Unknown", results_to_publish: [] });
+		_test.run(undefined, {});
 	} 
 	else {		
 		testFramework.run(undefined, {});

@@ -26,7 +26,7 @@ config_set("Test", {
 	test_start_hook: function(_test, _resultBag) {
 				
 		#region [WARNING] Don't change this block!
-		
+            
 		static assertSingleton = assert_get_singleton();
 		
 		assertSingleton.setUserData(_test);
@@ -82,7 +82,10 @@ config_set("Test", {
 				network_send_raw(socket, network_buffer, buffer_tell(network_buffer)); 
 			}
 		}
-		// This is the data to publish to the http server
+        else if (SINGLE_TEST_MODE) {
+            show_debug_message(_resultData);
+        }
+        // This is the data to publish to the http server
 		else {
 			_data.suite = _resultBag.suite;
 			array_push(_resultBag.results_to_publish, _data);
@@ -199,7 +202,7 @@ config_set("Assert", {
 	
 	// assert_pass_hook: function(_result, _userData) { log_info("Assert passed"); }, 
 	assert_fail_hook: function(_title, _description, _value, _expected, _stack, _userData) {
-		
+        
 		#region [WARNING] Don't change this block!
 		
 		var _result = {
@@ -207,7 +210,7 @@ config_set("Assert", {
 			description: _description,
 			actual: json_stringify(_value),			// stringify value
 			expected: json_stringify(_expected),	// stringify value
-			stack: _stack[0]
+			stack: array_length(_stack) > 0 ? _stack[0] : []
 		}
 		
 		// Add params if they exist (useful for data driven tests)

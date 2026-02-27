@@ -1005,7 +1005,83 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}, "variable_instance_set/get( string, ... ), should throw error");
 		
 	});
+    
+    addFact("variable_instance_set_get_test #8", function() {
 
+        var _target = global;
+        var _var_name = "__name__";
+        var _var_value = "something";
+		var _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, undefined, "variable_instance_get(global, <unexisting>) should be undefined");
+        
+        assert_not_throws(method({ _target, _var_name, _var_value }, function() {
+            variable_instance_set(_target, _var_name, _var_value);
+        }), "variable_instance_set(global, ...) should not throw!");
+        
+        var _exists = variable_instance_exists(_target, _var_name);
+        assert_true(_exists, "variable_instance_exists(global, <existing>) should true");
+
+        _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, _var_value, "variable_instance_get(global, ...) incorrect value after a set.");
+	});
+    
+    addFact("variable_instance_set_get_test #9", function() {
+
+        var _target = all;
+        var _var_name = "__name__";
+        var _var_value = "something";
+		var _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, undefined, "variable_instance_get(global, <unexisting>) should be undefined");
+        
+        assert_not_throws(method({ _target, _var_name, _var_value }, function() {
+            variable_instance_set(_target, _var_name, _var_value);
+        }), "variable_instance_set(global, ...) should not throw!");
+        
+        var _exists = variable_instance_exists(_target, _var_name);
+        assert_true(_exists, "variable_instance_exists(global, <existing>) should true");
+
+        _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, _var_value, "variable_instance_get(global, ...) incorrect value after a set.");
+	});
+    
+    addFact("variable_instance_set_get_test #10", function() {
+
+        var _target = noone;
+        var _var_name = "__name__";
+        var _var_value = "something";
+		var _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, undefined, "variable_instance_get(global, <unexisting>) should be undefined");
+        
+        assert_not_throws(method({ _target, _var_name, _var_value }, function() {
+            variable_instance_set(_target, _var_name, _var_value);
+        }), "variable_instance_set(global, ...) should not throw!");
+        
+        var _exists = variable_instance_exists(_target, _var_name);
+        assert_false(_exists, "variable_instance_exists(global, <existing>) should true");
+
+        _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, undefined, "variable_instance_get(global, ...) incorrect value after a set.");
+	});
+    
+    addFact("variable_instance_set_get_test #11", function() {
+
+        var _target = -4;
+        var _var_name = "__name__";
+        var _var_value = "something";
+		var _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, undefined, "variable_instance_get(global, <unexisting>) should be undefined");
+        
+        assert_not_throws(method({ _target, _var_name, _var_value }, function() {
+            variable_instance_set(_target, _var_name, _var_value);
+        }), "variable_instance_set(global, ...) should not throw!");
+        
+        var _exists = variable_instance_exists(_target, _var_name);
+        assert_false(_exists, "variable_instance_exists(global, <existing>) should true");
+
+        _v = variable_instance_get(_target, _var_name);
+        assert_equals(_v, undefined, "variable_instance_get(global, ...) incorrect value after a set.");
+	});
+    
 	// STRUCTS
 	
 	addFact("variable_struct_exists_test #1", function() {

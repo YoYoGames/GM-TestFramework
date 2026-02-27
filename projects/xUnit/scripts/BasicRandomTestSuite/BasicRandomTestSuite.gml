@@ -192,7 +192,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		_output = choose(_input);
 		assert_equals(_output, _input, "choose ( function:local ), should return the input");
 		
-		var _type = platform_not_browser() ? "number" : "method";
+		var _type = platform_not_browser() && runtime_not_gmrt() ? "number" : "method";
 		assert_typeof(_output, _type, "choose ( function:local ), failed to return the correct type");
 		
 	});

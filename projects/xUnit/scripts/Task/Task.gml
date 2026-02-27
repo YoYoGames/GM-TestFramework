@@ -132,7 +132,6 @@ function Task() : PropertyHolder() constructor {
 		if (!variable_struct_exists(diagnostics, _tag)) {
 			diagnostics[$ _tag] = [];
 		}
-		
 		array_push(diagnostics[$ _tag], _diagnostic);
 	}
 
