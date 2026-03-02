@@ -24,9 +24,8 @@ switch (_type) {
 		log_info("NETWORK: Connected"); 
 		break; 
 		 
-	case network_type_data: 
-		log_debug("NETWORK: network_type_data"); 
-		var _incoming = buffer_read(async_load[? "buffer"], buffer_string); 
+	case network_type_data:
+		var _incoming = buffer_read(async_load[? "buffer"], buffer_string);
 		 
 		// Split command from arguments 
 		var _parts = string_split(_incoming, " ", true, 1); 
