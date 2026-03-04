@@ -8,7 +8,7 @@ REM ============================================================================
 SET "SCRIPT_DIR=%~dp0"
 SET "UV_PROJECT_ENVIRONMENT=%SCRIPT_DIR%.venv"
 IF NOT DEFINED UV_CACHE_DIR SET "UV_CACHE_DIR=%SCRIPT_DIR%.uv\.uv_cache"
-SET "_LAUNCHER_UV_VERSION=0.9.26"
+SET "_LAUNCHER_UV_VERSION=0.10.8"
 
 REM Check if uv is already available on PATH
 where uv >NUL 2>&1

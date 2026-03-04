@@ -9,7 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export UV_PROJECT_ENVIRONMENT="$SCRIPT_DIR/.venv"
 export UV_CACHE_DIR="${UV_CACHE_DIR:-$SCRIPT_DIR/.uv/.uv_cache}"
 
-_LAUNCHER_UV_VERSION="0.9.26"
+_LAUNCHER_UV_VERSION="0.10.8"
 
 # Check if uv is already available on PATH
 if ! command -v uv &> /dev/null; then
