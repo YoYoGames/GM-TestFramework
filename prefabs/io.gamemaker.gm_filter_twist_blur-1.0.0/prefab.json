@@ -4,9 +4,9 @@
   "Description":"GameMaker Twist Blur Filter",
   "DisplayName":"Twist Blur",
   "Exports":[
-    {"$PrefabExportMetadata":"v3","AssetName":"_filter_twist_blur_shader","Description":"Shader","DisplayName":"_filter_twist_blur_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
-    {"$PrefabExportMetadata":"v3","AssetName":"_filter_twist_blur_texture","Description":"Sprite","DisplayName":"_filter_twist_blur_texture","FolderPath":"Sprites","ResourceType":"GMSprite","ResourceVersion":2,},
-    {"$PrefabExportMetadata":"v3","AssetName":"Default","Description":"TextureGroup","DisplayName":"Default","FolderPath":"","IsDependency":true,"ParentName":"io.gamemaker.gm_filter_twist_blur-1.0.0","ResourceType":"GMTextureGroup","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v4","AssetName":"_filter_twist_blur_shader","Description":"Shader","DisplayName":"_filter_twist_blur_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v4","AssetName":"_filter_twist_blur_texture","Description":"Sprite","DisplayName":"_filter_twist_blur_texture","FolderPath":"Sprites","ResourceType":"GMSprite","ResourceVersion":2,},
+    {"$PrefabExportMetadata":"v4","AssetName":"Default","Description":"TextureGroup","DisplayName":"Default","FolderPath":"","IsDependency":true,"ParentName":"io.gamemaker.gm_filter_twist_blur-1.0.0","ResourceType":"GMTextureGroup","ResourceVersion":0,},
   ],
   "PackageId":"io.gamemaker.gm_filter_twist_blur",
   "Version":"1.0.0",
