@@ -1,0 +1,11 @@
+[project]
+name = "gm-testframework"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.9.3",
+    "psutil>=6.0.0",
+    "pydantic>=2.10.5",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.3",
+]
