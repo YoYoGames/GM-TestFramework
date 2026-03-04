@@ -1,4 +1,5 @@
 import argparse
+import asyncio
 import logging
 import os
 import requests
@@ -83,10 +84,13 @@ class RunTestsCommand(BaseCommand):
             logging.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
 
         # Build the project first
-        build_event = await async_utils.run_exe(gmrt_exe, self._build_gmrt_arguments(build_job))
-        await build_event.wait()
-        if build_event.returncode != 0:
-            logging.error("Build job failed. Aborting test run.")
+        build_args = self._build_gmrt_arguments(build_job)
+        build_process = await async_utils.run_exe(gmrt_exe, build_args)
+        build_output = await async_utils.capture_output(build_process, asyncio.Event())
+        await build_process.wait()
+        if build_process.returncode != 0:
+            logging.error(f"Build job failed (exit code {build_process.returncode}). Aborting test run.")
+            logging.error(f"Build output:\n{build_output}")
             return
         
         # Now we can start the remote control server to run tests.

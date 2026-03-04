@@ -15,3 +15,5 @@ node_modules/
 
 clean_remote.ps1
 /.vscode
+
+.uv/
