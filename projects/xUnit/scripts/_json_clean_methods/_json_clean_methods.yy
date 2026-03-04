@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"_json_clean_methods",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"_json_clean_methods",
+  "parent":{
+    "name":"Utils",
+    "path":"folders/Tests/Utils.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

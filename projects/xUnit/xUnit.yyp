@@ -213,7 +213,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1400.2.934",
+    "IDEVersion":"2024.1400.4.1011",
   },
   "name":"xUnit",
   "resources":[
@@ -250,6 +250,7 @@
     {"id":{"name":"rmInit","path":"rooms/rmInit/rmInit.yy",},},
     {"id":{"name":"room0","path":"rooms/room0/room0.yy",},},
     {"id":{"name":"room1","path":"rooms/room1/room1.yy",},},
+    {"id":{"name":"_json_clean_methods","path":"scripts/_json_clean_methods/_json_clean_methods.yy",},},
     {"id":{"name":"Assert","path":"scripts/Assert/Assert.yy",},},
     {"id":{"name":"AssertAPI","path":"scripts/AssertAPI/AssertAPI.yy",},},
     {"id":{"name":"BasicAccessorExpressionsTestSuite","path":"scripts/BasicAccessorExpressionsTestSuite/BasicAccessorExpressionsTestSuite.yy",},},

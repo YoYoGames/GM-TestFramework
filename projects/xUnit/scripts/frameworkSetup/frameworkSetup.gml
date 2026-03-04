@@ -180,17 +180,16 @@ config_set("TestFrameworkRun", {
 		
 		if (is_array(_resultBag[$ "failed"])) {
 			array_foreach(_resultBag[$ "failed"], function(_failure) {
-				log_info($"FAILED: {json_stringify(_failure)}");
+				log_info($"FAILED: {json_stringify(_failure, false, _json_clean_methods)}");
 			});
 		}
 		
 		if (is_array(_resultBag[$ "expired"])) {
 			array_foreach(_resultBag[$ "expired"], function(_failure) {
-				log_info($"EXPIRED: {json_stringify(_failure)}");
+				log_info($"EXPIRED: {json_stringify(_failure, false, _json_clean_methods)}");
 			});
 		}
 	}
-
 });
 
 // This call sets the default configuration for the 'Assert' class.

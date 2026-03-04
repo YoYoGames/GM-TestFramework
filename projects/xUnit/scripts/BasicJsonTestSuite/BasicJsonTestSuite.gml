@@ -368,4 +368,33 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 			
 	});
 	
+	
+	addFact("json_stringify_test #4", function() {
+
+		var _struct, _output, _jsonStr;
+	
+		// ========== REPLACED ==========
+			
+		_struct = {
+			version: 2,
+			myArray: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+			myFunction: function() {}
+		}
+
+		_jsonStr = json_stringify(_struct, false, function(_key, _value) {
+			if (is_callable(_value)) return "func";
+			if (is_array(_value)) return "array";
+			return _value;
+		});
+		
+		_output = json_parse(_jsonStr);
+		
+		var _test = {
+			version: 2,
+			myArray: "array",
+			myFunction: "func",
+		}
+		
+		assert_struct_equals(_test, _output, "json_stringify ( struct:local, ..., replacer ), use custom replace funnction (structs are not equal)")			
+	});
 }

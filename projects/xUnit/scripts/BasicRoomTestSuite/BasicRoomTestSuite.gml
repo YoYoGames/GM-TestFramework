@@ -16,6 +16,9 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 		
 		ev_room_start: function() {
 			
+			show_debug_message(room);
+			show_debug_message(room0);
+			
 			assert_true(room == room0, "The room didn't change!");
 			
 			// Check if your object exists (it should if it is persistent)
