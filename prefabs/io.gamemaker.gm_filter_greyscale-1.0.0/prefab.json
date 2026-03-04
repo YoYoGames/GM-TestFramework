@@ -4,7 +4,7 @@
   "Description":"GameMaker Greyscale Filter",
   "DisplayName":"Greyscale Filter",
   "Exports":[
-    {"$PrefabExportMetadata":"v4","AssetName":"_filter_greyscale_shader","Description":"Shader","DisplayName":"_filter_greyscale_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
+    {"$PrefabExportMetadata":"v3","AssetName":"_filter_greyscale_shader","Description":"Shader","DisplayName":"_filter_greyscale_shader","FolderPath":"Shaders","ResourceType":"GMShader","ResourceVersion":0,},
   ],
   "PackageId":"io.gamemaker.gm_filter_greyscale",
   "Version":"1.0.0",
