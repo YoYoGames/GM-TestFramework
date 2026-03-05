@@ -132,7 +132,7 @@ class RunTestsCommand(BaseCommand):
         data = response.json()
 
         # 1. Get the latest version from "dist-tags"
-        latest_version = data["dist-tags"]["latest"]
+        latest_version = "2024.14.157" # data["dist-tags"]["latest"]
         
         # 2. Retrieve the package info for that version
         package_info = data["versions"][latest_version]
