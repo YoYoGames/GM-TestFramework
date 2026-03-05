@@ -6,6 +6,7 @@ import requests
 import shutil
 import subprocess
 from pathlib import Path
+from typing import Optional
 
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
@@ -84,7 +85,7 @@ class RunTestsCommand(BaseCommand):
             logging.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
 
         # Build the project first
-        build_args = self._build_gmrt_arguments(build_job)
+        build_args = self._build_gmrt_arguments(build_job, project_tool_path)
         build_process = await async_utils.run_exe(gmrt_exe, build_args)
         build_output = await async_utils.capture_output(build_process, asyncio.Event())
         await build_process.wait()
@@ -132,7 +133,7 @@ class RunTestsCommand(BaseCommand):
         data = response.json()
 
         # 1. Get the latest version from "dist-tags"
-        latest_version = "2024.14.157" # data["dist-tags"]["latest"]
+        latest_version = data["dist-tags"]["latest"]
         
         # 2. Retrieve the package info for that version
         package_info = data["versions"][latest_version]
@@ -165,7 +166,7 @@ class RunTestsCommand(BaseCommand):
         os.environ["PREFABS"] = self.get_argument('prefab_dir')
         subprocess.run([PROJECT_SCRIPT_PATH], check=True)
 
-    def _build_gmrt_arguments(self, build_jobs: str) -> list[str]:
+    def _build_gmrt_arguments(self, build_jobs: str, project_tool_path : Optional[str] = None) -> list[str]:
         """Builds the argument list for the server."""
         args = [
             self.get_argument("project_path"),
@@ -174,8 +175,11 @@ class RunTestsCommand(BaseCommand):
             f"-bj={build_jobs}",
             f"--build-type={self.get_argument('build_type')}",
             f"--script-build-type={self.get_argument('script_build_type')}",
-            f"--prefab-dir={self.get_argument('prefab_dir')}"
+            f"--prefab-dir={self.get_argument('prefab_dir')}",
         ]
+
+        if project_tool_path:
+            args.append(f"--projecttool={project_tool_path}")
 
         cache_dir = self.get_argument("cache_dir")
         if cache_dir:
