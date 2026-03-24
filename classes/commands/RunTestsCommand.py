@@ -106,6 +106,8 @@ class RunTestsCommand(BaseCommand):
 
     def _clean_results_directory(self) -> None:
         """Cleans the results directory."""
+        results_dir = ROOT_DIR / "results"
+        file_utils.create_directory(results_dir)
         file_utils.clean_directory(ROOT_DIR / "results")
 
     def _prepare_gmrt_paths(self) -> tuple[Path, Path]:
