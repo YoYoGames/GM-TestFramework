@@ -269,6 +269,10 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	});
 
 	addFact("bool_test #23", function() {
+        
+		if (runtime_gmrt()) {
+			return log_info("Skipping test (not supported on GMRT)");
+		}
 
 		var input, output;
 		
@@ -527,6 +531,10 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	addFact("int64_test #22", function() {
 		
+		if (runtime_gmrt()) {
+			return log_info("Skipping test (not supported on GMRT)");
+		}
+		
 		var input, output;
 		
 		//#22 int64 ( any ) should throw error
@@ -768,6 +776,10 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	});
 
 	addFact("string_test #20", function() {
+		
+		if (runtime_gmrt()) {
+			return log_info("Skipping test (not supported on GMRT)");
+		}
 	
 		var input, output;
 		
@@ -1040,6 +1052,10 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 	});
 
 	addFact("real_test #23", function() {
+		
+		if (runtime_gmrt()) {
+			return log_info("Skipping test (not supported on GMRT)");
+		}
 			
 		var input, output;
 		
@@ -1297,6 +1313,10 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 
 	addFact("ptr_test #20", function() {
 		
+		if (runtime_gmrt()) {
+			return log_info("Skipping test (not supported on GMRT)");
+		}
+        
 		var input, output;
 		
 		//#20 ptr ( any ), should throw error
@@ -1430,7 +1450,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),				assert_true,	"#5 is_int32 ( int32:local ), should be true"],
 		[int64(12),				assert_false,	"#6 is_int32 ( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_int32 ( int64:local ), should be false (enum entries are always int64)", platform_not_browser],
+		[RainbowColors.Orange,	assert_false,	"#7 is_int32 ( int64:local ), should be false (enum entries are always int64)", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 		["-21233.223",			assert_false,	"#8 is_int32 ( string:local ), numeric string should be false"],
 		[true,					assert_false,	"#9 is_int32 ( bool:local ), should be false"],
@@ -1465,7 +1487,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),				assert_false,	"#5 is_int64 ( int32:local ), should be false"],
 		[int64(12),				assert_true,	"#6 is_int64 ( int64:local ), should be true"],
 		
-		[RainbowColors.Orange,	assert_true,	"#7 is_int64 ( int64:local ), should be true (enum entries are always int64)", platform_not_browser],
+		[RainbowColors.Orange,	assert_true,	"#7 is_int64 ( int64:local ), should be true (enum entries are always int64)", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 		["-21233.223",			assert_false,	"#8 is_int64 ( string:local ), numeric string should be false"],
 		[true,					assert_false,	"#9 is_int64 ( bool:local ), should be false"],
@@ -1511,7 +1535,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[[],				assert_false,	"#13 is_method ( array:local ), should be false"],
 		[{ key: "value" },	assert_false,	"#14 is_method ( struct:local ), should be false"],
 		[function() {},		assert_true,	"#15 is_method ( method:local ), should be true"],
-		[get_timer,			assert_false,	"#16 is_method ( function:local ), should be false", platform_not_browser],
+		[get_timer,			assert_false,	"#16 is_method ( function:local ), should be false", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1548,7 +1574,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[[],				assert_true,	"#15 is_nan ( array:local ), should be true"],
 		[{ key: "value" },	assert_true,	"#16 is_nan ( struct:local ), should be true"],
 		[function() {},		assert_true,	"#17 is_nan ( method:local ), should be true"],
-		[get_timer,			assert_false,	"#18 is_nan ( function:local ), should be false", platform_not_browser],
+		[get_timer,			assert_false,	"#18 is_nan ( function:local ), should be false", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 		[NaN + 300,			assert_true,	"#19 is_nan ( NaN + value ), should be true"],
 		[NaN - 300,			assert_true,	"#20 is_nan ( NaN - value ), should be true"],
@@ -1591,7 +1619,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[[],				assert_false,	"#15 is_numeric ( array:local ), should be false"],
 		[{ key: "value" },	assert_false,	"#16 is_numeric ( struct:local ), should be false"],
 		[function() {},		assert_false,	"#17 is_numeric ( method:local ), should be false"],
-		[get_timer,			assert_true,	"#18 is_numeric ( function:local ), should be true", platform_not_browser],
+		[get_timer,			assert_true,	"#18 is_numeric ( function:local ), should be true", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1653,7 +1683,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			assert_false,	"#5 is_real( int32:local ), should be false", platform_not_browser],
 		[int64(12),			assert_false,	"#6 is_real( int64:local ), should be false"],
 		
-		[RainbowColors.Orange,	assert_false,	"#7 is_real ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	assert_false,	"#7 is_real ( int64:local ), should be false (enum entries are always int64)", runtime_not_gmrt],
 
 		["-21233.223",		assert_false,	"#8 is_real( string:local ), numeric string should be false"],
 		["",				assert_false,	"#9 is_real( string:local ), empty string should be false"],
@@ -1667,7 +1697,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[[],				assert_false,	"#15 is_real ( array:local ), should be false"],
 		[{ key: "value" },	assert_false,	"#16 is_real ( struct:local ), should be false"],
 		[function() {},		assert_false,	"#17 is_real ( method:local ), should be false"],
-		[get_timer,			assert_true,	"#18 is_real ( function:local ), should be true", platform_not_browser],
+		[get_timer,			assert_true,	"#18 is_real ( function:local ), should be true", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1741,7 +1773,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[[],				assert_false,	"#15 is_struct ( array:local ), should be false"],
 		[{ key: "value" },	assert_true,	"#16 is_struct ( struct:local ), should be true"],
 		[function() {},		assert_true,	"#17 is_struct ( method:local ), should be true", platform_not_browser],
-		[get_timer,			assert_false,	"#18 is_struct ( function:local ), should be false"],
+		[get_timer,			assert_false,	"#18 is_struct ( function:local ), should be false", runtime_not_gmrt],
 		
 	], function(_input, _test_func, _desc, _condition = undefined) {
 		
@@ -1802,7 +1834,7 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[int32(22),			"int32",		"#5 typeof( int32:local )",	platform_not_browser],
 		[int64(12),			"int64",		"#6 typeof( int64:local )"],
 		
-		[RainbowColors.Orange,	"int64",	"#7 is_array ( int64:local ), should be false (enum entries are always int64)"],
+		[RainbowColors.Orange,	"int64",	"#7 is_array ( int64:local ), should be false (enum entries are always int64)", runtime_not_gmrt],
 
 		["-21233.223",		"string",		"#8 typeof( string:local )"],
 		["",				"string",		"#9 typeof( string:local )"],
@@ -1816,7 +1848,9 @@ function BasicDataTypesTestSuite() : TestSuite() constructor {
 		[[],				"array",		"#15 typeof ( array:local )"],
 		[{ key: "value" },	"struct",		"#16 typeof ( struct:local )"],
 		[function() {},		"method",		"#17 typeof ( method:local )"],
-		[get_timer,			"number",		"#18 typeof ( function:local )", platform_not_browser],
+		[get_timer,			"number",		"#18 typeof ( function:local )", function() {
+            return runtime_not_gmrt() && platform_not_browser(); 
+        }],
 		
 	], function(_input, _expected, _desc, _condition = undefined) {
 		
