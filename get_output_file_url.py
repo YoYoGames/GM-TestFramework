@@ -1,5 +1,9 @@
+import logging
 import os, json, requests, time
 import argparse
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+LOGGER = logging.getLogger(__name__)
 
 # Define the directory path and file path
 dir_path = ""
@@ -26,7 +30,7 @@ if github_token:
 
 # Check if path exists (could be a file or directory)
 if os.path.exists(output_file_path):
-    print("TF Output file located.")
+    LOGGER.info("TF Output file located.")
 
     # keep waiting until the output file artifact is ready
     def wait_for_artifact_ready(artifact_id, token, timeout=60, interval=5):
@@ -56,13 +60,13 @@ if os.path.exists(output_file_path):
                 # Artifact not found yet – keep trying
                 pass
             else:
-                print(f"Unexpected error: {response.status_code}")
+                LOGGER.error(f"Unexpected error: {response.status_code}")
                 return False
 
-            print("Waiting for artifact to be ready...")
+            LOGGER.info("Waiting for artifact to be ready...")
             time.sleep(interval)
 
-        print("Timeout: Artifact not ready in time.")
+        LOGGER.warning("Timeout: Artifact not ready in time.")
         return False
 
 
@@ -86,7 +90,7 @@ if os.path.exists(output_file_path):
             # Update the value
             for field in data["attachments"][0]["fields"]:
                 if field["title"] == "Output file":
-                    print(f"Output file URL: {new_output_link}")
+                    LOGGER.info(f"Output file URL: {new_output_link}")
                     field["value"] = new_output_link
                     break
 
@@ -94,12 +98,12 @@ if os.path.exists(output_file_path):
             with open(slack_file_path, "w") as file:
                 json.dump(data, file, indent=4)
 
-            print("Slack Stats JSON updated successfully.")
+            LOGGER.info("Slack Stats JSON updated successfully.")
 
     except Exception as e:
-        print({"error": str(e)})
+        LOGGER.error({"error": str(e)})
 else:
-    print("TF Output file does not exist.")
+    LOGGER.warning("TF Output file does not exist.")
 
 
 

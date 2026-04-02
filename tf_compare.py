@@ -1,12 +1,16 @@
+import logging
 import requests, zipfile, sys, json, os, glob, re, shutil, time, fnmatch
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+LOGGER = logging.getLogger(__name__)
 # Load the .env file
 load_dotenv()
 
 # Access the variables
 baseSaveLocation = os.getenv("BASE_SAVE_LOCATION")
 
-print("Base Save Location:", baseSaveLocation)
+LOGGER.info("Base Save Location: %s", baseSaveLocation)
 
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
@@ -101,9 +105,9 @@ def get_workflow_runs():
         if len(_artifactRunID) >= 1:
             get_artifact_URL()
         else:
-            print("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
+            LOGGER.error("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
     else:
-        print(f"Failed to get workflow runs. HTTP Status: {response.status_code}")
+        LOGGER.error(f"Failed to get workflow runs. HTTP Status: {response.status_code}")
 
 
 
@@ -140,20 +144,20 @@ def get_artifact_URL():
                     _artifactID.append(artifact['id'])
                     _download_artifacts_url[runState] = artifact.get("archive_download_url")
         else:
-            print(f"Failed to artifact URL. HTTP Status: {response.status_code}")
+            LOGGER.error(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
     # Time to download the artifact files, ensure the current run has a valid artifact file
     if (len(_download_artifacts_url) > 0) and _download_artifacts_url.get('Current'):
         download_github_artifact(_download_artifacts_url)
     else:
-        print(f"No artifact files available in the current workflow run!\nTF Compare script will not continue")
+        LOGGER.error(f"No artifact files available in the current workflow run!\nTF Compare script will not continue")
 
 
 def download_github_artifact(_download_artifacts_url):
 
     # iterate through the _download_artifacts_url array and download each artifact file
     urlCount = 0
-    print("Downloading artifact files")
+    LOGGER.info("Downloading artifact files")
     
     for url in _download_artifacts_url:
 
@@ -176,11 +180,11 @@ def download_github_artifact(_download_artifacts_url):
 
             urlCount +=1
         else:
-            print(f"Failed to download artifact. HTTP Status: {response.status_code}")
+            LOGGER.error(f"Failed to download artifact. HTTP Status: {response.status_code}")
 
     # time to compare the artifact files
     if len(artifact_files) >= 1:
-        print("Artifacts successfully downloaded")
+        LOGGER.info("Artifacts successfully downloaded")
         compare_artifacts(artifact_files)
 
 
@@ -206,7 +210,7 @@ def unzip_artifact_files(save_path, zipfilename):#
                 # Extract each josn file
                 zip_ref.extract(art_file, extract_to)
         else:
-            print("No files found in the artifact archive.") # Print error details
+            LOGGER.warning("No files found in the artifact archive.")
 
     return artifact_files
 
@@ -224,7 +228,7 @@ def compare_artifacts(artifact_files):
     allTestFiles = {}
     fileCount = 1
 
-    print("Processing and Comparing artifact data")
+    LOGGER.info("Processing and Comparing artifact data")
     
     # for each data directory
     for data in saveLocation:
@@ -243,7 +247,7 @@ def compare_artifacts(artifact_files):
                     #     xUnit_windows_VM_2, xUnit_windows_YYC_2 - Previous Test Run
                     allTestFiles[f"{art_file}_{fileCount}"] = json.load(file)
             else:
-                print(f"File in {file_path} does not exist.")
+                LOGGER.warning(f"File in {file_path} does not exist.")
         fileCount +=1
 
     if len(allTestFiles) > 0:
@@ -416,7 +420,7 @@ def compare_artifacts(artifact_files):
                     testCounter +=1
 
             elif len(failsWrapper[0]) + len(failsWrapper[1]) + len(failsWrapper[2]) == 0:
-                print(f"\nNo fails have been identified in this run for {compiler[cIndex]}.") # Print error details
+                LOGGER.info(f"No fails have been identified in this run for {compiler[cIndex]}.")
                 
 
         file.write("\n************************************** NEW FAILS ***************************************\n")
@@ -451,7 +455,7 @@ def compare_artifacts(artifact_files):
         file.write("****************************************************************************************\n")
 
         # confirm successful creation of output file
-        print("\nTEXT file 'TF_Output.txt' was created successfully!")
+        LOGGER.info("TEXT file 'TF_Output.txt' was created successfully!")
 
 
     # Remove all downloaded artifacts files
@@ -465,8 +469,8 @@ def compare_artifacts(artifact_files):
             if os.path.isfile(file):  # Ensure it's a file (not a folder)
                 os.remove(file)
 
-    print("\nArtifact comparison has completed")
-    print("All downloaded artifact files deleted.")
+    LOGGER.info("Artifact comparison has completed")
+    LOGGER.info("All downloaded artifact files deleted.")
 
     # _artifactRunID
     # _artifactID
@@ -484,7 +488,7 @@ def compare_artifacts(artifact_files):
 
 
     # build JSON file content for Slack Notification
-    print("\nCreating Slack JSON Stats file")
+    LOGGER.info("Creating Slack JSON Stats file")
     slack_stats["text"] = f"*{RTVersion} {workflow.split(".")[0]} Test Results Summary*"
     slack_stats["Runtime-Version"] = RTVersion
     slack_stats["attachments"] = [
@@ -519,7 +523,7 @@ def compare_artifacts(artifact_files):
     with open("slack_stats.json", "w") as slackfile:
         # Convert the list to a JSON-formatted string
         json.dump(slack_stats, slackfile, indent=4)
-        print("\nJSON file 'slack_stats.json' was created successfully!")
+        LOGGER.info("JSON file 'slack_stats.json' was created successfully!")
 
 
 #Get failed test code block and lines
@@ -570,9 +574,9 @@ def get_code(testname, testsuite):
             
             return [function_code, permalink]
         else:
-            print("Function not found in file.")
+            LOGGER.warning("Function not found in file.")
     else:
-        print(f"Failed to fetch file. HTTP Status: {response.status_code}")
+        LOGGER.error(f"Failed to fetch file. HTTP Status: {response.status_code}")
 
 
 # create new bug report / comment on existing report
@@ -591,12 +595,12 @@ def log_fail(testName, failDetails, compiler, test_code_details):
         headers['Accept'] = 'application/vnd.github.v3+json'
 
     # Search all repositories
-    print(f"\nSearching for test: {testName}")
+    LOGGER.info(f"Searching for test: {testName}")
     issue_search = next((data for repo in repos if (data := get_issues(repo, testName, compiler))), None)
 
 
     if issue_search != None:
-        print(f"Report has been found for: {testName} in Repo: {issue_search[1]}")
+        LOGGER.info(f"Report has been found for: {testName} in Repo: {issue_search[1]}")
         # fail has already been written up
         # check its state (open/closed)
         for report in issue_search[0]['items']:
@@ -609,9 +613,9 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                 response = requests.patch(report['url'], headers=headers, json=issue_data)
 
                 if response.status_code == 200:
-                    print("This issue is currently marked as closed!")
-                    print(f"Issue: {report['number']} - {testName}, successfully reopened")
-                    print(f"Bug Report URL{report['html_url']}")
+                    LOGGER.info("This issue is currently marked as closed!")
+                    LOGGER.info(f"Issue: {report['number']} - {testName}, successfully reopened")
+                    LOGGER.info(f"Bug Report URL: {report['html_url']}")
                     # add 1 to the reopened count
                     total_reopened_reports += 1
                     # add new comment to bug report
@@ -633,15 +637,13 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                     response = requests.post(report['comments_url'], headers=headers, json=comment_data)
 
                     if response.status_code == 201:
-                        print(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
-                        # print(f"Bug Report URL: {report['html_url']}")
+                        LOGGER.info(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
                         break
                     else:
-                        print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
-                        # print(f"Bug Report URL: {report['html_url']}")
+                        LOGGER.warning(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
                         break
                 else:
-                    print(f"Issue: {report['number']} - {testName}, could not be reopened")
+                    LOGGER.warning(f"Issue: {report['number']} - {testName}, could not be reopened")
 
             #  the found report is still open and unresolved
             elif report['state'] == 'open':
@@ -689,23 +691,21 @@ def log_fail(testName, failDetails, compiler, test_code_details):
                                         response = requests.post(report['comments_url'], headers=headers, json=comment_data)
 
                                         if response.status_code == 201:
-                                            print(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
-                                            # print(f"Bug Report URL: {report['html_url']}")
+                                            LOGGER.info(f"Issue: {report['number']} - {testName}, new comment successfully added to report")
                                             break
                                         else:
-                                            print(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
-                                            # print(f"Bug Report URL: {report['html_url']}")
+                                            LOGGER.warning(f"Issue: {report['number']} - {testName}, adding a new comment was unsuccessful!")
                                             break
                     else:
-                        print(f"Error: {response.status_code} - {response.json()}")
+                        LOGGER.error(f"Error: {response.status_code} - {response.json()}")
             
             # return existing bug report url
-            print(f"Bug Report URL: {report['html_url']}")
+            LOGGER.info(f"Bug Report URL: {report['html_url']}")
             return f"{report['html_url']}"
     else:
         # new report to be written up
         # Look at adding the new reports to a new holding repo
-        print(f"No report found for: {testName}")
+        LOGGER.info(f"No report found for: {testName}")
 
         if failDetails['errorType'] == 'error':
             if 'description' in failDetails['errorDetails']:
@@ -784,8 +784,8 @@ def log_fail(testName, failDetails, compiler, test_code_details):
 
         if response.status_code == 201:
             issue_data = response.json()
-            print(f"Issue: {issue_data['number']} - {testName}, successfully created!")
-            print(f"Bug Report URL: {issue_data['url']}")
+            LOGGER.info(f"Issue: {issue_data['number']} - {testName}, successfully created!")
+            LOGGER.info(f"Bug Report URL: {issue_data['url']}")
             # add 1 to the new report created count
             total_new_reports += 1
 

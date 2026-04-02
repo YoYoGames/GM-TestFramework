@@ -150,7 +150,7 @@ class RunTestsCommand(BaseCommand):
             with open(tarball_filename, "wb") as f:
                 shutil.copyfileobj(tarball_response.raw, f)
 
-        print(f"[INFO] Downloaded ProjectTool tarball: {tarball_filename}")
+        logging.info(f"Downloaded ProjectTool tarball: {tarball_filename}")
         
         import tarfile
         with tarfile.open(tarball_filename) as tf:

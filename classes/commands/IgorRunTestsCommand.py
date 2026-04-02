@@ -327,7 +327,7 @@ class IgorRunTestsCommand(BaseCommand):
     def find_npm(self) -> str:
         npm = shutil.which("npm") or shutil.which("npm.cmd")
         if not npm:
-            print("Could not find 'npm' on PATH. Make sure Node.js is installed.")
+            LOGGER.error("Could not find 'npm' on PATH. Make sure Node.js is installed.")
             sys.exit(1)
         return npm
 
@@ -349,28 +349,28 @@ class IgorRunTestsCommand(BaseCommand):
         }
         payload = {"name": username, "password": password}
 
-        print(f"Logging in to Verdaccio at: {url}")
+        LOGGER.info(f"Logging in to Verdaccio at: {url}")
         resp = requests.put(url, headers=headers, data=json.dumps(payload), timeout=15)
 
         if not (200 <= resp.status_code < 300):
-            print(f"Login failed: {resp.status_code}")
-            print(resp.text)
+            LOGGER.error(f"Login failed: {resp.status_code}")
+            LOGGER.error(resp.text)
             return None
 
         try:
             data = resp.json()
         except ValueError:
-            print("Login response was not valid JSON:")
-            print(resp.text)
+            LOGGER.error("Login response was not valid JSON:")
+            LOGGER.error(resp.text)
             return None
 
         token = data.get("token")
         if not token:
-            print("Login succeeded but 'token' not found in response:")
-            print(data)
+            LOGGER.error("Login succeeded but 'token' not found in response:")
+            LOGGER.error(data)
             return None
 
-        print("Login succeeded, got token from Verdaccio.")
+        LOGGER.info("Login succeeded, got token from Verdaccio.")
         return token
 
     def npm_set_auth(self, registry: str, token: str, userconfig: str | None = None) -> int:
@@ -389,15 +389,14 @@ class IgorRunTestsCommand(BaseCommand):
         if userconfig:
             env["NPM_CONFIG_USERCONFIG"] = userconfig
 
-        print("\nSetting npm auth token with:")
-        print(" ", " ".join(cmd))
+        LOGGER.info("Setting npm auth token with: %s", " ".join(cmd))
 
         result = subprocess.run(cmd, env=env, capture_output=True, text=True)
         if result.stdout:
-            print(result.stdout)
+            LOGGER.info(result.stdout)
         if result.stderr:
-            print(result.stderr, file=sys.stderr)
-        print(f"npm config set exit code: {result.returncode}")
+            LOGGER.error(result.stderr)
+        LOGGER.info(f"npm config set exit code: {result.returncode}")
         return result.returncode
 
     def ensure_directories_exist(self, directories: list[Path]):
