@@ -308,7 +308,7 @@ class RemoteControlServer:
             if not response:
                 return
             
-            print(f'> {response}')
+            LOGGER.info(f'> {response}')
 
         # Transition to FINISHED state
         self.state = State.FINISHED
