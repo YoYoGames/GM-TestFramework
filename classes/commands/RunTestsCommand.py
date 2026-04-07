@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import logging
 import os
 import requests
 import shutil
@@ -12,6 +11,7 @@ from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMo
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
 from classes.server.TestFrameworkServer import manage_server
 from utils import async_utils, file_utils
+from utils.logging_utils import LOGGER
 from utils.path_utils import ROOT_DIR
 
 PROJECTS_DIR = ROOT_DIR / 'projects'
@@ -76,13 +76,13 @@ class RunTestsCommand(BaseCommand):
         
         try:
             build_job, run_job = self.get_argument("build_jobs").split(";")
-        except:
-            logging.error(f"Invalid build jobs format: {self.get_argument('build_jobs')}. Expected format: <build_job>;<run_job>")
+        except ValueError:
+            LOGGER.error(f"Invalid build jobs format: {self.get_argument('build_jobs')}. Expected format: <build_job>;<run_job>")
             return
 
         if Path(self.get_argument("output_folder")).exists() and any(Path(self.get_argument("output_folder")).iterdir()):
-            logging.warning(f"Output folder '{self.get_argument('output_folder')}' is not empty. Previous results may affect the test run.")
-            logging.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
+            LOGGER.warning(f"Output folder '{self.get_argument('output_folder')}' is not empty. Previous results may affect the test run.")
+            LOGGER.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
 
         # Build the project first
         build_args = self._build_gmrt_arguments(build_job, project_tool_path)
@@ -90,8 +90,8 @@ class RunTestsCommand(BaseCommand):
         build_output = await async_utils.capture_output(build_process, asyncio.Event())
         await build_process.wait()
         if build_process.returncode != 0:
-            logging.error(f"Build job failed (exit code {build_process.returncode}). Aborting test run.")
-            logging.error(f"Build output:\n{build_output}")
+            LOGGER.error(f"Build job failed (exit code {build_process.returncode}). Aborting test run.")
+            LOGGER.error(f"Build output:\n{build_output}")
             return
         
         # Now we can start the remote control server to run tests.
@@ -129,7 +129,7 @@ class RunTestsCommand(BaseCommand):
         project_tool_package_url = f'{GMPM_REGISTRY_URL}/{PROJECT_TOOL_PACKAGE}'
         
         # Fetch the JSON metadata
-        response = requests.get(project_tool_package_url)
+        response = requests.get(project_tool_package_url, timeout=30)
         response.raise_for_status()
         
         data = response.json()
@@ -145,12 +145,12 @@ class RunTestsCommand(BaseCommand):
         
         # 4. Download the tarball
         tarball_filename = WORKSPACE_DIR /f"project-tool-win-x64-{latest_version}.tgz"
-        with requests.get(tarball_url, stream=True) as tarball_response:
+        with requests.get(tarball_url, stream=True, timeout=30) as tarball_response:
             tarball_response.raise_for_status()
             with open(tarball_filename, "wb") as f:
                 shutil.copyfileobj(tarball_response.raw, f)
 
-        logging.info(f"Downloaded ProjectTool tarball: {tarball_filename}")
+        LOGGER.info(f"Downloaded ProjectTool tarball: {tarball_filename}")
         
         import tarfile
         with tarfile.open(tarball_filename) as tf:

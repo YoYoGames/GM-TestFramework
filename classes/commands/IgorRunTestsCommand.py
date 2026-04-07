@@ -416,17 +416,22 @@ class IgorRunTestsCommand(BaseCommand):
             LOGGER.error(f'Failed to change directory: {e}')
 
     def download_and_extract(self, url, extract_path: Path):
-        # Download the file
+        # Download the file to a temp file to avoid loading entire zip into memory
         LOGGER.info('Downloading file from URL: %s', url)
-        response = requests.get(url)
+        tmp_path = extract_path / '_download.zip'
+        extract_path.mkdir(parents=True, exist_ok=True)
+        with requests.get(url, stream=True, timeout=60) as response:
+            response.raise_for_status()
+            with open(tmp_path, 'wb') as f:
+                shutil.copyfileobj(response.raw, f)
         LOGGER.info('Download complete')
 
-        # Open the file in memory
-        with zipfile.ZipFile(io.BytesIO(response.content)) as zf:
-            # Extract the file to the specified path
+        with zipfile.ZipFile(tmp_path) as zf:
             LOGGER.info('Extracting file to: %s', extract_path)
             zf.extractall(extract_path)
             LOGGER.info('Extraction complete')
+
+        tmp_path.unlink()
 
     def accepts_no_build_param(self, version):
         # Split version string into major, minor, rev, build
@@ -685,13 +690,17 @@ class IgorRunTestsCommand(BaseCommand):
 
         # Wait for the emulator to appear in the adb devices list
         LOGGER.info('Waiting for emulator to connect to ADB')
-        while True:
+        max_adb_wait = 120
+        for _ in range(max_adb_wait):
             result = subprocess.run([adb_path, 'devices'], capture_output=True, text=True)
             lines = result.stdout.strip().split("\n")[1:]
             emulators = [line.split("\t")[0] for line in lines if "emulator" in line]
             if len(emulators) > 0:
                 break
             time.sleep(1)
+        else:
+            LOGGER.error('Timeout waiting for emulator to connect to ADB')
+            return None
 
         emulator_id = emulators[0]
         LOGGER.info(f'Connected emulator id: {emulator_id}')

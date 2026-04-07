@@ -101,23 +101,21 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
 
     LOGGER.info("Monitoring loop terminated.")
 
-async def capture_output(process: asyncio.subprocess.Process, stop_event: asyncio.Event):
-    stdout_output = ''
+async def capture_output(process: asyncio.subprocess.Process, stop_event: asyncio.Event, collect: bool = False):
+    chunks = [] if collect else None
 
     while True:
         try:
-            # Read a chunk of data (e.g., 4096 bytes)
             stdout_chunk = await process.stdout.read(4096)
             if not stdout_chunk:
                 break
 
-            # Decode and handle the chunk of output
             decoded_output = stdout_chunk.decode('utf-8')
-            stdout_output += decoded_output
+            if chunks is not None:
+                chunks.append(decoded_output)
             print(decoded_output, end='')
-            sys.stdout.flush()  # Ensure the output is flushed immediately
+            sys.stdout.flush()
 
-            # Check if the stop event is set and break the loop if so
             if stop_event.is_set():
                 break
 
@@ -125,7 +123,7 @@ async def capture_output(process: asyncio.subprocess.Process, stop_event: asynci
             LOGGER.error(f"Error while capturing output: {e}")
             break
 
-    return stdout_output
+    return ''.join(chunks) if chunks is not None else ''
 
 async def wait_for_space_key(stop_event: asyncio.Event = None):
     async def check_keypress_unix():
@@ -177,7 +175,7 @@ async def run_and_capture(exe_path: str, args: list[str], extra_env: dict[str, s
     process = await run_exe(exe_path, args, extra_env=extra_env)
 
     # Capture the output
-    stdout_output = await capture_output(process, stop_event)
+    stdout_output = await capture_output(process, stop_event, collect=True)
 
     # Wait for the subprocess to exit
     await process.wait()

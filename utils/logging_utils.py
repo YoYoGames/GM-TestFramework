@@ -35,8 +35,9 @@ def config_logger(level=LOGGING_LEVEL, format='%(asctime)s [%(levelname)s]: %(me
     console_handler = logging.StreamHandler()
     LOGGER.addHandler(console_handler)
 
-    # Set the log level
+    # Set the log level and prevent duplicate output via root logger
     LOGGER.setLevel(level)
+    LOGGER.propagate = False
 
     # Apply settings
     formatter = logging.Formatter(format, TIMESTAMP_FORMAT)
