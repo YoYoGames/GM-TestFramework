@@ -1,4 +1,4 @@
-name: Monthly
+name: LTS2026
 
 on:
 
@@ -22,13 +22,13 @@ on:
 
 jobs:
  
-  Monthly:
-    name: "Monthly"
+  LTS2026:
+    name: "LTS2026"
     runs-on: Windows
     timeout-minutes: 60
     steps:
       - name: Check out the GM-TestFramework repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: GM-TF       
       - name: Testing Manually witth passing RSS_Feed for Monthly builds
@@ -37,7 +37,7 @@ jobs:
         shell: pwsh     
       - name: Upload Results Artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: summary_file-${{ github.event.inputs.RUNTIME_VERSION }}
           path: ${{ github.workspace }}\GM-TF\results           
@@ -64,7 +64,7 @@ jobs:
   Slack-Notifications:
     name: "Slack-Notification"
     runs-on: ubuntu-24.04
-    needs: [Monthly]
+    needs: [LTS2026]
     if: always()
     steps:      
       - name: Slack Notification on Failure
