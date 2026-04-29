@@ -1,0 +1,81 @@
+name: Monthly
+
+on:
+
+  workflow_dispatch:
+    inputs:
+       CONFIG_FILE:
+         description: "CONFIG_FILE"
+         required: true
+       RSS_Feed:
+         description: "RSS_Feed"
+         required: false
+         type: string
+       EXTRA_PARAMS:
+          description: "EXTRA_PARAMS from config"
+          required: false
+          type: string       
+       RUNTIME_VERSION:
+          description: "Full Runtime Version"
+          required: true
+          type: string              
+
+jobs:
+ 
+  Monthly:
+    name: "Monthly"
+    runs-on: Windows
+    timeout-minutes: 60
+    steps:
+      - name: Check out the GM-TestFramework repo
+        uses: actions/checkout@v4
+        with:
+          path: GM-TF       
+      - name: Testing Manually witth passing RSS_Feed for Monthly builds
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_LTS2026 }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }} --gmpm-registry '${{ secrets.GMPM_REGISTRY }}' --gmpm-username '${{ secrets.GMPM_USERNAME }}' --gmpm-password '${{ secrets.GMPM_PASSWORD }}'     
+        working-directory: GM-TF  
+        shell: pwsh     
+      - name: Upload Results Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: summary_file-${{ github.event.inputs.RUNTIME_VERSION }}
+          path: ${{ github.workspace }}\GM-TF\results           
+      - name: Running TF Compare Script
+        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --rt ${{ github.event.inputs.RUNTIME_VERSION }}
+        working-directory: GM-TF          
+      - name: Upload TF Compare Output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+           name: tf_compare_output_file
+           path: ${{ github.workspace }}\GM-TF\TF_Output.txt
+      - name: Retrieve Artifact Download URL for TF Output File
+        run: python .\get_output_file_url.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --rt ${{ github.event.inputs.RUNTIME_VERSION }}
+        working-directory: GM-TF
+      - name: Send Test Stats to Slack
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+            webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+            webhook-type: incoming-webhook
+            payload-file-path: ${{ github.workspace }}\GM-TF\slack_stats.json
+            payload-templated: true   
+            
+  Slack-Notifications:
+    name: "Slack-Notification"
+    runs-on: ubuntu-24.04
+    needs: [Monthly]
+    if: always()
+    steps:      
+      - name: Slack Notification on Failure
+        if: (failure() || contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'stopped'))
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: gm-test-automation
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_ICON: https://github.com/pink.png?size=48
+          SLACK_MESSAGE: '${{ github.workflow }}-Build Failed'
+          SLACK_TITLE: GM-Tesframework Build Failed
+          SLACK_USERNAME: suchitra
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }} 
+      
