@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           path: GM-TF       
-      - name: Testing Manually witth passing RSS_Feed for Monthly builds
+      - name: Testing Manually witth passing RSS_Feed for LTS2026 builds
         run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_LTS2026 }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }} --gmpm-registry '${{ secrets.GMPM_REGISTRY }}' --gmpm-username '${{ secrets.GMPM_USERNAME }}' --gmpm-password '${{ secrets.GMPM_PASSWORD }}'     
         working-directory: GM-TF  
         shell: pwsh     
