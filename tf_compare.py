@@ -95,7 +95,7 @@ def get_workflow_runs():
         run_start_time = run_start_time.replace(tzinfo=timezone.utc)  # make it timezone-aware
 
         # download workflow run log for new run that is currently in progress
-        allowed_workflows = {'Beta', 'Monthly', 'Red'}
+        allowed_workflows = {'Beta', 'Monthly', 'Red', 'LTS2026'}
         
         for run in workflow_runs:
             if branch == 'develop' and run['name'] in allowed_workflows:
