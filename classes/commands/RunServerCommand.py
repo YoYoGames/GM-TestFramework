@@ -39,4 +39,4 @@ class RunServerCommand(BaseCommand):
             file_utils.save_data_as_json(data, project_config_file)
 
         # Manage server: start, wait for user action (space key), then stop
-        await manage_server(async_utils.wait_for_space_key)
+        await manage_server(async_utils.wait_for_space_key, DEFAULT_CONFIG["$$parameters$$.test_server_port"])
