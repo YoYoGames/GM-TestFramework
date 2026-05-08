@@ -96,10 +96,10 @@ def get_workflow_runs():
 
         # download workflow run log for new run that is currently in progress
         allowed_workflows = {'Beta', 'Monthly', 'Red', 'LTS2026'}
-        
+        allowed_branches = {'develop', '2026.0.0-main'}
+
         for run in workflow_runs:
-            if branch == 'develop' and run['name'] in allowed_workflows:
-                # add workflow run id to array
+            if branch in allowed_branches and run['name'] in allowed_workflows:
                 _artifactRunID.append(run['id'])
                 
         if len(_artifactRunID) >= 1:
