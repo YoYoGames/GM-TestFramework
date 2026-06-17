@@ -28,7 +28,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Check out the GM-TestFramework repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: GM-TF        
       - name: Testing Manually with passing RSS_Feed for Beta builds
@@ -37,7 +37,7 @@ jobs:
         shell: pwsh        
       - name: Upload Results Artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: summary_file-${{ github.event.inputs.RUNTIME_VERSION }}
           path: ${{ github.workspace }}\GM-TF\results           
@@ -46,7 +46,7 @@ jobs:
         working-directory: GM-TF
       - name: Upload TF Compare Output
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
             name: tf_compare_output_file
             path: ${{ github.workspace }}\GM-TF\TF_Output.txt
@@ -54,7 +54,7 @@ jobs:
         run: python .\get_output_file_url.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --rt ${{ github.event.inputs.RUNTIME_VERSION }}
         working-directory: GM-TF
       - name: Send Test Stats to Slack
-        uses: slackapi/slack-github-action@v2.0.0
+        uses: slackapi/slack-github-action@v3.0.3
         with:
              webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
              webhook-type: incoming-webhook
