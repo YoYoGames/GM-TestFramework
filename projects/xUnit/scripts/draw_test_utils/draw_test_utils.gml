@@ -45,6 +45,7 @@ function start_draw_comparison_ext(_index, _width = room_width, _height = room_h
 			
 	// Start drawing to the surface
 	surface_set_target_ext(_index, _test_surface);
+    draw_clear_alpha(c_black,0);
 	// Returns the surface to be used in end_draw_comparison()
 	return _test_surface;
 }
