@@ -30,8 +30,6 @@ github_token = args.github_token
 workflow = args.workflow
 RTVersion = args.rt
 
-# this path needs to be updated to a location on server
-# baseSaveLocation = "C:\\Users\\ygbuild\\AppData\\Local\\Test_Framework_Artefacts_Parser"
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -70,44 +68,74 @@ for dir in saveLocation:
 # 7. log_fail
 # 8. get_code
                                     
-# Get the latest 2 workflow run
+# Get the workflow run for a given runtime version (or the latest), plus the previous one
 def get_workflow_runs():
 
     headers = {}
     if github_token:
         headers['Authorization'] = f'Bearer {github_token}'
         headers['Accept'] = 'application/vnd.github.v3+json'
-      
-    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/workflows/{workflow}/runs?per_page=2", headers=headers, stream=True)
 
-    if response.status_code == 200:
-        # Parse the JSON response
-        artifact_data = response.json()
+    # pull more than 2 so we can locate an older runtime version when testing
+    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/workflows/{workflow}/runs?per_page=30", headers=headers, stream=True)
 
-        workflow_runs = artifact_data.get("workflow_runs", [])
-
-        branch = workflow_runs[0]['head_branch']
-
-        # Parse the ISO 8601 timestamps
-        global run_start_time
-        run_start_time = datetime.strptime(workflow_runs[0]['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
-        # Parse the workflow run start time as datetime
-        run_start_time = run_start_time.replace(tzinfo=timezone.utc)  # make it timezone-aware
-
-        # download workflow run log for new run that is currently in progress
-        allowed_workflows = {'Beta', 'Monthly', 'Red', 'LTS2026'}
-        allowed_branches = {'develop', '2026.0.0-main'}
-
-        for run in workflow_runs:
-            if branch in allowed_branches and run['name'] in allowed_workflows:
-                _artifactRunID.append(run['id'])
-                
-        if len(_artifactRunID) >= 1:
-            get_artifact_URL()
-        else:
-            LOGGER.error("Valid workflow not used, only Beta, Monthly or Red on the develop branch is accepted for the TF Compare script")
-    else:
+    if response.status_code != 200:
         LOGGER.error(f"Failed to get workflow runs. HTTP Status: {response.status_code}")
+        return
+
+    workflow_runs = response.json().get("workflow_runs", [])
+
+    allowed_workflows = {'Beta', 'Monthly', 'Red', 'LTS2026'}
+    allowed_branches = {'develop', '2026.0.0-main'}
+
+    # only the runs we care about, newest first (GitHub returns them newest first)
+    valid_runs = [
+        run for run in workflow_runs
+        if run['head_branch'] in allowed_branches and run['name'] in allowed_workflows
+    ]
+
+    if not valid_runs:
+        LOGGER.error("Valid workflow not used, only Beta, Monthly, Red or LTS2026 on the develop / 2026.0.0-main branch is accepted for the TF Compare script")
+        return
+
+    # Decide which run is the "current" one
+    if RTVersion:
+        # find the run whose summary_file artifact matches the requested runtime version
+        target_index = next(
+            (i for i, run in enumerate(valid_runs)
+             if run_has_summary_for_rt(run['id'], RTVersion, headers)),
+            None
+        )
+        if target_index is None:
+            LOGGER.error(f"No workflow run found with a summary_file artifact for runtime version {RTVersion}")
+            return
+    else:
+        # no runtime version supplied -> behave as before (latest run)
+        target_index = 0
+
+    current_run = valid_runs[target_index]
+    _artifactRunID.append(current_run['id'])
+
+    # the previous valid run (next one down the list), if there is one
+    if target_index + 1 < len(valid_runs):
+        _artifactRunID.append(valid_runs[target_index + 1]['id'])
+
+    # set the run start time from the current run
+    global run_start_time
+    run_start_time = datetime.strptime(current_run['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
+    run_start_time = run_start_time.replace(tzinfo=timezone.utc)  # make it timezone-aware
+
+    get_artifact_URL()
+
+
+# True if the given run uploaded a summary_file artifact for this runtime version
+def run_has_summary_for_rt(run_id, rt_version, headers):
+    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/runs/{run_id}/artifacts", headers=headers)
+    if response.status_code != 200:
+        LOGGER.warning(f"Could not read artifacts for run {run_id}. HTTP Status: {response.status_code}")
+        return False
+    artifacts = response.json().get("artifacts", [])
+    return any(a.get("name") == f"summary_file-{rt_version}" for a in artifacts)
 
 
 
@@ -129,20 +157,14 @@ def get_artifact_URL():
 
             artifact_details = artifact_data.get("artifacts", [])
 
-            # define variable
-            # summary_exists = False
-
-            for index, artifact in enumerate(artifact_details, start=1):
-                
-
-                # Index 1 should always refer to the main artifact file (summary_file)
-                # The summary_file needs to exist for the script to continue
-                if index == 1 and "summary_file" in artifact.get("name"):
-                    # mark that the summary_file exists and is in index 1
-                    # summary_exists = True
-                    # add first new run artifact id to array
+            # Find the summary_file artifact by name (order is not guaranteed for older runs).
+            # The summary_file needs to exist for the script to continue.
+            for artifact in artifact_details:
+                if "summary_file" in artifact.get("name", ""):
+                    # add the run's summary artifact id to the array
                     _artifactID.append(artifact['id'])
                     _download_artifacts_url[runState] = artifact.get("archive_download_url")
+                    break
         else:
             LOGGER.error(f"Failed to artifact URL. HTTP Status: {response.status_code}")
 
@@ -788,8 +810,9 @@ def log_fail(testName, failDetails, compiler, test_code_details):
             LOGGER.info(f"Bug Report URL: {issue_data['url']}")
             # add 1 to the new report created count
             total_new_reports += 1
-
-    return f"{issue_data['html_url']}"
+            return f"{issue_data['html_url']}"
+        
+    return f"{report['html_url']}"
 
 
 # search for current issue
