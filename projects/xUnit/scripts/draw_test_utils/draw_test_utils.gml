@@ -20,6 +20,7 @@ function start_draw_comparison(_width = room_width, _height = room_height) {
 			
 	// Start drawing to the surface
 	surface_set_target(_test_surface);
+    draw_clear_alpha(c_black,0);
 	// Returns the surface to be used in end_draw_comparison()
 	return _test_surface;
 }
