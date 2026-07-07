@@ -40,7 +40,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: summary_file-${{ github.event.inputs.RUNTIME_VERSION }}
-          path: ${{ github.workspace }}\GM-TF\results           
+          path: ${{ github.workspace }}\GM-TF\results
+      - name: Wait 10 seconds
+        run: sleep 10
       - name: Running TF Compare Script
         run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --rt ${{ github.event.inputs.RUNTIME_VERSION }}
         working-directory: GM-TF
