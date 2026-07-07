@@ -30,6 +30,9 @@ github_token = args.github_token
 workflow = args.workflow
 RTVersion = args.rt
 
+# Set to True to bypass the workflow/branch allow-list (for testing)
+FILTER_RUNS = False
+
 saveLocation = ['new_data', 'prev_data']
 
 repos = ['YoYoGames/GameMaker-Bugs', 'YoYoGames/GM-TestFramework', 'YoYoGames/TF_Bug_Report_Holding']
@@ -89,10 +92,13 @@ def get_workflow_runs():
     allowed_branches = {'develop', '2026.0.0-main'}
 
     # only the runs we care about, newest first (GitHub returns them newest first)
-    valid_runs = [
-        run for run in workflow_runs
-        if run['head_branch'] in allowed_branches and run['name'] in allowed_workflows
-    ]
+    if FILTER_RUNS:
+        valid_runs = [
+            run for run in workflow_runs
+            if run['head_branch'] in allowed_branches and run['name'] in allowed_workflows
+        ]
+    else:
+        valid_runs = workflow_runs
 
     if not valid_runs:
         LOGGER.error("Valid workflow not used, only Beta, Monthly, Red or LTS2026 on the develop / 2026.0.0-main branch is accepted for the TF Compare script")
