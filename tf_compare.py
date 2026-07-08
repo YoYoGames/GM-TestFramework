@@ -113,7 +113,10 @@ def get_workflow_runs():
             None
         )
         if target_index is None:
-            LOGGER.error(f"No workflow run found with a summary_file artifact for runtime version {RTVersion}")
+            LOGGER.error(f"No workflow run found with a summary_file artifact for runtime version '{RTVersion}'")
+            # log what the newest run actually has so the mismatch is visible in the workflow log
+            newest_names = get_artifact_names(valid_runs[0]['id'], headers)
+            LOGGER.error(f"Artifacts on newest run {valid_runs[0]['id']}: {newest_names}")
             return
     else:
         # no runtime version supplied -> behave as before (latest run)
@@ -134,14 +137,24 @@ def get_workflow_runs():
     get_artifact_URL()
 
 
-# True if the given run uploaded a summary_file artifact for this runtime version
-def run_has_summary_for_rt(run_id, rt_version, headers):
-    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/runs/{run_id}/artifacts", headers=headers)
+# Return the list of artifact names for a run (empty list on error)
+def get_artifact_names(run_id, headers):
+    response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/runs/{run_id}/artifacts?per_page=100", headers=headers)
     if response.status_code != 200:
         LOGGER.warning(f"Could not read artifacts for run {run_id}. HTTP Status: {response.status_code}")
-        return False
-    artifacts = response.json().get("artifacts", [])
-    return any(a.get("name") == f"summary_file-{rt_version}" for a in artifacts)
+        return []
+    return [a.get("name", "") for a in response.json().get("artifacts", [])]
+
+
+# True if the given run uploaded a summary_file artifact for this runtime version.
+# Match tolerantly: the artifact is named "summary_file-<RUNTIME_VERSION>" but we don't
+# rely on an exact string equality (which breaks on any stray whitespace or format drift).
+def run_has_summary_for_rt(run_id, rt_version, headers):
+    rt = str(rt_version).strip()
+    for name in get_artifact_names(run_id, headers):
+        if "summary_file" in name and rt in name:
+            return True
+    return False
 
 
 
