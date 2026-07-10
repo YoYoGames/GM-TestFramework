@@ -389,7 +389,7 @@ class IgorRunTestsCommand(BaseCommand):
         if userconfig:
             env["NPM_CONFIG_USERCONFIG"] = userconfig
 
-        LOGGER.info("Setting npm auth token with: %s", " ".join(cmd))
+        # LOGGER.info("Setting npm auth token with: %s", " ".join(cmd))
 
         result = subprocess.run(cmd, env=env, capture_output=True, text=True)
         if result.stdout:
