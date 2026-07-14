@@ -167,21 +167,35 @@ async def wait_for_space_key(stop_event: asyncio.Event = None):
     else:
         await check_keypress_unix()
 
-async def run_and_capture(exe_path: str, args: list[str], extra_env: dict[str, str] | None = None):
+async def run_and_capture(exe_path: str, args: list[str], extra_env: dict[str, str] | None = None, timeout: float | None = None):
     # Create a stop event for capturing output
     stop_event = asyncio.Event()
 
     # Start the subprocess
     process = await run_exe(exe_path, args, extra_env=extra_env)
 
-    # Capture the output
-    stdout_output = await capture_output(process, stop_event, collect=True)
+    try:
+        # Capture the output, bounded by timeout if provided so a hung/looping
+        # process (e.g. igor.exe endlessly retrying a download) fails fast
+        # instead of blocking until the outer CI job timeout kills things.
+        stdout_output = await asyncio.wait_for(capture_output(process, stop_event, collect=True), timeout=timeout)
 
-    # Wait for the subprocess to exit
-    await process.wait()
+        # Wait for the subprocess to exit
+        await asyncio.wait_for(process.wait(), timeout=timeout)
+    except (asyncio.TimeoutError, asyncio.CancelledError) as e:
+        LOGGER.error(f"'{exe_path}' {'timed out after ' + str(timeout) + 's' if isinstance(e, asyncio.TimeoutError) else 'was cancelled'}; killing process tree (pid={process.pid})")
+        kill_process_tree(process.pid)
+        try:
+            await asyncio.wait_for(process.wait(), timeout=10)
+        except (asyncio.TimeoutError, ProcessLookupError):
+            pass
 
-    # Ensure the stop event is set to clean up the capture task
-    stop_event.set()
+        if isinstance(e, asyncio.TimeoutError):
+            raise TimeoutError(f"'{exe_path}' did not complete within {timeout} seconds") from e
+        raise
+    finally:
+        # Ensure the stop event is set to clean up the capture task
+        stop_event.set()
 
     LOGGER.info(f'Process completed')
     return stdout_output
