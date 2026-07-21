@@ -1,0 +1,12 @@
+{
+    "gmrt-path": "D:/GMRT/build/libs_x86_64-pc-windows-msvc",
+    "project-path": "D:/GM-TestFramework-1/projects/xUnit/xUnit.yyp",
+    "output-folder": "D:/GM-TestFramework-1/projects/xUnit/build",
+    "prefab-dir": "D:/GM-TestFramework-1/prefabs",
+    "build-graph": "D:/GMRT/build/libs_x86_64-pc-windows-msvc/Debug/bin/targets/buildgraph-win64-dev.xml",
+    "build-jobs": "Build-native-windows-x64;Run-custom-windows-x64",
+    "build-type": "Debug",
+    "script-build-type": "Debug",
+    "run-name": "testframework+testframework+x86_64-pc-windows-msvc+Debug",
+    "logger.level": 20
+}
