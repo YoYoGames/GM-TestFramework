@@ -32,7 +32,7 @@ jobs:
         with:
           path: GM-TF       
       - name: Testing Manually witth passing RSS_Feed for Monthly builds
-        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_GREEN }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }} --gmpm-registry '${{ secrets.GMPM_REGISTRY }}' --gmpm-username '${{ secrets.GMPM_USERNAME }}' --gmpm-password '${{ secrets.GMPM_PASSWORD }}'     
+        run: ./launcher igorRunTests --config-file "C:\GM-TestFramework\configs\${{ github.event.inputs.CONFIG_FILE }}" --feed '${{ secrets.RSS_FEED_GREEN }}' ${{ github.event.inputs.EXTRA_PARAMS }} --runtime-version ${{ github.event.inputs.RUNTIME_VERSION }} --gmpm-registry '${{ secrets.GMPM_REGISTRY }}' --gmpm-token '${{ secrets.GMPM_TOKEN }}'
         working-directory: GM-TF  
         shell: pwsh     
       - name: Upload Results Artifacts

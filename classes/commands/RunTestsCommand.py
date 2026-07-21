@@ -6,6 +6,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlparse
 
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
@@ -19,7 +20,6 @@ WORKSPACE_DIR = ROOT_DIR / 'workspace'
 
 PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
 
-GMPM_REGISTRY_URL = 'https://gmpm.gamemaker.io'
 PROJECT_TOOL_PACKAGE = '@gm-tools/project-tool-win-x64'
 
 class RunTestsCommand(BaseCommand):
@@ -52,6 +52,8 @@ class RunTestsCommand(BaseCommand):
         parser.add_argument('-v', '--verbose', action='store_true', help="Enables verbose output")
         # TestFramework arguments
         parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
+        parser.add_argument('-gmpmreg', '--gmpm-registry', type=str, required=True, help='Registry to use when fetching GameMaker packages')
+        parser.add_argument('-gmpmtkn', '--gmpm-token', type=str, required=True, help='Authentication token for the GMPM registry')
         parser.set_defaults(command_class=cls)
 
     async def execute(self) -> None:
@@ -125,11 +127,15 @@ class RunTestsCommand(BaseCommand):
 
     async def _install_and_prepare_project_tool(self) -> Path:
 
+        registry = self.get_argument('gmpm_registry').rstrip('/')
+        token = self.get_argument('gmpm_token')
+        auth_headers = {'Authorization': f'Bearer {token}'}
+
         # The registry URL that returns the package information JSON
-        project_tool_package_url = f'{GMPM_REGISTRY_URL}/{PROJECT_TOOL_PACKAGE}'
+        project_tool_package_url = f'{registry}/{PROJECT_TOOL_PACKAGE}'
         
         # Fetch the JSON metadata
-        response = requests.get(project_tool_package_url, timeout=30)
+        response = requests.get(project_tool_package_url, headers=auth_headers, timeout=30)
         response.raise_for_status()
         
         data = response.json()
@@ -145,7 +151,8 @@ class RunTestsCommand(BaseCommand):
         
         # 4. Download the tarball
         tarball_filename = WORKSPACE_DIR /f"project-tool-win-x64-{latest_version}.tgz"
-        with requests.get(tarball_url, stream=True, timeout=30) as tarball_response:
+        tarball_headers = auth_headers if urlparse(tarball_url).netloc == urlparse(registry).netloc else {}
+        with requests.get(tarball_url, headers=tarball_headers, stream=True, timeout=30) as tarball_response:
             tarball_response.raise_for_status()
             with open(tarball_filename, "wb") as f:
                 shutil.copyfileobj(tarball_response.raw, f)
