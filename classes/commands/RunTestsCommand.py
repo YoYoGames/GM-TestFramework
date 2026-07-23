@@ -1,12 +1,6 @@
 import argparse
 import asyncio
-import os
-import requests
-import shutil
-import subprocess
 from pathlib import Path
-from typing import Optional
-from urllib.parse import urlparse
 
 from classes.server.RemoteControlServer import (RemoteControlServer, ExecutionMode)
 from classes.commands.BaseCommand import DEFAULT_CONFIG, HTTP_PORT, TCP_PORT, BaseCommand
@@ -15,12 +9,7 @@ from utils import async_utils, file_utils
 from utils.logging_utils import LOGGER
 from utils.path_utils import ROOT_DIR
 
-PROJECTS_DIR = ROOT_DIR / 'projects'
 WORKSPACE_DIR = ROOT_DIR / 'workspace'
-
-PROJECT_SCRIPT_PATH = PROJECTS_DIR / 'upgrade_project.bat'
-
-PROJECT_TOOL_PACKAGE = '@gm-tools/project-tool-win-x64'
 
 class RunTestsCommand(BaseCommand):
     """
@@ -52,8 +41,6 @@ class RunTestsCommand(BaseCommand):
         parser.add_argument('-v', '--verbose', action='store_true', help="Enables verbose output")
         # TestFramework arguments
         parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
-        parser.add_argument('-gmpmreg', '--gmpm-registry', type=str, required=True, help='Registry to use when fetching GameMaker packages')
-        parser.add_argument('-gmpmtkn', '--gmpm-token', type=str, required=True, help='Authentication token for the GMPM registry')
         parser.set_defaults(command_class=cls)
 
     async def execute(self) -> None:
@@ -70,11 +57,7 @@ class RunTestsCommand(BaseCommand):
         
         # Prepare environment and paths
         self._clean_results_directory()
-        gmrt_exe, core_resources_path = self._prepare_gmrt_paths()
-        project_tool_path = await self._install_and_prepare_project_tool()
-        
-        # Ensure correct project format
-        self._run_project_tool(project_tool_path, core_resources_path)
+        gmrt_exe = self._prepare_gmrt_path()
         
         try:
             build_job, run_job = self.get_argument("build_jobs").split(";")
@@ -87,7 +70,7 @@ class RunTestsCommand(BaseCommand):
             LOGGER.warning("Consider cleaning the output folder before running tests or specifying a different folder.")
 
         # Build the project first
-        build_args = self._build_gmrt_arguments(build_job, project_tool_path)
+        build_args = self._build_gmrt_arguments(build_job)
         build_process = await async_utils.run_exe(gmrt_exe, build_args)
         build_output = await async_utils.capture_output(build_process, asyncio.Event())
         await build_process.wait()
@@ -112,70 +95,18 @@ class RunTestsCommand(BaseCommand):
         file_utils.create_directory(results_dir)
         file_utils.clean_directory(ROOT_DIR / "results")
 
-    def _prepare_gmrt_paths(self) -> tuple[Path, Path]:
-        """Prepares and validates paths for GMRT and CoreResources."""
+    def _prepare_gmrt_path(self) -> Path:
+        """Prepares and validates the GMRT executable path."""
         gmrt_path = Path(self.get_argument("gmrt_path"))
         build_type = self.get_argument("build_type").lower()
 
         gmrt_exe = gmrt_path / build_type / "bin" / ("gmrt.exe" if build_type == "release" else "gmrtd.exe")
-        core_resources_path = gmrt_path / build_type / "bin" / "CoreResources.dll"
         
         assert gmrt_exe.exists(), f"GMRT executable not found: {gmrt_exe}"
-        assert core_resources_path.exists(), f"CoreResources.dll not found: {core_resources_path}"
         
-        return gmrt_exe, core_resources_path
+        return gmrt_exe
 
-    async def _install_and_prepare_project_tool(self) -> Path:
-
-        registry = self.get_argument('gmpm_registry').rstrip('/')
-        token = self.get_argument('gmpm_token')
-        auth_headers = {'Authorization': f'Bearer {token}'}
-
-        # The registry URL that returns the package information JSON
-        project_tool_package_url = f'{registry}/{PROJECT_TOOL_PACKAGE}'
-        
-        # Fetch the JSON metadata
-        response = requests.get(project_tool_package_url, headers=auth_headers, timeout=30)
-        response.raise_for_status()
-        
-        data = response.json()
-
-        # 1. Get the latest version from "dist-tags"
-        latest_version = data["dist-tags"]["latest"]
-        
-        # 2. Retrieve the package info for that version
-        package_info = data["versions"][latest_version]
-        
-        # 3. Extract the tarball URL
-        tarball_url = package_info["dist"]["tarball"]
-        
-        # 4. Download the tarball
-        tarball_filename = WORKSPACE_DIR /f"project-tool-win-x64-{latest_version}.tgz"
-        tarball_headers = auth_headers if urlparse(tarball_url).netloc == urlparse(registry).netloc else {}
-        with requests.get(tarball_url, headers=tarball_headers, stream=True, timeout=30) as tarball_response:
-            tarball_response.raise_for_status()
-            with open(tarball_filename, "wb") as f:
-                shutil.copyfileobj(tarball_response.raw, f)
-
-        LOGGER.info(f"Downloaded ProjectTool tarball: {tarball_filename}")
-        
-        import tarfile
-        with tarfile.open(tarball_filename) as tf:
-            tf.extractall(WORKSPACE_DIR / "project_tool")
-
-        # 6. Delete the original tarball
-        os.remove(tarball_filename)
-
-        return WORKSPACE_DIR / "project_tool" / "package" / "ProjectTool.exe"
-
-    def _run_project_tool(self, project_tool_path: Path, core_resources_path: Path) -> None:
-        """Runs the ProjectTool for project compatibility adjustments."""
-        os.environ["PROJECTTOOL"] = str(project_tool_path)
-        os.environ["CORERESOURCES_DLL"] = str(core_resources_path)
-        os.environ["PREFABS"] = self.get_argument('prefab_dir')
-        subprocess.run([PROJECT_SCRIPT_PATH], check=True)
-
-    def _build_gmrt_arguments(self, build_jobs: str, project_tool_path : Optional[str] = None) -> list[str]:
+    def _build_gmrt_arguments(self, build_jobs: str) -> list[str]:
         """Builds the argument list for the server."""
         args = [
             self.get_argument("project_path"),
@@ -186,9 +117,6 @@ class RunTestsCommand(BaseCommand):
             f"--script-build-type={self.get_argument('script_build_type')}",
             f"--prefab-dir={self.get_argument('prefab_dir')}",
         ]
-
-        if project_tool_path:
-            args.append(f"--projecttool={project_tool_path}")
 
         cache_dir = self.get_argument("cache_dir")
         if cache_dir:
