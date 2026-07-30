@@ -29,7 +29,13 @@ class RemoteCommand(Enum):
 
 class RemoteControlServer:
 
-    def __init__(self, mode: ExecutionMode, timeout: int = 1, run_name = 'xUnit'):
+    def __init__(
+        self,
+        mode: ExecutionMode,
+        timeout: int = 1,
+        run_name='xUnit',
+        skip_tests: Optional[list[str]] = None,
+    ):
         """
         Initialize the RemoteControlServer with the given mode.
 
@@ -39,6 +45,7 @@ class RemoteControlServer:
         self.mode = mode
         self.timeout = timeout
         self.run_name = run_name
+        self.skip_tests = set(skip_tests or [])
 
         # Parse platform metadata from run_name (format: name:platform:config)
         self.properties = {}
@@ -57,6 +64,29 @@ class RemoteControlServer:
 
         self.framework_result: TestFrameworkResult = None
         self.suite_results: dict[str, TestSuiteResult] = {}
+
+    def _configure_tests(self, available_tests: list[str]) -> None:
+        """Select runnable tests and record configured exclusions as skipped."""
+        available_test_set = set(available_tests)
+        for test_path in sorted(self.skip_tests - available_test_set):
+            LOGGER.warning("Configured skipped test was not found: %s", test_path)
+
+        self.tests = []
+        for test_path in available_tests:
+            if test_path not in self.skip_tests:
+                self.tests.append(test_path)
+                continue
+
+            suite_name, test_name = test_path.split('@', 1)
+            LOGGER.info("Skipping configured test: %s", test_path)
+            self._add_test_result(
+                {
+                    'name': test_name,
+                    'result': 'Skipped',
+                },
+                suite_name,
+                time.time(),
+            )
 
     def _select_strategy(self) -> Coroutine[Any,Any,None]:
         """
@@ -272,8 +302,8 @@ class RemoteControlServer:
             if not received_data:
                 return
 
-            # Update test list
-            self.tests = received_data.splitlines()
+            # Update test list and record configured exclusions as skipped.
+            self._configure_tests(received_data.splitlines())
 
         # Transition to RUNNING state
         self.state = State.RUNNING
