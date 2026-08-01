@@ -1,6 +1,7 @@
 import asyncio
 import time
 from enum import Enum, auto
+from fnmatch import fnmatchcase
 from pathlib import Path
 from typing import Any, Coroutine, Optional
 from xml.etree import ElementTree
@@ -67,16 +68,17 @@ class RemoteControlServer:
 
     def _configure_tests(self, available_tests: list[str]) -> None:
         """Select runnable tests and record configured exclusions as skipped."""
-        available_test_set = set(available_tests)
-        for test_path in sorted(self.skip_tests - available_test_set):
-            LOGGER.warning("Configured skipped test was not found: %s", test_path)
-
+        unmatched_patterns = set(self.skip_tests)
         self.tests = []
         for test_path in available_tests:
-            if test_path not in self.skip_tests:
+            matching_patterns = {
+                pattern for pattern in self.skip_tests if fnmatchcase(test_path, pattern)
+            }
+            if not matching_patterns:
                 self.tests.append(test_path)
                 continue
 
+            unmatched_patterns.difference_update(matching_patterns)
             suite_name, test_name = test_path.split('@', 1)
             LOGGER.info("Skipping configured test: %s", test_path)
             self._add_test_result(
@@ -87,6 +89,9 @@ class RemoteControlServer:
                 suite_name,
                 time.time(),
             )
+
+        for pattern in sorted(unmatched_patterns):
+            LOGGER.warning("Configured skip pattern matched no tests: %s", pattern)
 
     def _select_strategy(self) -> Coroutine[Any,Any,None]:
         """
