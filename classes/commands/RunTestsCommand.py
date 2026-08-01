@@ -45,7 +45,7 @@ class RunTestsCommand(BaseCommand):
             '--skip-tests',
             action='append',
             default=[],
-            help='Exact Suite@Test path to skip; may be specified more than once',
+            help='Shell-style Suite@Test pattern to skip; may be specified more than once',
         )
         parser.set_defaults(command_class=cls)
 
