@@ -17,3 +17,4 @@ clean_remote.ps1
 /.vscode
 
 .uv/
+/.Clairvoyance
