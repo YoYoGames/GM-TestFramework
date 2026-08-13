@@ -4816,7 +4816,7 @@ function BasicMathTestSuite() : TestSuite() constructor {
 		buffer_seek(_buffer, buffer_seek_start, 0);
 		var _vReal = buffer_read(_buffer, buffer_f32);
 
-		var _result = logn(-2, _vReal);
+		var _result = logn(-2, -_vReal);
 		assert_true(is_nan(_result), "#34 logn( real local , real const )")
 
 		// Clean up
@@ -4833,7 +4833,7 @@ function BasicMathTestSuite() : TestSuite() constructor {
 		buffer_seek(_buffer, buffer_seek_start, 0);
 		var _vInt = buffer_read(_buffer, buffer_s32);
 
-		var _result = logn(-2, _vInt);
+		var _result = logn(-2, -_vInt);
 		assert_true(is_nan(_result), "#35 logn( int local , real const )")
 
 		// Clean up
@@ -4850,7 +4850,7 @@ function BasicMathTestSuite() : TestSuite() constructor {
 		buffer_seek(_buffer, buffer_seek_start, 0);
 		var _vInt64 = buffer_read(_buffer, buffer_u64);
 
-		var _result = logn(-2, _vInt64);
+		var _result = logn(-2, -_vInt64);
 		assert_true(is_nan(_result), "#36 logn( int64 local , real const )")
 
 		// Clean up
