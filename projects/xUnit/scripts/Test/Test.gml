@@ -13,6 +13,9 @@ function Test(_name = undefined) : Task() constructor {
 	#macro test_start_hook startHook
 	#macro test_end_hook endHook
 	
+	// The float epsilon every test is guaranteed to start with. Matches the GameMaker default.
+	#macro test_default_epsilon 0.00001
+	
 	enum TestResult { Unset = 0, Passed, Failed, Skipped, Bailed, Expired };
 	
 	static resultStrings = [ "Unset", "Passed", "Failed", "Skipped", "Bailed", "Expired" ];
@@ -31,6 +34,8 @@ function Test(_name = undefined) : Task() constructor {
 	
 	/// @ignore
 	preRunFunc = function() {
+		
+		resetGlobalState();
 		
 		callStartHook();
 
@@ -158,6 +163,15 @@ function Test(_name = undefined) : Task() constructor {
 		if (is_callable(platformFilter))
 			return platformFilter();
 		return true;
+	}
+	
+	/// @function resetGlobalState()
+	/// @description Restores the global state that tests are allowed to modify, so that every test
+	///              starts from a known baseline rather than inheriting whatever the previous test left behind.
+	static resetGlobalState = function() {
+		// Tests routinely relax the float epsilon to account for the different defaults in YYC and VM.
+		// Resetting here means a relaxed value can never leak into a later test and mask a failure.
+		math_set_epsilon(test_default_epsilon);
 	}
 	
 	/// @function callStartHook()
