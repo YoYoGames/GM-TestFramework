@@ -41,6 +41,12 @@ class RunTestsCommand(BaseCommand):
         parser.add_argument('-v', '--verbose', action='store_true', help="Enables verbose output")
         # TestFramework arguments
         parser.add_argument('-rn', '--run-name', default='xUnit', help='The name to be given to the test run')
+        parser.add_argument(
+            '--skip-tests',
+            action='append',
+            default=[],
+            help='Shell-style Suite@Test pattern to skip; may be specified more than once',
+        )
         parser.set_defaults(command_class=cls)
 
     async def execute(self) -> None:
@@ -82,7 +88,11 @@ class RunTestsCommand(BaseCommand):
         # Now we can start the remote control server to run tests.
         # This two-step approach prevents rebuilding the project on restarts (test timeout, crash, ...)
         args = self._build_gmrt_arguments(run_job)
-        remote = RemoteControlServer(ExecutionMode.AUTOMATIC, run_name=run_name)
+        remote = RemoteControlServer(
+            ExecutionMode.AUTOMATIC,
+            run_name=run_name,
+            skip_tests=self.get_argument('skip_tests'),
+        )
         await manage_server(
             lambda: remote.serve_or_wait_for_space(gmrt_exe, args, port=TCP_PORT), 
             port=HTTP_PORT

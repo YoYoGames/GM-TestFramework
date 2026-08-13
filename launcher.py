@@ -90,8 +90,15 @@ def load_config_and_merge_with_cli_args():
     # Merge config args with command args, allowing CLI args to take precedence
     merged_args = merge_config_and_cli_args(config_args, command_args)
 
-    # Reconstruct remaining_argv from merged_args
-    remaining_argv = [f'--{k}' if v is None else f'--{k}={v}' for k, v in merged_args.items()]
+    # Reconstruct remaining_argv from merged_args. List-valued JSON entries are
+    # represented as repeated command-line options for argparse ``append``
+    # arguments.
+    remaining_argv = []
+    for key, value in merged_args.items():
+        if isinstance(value, list):
+            remaining_argv.extend(f'--{key}={item}' for item in value)
+        else:
+            remaining_argv.append(f'--{key}' if value is None else f'--{key}={value}')
     
     # Add the original command and non-flag CLI arguments back
     if command:
