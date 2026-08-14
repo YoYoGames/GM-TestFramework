@@ -396,9 +396,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arccos_test #1", function() {
 
 		// arccos: arccos(0) == pi/2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var arccosZero = arccos(0)
 		assert_equals(arccosZero, half_pi_ArccosTest, "#1 arccos(0) == half_pi_ArccosTest")
 	})
@@ -406,8 +403,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arccos_test #2", function() {
 
 		// arccos: arccos(1) == 0
-		math_set_epsilon(0.00001)
-
 		var arccosOne = arccos(1)
 		assert_equals(arccosOne, 0, "#2 arccos(1) == 0")
 	})
@@ -415,8 +410,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arccos_test #3", function() {
 
 		// arccos: arccos(-1) == pi
-		math_set_epsilon(0.00001)
-
 		var arccosNegOne = arccos(-1)
 		assert_equals(arccosNegOne, pi, "#3 arccos(-1) == pi")
 	})
@@ -424,8 +417,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arccos_test #4", function() {
 
 		// arccos: output stays within [0, pi] across the valid input range
-		math_set_epsilon(0.00001)
-
 		var _yPos = -1
 		while (_yPos <= 1)
 		{
@@ -455,9 +446,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arcsin_test #1", function() {
 
 		// arcsin: arcsin(0) == 0
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var arcsinZero = arcsin(0)
 		assert_equals(arcsinZero, 0, "#1 arcsin(0) == 0")
 	})
@@ -465,8 +453,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arcsin_test #2", function() {
 
 		// arcsin: arcsin(1) == pi/2
-		math_set_epsilon(0.00001)
-
 		var arcsinOne = arcsin(1)
 		assert_equals(arcsinOne, half_pi_ArcsinTest, "#2 arcsin(1) == half_pi_ArcsinTest")
 	})
@@ -474,8 +460,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arcsin_test #3", function() {
 
 		// arcsin: arcsin(-1) == -pi/2
-		math_set_epsilon(0.00001)
-
 		var arcsinNegOne = arcsin(-1)
 		assert_equals(arcsinNegOne, (-half_pi_ArcsinTest), "#3 arcsin(-1) == -half_pi_ArcsinTest")
 	})
@@ -483,8 +467,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arcsin_test #4", function() {
 
 		// arcsin: output stays within [-pi/2, pi/2] across the valid input range
-		math_set_epsilon(0.00001)
-
 		var _yPos = -1
 		while (_yPos <= 1)
 		{
@@ -506,9 +488,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #1", function() {
 
 		// arctan2: first quadrant
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var twoOverTwo = arctan2(2, 2)
 		assert_equals(twoOverTwo, quarter_pi_Arctan2Test, "#1 arctan2(2, 2) == pi/4")
 	})
@@ -516,8 +495,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #2", function() {
 
 		// arctan2: second quadrant
-		math_set_epsilon(0.00001)
-
 		var twoOverNegativeTwo = arctan2(2, -2)
 		assert_equals(twoOverNegativeTwo, (pi - quarter_pi_Arctan2Test), "#2 arctan2(2, -2) == pi - (pi/4)")
 	})
@@ -525,8 +502,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #3", function() {
 
 		// arctan2: fourth quadrant
-		math_set_epsilon(0.00001)
-
 		var negativeTwoOverTwo = arctan2(-2, 2)
 		assert_equals(negativeTwoOverTwo, -(quarter_pi_Arctan2Test), "#3 arctan2(-2, 2) == -(pi/4)")
 	})
@@ -534,8 +509,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #4", function() {
 
 		// arctan2: third quadrant
-		math_set_epsilon(0.00001)
-
 		var negativeOverNegative = arctan2(-2, -2)
 		assert_equals(negativeOverNegative, -(pi - quarter_pi_Arctan2Test), "#4 arctan2(-2, -2) == -(pi - (pi/4))")
 	})
@@ -543,8 +516,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #5", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res1 = arctan2(      1,    0.5)
 		assert_equals(_res1,   1.10715     , ("_res1 ==  1.10715 "))
 	})
@@ -552,8 +523,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #6", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res2 = arctan2(    0.5,   0.75)
 		assert_equals(_res2,   0.588003    , ("_res2 ==  0.588003"))
 	})
@@ -561,8 +530,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #7", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res3 = arctan2(    0.4,  -0.66)
 		assert_equals(_res3,   2.59673     , ("_res3 ==  2.59673 "))
 	})
@@ -570,8 +537,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #8", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res4 = arctan2(    0.4,   0.66)
 		assert_equals(_res4,   0.544864    , ("_res4 ==  0.544864"))
 	})
@@ -579,8 +544,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #9", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res5 = arctan2(    0.9,    0.1)
 		assert_equals(_res5,   1.46014     , ("_res5 ==  1.46014 "))
 	})
@@ -588,8 +551,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #10", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res6 = arctan2(    0.3,   0.75)
 		assert_equals(_res6,   0.380506    , ("_res6 ==  0.380506"))
 	})
@@ -597,8 +558,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #11", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res7 = arctan2( -0.123, -0.456)
 		assert_equals(_res7,  -2.87813     , ("_res7 == -2.87813 "))
 	})
@@ -606,8 +565,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #12", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res8 = arctan2( -0.789,  0.123)
 		assert_equals(_res8,  -1.41615     , ("_res8 == -1.41615 "))
 	})
@@ -615,8 +572,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan2_test #13", function() {
 
 		// arctan2: arbitrary value
-		math_set_epsilon(0.00001)
-
 		var _res9 = arctan2( -0.321,      1)
 		assert_equals(_res9,  -0.31061     , ("_res9 == -0.31061 "))
 	})
@@ -629,9 +584,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan_test #1", function() {
 
 		// arctan: arctan(0) == 0
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var atanZero = arctan(0)
 		assert_equals(atanZero, 0, "#1 arctan(0) == 0")
 	})
@@ -639,8 +591,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan_test #2", function() {
 
 		// arctan: arctan(1) == pi/4
-		math_set_epsilon(0.00001)
-
 		var atanOne = arctan(1)
 		assert_equals(atanOne, quarter_pi_ArctanTest, "#2 arctan(1) == pi/4")
 	})
@@ -648,8 +598,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan_test #3", function() {
 
 		// arctan: arctan(-1) == -(pi/4)
-		math_set_epsilon(0.00001)
-
 		var atanNegOne = arctan(-1)
 		assert_equals(atanNegOne, -(quarter_pi_ArctanTest), "#3 (arctan(-1) == -(pi/4)")
 	})
@@ -657,8 +605,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("arctan_test #4", function() {
 
 		// arctan: output stays within (-pi/2, pi/2) across the tested input range
-		math_set_epsilon(0.00001)
-
 		var _yPos = -1
 		while (_yPos <= 1)
 		{
@@ -2020,9 +1966,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #1", function() {
 
 		// degtorad( real const ): degtorad(0) == 0
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var zero = degtorad(0)
 		assert_equals(zero, 0.0, "0 rad == 0 deg")
 	})
@@ -2030,8 +1973,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #2", function() {
 
 		// degtorad( real const ): degtorad(180) == pi
-		math_set_epsilon(0.00001)
-
 		var piTest = degtorad(180)
 		assert_equals(piTest, pi, "Pi rad == 180 deg")
 	})
@@ -2039,8 +1980,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #3", function() {
 
 		// degtorad( real const ): degtorad(90) == pi/2
-		math_set_epsilon(0.00001)
-
 		var pi_2 = degtorad(90)
 		assert_equals(pi_2, (pi/2), "Pi/2 rad == 90 deg")
 	})
@@ -2048,8 +1987,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #4", function() {
 
 		// degtorad( real const ): degtorad(45) == pi/4
-		math_set_epsilon(0.00001)
-
 		var pi_4 = degtorad(45)
 		assert_equals(pi_4, (pi/4), "Pi/4 rad == 45 deg")
 	})
@@ -2057,8 +1994,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #5", function() {
 
 		// degtorad( real const ): degtorad(360) == pi*2
-		math_set_epsilon(0.00001)
-
 		var pi_by_2 = degtorad(360)
 		assert_equals(pi_by_2, (pi*2), "2*Pi rad == 360 deg")
 	})
@@ -2066,8 +2001,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #6", function() {
 
 		// degtorad( real local ): degtorad(0) == 0
-		math_set_epsilon(0.00001)
-
 		var zero_deg = 0
 		var zero_rad = degtorad(zero_deg)
 		assert_equals(zero_rad, 0.0, "0 rad == 0 deg")
@@ -2076,8 +2009,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #7", function() {
 
 		// degtorad( real local ): degtorad(180) == pi
-		math_set_epsilon(0.00001)
-
 		var oneEighty = 180
 		var piTest_rad = degtorad(oneEighty)
 		assert_equals(piTest_rad, pi, "Pi rad == 180 deg")
@@ -2086,8 +2017,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #8", function() {
 
 		// degtorad( real local ): degtorad(90) == pi/2
-		math_set_epsilon(0.00001)
-
 		var ninety = 90
 		var pi_2_rad = degtorad(ninety)
 		assert_equals(pi_2_rad, (pi/2), "Pi/2 rad == 90 deg")
@@ -2096,8 +2025,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #9", function() {
 
 		// degtorad( real local ): degtorad(45) == pi/4
-		math_set_epsilon(0.00001)
-
 		var fortyFive = 45
 		var pi_4_rad = degtorad(fortyFive)
 		assert_equals(pi_4_rad, (pi/4), "Pi/4 rad == 45 deg")
@@ -2106,8 +2033,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("degtorad_test #10", function() {
 
 		// degtorad( real local ): degtorad(360) == pi*2
-		math_set_epsilon(0.00001)
-
 		var threeSixty = 360
 		var pi_by_2_rad = degtorad(threeSixty)
 		assert_equals(pi_by_2_rad, (pi*2), "2*Pi rad == 360 deg")
@@ -2118,9 +2043,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #1", function() {
 
 		// dot_product_3d_normalised: two zero vectors
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var res0 = dot_product_3d_normalised(0, 0, 0, 0, 0, 0)
 		assert_true(is_nan(res0), "#0 Normalised Dot product of two zero vectors is NaN");
 	})
@@ -2128,8 +2050,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #2", function() {
 
 		// dot_product_3d_normalised: perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res1 = dot_product_3d_normalised(0.5, 0.5, 0.0, -0.5, 0.5, 1.0)
 		assert_equals(_res1, 0.0, "#1 Normalised Dot product of two perpendicular is 0")
 	})
@@ -2137,8 +2057,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #3", function() {
 
 		// dot_product_3d_normalised: perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res2 = dot_product_3d_normalised(3.0, 1.0, 0.0, 1.0, -3.0, 0.0)
 		assert_equals(_res2, 0.0, "#2 Normalised Dot product of two perpendicular is 0")
 	})
@@ -2146,8 +2064,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #4", function() {
 
 		// dot_product_3d_normalised: (2, 3, 4) and (-3, -1, 5)
-		math_set_epsilon(0.00001)
-
 		var _res3 = dot_product_3d_normalised(2.0, 3.0, 4.0, -3.0, -1.0, 5.0)
 		assert_equals(_res3, 0.345270651315, "#3 Normalised Dot product of (2, 3, 4) and (-3, -1, 5) is 0.345270651315")
 	})
@@ -2155,8 +2071,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #5", function() {
 
 		// dot_product_3d_normalised: (2, 3, 4) and (-3, -1, -5)
-		math_set_epsilon(0.00001)
-
 		var _res4 = dot_product_3d_normalised(2.0, 3.0, 4.0, -3.0, -1.0, -5.0)
 		assert_equals(_res4, -0.910258989832, "#4 Normalised Dot Product is (2.0, 3.0, 4.0) and (-3.0, -1.0, -5.0) is -0.910258989832")
 	})
@@ -2164,8 +2078,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #6", function() {
 
 		// dot_product_3d_normalised: (1, 2, 3) and (4, 5, 6)
-		math_set_epsilon(0.00001)
-
 		var _res5 = dot_product_3d_normalised(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
 		assert_equals(_res5, 0.974631786346, "#5 Normalised Dot Product is (1.0, 2.0, 3.0) and (4.0, 5.0, 6.0) is 0.9836991")
 	})
@@ -2173,8 +2085,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #7", function() {
 
 		// dot_product_3d_normalised: (1, 2, 3) and (-4, -5, -6)
-		math_set_epsilon(0.00001)
-
 		var _res6 = dot_product_3d_normalised(1.0, 2.0, 3.0, -4.0, -5.0, -6.0)
 		assert_equals(_res6, -0.974631786346, "#6 Normalised Dot Product is (1.0, 2.0, 3.0) and (-4.0, -5.0, -6.0) is -0.9836991")
 	})
@@ -2182,8 +2092,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #8", function() {
 
 		// Normalised Dot product of vectors where angle between < 90 will be positive.
-		math_set_epsilon(0.00001)
-
 		var x1, y1, z1, x2, y2, z2;
 		x1 = 1.5
 		y1 = 1.5
@@ -2198,8 +2106,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #9", function() {
 
 		// Normalised Dot product of vectors where angle between > 90 will be negative.
-		math_set_epsilon(0.00001)
-
 		var x3, y3, z3, x4, y4, z4;
 		x3 = 1.5
 		y3 = 1.5
@@ -2214,8 +2120,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #10", function() {
 
 		// S vs Z: (1, 2, 3) and (4, 5, 6)
-		math_set_epsilon(0.00001)
-
 		var sx1, sy1, sz1, sx2, sy2, sz2;
 		sx1 = 1
 		sy1 = 2
@@ -2231,8 +2135,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #11", function() {
 
 		// S vs Z: (7, 8, 9) and (10, 11, 12)
-		math_set_epsilon(0.00001)
-
 		var sx3, sy3, sz3, sx4, sy4, sz4;
 		sx3 = 7
 		sy3 = 8
@@ -2248,8 +2150,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_normalised_test #12", function() {
 
 		// S vs Z: (13, 14, 15) and (16, 17, 18)
-		math_set_epsilon(0.00001)
-
 		var sx5, sy5, sz5, sx6, sy6, sz6;
 		sx5 = 13
 		sy5 = 14
@@ -2267,9 +2167,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #1", function() {
 
 		// dot_product_3d (2D inputs): two zero vectors
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var res0 = dot_product_3d(0, 0, 0, 0, 0, 0)
 		assert_equals(res0, 0.0, "#0 Dot product of two zero vectors is 0")
 	})
@@ -2277,8 +2174,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #2", function() {
 
 		// dot_product_3d (2D inputs): perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res1 = dot_product_3d(0.5, 0.5, 0, -0.5, 0.5, 0)
 		assert_equals(_res1, 0.0, "#1 Dot product of two perpendicular is 0")
 	})
@@ -2286,8 +2181,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #3", function() {
 
 		// dot_product_3d (2D inputs): perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res2 = dot_product_3d(3, 1, 0, 1, -3, 0)
 		assert_equals(_res2, 0.0, "#2 Dot product of two perpendicular is 0")
 	})
@@ -2295,8 +2188,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #4", function() {
 
 		// dot_product_3d (2D inputs): (2, 3, 0) and (-3, -1, 0)
-		math_set_epsilon(0.00001)
-
 		var _res3 = dot_product_3d(2, 3, 0, -3, -1, 0)
 		assert_equals(_res3, -9.0, "#3 Dot product of (2,3, 0) and (-3, -1, 0) is -9")
 	})
@@ -2304,8 +2195,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #5", function() {
 
 		// dot_product_3d (2D inputs): (1, 1, 0) and (0.5, 0.5, 0)
-		math_set_epsilon(0.00001)
-
 		var _res4 = dot_product_3d(1.0, 1.0, 0.0, 0.5, 0.5, 0.0)
 		assert_equals(_res4, 1.0, "#4 Dot Product is (1, 1, 0) and (0.5, 0.5, 0.0) is 1")
 	})
@@ -2313,8 +2202,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #6", function() {
 
 		// dot_product_3d (3D inputs): perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res5 = dot_product_3d(0, 0, 1, -1, 1, 0)
 		assert_equals(_res5, 0.0, "#1 Dot product of two perpendicular is 0")
 	})
@@ -2322,8 +2209,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #7", function() {
 
 		// dot_product_3d (3D inputs): perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res6 = dot_product_3d(1, 1, 0, 0, 0, -1)
 		assert_equals(_res6, 0.0, "#1 Dot product of two perpendicular is 0")
 	})
@@ -2331,8 +2216,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #8", function() {
 
 		// dot_product_3d (3D inputs): (3, 1, -8) and (1, -3, -4)
-		math_set_epsilon(0.00001)
-
 		var _res7 = dot_product_3d(3, 1, -8, 1, -3, -4)
 		assert_equals(_res7, 32.0, "#2 Dot product of (3, 1, -8) and (1, -3, -4) is 0")
 	})
@@ -2340,8 +2223,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #9", function() {
 
 		// dot_product_3d (3D inputs): (7, 7, 7) and (1, 2, 3)
-		math_set_epsilon(0.00001)
-
 		var _res8 = dot_product_3d(7, 7, 7, 1, 2, 3)
 		assert_equals(_res8, 42.0, "#3 Dot product of (7, 7, 7) and (1, 2, 3) is 42")
 	})
@@ -2349,8 +2230,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #10", function() {
 
 		// dot_product_3d (3D inputs): (0.6, 0.5, -5.0) and (-0.5, 0.5, 1.0)
-		math_set_epsilon(0.00001)
-
 		var _res9 = dot_product_3d(0.6, 0.5, -5.0, -0.5, 0.5, 1.0)
 		assert_equals(_res9, -5.05, "#4 Dot Product is (0.6, 0.5, 0.0) and (-0.5, 0.5, 0.0) is -0.05")
 	})
@@ -2358,8 +2237,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #11", function() {
 
 		// Dot product of vectors where angle between < 90 will be positive.
-		math_set_epsilon(0.00001)
-
 		var x1, y1, z1, x2, y2, z2;
 		x1 = 0.5
 		y1 = 0.5
@@ -2374,8 +2251,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_3d_test #12", function() {
 
 		// Dot product of vectors where angle between > 90 will be negative.
-		math_set_epsilon(0.00001)
-
 		var x3, y3, z3, x4, y4, z4;
 		x3 = 0.5
 		y3 = 0.5
@@ -2392,9 +2267,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #1", function() {
 
 		// dot_product_normalised: two zero vectors
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var res0 = dot_product_normalised(0, 0, 0, 0)
 		assert_true(is_nan(res0), "#0 Normalised Dot product of two zero vectors is NaN")
 	})
@@ -2402,8 +2274,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #2", function() {
 
 		// dot_product_normalised: perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res1 = dot_product_normalised(0.5, 0.5, -0.5, 0.5)
 		assert_equals(_res1, 0.0, "#1 Normalised Dot product of two perpendicular is 0")
 	})
@@ -2411,8 +2281,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #3", function() {
 
 		// dot_product_normalised: perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res2 = dot_product_normalised(3, 1, 1, -3)
 		assert_equals(_res2, 0.0, "#2 Normalised Dot product of two perpendicular is 0")
 	})
@@ -2420,8 +2288,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #4", function() {
 
 		// dot_product_normalised: (2, 3) and (-3, -1)
-		math_set_epsilon(0.00001)
-
 		var _res3 = dot_product_normalised(2, 3, -3, -1)
 		assert_equals(_res3, -0.789352238178, "#3 Normalised Dot product of (2,3) and (-3, -1) is -0.79")
 	})
@@ -2429,8 +2295,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #5", function() {
 
 		// dot_product_normalised: (1, 1) and (0.5, 0.5)
-		math_set_epsilon(0.00001)
-
 		var _res4 = dot_product_normalised(1.0, 1.0, 0.5, 0.5)
 		assert_equals(_res4, 1.0, "#4 Normalised Dot Product is (1, 1) and (0.5, 0.5) is 1")
 	})
@@ -2438,8 +2302,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #6", function() {
 
 		// dot_product_normalised: (1, 2) and (3, 4)
-		math_set_epsilon(0.00001)
-
 		var _res5 = dot_product_normalised(1.0, 2.0, 3.0, 4.0)
 		assert_equals(_res5, 0.983869910240, "#5 Normalised Dot Product is (1, 2) and (3, 4) is 0.9836991")
 	})
@@ -2447,8 +2309,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #7", function() {
 
 		// dot_product_normalised: (1, 2) and (-3, -4)
-		math_set_epsilon(0.00001)
-
 		var _res6 = dot_product_normalised(1.0, 2.0, -3.0, -4.0)
 		assert_equals(_res6, -0.983869910240, "#5 Normalised Dot Product is (1, 2) and (-3, -4) is -0.9836991")
 	})
@@ -2456,8 +2316,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #8", function() {
 
 		// Normalised Dot product of vectors where angle between < 90 will be positive.
-		math_set_epsilon(0.00001)
-
 		var x1, y1, x2, y2;
 		x1 = 1.5
 		y1 = 1.5
@@ -2470,8 +2328,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #9", function() {
 
 		// Normalised Dot product of vectors where angle between > 90 will be negative.
-		math_set_epsilon(0.00001)
-
 		var x3, y3, x4, y4;
 		x3 = 1.5
 		y3 = 1.5
@@ -2484,8 +2340,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #10", function() {
 
 		// S vs Z: (1, 2) and (3, 4)
-		math_set_epsilon(0.00001)
-
 		var sx1, sy1, sx2, sy2;
 		sx1 = 1
 		sy1 = 2
@@ -2499,8 +2353,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #11", function() {
 
 		// S vs Z: (5, 6) and (7, 8)
-		math_set_epsilon(0.00001)
-
 		var sx3, sy3, sx4, sy4;
 		sx3 = 5
 		sy3 = 6
@@ -2514,8 +2366,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_normalised_test #12", function() {
 
 		// S vs Z: (8, 9) and (10, 11)
-		math_set_epsilon(0.00001)
-
 		var sx5, sy5, sx6, sy6;
 		sx5 = 8
 		sy5 = 9
@@ -2531,9 +2381,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #1", function() {
 
 		// dot_product: two zero vectors
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var res0 = dot_product(0, 0, 0, 0)
 		assert_equals(res0, 0.0, "#0 Dot product of two zero vectors is 0")
 	})
@@ -2541,8 +2388,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #2", function() {
 
 		// dot_product: perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res1 = dot_product(0.5, 0.5, -0.5, 0.5)
 		assert_equals(_res1, 0.0, "#1 Dot product of two perpendicular is 0")
 	})
@@ -2550,8 +2395,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #3", function() {
 
 		// dot_product: perpendicular vectors
-		math_set_epsilon(0.00001)
-
 		var _res2 = dot_product(3, 1, 1, -3)
 		assert_equals(_res2, 0.0, "#2 Dot product of two perpendicular is 0")
 	})
@@ -2559,8 +2402,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #4", function() {
 
 		// dot_product: (2, 3) and (-3, -1)
-		math_set_epsilon(0.00001)
-
 		var _res3 = dot_product(2, 3, -3, -1)
 		assert_equals(_res3, -9.0, "#3 Dot product of (2,3) and (-3, -1) is -9")
 	})
@@ -2568,8 +2409,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #5", function() {
 
 		// dot_product: (1, 1) and (0.5, 0.5)
-		math_set_epsilon(0.00001)
-
 		var _res4 = dot_product(1.0, 1.0, 0.5, 0.5)
 		assert_equals(_res4, 1.0, "#4 Dot Product is (1, 1) and (0.5, 0.5) is 1")
 	})
@@ -2577,8 +2416,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #6", function() {
 
 		// Dot product of vectors where angle between < 90 will be positive.
-		math_set_epsilon(0.00001)
-
 		var x1, y1, x2, y2;
 		x1 = 0.5
 		y1 = 0.5
@@ -2591,8 +2428,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dot_product_test #7", function() {
 
 		// Dot product of vectors where angle between > 90 will be negative.
-		math_set_epsilon(0.00001)
-
 		var x3, y3, x4, y4;
 		x3 = 0.5
 		y3 = 0.5
@@ -2648,9 +2483,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #1", function() {
 
 		// dtan (degree angle): dtan(0) == 0
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var dtan0 = dtan(0)
 		assert_equals(dtan0, 0, "#1 Tan Zero == 0")
 	})
@@ -2658,8 +2490,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #2", function() {
 
 		// dtan (degree angle): dtan(180) == 0
-		math_set_epsilon(0.00001)
-
 		var dtanPi = dtan(180)
 		assert_equals(dtanPi, 0, "#2 Tan 180 == 0")
 	})
@@ -2667,8 +2497,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #3", function() {
 
 		// dtan (degree angle): dtan(360) == 0
-		math_set_epsilon(0.00001)
-
 		var dtan2Pi = dtan(360)
 		assert_equals(dtan2Pi, 0, "#3 Tan 360 == 0")
 	})
@@ -2676,8 +2504,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #4", function() {
 
 		// dtan (degree angle): dtan(45) == 1
-		math_set_epsilon(0.00001)
-
 		var tanFortyFiveDeg = dtan(45.0)
 		assert_equals(tanFortyFiveDeg, 1.0, "#4 Tan 45 == 1")
 	})
@@ -2685,8 +2511,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #5", function() {
 
 		// dtan (degree angle): dtan(225) == 1
-		math_set_epsilon(0.00001)
-
 		var tanTwoTwoFiveDeg = dtan(225.0)
 		assert_equals(tanTwoTwoFiveDeg, 1.0, "#5 Tan 225 == 1")
 	})
@@ -2694,8 +2518,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #6", function() {
 
 		// dtan (degree angle): dtan(135) == -1
-		math_set_epsilon(0.00001)
-
 		var tanOneThirtyFiveDeg = dtan(135.0)
 		assert_equals(tanOneThirtyFiveDeg, -1, "#6 Tan 135 == -1")
 	})
@@ -2703,8 +2525,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("dtan_test #7", function() {
 
 		// dtan (degree angle): dtan(315) == -1
-		math_set_epsilon(0.00001)
-
 		var tanThreeFifteenDeg = dtan(315.0)
 		assert_equals(tanThreeFifteenDeg, -1, "#7 Tan 315 == -1")
 	})
@@ -2714,9 +2534,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #1", function() {
 
 		// exp( real local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -2732,8 +2549,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #2", function() {
 
 		// exp( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -2749,8 +2564,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #3", function() {
 
 		// exp( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -2766,8 +2579,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #4", function() {
 
 		// exp( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = exp(2.5);
 		assert_equals(_result, 12.1824939607, "#4 exp( real const )")
 	})
@@ -2775,8 +2586,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #5", function() {
 
 		// exp( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = exp(10);
 		assert_equals(_result, 22026.4657948067, "#5 exp( int const )")
 	})
@@ -2784,8 +2593,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #6", function() {
 
 		// exp( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = exp(int64(4));
 		assert_equals(_result, 54.5981500331, "#6 exp( int64 const )")
 	})
@@ -2793,8 +2600,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #7", function() {
 
 		// negative value: exp( real local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -2810,8 +2615,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #8", function() {
 
 		// negative value: exp( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -2827,8 +2630,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #9", function() {
 
 		// negative value: exp( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -2844,8 +2645,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #10", function() {
 
 		// negative value: exp( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = exp(-2.5);
 		assert_equals(_result, 0.08208499862, "#10 exp( real const )")
 	})
@@ -2853,8 +2652,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #11", function() {
 
 		// negative value: exp( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = exp(-10);
 		assert_equals(_result, 0.00004539992, "#11 exp( int const )")
 	})
@@ -2862,8 +2659,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #12", function() {
 
 		// negative value: exp( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = exp(int64(-4));
 		assert_equals(_result, 0.01831563888, "#12 exp( int64 const )")
 	})
@@ -2871,8 +2666,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #13", function() {
 
 		// zero test
-		math_set_epsilon(0.00001)
-
 		var _result = exp(0);
 		assert_equals(_result, 1, "#13 exp( 0 )")
 	})
@@ -2880,8 +2673,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #14", function() {
 
 		// one test
-		math_set_epsilon(0.00001)
-
 		var _result = exp(1);
 		assert_equals(_result, 2.71828182845905, "#14 exp( 1 )")
 	})
@@ -2889,8 +2680,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #15", function() {
 
 		// infinity test
-		math_set_epsilon(0.00001)
-
 		var _infinity = infinity;
 
 		var _result = exp(_infinity);
@@ -2900,8 +2689,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("exp_test #16", function() {
 
 		// NaN test
-		math_set_epsilon(0.00001)
-
 		var _nan = NaN;
 
 		var _result = exp(_nan);
@@ -3586,9 +3373,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #1", function() {
 
 		// ln( real local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3604,8 +3388,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #2", function() {
 
 		// ln( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3621,8 +3403,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #3", function() {
 
 		// ln( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3638,8 +3418,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #4", function() {
 
 		// ln( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = ln(2.5);
 		assert_equals(_result, 0.91629073187, "#4 ln( real const )")
 	})
@@ -3647,8 +3425,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #5", function() {
 
 		// ln( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = ln(10);
 		assert_equals(_result, 2.30258509299, "#5 ln( int const )")
 	})
@@ -3656,8 +3432,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #6", function() {
 
 		// ln( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = ln(int64(4));
 		assert_equals(_result, 1.38629436112, "#6 ln( int64 const )")
 	})
@@ -3665,8 +3439,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #7", function() {
 
 		// negative value: ln( real local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3682,8 +3454,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #8", function() {
 
 		// negative value: ln( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3699,8 +3469,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #9", function() {
 
 		// negative value: ln( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3716,8 +3484,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #10", function() {
 
 		// negative value: ln( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = ln(-2.5);
 		assert_true(is_nan(_result), "#10 ln( real const )")
 	})
@@ -3725,8 +3491,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #11", function() {
 
 		// negative value: ln( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = ln(-10);
 		assert_true(is_nan(_result), "#11 ln( int const )")
 	})
@@ -3734,8 +3498,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #12", function() {
 
 		// negative value: ln( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = ln(int64(-4));
 		assert_true(is_nan(_result), "#12 ln( int64 const )")
 	})
@@ -3743,8 +3505,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #13", function() {
 
 		// zero test
-		math_set_epsilon(0.00001)
-
 		var _result = ln(0);
 		assert_true(is_infinity(_result), "#13 ln( real const )")
 	})
@@ -3752,8 +3512,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #14", function() {
 
 		// one test
-		math_set_epsilon(0.00001)
-
 		var _result = ln(1);
 		assert_equals(_result, 0, "#14 ln( 1 )")
 	})
@@ -3761,8 +3519,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #15", function() {
 
 		// inverse test
-		math_set_epsilon(0.00001)
-
 		var _value = exp(3.5);
 		var _result = ln(_value);
 		assert_equals(_result, 3.5, "#15 ln( real const )")
@@ -3771,8 +3527,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #16", function() {
 
 		// infinity test
-		math_set_epsilon(0.00001)
-
 		var _infinity = infinity;
 
 		var _result = ln(_infinity);
@@ -3782,8 +3536,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("ln_test #17", function() {
 
 		// NaN test
-		math_set_epsilon(0.00001)
-
 		var _nan = NaN;
 
 		var _result = ln(_nan);
@@ -3795,9 +3547,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #1", function() {
 
 		// log10( real local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3813,8 +3562,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #2", function() {
 
 		// log10( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10000);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3830,8 +3577,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #3", function() {
 
 		// log10( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 42);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3847,8 +3592,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #4", function() {
 
 		// log10( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = log10(2.5);
 		assert_equals(_result, 0.39794000867, "#4 log10( real const )")
 	})
@@ -3856,8 +3599,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #5", function() {
 
 		// log10( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = log10(10000);
 		assert_equals(_result, 4, "#5 log10( int const )")
 	})
@@ -3865,8 +3606,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #6", function() {
 
 		// log10( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = log10(int64(42));
 		assert_equals(_result, 1.6232492904, "#6 log10( int64 const )")
 	})
@@ -3874,8 +3613,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #7", function() {
 
 		// negative value: log10( real local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3891,8 +3628,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #8", function() {
 
 		// negative value: log10( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10000);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3908,8 +3643,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #9", function() {
 
 		// negative value: log10( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 42);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -3925,8 +3658,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #10", function() {
 
 		// negative value: log10( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = log10(-2.5);
 		assert_true(is_nan(_result), "#10 log10( real const )")
 	})
@@ -3934,8 +3665,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #11", function() {
 
 		// negative value: log10( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = log10(-10000);
 		assert_true(is_nan(_result), "#11 log10( int const )")
 	})
@@ -3943,8 +3672,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #12", function() {
 
 		// negative value: log10( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = log10(int64(-42));
 		assert_true(is_nan(_result), "#12 log10( int64 const )")
 	})
@@ -3952,8 +3679,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #13", function() {
 
 		// zero test
-		math_set_epsilon(0.00001)
-
 		var _result = log10(0);
 		assert_true(is_infinity(_result), "#13 log10( 0 )")
 	})
@@ -3961,8 +3686,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #14", function() {
 
 		// one test
-		math_set_epsilon(0.00001)
-
 		var _result = log10(1);
 		assert_equals(_result, 0, "#14 log10( 1 )")
 	})
@@ -3970,8 +3693,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #15", function() {
 
 		// negative power: log10(0.1)
-		math_set_epsilon(0.00001)
-
 		var _result = log10(0.1);
 		assert_equals(_result, -1, "#15 log10( real local )")
 	})
@@ -3979,8 +3700,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #16", function() {
 
 		// negative power: log10(0.01)
-		math_set_epsilon(0.00001)
-
 		var _result = log10(0.01);
 		assert_equals(_result, -2, "#16 log10( int local )")
 	})
@@ -3988,8 +3707,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #17", function() {
 
 		// negative power: log10(0.001)
-		math_set_epsilon(0.00001)
-
 		var _result = log10(0.001);
 		assert_equals(_result, -3, "#17 log10( int64 local )")
 	})
@@ -3997,8 +3714,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #18", function() {
 
 		// infinity test
-		math_set_epsilon(0.00001)
-
 		var _infinity = infinity;
 
 		var _result = log10(_infinity);
@@ -4008,8 +3723,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log10_test #19", function() {
 
 		// NaN test
-		math_set_epsilon(0.00001)
-
 		var _nan = NaN;
 
 		var _result = log10(_nan);
@@ -4021,9 +3734,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #1", function() {
 
 		// log2( real local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4039,8 +3749,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #2", function() {
 
 		// log2( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 8);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4056,8 +3764,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #3", function() {
 
 		// log2( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4073,8 +3779,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #4", function() {
 
 		// log2( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = log2(2.5);
 		assert_equals(_result, 1.32192809489, "#4 log2( real const )")
 	})
@@ -4082,8 +3786,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #5", function() {
 
 		// log2( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = log2(8);
 		assert_equals(_result, 3, "#5 log2( int const )")
 	})
@@ -4091,8 +3793,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #6", function() {
 
 		// log2( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = log2(int64(4));
 		assert_equals(_result, 2, "#6 log2( int64 const )")
 	})
@@ -4100,8 +3800,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #7", function() {
 
 		// negative value: log2( real local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4117,8 +3815,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #8", function() {
 
 		// negative value: log2( int local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 8);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4134,8 +3830,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #9", function() {
 
 		// negative value: log2( int64 local )
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4151,8 +3845,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #10", function() {
 
 		// negative value: log2( real const )
-		math_set_epsilon(0.00001)
-
 		var _result = log2(-2.5);
 		assert_true(is_nan(_result), "#10 log2( real const )")
 	})
@@ -4160,8 +3852,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #11", function() {
 
 		// negative value: log2( int const )
-		math_set_epsilon(0.00001)
-
 		var _result = log2(-8);
 		assert_true(is_nan(_result), "#11 log2( int const )")
 	})
@@ -4169,8 +3859,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #12", function() {
 
 		// negative value: log2( int64 const )
-		math_set_epsilon(0.00001)
-
 		var _result = log2(int64(-4));
 		assert_true(is_nan(_result), "#12 log2( int64 const )")
 	})
@@ -4178,8 +3866,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #13", function() {
 
 		// zero test
-		math_set_epsilon(0.00001)
-
 		var _result = log2(0);
 		assert_true(is_infinity(_result), "#13 log2( 0 )")
 	})
@@ -4187,8 +3873,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #14", function() {
 
 		// one test
-		math_set_epsilon(0.00001)
-
 		var _result = log2(1);
 		assert_equals(_result, 0, "#14 log2( 1 )")
 	})
@@ -4196,8 +3880,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #15", function() {
 
 		// negative power: log2(0.5)
-		math_set_epsilon(0.00001)
-
 		var _result = log2(0.5);
 		assert_equals(_result, -1, "#15 log2( real local )")
 	})
@@ -4205,8 +3887,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #16", function() {
 
 		// negative power: log2(0.25)
-		math_set_epsilon(0.00001)
-
 		var _result = log2(0.25);
 		assert_equals(_result, -2, "#16 log2( int local )")
 	})
@@ -4214,8 +3894,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #17", function() {
 
 		// negative power: log2(0.125)
-		math_set_epsilon(0.00001)
-
 		var _result = log2(0.125);
 		assert_equals(_result, -3, "#17 log2( int64 local )")
 	})
@@ -4223,8 +3901,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #18", function() {
 
 		// infinity test
-		math_set_epsilon(0.00001)
-
 		var _infinity = infinity;
 
 		var _result = log2(_infinity);
@@ -4234,8 +3910,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("log2_test #19", function() {
 
 		// NaN test
-		math_set_epsilon(0.00001)
-
 		var _nan = NaN;
 
 		var _result = log2(_nan);
@@ -4247,9 +3921,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #1", function() {
 
 		// logn( real const , real local ): base 5
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4265,8 +3936,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #2", function() {
 
 		// logn( real const , int local ): base 5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4282,8 +3951,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #3", function() {
 
 		// logn( real const , int64 local ): base 5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4299,8 +3966,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #4", function() {
 
 		// logn( real const , real local ): base 2 agrees with log2
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4316,8 +3981,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #5", function() {
 
 		// logn( real const , int local ): base 2 agrees with log2
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4333,8 +3996,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #6", function() {
 
 		// logn( real const , int64 local ): base 2 agrees with log2
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4350,8 +4011,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #7", function() {
 
 		// logn( real const , real local ): base 10 agrees with log10
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4367,8 +4026,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #8", function() {
 
 		// logn( real const , int local ): base 10 agrees with log10
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4384,8 +4041,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #9", function() {
 
 		// logn( real const , int64 local ): base 10 agrees with log10
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4401,8 +4056,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #10", function() {
 
 		// logn( real local , real const ): base 1
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4418,8 +4071,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #11", function() {
 
 		// logn( int local , real const ): base 1
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4435,8 +4086,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #12", function() {
 
 		// logn( int64 local , real const ): base 1
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4452,8 +4101,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #13", function() {
 
 		// logn( real local , real const ): base 0
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4469,8 +4116,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #14", function() {
 
 		// logn( int local , real const ): base 0
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4486,8 +4131,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #15", function() {
 
 		// logn( int64 local , real const ): base 0
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4503,8 +4146,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #16", function() {
 
 		// logn( real local , real const ): fractional base 0.5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4520,8 +4161,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #17", function() {
 
 		// logn( int local , real const ): fractional base 0.5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4537,8 +4176,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #18", function() {
 
 		// logn( int64 local , real const ): fractional base 0.5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4554,8 +4191,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #19", function() {
 
 		// logn( real local , real const ): negative base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4571,8 +4206,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #20", function() {
 
 		// logn( int local , real const ): negative base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4588,8 +4221,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #21", function() {
 
 		// logn( int64 local , real const ): negative base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4605,8 +4236,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #22", function() {
 
 		// negative values: logn( real const , real local ), base 5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4622,8 +4251,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #23", function() {
 
 		// negative values: logn( real const , int local ), base 5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4639,8 +4266,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #24", function() {
 
 		// negative values: logn( real const , int64 local ), base 5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4656,8 +4281,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #25", function() {
 
 		// negative values: logn( real local , real const ), base 1
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4673,8 +4296,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #26", function() {
 
 		// negative values: logn( int local , real const ), base 1
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4690,8 +4311,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #27", function() {
 
 		// negative values: logn( int64 local , real const ), base 1
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4707,8 +4326,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #28", function() {
 
 		// negative values: logn( real local , real const ), base 0
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4724,8 +4341,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #29", function() {
 
 		// negative values: logn( int local , real const ), base 0
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4741,8 +4356,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #30", function() {
 
 		// negative values: logn( int64 local , real const ), base 0
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4758,8 +4371,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #31", function() {
 
 		// negative values: logn( real local , real const ), base 0.5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4775,8 +4386,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #32", function() {
 
 		// negative values: logn( int local , real const ), base 0.5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4792,8 +4401,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #33", function() {
 
 		// negative values: logn( int64 local , real const ), base 0.5
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4809,8 +4416,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #34", function() {
 
 		// negative values: logn( real local , real const ), negative base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4826,8 +4431,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #35", function() {
 
 		// negative values: logn( int local , real const ), negative base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4843,8 +4446,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #36", function() {
 
 		// negative values: logn( int64 local , real const ), negative base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -4860,8 +4461,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #37", function() {
 
 		// real as base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_write(_buffer, buffer_f32, 5.5);
@@ -4879,8 +4478,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #38", function() {
 
 		// int32 as base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_write(_buffer, buffer_s32, 2);
@@ -4898,8 +4495,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("logn_test #39", function() {
 
 		// int64 as base
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_write(_buffer, buffer_u64, 2);
@@ -6697,9 +6292,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #1", function() {
 
 		// power( real local , real const ): raised to 2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6715,9 +6307,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #2", function() {
 
 		// power( int local , real const ): raised to 2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6733,9 +6322,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #3", function() {
 
 		// power( int64 local , real const ): raised to 2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6751,9 +6337,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #4", function() {
 
 		// power( real local , real const ): raised to 10
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6769,9 +6352,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #5", function() {
 
 		// power( int local , real const ): raised to 10
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6787,9 +6367,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #6", function() {
 
 		// power( int64 local , real const ): raised to 10
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6805,9 +6382,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #7", function() {
 
 		// power( real local , 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6823,9 +6397,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #8", function() {
 
 		// power( int local , 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6841,9 +6412,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #9", function() {
 
 		// power( int64 local , 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6859,9 +6427,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #10", function() {
 
 		// power( real local , -2 ): negative exponent
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6877,9 +6442,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #11", function() {
 
 		// power( int local , -10 ): negative exponent
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6895,9 +6457,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #12", function() {
 
 		// power( int64 local , -3 ): negative exponent
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6913,9 +6472,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #13", function() {
 
 		// Negative value test: power( -real local , real const ): raised to 2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6931,9 +6487,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #14", function() {
 
 		// Negative value test: power( -int local , real const ): raised to 2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6949,9 +6502,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #15", function() {
 
 		// Negative value test: power( -int64 local , real const ): raised to 2
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6967,9 +6517,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #16", function() {
 
 		// Negative value test: power( -real local , real const ): raised to 10
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -6985,9 +6532,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #17", function() {
 
 		// Negative value test: power( -int local , real const ): raised to 10
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7003,9 +6547,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #18", function() {
 
 		// Negative value test: power( -int64 local , real const ): raised to 10
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7021,9 +6562,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #19", function() {
 
 		// Negative value test: power( -real local , 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7039,9 +6577,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #20", function() {
 
 		// Negative value test: power( -int local , 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7057,9 +6592,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #21", function() {
 
 		// Negative value test: power( -int64 local , 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7075,9 +6607,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #22", function() {
 
 		// Negative value test: power( -real local , -2 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7093,9 +6622,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #23", function() {
 
 		// Negative value test: power( -int local , -10 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7111,9 +6637,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #24", function() {
 
 		// Negative value test: power( -int64 local , -3 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7129,9 +6652,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #25", function() {
 
 		// Test invalid types Infinity/NaN: power( real local , infinity )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7149,9 +6669,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #26", function() {
 
 		// Test invalid types Infinity/NaN: power( int local , infinity )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7169,9 +6686,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #27", function() {
 
 		// Test invalid types Infinity/NaN: power( int64 local , infinity )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7189,9 +6703,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #28", function() {
 
 		// Test invalid types Infinity/NaN: power( real local , NaN )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7209,9 +6720,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #29", function() {
 
 		// Test invalid types Infinity/NaN: power( int local , NaN )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7229,9 +6737,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #30", function() {
 
 		// Test invalid types Infinity/NaN: power( int64 local , NaN )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7249,9 +6754,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #31", function() {
 
 		// Test invalid types Infinity/NaN: power( infinity , real const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _infinity = infinity;
 
 		var _result = power(_infinity, 2);
@@ -7261,9 +6763,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("power_test #32", function() {
 
 		// Test invalid types Infinity/NaN: power( NaN , real const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _nan = NaN;
 
 		var _result = power(_nan, 2);
@@ -7275,9 +6774,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #1", function() {
 
 		// radtodeg( real const ): radtodeg(0) == 0
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var zero = radtodeg(0)
 		assert_equals(zero, 0.0, "0 rad == 0 deg")
 	})
@@ -7285,8 +6781,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #2", function() {
 
 		// radtodeg( real const ): radtodeg(pi) == 180
-		math_set_epsilon(0.00001)
-
 		var piTest = radtodeg(pi)
 		assert_equals(piTest, 180.0, "Pi rad == 180 deg")
 	})
@@ -7294,8 +6788,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #3", function() {
 
 		// radtodeg( real const ): radtodeg(pi/2) == 90
-		math_set_epsilon(0.00001)
-
 		var pi_2 = radtodeg(pi/2)
 		assert_equals(pi_2, 90.0, "Pi/2 rad == 90 deg")
 	})
@@ -7303,8 +6795,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #4", function() {
 
 		// radtodeg( real const ): radtodeg(pi/4) == 45
-		math_set_epsilon(0.00001)
-
 		var pi_4 = radtodeg(pi/4)
 		assert_equals(pi_4, 45.0, "Pi/4 rad == 45 deg")
 	})
@@ -7312,8 +6802,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #5", function() {
 
 		// radtodeg( real const ): radtodeg(2*pi) == 360
-		math_set_epsilon(0.00001)
-
 		var pi_by_2 = radtodeg(2*pi)
 		assert_equals(round(pi_by_2), round(360), "2*Pi rad == 360 deg")
 	})
@@ -7321,8 +6809,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #6", function() {
 
 		// radtodeg( real local ): radtodeg(0) == 0
-		math_set_epsilon(0.00001)
-
 		var zero_rad = 0
 		var zero_deg = radtodeg(zero_rad)
 		assert_equals(zero_deg, 0.0, "0 rad == 0 deg")
@@ -7331,8 +6817,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #7", function() {
 
 		// radtodeg( real local ): radtodeg(pi) == 180
-		math_set_epsilon(0.00001)
-
 		var piTest = pi
 		var piTest_deg = radtodeg(piTest)
 		assert_equals(piTest_deg, 180.0, "Pi rad == 180 deg")
@@ -7341,8 +6825,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #8", function() {
 
 		// radtodeg( real local ): radtodeg(pi/2) == 90
-		math_set_epsilon(0.00001)
-
 		var pi_2 = pi/2
 		var pi_2_deg = radtodeg(pi_2)
 		assert_equals(pi_2_deg, 90.0, "Pi/2 rad == 90 deg")
@@ -7351,8 +6833,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #9", function() {
 
 		// radtodeg( real local ): radtodeg(pi/4) == 45
-		math_set_epsilon(0.00001)
-
 		var pi_4 = pi/4
 		var pi_4_deg = radtodeg(pi_4)
 		assert_equals(pi_4_deg, 45.0, "Pi/4 rad == 45 deg")
@@ -7361,8 +6841,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("radtodeg_test #10", function() {
 
 		// radtodeg( real local ): radtodeg(2*pi) == 360
-		math_set_epsilon(0.00001)
-
 		var pi_by_2 = 2*pi
 		var pi_by_2_deg = radtodeg(pi_by_2)
 		assert_equals(round(pi_by_2_deg), round(360.0), "2*Pi rad == 360 deg")
@@ -7802,9 +7280,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #1", function() {
 
 		// sqr( real local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7820,9 +7295,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #2", function() {
 
 		// sqr( int local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7838,9 +7310,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #3", function() {
 
 		// sqr( int64 local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7856,9 +7325,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #4", function() {
 
 		// sqr( real const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(2.5);
 		assert_equals(_result, 6.25, "#4 sqr( real const )")
 	})
@@ -7866,9 +7332,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #5", function() {
 
 		// sqr( int const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(10);
 		assert_equals(_result, 100, "#5 sqr( int const )")
 	})
@@ -7876,9 +7339,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #6", function() {
 
 		// sqr( int64 const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(int64(4));
 		assert_equals(_result, 16, "#6 sqr( int64 const )")
 	})
@@ -7886,9 +7346,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #7", function() {
 
 		// Negative value tests: sqr( -real local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_f32, 2.5);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7904,9 +7361,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #8", function() {
 
 		// Negative value tests: sqr( -int local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_s32, 10);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7922,9 +7376,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #9", function() {
 
 		// Negative value tests: sqr( -int64 local )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _buffer = buffer_create(16, buffer_grow, 1 );
 		buffer_write(_buffer, buffer_u64, 4);
 		buffer_seek(_buffer, buffer_seek_start, 0);
@@ -7940,9 +7391,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #10", function() {
 
 		// Negative value tests: sqr( -real const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(-2.5);
 		assert_equals(_result, 6.25, "#10 sqr( real const )")
 	})
@@ -7950,9 +7398,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #11", function() {
 
 		// Negative value tests: sqr( -int const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(-10);
 		assert_equals(_result, 100, "#11 sqr( int const )")
 	})
@@ -7960,9 +7405,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #12", function() {
 
 		// Negative value tests: sqr( -int64 const )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(int64(-4));
 		assert_equals(_result, 16, "#12 sqr( int64 const )")
 	})
@@ -7970,9 +7412,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #13", function() {
 
 		// Zero test: sqr( 0 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(0);
 		assert_equals(_result, 0, "#13 sqr( 0 )")
 	})
@@ -7980,9 +7419,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #14", function() {
 
 		// One test: sqr( 1 )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _result = sqr(1);
 		assert_equals(_result, 1, "#14 sqr( 1 )")
 	})
@@ -7990,9 +7426,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #15", function() {
 
 		// Infinity test: sqr( infinity )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _infinity = infinity;
 
 		var _result = sqr(_infinity);
@@ -8002,9 +7435,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("sqr_test #16", function() {
 
 		// NaN test: sqr( NaN )
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var _nan = NaN;
 
 		var _result = sqr(_nan);
@@ -8018,9 +7448,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #1", function() {
 
 		// Tan (radian angle): tan(0) == 0
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001)
-
 		var tanZero = tan(0)
 		assert_equals(tanZero, 0, "#1 Tan Zero == 0")
 	})
@@ -8028,8 +7455,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #2", function() {
 
 		// Tan (radian angle): tan(pi) == 0
-		math_set_epsilon(0.00001)
-
 		var tanPi = tan(pi)
 		assert_equals(tanPi, 0, "#2 Tan Pi == 0")
 	})
@@ -8037,8 +7462,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #3", function() {
 
 		// Tan (radian angle): tan(2*pi) == 0
-		math_set_epsilon(0.00001)
-
 		var tanTwoPi = tan(2*pi)
 		assert_equals(tanTwoPi, 0, "#3 Tan 2*pi == 0")
 	})
@@ -8046,8 +7469,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #4", function() {
 
 		// Tan (radian angle): tan(pi/4) == 1
-		math_set_epsilon(0.00001)
-
 		var tanFortyFiveDeg = tan(kPiDivFour_TanTest)
 		assert_equals(tanFortyFiveDeg, 1, "#4 Tan Pi/4 == 1")
 	})
@@ -8055,8 +7476,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #5", function() {
 
 		// Tan (radian angle): tan(pi + pi/4) == 1
-		math_set_epsilon(0.00001)
-
 		var tanTwoTwoFiveDeg = tan((kPiDivFour_TanTest) + pi)
 		assert_equals(tanTwoTwoFiveDeg, 1, "#5 Tan Pi + Pi/4 == 1")
 	})
@@ -8064,8 +7483,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #6", function() {
 
 		// Tan (radian angle): tan(pi - pi/4) == -1
-		math_set_epsilon(0.00001)
-
 		var tanOneThirtyFiveDeg = tan((pi) - (kPiDivFour_TanTest))
 		assert_equals(tanOneThirtyFiveDeg, -1, "#6 Tan Pi - (Pi/4) == -1")
 	})
@@ -8073,8 +7490,6 @@ function BasicMathTestSuite() : TestSuite() constructor {
 	addFact("tan_test #7", function() {
 
 		// Tan (radian angle): tan(2*pi - pi/4) == -1
-		math_set_epsilon(0.00001)
-
 		var tanThreeFifteenDeg = tan((pi*2) - (kPiDivFour_TanTest))
 		assert_equals(tanThreeFifteenDeg, -1, "#7 Tan (Pi * 2) - (Pi/4) == -1")
 	})

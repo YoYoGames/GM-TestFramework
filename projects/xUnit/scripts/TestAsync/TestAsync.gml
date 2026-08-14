@@ -18,6 +18,9 @@ function TestAsync(_name, _object, _events = undefined, _options = undefined) : 
 	/// @ignore
 	preRunFunc = function() {
 		
+		// Restore any global state the previous test was allowed to modify
+		resetGlobalState();
+		
 		// Call start hook function
 		callStartHook();
 
