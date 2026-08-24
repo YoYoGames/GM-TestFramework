@@ -1,6 +1,6 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function BasicUnaryUpdateExpressions() : TestSuite() constructor {
+function BasicUnaryUpdateExpressionsTestSuite() : TestSuite() constructor {
 	
 	addFact("Direct Variable Unary Update", function() {
         x = 0

@@ -1,5 +1,5 @@
 
-function BasicMathTestSuite() : TestSuite() constructor {
+function BasicMathsTestSuite() : TestSuite() constructor {
 
 	// ABS TESTS
 

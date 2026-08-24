@@ -74,7 +74,6 @@
     {"link":"io.gamemaker.gm_filter_large_blur-1.0.0","name":"io.gamemaker.gm_filter_large_blur-1.0.0","path":"io.gamemaker.gm_filter_large_blur-1.0.0.yyp",},
   ],
   "IncludedFiles":[
-    {"$GMIncludedFile":"","%Name":"config.json","CopyToMask":-1,"filePath":"datafiles","name":"config.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTilemapTestExpectedBuffer","CopyToMask":-1,"filePath":"datafiles","name":"drawTilemapTestExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"drawTileTestExpected.png","CopyToMask":-1,"filePath":"datafiles","name":"drawTileTestExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
@@ -213,7 +212,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.1400.2.934",
+    "IDEVersion":"2026.100.0.1135",
   },
   "name":"xUnit",
   "resources":[
@@ -271,7 +270,7 @@
     {"id":{"name":"BasicHandlesTestSuite","path":"scripts/BasicHandlesTestSuite/BasicHandlesTestSuite.yy",},},
     {"id":{"name":"BasicIniTestSuite","path":"scripts/BasicIniTestSuite/BasicIniTestSuite.yy",},},
     {"id":{"name":"BasicJsonTestSuite","path":"scripts/BasicJsonTestSuite/BasicJsonTestSuite.yy",},},
-    {"id":{"name":"BasicMathTestSuite","path":"scripts/BasicMathTestSuite/BasicMathTestSuite.yy",},},
+    {"id":{"name":"BasicMathsTestSuite","path":"scripts/BasicMathsTestSuite/BasicMathsTestSuite.yy",},},
     {"id":{"name":"BasicMatrixTestSuite","path":"scripts/BasicMatrixTestSuite/BasicMatrixTestSuite.yy",},},
     {"id":{"name":"BasicNameofTestSuite","path":"scripts/BasicNameofTestSuite/BasicNameofTestSuite.yy",},},
     {"id":{"name":"BasicNetworkTestSuite","path":"scripts/BasicNetworkTestSuite/BasicNetworkTestSuite.yy",},},
@@ -284,7 +283,7 @@
     {"id":{"name":"BasicStringTestSuite","path":"scripts/BasicStringTestSuite/BasicStringTestSuite.yy",},},
     {"id":{"name":"BasicSurfaceTestSuite","path":"scripts/BasicSurfaceTestSuite/BasicSurfaceTestSuite.yy",},},
     {"id":{"name":"BasicTilemapTestSuite","path":"scripts/BasicTilemapTestSuite/BasicTilemapTestSuite.yy",},},
-    {"id":{"name":"BasicUnaryUpdateExpressions","path":"scripts/BasicUnaryUpdateExpressions/BasicUnaryUpdateExpressions.yy",},},
+    {"id":{"name":"BasicUnaryUpdateExpressionsTestSuite","path":"scripts/BasicUnaryUpdateExpressionsTestSuite/BasicUnaryUpdateExpressionsTestSuite.yy",},},
     {"id":{"name":"BasicVariableTestSuite","path":"scripts/BasicVariableTestSuite/BasicVariableTestSuite.yy",},},
     {"id":{"name":"BasicWeakRefsTestSuite","path":"scripts/BasicWeakRefsTestSuite/BasicWeakRefsTestSuite.yy",},},
     {"id":{"name":"channel_get_name","path":"scripts/channel_get_name/channel_get_name.yy",},},

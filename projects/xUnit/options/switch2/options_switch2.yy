@@ -1,5 +1,5 @@
 {
-  "$GMSwitch2Options":"",
+  "$GMSwitch2Options":"v1",
   "%Name":"Switch2",
   "name":"Switch2",
   "option_switch2_allow_debug_output":false,
@@ -7,6 +7,7 @@
   "option_switch2_enable_fileaccess_checking":true,
   "option_switch2_enable_nex_libraries":false,
   "option_switch2_enable_npln_libraries":false,
+  "option_switch2_enable_touchscreen":true,
   "option_switch2_gfx_mem_mb":256,
   "option_switch2_interpolate_pixels":true,
   "option_switch2_project_nmeta":"${options_dir}/switch2/application.nmeta",
