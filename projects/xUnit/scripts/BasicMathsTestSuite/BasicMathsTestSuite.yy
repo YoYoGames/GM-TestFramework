@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"BasicMathTestSuite",
+  "%Name":"BasicMathsTestSuite",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"BasicMathTestSuite",
+  "name":"BasicMathsTestSuite",
   "parent":{
     "name":"TestSuites",
     "path":"folders/Tests/TestSuites.yy",

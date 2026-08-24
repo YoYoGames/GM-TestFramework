@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"BasicUnaryUpdateExpressions",
+  "%Name":"BasicUnaryUpdateExpressionsTestSuite",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"BasicUnaryUpdateExpressions",
+  "name":"BasicUnaryUpdateExpressionsTestSuite",
   "parent":{
     "name":"TestSuites",
     "path":"folders/Tests/TestSuites.yy",
