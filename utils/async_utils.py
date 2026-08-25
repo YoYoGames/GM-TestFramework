@@ -50,7 +50,27 @@ async def run_exe(exe_path, args, extra_env: dict[str, str] | None = None) -> as
     )
     return process
 
-async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asyncio.Event, reboot_event: asyncio.Event, restart_delay: float = 0.5, extra_env: dict[str, str] | None = None):
+async def wait_for_any(*events: asyncio.Event, timeout: float) -> bool:
+    """
+    Waits until any one of the given events is set, or until the timeout elapses.
+
+    Args:
+        events: The events to wait on.
+        timeout: How long to wait, in seconds.
+
+    Returns:
+        bool: True if one of the events was set, False if the timeout elapsed first.
+    """
+    waiters = [asyncio.create_task(event.wait()) for event in events]
+    try:
+        done, _ = await asyncio.wait(waiters, timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+        return bool(done)
+    finally:
+        for waiter in waiters:
+            waiter.cancel()
+        await asyncio.gather(*waiters, return_exceptions=True)
+
+async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asyncio.Event, reboot_event: asyncio.Event, restart_delay: float = 0.5, extra_env: dict[str, str] | None = None, exit_grace: float = 5.0):
     while not stop_event.is_set():
         LOGGER.info(f"Starting executable: {exe_path} with arguments: {args}")
 
@@ -82,6 +102,27 @@ async def run_and_monitor_exe(exe_path: str, args: list[str], stop_event: asynci
                     await asyncio.gather(capture_task, return_exceptions=True)
 
                     reboot_event.clear()
+                    break
+
+                if process.returncode is not None:
+                    # The process exited without anyone asking it to, so the test run
+                    # can no longer complete. Left unhandled this is a silent hang:
+                    # this loop keeps polling a dead process while the servers stay
+                    # parked on stop_event, waiting for results that can never arrive,
+                    # until the CI job's own timeout kills the whole thing.
+                    LOGGER.warning(f"Executable exited on its own with return code {process.returncode}.")
+
+                    # A runner that crashed mid-run drops its connection, and the server
+                    # responds by setting reboot_event. Give it a moment to do so before
+                    # treating this as fatal, so crash-and-resume keeps working.
+                    if await wait_for_any(stop_event, reboot_event, timeout=exit_grace):
+                        continue
+
+                    LOGGER.error(
+                        f"'{exe_path}' exited with return code {process.returncode} before the test run "
+                        f"completed. No further results can arrive, so stopping instead of waiting."
+                    )
+                    stop_event.set()
                     break
 
                 await asyncio.sleep(0.1)  # Sleep briefly to prevent busy-waiting
