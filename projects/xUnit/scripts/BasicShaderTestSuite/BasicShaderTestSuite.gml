@@ -35,6 +35,56 @@ function verify_shader_compiled(_shader) {
 	}
 }
 
+/// @function compare_render_target(surface, test_path, target_index, fail_message)
+/// @description Compares a single render target surface (one of several produced by a multi-target draw) against its own indexed expected image. Mirrors end_draw_comparison_ext()'s per-surface logic, but for exactly one target at a time, so that a multi-target draw can report one result per target. Should only be called after start_draw_comparison_ext() has been called for every target and the draw has finished.
+/// @param {Id.Surface} surface The surface to compare (this function frees it)
+/// @param {String} test_path The shared test path prefix (e.g. "ShaderTests/FragData/")
+/// @param {Real} target_index Which render target this surface corresponds to (used to find "...ExpectedN.png")
+/// @param {String} fail_message The message to be shown in the assert if the test fails
+/// @return {Bool} True if the comparison passed
+function compare_render_target(_surface, _test_path, _target_index, _fail_message) {
+
+	var _result = true;
+
+	if (!surface_exists(_surface))
+	{
+		_result = assert_true(false, test_current().name + ", non-existant test surface in compare_render_target()");
+		return _result;
+	}
+
+	// Save the surface to a .png file (for manual checking)
+	var _path_surface = game_save_id + _test_path + "Result" + string(_target_index) + ".png";
+	surface_save(_surface, _path_surface);
+	log_debug("Saving " + _path_surface);
+
+	// Make a temporary sprite out of the surface so we can use our function for comparing sprites
+	var _test_sprite = sprite_create_from_surface(
+		_surface, 0, 0,
+		surface_get_width(_surface), surface_get_height(_surface),
+		false, false, 0, 0);
+
+	// Check that an expected sprite exists for this render target
+	var _expected_fname = _test_path + "Expected" + string(_target_index) + ".png";
+
+	if (file_exists(_expected_fname))
+	{
+		var _expected_sprite = sprite_add(_expected_fname, 1, false, false, 0, 0);
+		if (!assert_sprite_equals(_test_sprite, _expected_sprite, 0.5, _fail_message)) // Allow for 0.5% error
+		{
+			_result = false;
+		}
+		sprite_delete(_expected_sprite);
+	}
+	else
+	{
+		_result = assert_true(false, test_current().name + ", failed to find expected sprite file (should be at xUnit/datafiles/" + _expected_fname + ")");
+	}
+
+	sprite_delete(_test_sprite);
+	surface_free(_surface);
+	return _result;
+}
+
 
 // Test suite for all basic shader functionality
 function BasicShaderTestSuite() : TestSuite() constructor {
@@ -235,585 +285,708 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 3000
 	});
 	
-	
-	addTestAsync("shader_get/set_uniform_f", objTestAsyncDraw, {
-		
+
+	// FLOAT UNIFORM TESTS
+
+	addFact("shader_get/set_uniform_f: Get Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _uni_color = shader_get_uniform(_test_shader, "colorPS");
+		assert_greater_or_equal(_uni_color, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_get/set_uniform_f #1", objTestAsyncDraw, {
+
 		ev_create: function() {
-			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "colorPS");
-			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise variables to set color uniform with
-			var _red = 1;
-			var _green = 1;
-			var _blue = 1;
-			var _alpha = 1;
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformF/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, make RGB values 0 to make sure they can be modified correctly
-				case 1:
-					_test_path = "ShaderTests/SetUniformF/SetRGB";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb value";
-					_red = 0;
-					_green = 0;
-					_blue = 0;
-					break;
-				// On the third frame, make alpha value 0 to make sure it can be modified correctly
-				case 2:
-					_test_path = "ShaderTests/SetUniformF/SetAlpha";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
-					_red = 0;
-					_green = 0;
-					_blue = 0;
-					_alpha = 0;
-					break;
-				// On the fourth frame, end the test
-				case 3:
-					test_end();
-					return;
-			}
-			
-			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Clear surface
+
 			draw_clear(c_black);
 			gpu_push_state();
 			gpu_set_blendenable(false);
-			// Start using shader
 			shader_set(test_shader);
-				// Set the color uniform
-				shader_set_uniform_f(uni_color, _red, _green, _blue, _alpha);
-				// Draw rectangle
+				shader_set_uniform_f(uni_color, 1, 1, 1, 1);
 				draw_rect(rect);
-			// Stop using shader
 			gpu_pop_state();
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Increment frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformF/Control", test_current().name + ", failed draw buffer comparison");
+
+			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	
-	addTestAsync("shader_set_uniform_f_array", objTestAsyncDraw, {
-		
-		ev_create: function() {	
-			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
-			// Check that the shader has been compiled
+
+	addTestAsync("shader_get/set_uniform_f #2", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsl);
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Get color uniform handle
-			uni_color = shader_get_uniform(test_shader, "color");
-			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
+			uni_color = shader_get_uniform(test_shader, "colorPS");
 		},
 		ev_draw: function() {
-			// Initialise variable to set color uniform with
-			var _color = [1,1,1,1];
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformFArray/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, make RGB values 0 to make sure they can be modified correctly
-				case 1:
-					_test_path = "ShaderTests/SetUniformFArray/SetRGB";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
-					_color = [0,0,0,1];
-					break;
-				// On the third frame, make alpha value 0 to make sure it can be modified correctly
-				case 2:
-					_test_path = "ShaderTests/SetUniformFArray/SetAlpha";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
-					_color = [1,1,1,0];
-					break;
-				// On the fourth frame, end the test
-				case 3:
-					test_end();
-					return;
-			}
-			
-			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Start using shader
+
+			draw_clear(c_black);
+			gpu_push_state();
+			gpu_set_blendenable(false);
 			shader_set(test_shader);
-				// Disable alpha blending
+				// Make RGB values 0 to make sure they can be modified correctly
+				shader_set_uniform_f(uni_color, 0, 0, 0, 1);
+				draw_rect(rect);
+			gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformF/SetRGB", test_current().name + ", failed draw buffer comparison after changing rgb value");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("shader_get/set_uniform_f #3", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "colorPS");
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			draw_clear(c_black);
+			gpu_push_state();
+			gpu_set_blendenable(false);
+			shader_set(test_shader);
+				// Make alpha value 0 to make sure it can be modified correctly
+				shader_set_uniform_f(uni_color, 0, 0, 0, 0);
+				draw_rect(rect);
+			gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformF/SetAlpha", test_current().name + ", failed draw buffer comparison after changing alpha value");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addFact("shader_set_uniform_f_array: Get Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _uni_color = shader_get_uniform(_test_shader, "color");
+		assert_greater_or_equal(_uni_color, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_set_uniform_f_array #1", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
 				gpu_push_state();
 				gpu_set_blendenable(false);
-				// Set the color uniform
-				shader_set_uniform_f_array(uni_color, _color);
-				// Draw rectangle
+				shader_set_uniform_f_array(uni_color, [1, 1, 1, 1]);
 				draw_rect(rect);
-				// Restore alpha blending settings
 				gpu_pop_state();
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Increment frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformFArray/Control", test_current().name + ", failed draw buffer comparison");
+
+			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	
-	addTestAsync("shader_set_uniform_f_buffer", objTestAsyncDraw, {
-		
+
+	addTestAsync("shader_set_uniform_f_array #2", objTestAsyncDraw, {
+
 		ev_create: function() {
-			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
-			
-			// Create a buffer to store the color value in
-			var _values = 4;
-			var _size = buffer_sizeof(buffer_f32);
-			color_buffer = buffer_create(_values * _size, buffer_fixed, 1);
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise buffer values to set color uniform with
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				// Make RGB values 0 to make sure they can be modified correctly
+				shader_set_uniform_f_array(uni_color, [0, 0, 0, 1]);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformFArray/SetRGB", test_current().name + ", failed draw buffer comparison after changing rgb values");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("shader_set_uniform_f_array #3", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				// Make alpha value 0 to make sure it can be modified correctly
+				shader_set_uniform_f_array(uni_color, [1, 1, 1, 0]);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformFArray/SetAlpha", test_current().name + ", failed draw buffer comparison after changing alpha value");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addFact("shader_set_uniform_f_buffer: Get Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _uni_color = shader_get_uniform(_test_shader, "color");
+		assert_greater_or_equal(_uni_color, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_set_uniform_f_buffer #1", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+
+			color_buffer = buffer_create(4 * buffer_sizeof(buffer_f32), buffer_fixed, 1);
+		},
+		ev_draw: function() {
 			buffer_seek(color_buffer, buffer_seek_start, 0);
 			buffer_write(color_buffer, buffer_f32, 1);
 			buffer_write(color_buffer, buffer_f32, 1);
 			buffer_write(color_buffer, buffer_f32, 1);
 			buffer_write(color_buffer, buffer_f32, 1);
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformFBuffer/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, make RGB values 0 to make sure they can be modified correctly
-				case 1:
-					_test_path = "ShaderTests/SetUniformFBuffer/SetRGB";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
-					buffer_seek(color_buffer, buffer_seek_start, 0);
-					buffer_write(color_buffer, buffer_f32, 0);
-					buffer_write(color_buffer, buffer_f32, 0);
-					buffer_write(color_buffer, buffer_f32, 0);
-					break;
-				// On the third frame, make alpha value 0 to make sure it can be modified correctly
-				case 2:
-					_test_path = "ShaderTests/SetUniformFBuffer/SetAlpha";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
-					buffer_seek(color_buffer, buffer_seek_start, 12);
-					buffer_write(color_buffer, buffer_f32, 0);
-					break;
-				// On the fourth frame, end the test
-				case 3:
-					test_end();
-					return;
-			}
-			
-			// Start draw buffer comparison
+
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				// Disable alpha blending
 				gpu_push_state();
 				gpu_set_blendenable(false);
-				// Set the color uniform
 				shader_set_uniform_f_buffer(uni_color, color_buffer, 0, 4);
-				// Draw rectangle
 				draw_rect(rect);
-				// Restore alpha blending settings
 				gpu_pop_state();
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Increment frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformFBuffer/Control", test_current().name + ", failed draw buffer comparison");
+
+			test_end();
+		},
+		ev_cleanup: function() {
+			buffer_delete(color_buffer);
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	
-	addTestAsync("shader_set_uniform_i", objTestAsyncDraw, {
-		
-		ev_create: function() {			
-			// Set shader to use depending on platform
+
+	addTestAsync("shader_set_uniform_f_buffer #2", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+
+			color_buffer = buffer_create(4 * buffer_sizeof(buffer_f32), buffer_fixed, 1);
+		},
+		ev_draw: function() {
+			// Make RGB values 0 to make sure they can be modified correctly
+			buffer_seek(color_buffer, buffer_seek_start, 0);
+			buffer_write(color_buffer, buffer_f32, 0);
+			buffer_write(color_buffer, buffer_f32, 0);
+			buffer_write(color_buffer, buffer_f32, 0);
+			buffer_write(color_buffer, buffer_f32, 1);
+
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				shader_set_uniform_f_buffer(uni_color, color_buffer, 0, 4);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformFBuffer/SetRGB", test_current().name + ", failed draw buffer comparison after changing rgb values");
+
+			test_end();
+		},
+		ev_cleanup: function() {
+			buffer_delete(color_buffer);
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("shader_set_uniform_f_buffer #3", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+
+			color_buffer = buffer_create(4 * buffer_sizeof(buffer_f32), buffer_fixed, 1);
+		},
+		ev_draw: function() {
+			// Make alpha value 0 to make sure it can be modified correctly
+			buffer_seek(color_buffer, buffer_seek_start, 0);
+			buffer_write(color_buffer, buffer_f32, 1);
+			buffer_write(color_buffer, buffer_f32, 1);
+			buffer_write(color_buffer, buffer_f32, 1);
+			buffer_write(color_buffer, buffer_f32, 0);
+
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				shader_set_uniform_f_buffer(uni_color, color_buffer, 0, 4);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformFBuffer/SetAlpha", test_current().name + ", failed draw buffer comparison after changing alpha value");
+
+			test_end();
+		},
+		ev_cleanup: function() {
+			buffer_delete(color_buffer);
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	// INT UNIFORM TESTS
+
+	addFact("shader_set_uniform_i: Get Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _uni_color = shader_get_uniform(_test_shader, "color");
+		assert_greater_or_equal(_uni_color, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_set_uniform_i #1", objTestAsyncDraw, {
+
+		ev_create: function() {
 			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise variables to set color uniform with
-			var _red = 1;
-			var _green = 1;
-			var _blue = 1;
-			var _alpha = 1;
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformI/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, make RGB values 0 to make sure they can be modified correctly
-				case 1:
-					_test_path = "ShaderTests/SetUniformI/SetRGB";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
-					_red = 0;
-					_green = 0;
-					_blue = 0;
-					break;
-				// On the third frame, make alpha value 0 to make sure it can be modified correctly
-				case 2:
-					_test_path = "ShaderTests/SetUniformI/SetAlpha";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
-					_alpha = 0;
-					break;
-				// On the fourth frame, end the test
-				case 3:
-					test_end();
-					return;
-			}
-			
-			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				// Disable alpha blending
 				gpu_push_state();
 				gpu_set_blendenable(false);
-				// Set the color uniform
-				shader_set_uniform_i(uni_color, _red, _green, _blue, _alpha);
-				// Draw rectangle
+				shader_set_uniform_i(uni_color, 1, 1, 1, 1);
 				draw_rect(rect);
-				// Restore alpha blending settings
 				gpu_pop_state();
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Increment frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformI/Control", test_current().name + ", failed draw buffer comparison");
+
+			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	addTestAsync("shader_set_uniform_i_array", objTestAsyncDraw, {
-		
-		ev_create: function() {			
-			// Set shader to use depending on platform
+
+	addTestAsync("shader_set_uniform_i #2", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				// Make RGB values 0 to make sure they can be modified correctly
+				shader_set_uniform_i(uni_color, 0, 0, 0, 1);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformI/SetRGB", test_current().name + ", failed draw buffer comparison after changing rgb values");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("shader_set_uniform_i #3", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				// Make alpha value 0 to make sure it can be modified correctly
+				shader_set_uniform_i(uni_color, 1, 1, 1, 0);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformI/SetAlpha", test_current().name + ", failed draw buffer comparison after changing alpha value");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addFact("shader_set_uniform_i_array: Get Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _uni_color = shader_get_uniform(_test_shader, "color");
+		assert_greater_or_equal(_uni_color, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_set_uniform_i_array #1", objTestAsyncDraw, {
+
+		ev_create: function() {
 			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Get color uniform handle
 			uni_color = shader_get_uniform(test_shader, "color");
-			assert_greater_or_equal(uni_color, 0, test_current().name +", failed to get a valid uniform handle");
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise variable to set color uniform with
-			var _color = [1,1,1,1];
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformIArray/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, make RGB values 0 to make sure they can be modified correctly
-				case 1:
-					_test_path = "ShaderTests/SetUniformIArray/SetRGB";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing rgb values";
-					_color = [0,0,0,1];
-					break;
-				// On the third frame, make alpha value 0 to make sure it can be modified correctly
-				case 2:
-					_test_path = "ShaderTests/SetUniformIArray/SetAlpha";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing alpha value";
-					_color = [1,1,1,0];
-					break;
-				// On the fourth frame, end the test
-				case 3:
-					test_end();
-					return;
-			}
-			
-			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				// Disable alpha blending
 				gpu_push_state();
 				gpu_set_blendenable(false);
-				// Set the color uniform
-				shader_set_uniform_i_array(uni_color, _color);
-				// Draw rectangle
+				shader_set_uniform_i_array(uni_color, [1, 1, 1, 1]);
 				draw_rect(rect);
-				// Restore alpha blending settings
 				gpu_pop_state();
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Increment frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformIArray/Control", test_current().name + ", failed draw buffer comparison");
+
+			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	addTestAsync("shader_get_sampler_index", objTestAsyncDraw, {
-		
-		ev_create: function() {			
-			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsl);
-			// Check that the shader has been compiled
+
+	addTestAsync("shader_set_uniform_i_array #2", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsl);
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Get sampler handle
-			sampler = shader_get_sampler_index(test_shader, "u_samplePS");
-			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
+			uni_color = shader_get_uniform(test_shader, "color");
 		},
 		ev_draw: function() {
-			// Initilise texture to set sampler with
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				// Make RGB values 0 to make sure they can be modified correctly
+				shader_set_uniform_i_array(uni_color, [0, 0, 0, 1]);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformIArray/SetRGB", test_current().name + ", failed draw buffer comparison after changing rgb values");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("shader_set_uniform_i_array #3", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			uni_color = shader_get_uniform(test_shader, "color");
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				// Make alpha value 0 to make sure it can be modified correctly
+				shader_set_uniform_i_array(uni_color, [1, 1, 1, 0]);
+				draw_rect(rect);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformIArray/SetAlpha", test_current().name + ", failed draw buffer comparison after changing alpha value");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	// SAMPLER TESTS
+
+	addFact("shader_get_sampler_index: Get Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _sampler = shader_get_sampler_index(_test_shader, "u_samplePS");
+		assert_greater_or_equal(_sampler, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_get_sampler_index #1", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			sampler = shader_get_sampler_index(test_shader, "u_samplePS");
+		},
+		ev_draw: function() {
 			var _texture = sprite_get_texture(sprCircle, 0);
 			var _uvs = sprite_get_uvs(sprCircle, 0);
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/GetSamplerIndex/Control";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, change the texture to use with the sampler to make sure it can be changed correctly
-				case 1:
-					_test_path = "ShaderTests/GetSamplerIndex/SetTexture";
-					_test_fail_message = test_current().name +", failed draw buffer comparison after changing texture";
-					_texture = sprite_get_texture(sprSquare, 0);
-					_uvs = sprite_get_uvs(sprSquare, 0);
-					break;
-				// On the third frame, end the test
-				case 2:
-					test_end();
-					return;
-			}
-			
-			// Start draw buffer comparison
+
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
-			// Start using shader
+
 			shader_set(test_shader);
 				gpu_push_state();
 				gpu_set_blendenable(false);
-				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
-				// Draw rectangle with correct uvs for the sample texture
 				draw_texture_rect(rect, _uvs);
 				gpu_pop_state();
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Increment frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/GetSamplerIndex/Control", test_current().name + ", failed draw buffer comparison");
+
+			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	
-	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, {
-		
+
+	addTestAsync("shader_get_sampler_index #2", objTestAsyncDraw, {
+
 		ev_create: function() {
-			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
-			// Check that the shader has been compiled
+			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsl);
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw (centred in the test area)
-			rect = new Rect(SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE*1.5, SHADER_TEST_DEFAULT_SIZE*1.5);
-			
-			// Get sampler handle
-			sampler = shader_get_sampler_index(test_shader, "sample");
-			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
-			// Get matrix uniform handle
-			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
-			assert_greater_or_equal(shader_matrix, 0, test_current().name +", failed to get a valid uniform handle");
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			sampler = shader_get_sampler_index(test_shader, "u_samplePS");
 		},
 		ev_draw: function() {
-			// Initilise texture to set sampler with
+			var _texture = sprite_get_texture(sprSquare, 0);
+			var _uvs = sprite_get_uvs(sprSquare, 0);
+
+			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				gpu_push_state();
+				gpu_set_blendenable(false);
+				texture_set_stage(sampler, _texture);
+				draw_texture_rect(rect, _uvs);
+				gpu_pop_state();
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/GetSamplerIndex/SetTexture", test_current().name + ", failed draw buffer comparison after changing texture");
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	// MATRIX UNIFORM TESTS
+
+	addFact("shader_set_uniform_matrix: Get Sampler Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _sampler = shader_get_sampler_index(_test_shader, "sample");
+		assert_greater_or_equal(_sampler, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addFact("shader_set_uniform_matrix: Get Matrix Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _shader_matrix = shader_get_uniform(_test_shader, "u_Matrix");
+		assert_greater_or_equal(_shader_matrix, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addTestAsync("shader_set_uniform_matrix", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(SHADER_TEST_DEFAULT_SIZE / 2, SHADER_TEST_DEFAULT_SIZE / 2, SHADER_TEST_DEFAULT_SIZE * 1.5, SHADER_TEST_DEFAULT_SIZE * 1.5);
+
+			sampler = shader_get_sampler_index(test_shader, "sample");
+			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
+		},
+		ev_draw: function() {
 			var _texture = sprite_get_texture(sprCircle, 0);
 			var _uvs = sprite_get_uvs(sprCircle, 0);
-			// Initilise x2 scaling matrix to set matrix uniform with
-			var _matrix = matrix_build(0,0,0,0,0,0,2,2,2);
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformMatrix/";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Start draw buffer comparison
+			var _matrix = matrix_build(0, 0, 0, 0, 0, 0, 2, 2, 2);
+
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 2, SHADER_TEST_DEFAULT_SIZE * 2);
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
-				// Set the matrix uniform
 				matrix_set(matrix_world, _matrix);
 				shader_set_uniform_matrix(shader_matrix);
 				matrix_set(matrix_world, matrix_build_identity());
-				// Draw rectangle with correct uvs for the sample texture
 				draw_texture_rect(rect, _uvs);
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// End test at end of first draw frame
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformMatrix/", test_current().name + ", failed draw buffer comparison");
+
 			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	
+
+	addFact("shader_set_uniform_matrix_array: Get Sampler Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _sampler = shader_get_sampler_index(_test_shader, "sample");
+		assert_greater_or_equal(_sampler, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
+	addFact("shader_set_uniform_matrix_array: Get Matrix Uniform Handle", function() {
+		var _test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+		verify_shader_compiled(_test_shader);
+
+		var _shader_matrix = shader_get_uniform(_test_shader, "u_Matrix");
+		assert_greater_or_equal(_shader_matrix, 0, test_current().name + ", failed to get a valid uniform handle");
+	});
+
 	addTestAsync("shader_set_uniform_matrix_array", objTestAsyncDraw, {
-		
+
 		ev_create: function() {
-			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw (centred in the test area)
-			rect = new Rect(SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE/2, SHADER_TEST_DEFAULT_SIZE*1.5, SHADER_TEST_DEFAULT_SIZE*1.5);
-			
-			// Get sampler handle
+
+			rect = new Rect(SHADER_TEST_DEFAULT_SIZE / 2, SHADER_TEST_DEFAULT_SIZE / 2, SHADER_TEST_DEFAULT_SIZE * 1.5, SHADER_TEST_DEFAULT_SIZE * 1.5);
+
 			sampler = shader_get_sampler_index(test_shader, "sample");
-			assert_greater_or_equal(sampler, 0, test_current().name +", failed to get a valid uniform handle");
-			// Get matrix uniform handle
 			shader_matrix = shader_get_uniform(test_shader, "u_Matrix");
-			assert_greater_or_equal(shader_matrix, 0, test_current().name +", failed to get a valid uniform handle");
 		},
 		ev_draw: function() {
-			// Initilise texture to set sampler with
 			var _texture = sprite_get_texture(sprCircle, 0);
 			var _uvs = sprite_get_uvs(sprCircle, 0);
-			// Initilise x2 scaling matrix to set matrix uniform with
-			var _matrix = matrix_build(0,0,0,0,0,0,2,2,2);
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/SetUniformMatrixArray/";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Start draw buffer comparison
+			var _matrix = matrix_build(0, 0, 0, 0, 0, 0, 2, 2, 2);
+
 			var _test_surface = start_draw_comparison(SHADER_TEST_DEFAULT_SIZE * 2, SHADER_TEST_DEFAULT_SIZE * 2);
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				// Set the sampler texture
 				texture_set_stage(sampler, _texture);
-				// Set the matrix uniform
 				shader_set_uniform_matrix_array(shader_matrix, _matrix);
-				// Draw rectangle with correct uvs for the sample texture
 				draw_texture_rect(rect, _uvs);
-			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// End test at end of first draw frame
+
+			end_draw_comparison(_test_surface, "ShaderTests/SetUniformMatrixArray/", test_current().name + ", failed draw buffer comparison");
+
 			test_end();
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	
+
 	addTestAsync("shader_enable_corner_id", objTestAsyncDraw, {
 		
 		ev_create: function() {
@@ -937,23 +1110,19 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		test_filter: platform_windows,
 		test_filter: platform_console
 	});
-	
-	addTestAsync("gl_frag_data/sv_target", objTestAsyncDraw, {
-		
+
+	addTestAsync("gl_frag_data/sv_target #1", objTestAsyncDraw, {
+
 		ev_create: function() {
-			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate rectangle data to draw
+
 			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 		},
 		ev_draw: function() {
-			// Initialise test name and fail message to use in buffer comparison
 			var _test_path = "ShaderTests/FragData/";
 			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
+
 			// Start draw buffer comparisons for 4 surfaces, testing drawing to multiple render targets at once
 			var _test_surfaces = [];
 			array_resize(_test_surfaces, 4);
@@ -961,22 +1130,141 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 			_test_surfaces[1] = start_draw_comparison_ext(1, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			_test_surfaces[2] = start_draw_comparison_ext(2, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
 			_test_surfaces[3] = start_draw_comparison_ext(3, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
-			
+
 			// Start using shader
 			shader_set(test_shader);
 				// Draw rectangle
 				draw_rect(rect);
 			// Stop using shader
 			shader_reset();
-			
-			// End draw buffer comparisons
-			end_draw_comparison_ext(_test_surfaces, _test_path, _test_fail_message);
-			
+
+			surface_reset_target();
+
+			// Only check render target 0 here - the other targets are checked by the sibling facts below
+			compare_render_target(_test_surfaces[0], _test_path, 0, _test_fail_message);
+			surface_free(_test_surfaces[1]);
+			surface_free(_test_surfaces[2]);
+			surface_free(_test_surfaces[3]);
+
 			// End test at end of first draw frame
-			test_end();	
+			test_end();
 		}
 	},
-	{ 
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("gl_frag_data/sv_target #2", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+		},
+		ev_draw: function() {
+			var _test_path = "ShaderTests/FragData/";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+
+			var _test_surfaces = [];
+			array_resize(_test_surfaces, 4);
+			_test_surfaces[0] = start_draw_comparison_ext(0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[1] = start_draw_comparison_ext(1, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[2] = start_draw_comparison_ext(2, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[3] = start_draw_comparison_ext(3, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				draw_rect(rect);
+			shader_reset();
+
+			surface_reset_target();
+
+			// Only check render target 1 here - the other targets are checked by the sibling facts
+			surface_free(_test_surfaces[0]);
+			compare_render_target(_test_surfaces[1], _test_path, 1, _test_fail_message);
+			surface_free(_test_surfaces[2]);
+			surface_free(_test_surfaces[3]);
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("gl_frag_data/sv_target #3", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+		},
+		ev_draw: function() {
+			var _test_path = "ShaderTests/FragData/";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+
+			var _test_surfaces = [];
+			array_resize(_test_surfaces, 4);
+			_test_surfaces[0] = start_draw_comparison_ext(0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[1] = start_draw_comparison_ext(1, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[2] = start_draw_comparison_ext(2, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[3] = start_draw_comparison_ext(3, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				draw_rect(rect);
+			shader_reset();
+
+			surface_reset_target();
+
+			// Only check render target 2 here - the other targets are checked by the sibling facts
+			surface_free(_test_surfaces[0]);
+			surface_free(_test_surfaces[1]);
+			compare_render_target(_test_surfaces[2], _test_path, 2, _test_fail_message);
+			surface_free(_test_surfaces[3]);
+
+			test_end();
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("gl_frag_data/sv_target #4", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsl);
+			verify_shader_compiled(test_shader);
+
+			rect = new Rect(0, 0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+		},
+		ev_draw: function() {
+			var _test_path = "ShaderTests/FragData/";
+			var _test_fail_message = test_current().name +", failed draw buffer comparison";
+
+			var _test_surfaces = [];
+			array_resize(_test_surfaces, 4);
+			_test_surfaces[0] = start_draw_comparison_ext(0, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[1] = start_draw_comparison_ext(1, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[2] = start_draw_comparison_ext(2, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+			_test_surfaces[3] = start_draw_comparison_ext(3, SHADER_TEST_DEFAULT_SIZE, SHADER_TEST_DEFAULT_SIZE);
+
+			shader_set(test_shader);
+				draw_rect(rect);
+			shader_reset();
+
+			surface_reset_target();
+
+			// Only check render target 3 here - the other targets are checked by the sibling facts
+			surface_free(_test_surfaces[0]);
+			surface_free(_test_surfaces[1]);
+			surface_free(_test_surfaces[2]);
+			compare_render_target(_test_surfaces[3], _test_path, 3, _test_fail_message);
+
+			test_end();
+		}
+	},
+	{
 		test_timeout_millis: 3000
 	});
 
@@ -1037,158 +1325,168 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 	{ 
 		test_timeout_millis: 3000
 	});
-	
-	addTestAsync("normals_test", objTestAsyncDraw, {
-		
+
+	addTestAsync("normals_test #1", objTestAsyncDraw, {
+
 		ev_create: function() {
-			// Set shader to use depending on platform
 			test_shader = pick_shader_for_platform(sh_normals_glsles, sh_normals_hlsl, sh_normals_glsl);
-			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
-			
-			// Generate cube data to draw
+
 			cube_mesh = generate_cube();
-			// Generate 3D camera, positioned to see the cube
 			camera = generate_3d_camera();
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
 		},
 		ev_draw: function() {
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/NormalsTest/Angle1";
-			var _test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 1";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, destroy current camera and generate a new one viewing the cube from the opposite direction, to get a view of all sides
-				case 1:
-					_test_path = "ShaderTests/NormalsTest/Angle2";
-					_test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 2";
-					camera_destroy(camera);
-					camera = generate_3d_camera(200, 200, 300);
-					break;
-				// On the third frame, end the test
-				case 2:
-					test_end();
-					return;
-			}
-			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison();
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				
-				// Enable Z writing and testing for 3D rendering
+
 				gpu_push_state();
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
-				
-				// Apply camera settings and clear the surface
+
 				camera_apply(camera)
 				draw_clear_alpha(c_black, 0)
-				
-				// Draw cube
+
 				vertex_submit(cube_mesh, pr_trianglelist, -1);
-				
-				// Restore Z writing and testing
+
 				gpu_pop_state();
-				
-			// Stop using shader
+
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Update frame counter
-			draw_frame++;
+
+			end_draw_comparison(_test_surface, "ShaderTests/NormalsTest/Angle1", test_current().name + ", failed draw buffer comparison at camera angle 1");
+
+			test_end();
 		},
 		ev_cleanup: function() {
-			//Distroy camera and cube mesh buffer once the test is done
 			camera_destroy(camera);
 			vertex_delete_buffer(cube_mesh)
 		}
 	},
-	{ 
+	{
 		test_timeout_millis: 3000
 	});
-	
-	addTestAsync("gl_front_facing/sv_is_front_face", objTestAsyncDraw, {
-		
+
+	addTestAsync("normals_test #2", objTestAsyncDraw, {
+
 		ev_create: function() {
-			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_is_front_face_hlsl, sh_front_facing_glsl);
-			// Check that the shader has been compiled
+			test_shader = pick_shader_for_platform(sh_normals_glsles, sh_normals_hlsl, sh_normals_glsl);
 			verify_shader_compiled(test_shader);
-			
-			// Generate cube data to draw
-			plane_mesh = generate_plane();
-			// Generate 3D camera, positioned to see the cube
-			camera = generate_3d_camera();
-			
-			// Stores which frame of the draw event we're on
-			draw_frame = 0;
+
+			cube_mesh = generate_cube();
+			camera = generate_3d_camera(200, 200, 300);
 		},
 		ev_draw: function() {
-			// Initialise test name and fail message to use in buffer comparison
-			var _test_path = "ShaderTests/FrontFacing/Angle1";
-			var _test_fail_message = test_current().name +", failed draw buffer comparison";
-			
-			// Set test variables based on which draw frame we're on
-			switch (draw_frame)
-			{
-				// On the second frame, destroy current camera and generate a new one viewing the cube from the opposite direction, to check the back side
-				case 1:
-					_test_path = "ShaderTests/FrontFacing/Angle2";
-					_test_fail_message = test_current().name + ", failed draw buffer comparison at camera angle 2";
-					camera_destroy(camera);
-					camera = generate_3d_camera(200, 200, 300);
-					break;
-				// On the third frame, end the test
-				case 2:
-					test_end();
-					return;
-			}
-			// Start draw buffer comparison
 			var _test_surface = start_draw_comparison();
-			
-			// Start using shader
+
 			shader_set(test_shader);
-				
-				// Enable Z writing and testing for 3D rendering
+
 				gpu_push_state();
 				gpu_set_zwriteenable(true);
 				gpu_set_ztestenable(true);
-				
-				// Apply camera settings and clear the surface
+
 				camera_apply(camera)
 				draw_clear_alpha(c_black, 0)
-				
-				// Draw cube
-				vertex_submit(plane_mesh, pr_trianglelist, -1);
-				
-				// Restore Z writing and testing
+
+				vertex_submit(cube_mesh, pr_trianglelist, -1);
+
 				gpu_pop_state();
-				
-			// Stop using shader
+
 			shader_reset();
-			
-			// End draw buffer comparison
-			end_draw_comparison(_test_surface, _test_path, _test_fail_message);
-			
-			// Update frame counter
-			draw_frame++;
-			
+
+			end_draw_comparison(_test_surface, "ShaderTests/NormalsTest/Angle2", test_current().name + ", failed draw buffer comparison at camera angle 2");
+
+			test_end();
 		},
 		ev_cleanup: function() {
-			//Distroy camera and cube mesh buffer once the test is done
+			camera_destroy(camera);
+			vertex_delete_buffer(cube_mesh)
+		}
+	},
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("gl_front_facing/sv_is_front_face #1", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_is_front_face_hlsl, sh_front_facing_glsl);
+			verify_shader_compiled(test_shader);
+
+			plane_mesh = generate_plane();
+			camera = generate_3d_camera();
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison();
+
+			shader_set(test_shader);
+
+				gpu_push_state();
+				gpu_set_zwriteenable(true);
+				gpu_set_ztestenable(true);
+
+				camera_apply(camera)
+				draw_clear_alpha(c_black, 0)
+
+				vertex_submit(plane_mesh, pr_trianglelist, -1);
+
+				gpu_pop_state();
+
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/FrontFacing/Angle1", test_current().name +", failed draw buffer comparison");
+
+			test_end();
+
+		},
+		ev_cleanup: function() {
 			camera_destroy(camera);
 			vertex_delete_buffer(plane_mesh);
 		}
-	
+
 	},
-	{ 
+	{
+		test_timeout_millis: 3000
+	});
+
+	addTestAsync("gl_front_facing/sv_is_front_face #2", objTestAsyncDraw, {
+
+		ev_create: function() {
+			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_is_front_face_hlsl, sh_front_facing_glsl);
+			verify_shader_compiled(test_shader);
+
+			plane_mesh = generate_plane();
+			camera = generate_3d_camera(200, 200, 300);
+		},
+		ev_draw: function() {
+			var _test_surface = start_draw_comparison();
+
+			shader_set(test_shader);
+
+				gpu_push_state();
+				gpu_set_zwriteenable(true);
+				gpu_set_ztestenable(true);
+
+				camera_apply(camera)
+				draw_clear_alpha(c_black, 0)
+
+				vertex_submit(plane_mesh, pr_trianglelist, -1);
+
+				gpu_pop_state();
+
+			shader_reset();
+
+			end_draw_comparison(_test_surface, "ShaderTests/FrontFacing/Angle2", test_current().name + ", failed draw buffer comparison at camera angle 2");
+
+			test_end();
+
+		},
+		ev_cleanup: function() {
+			camera_destroy(camera);
+			vertex_delete_buffer(plane_mesh);
+		}
+
+	},
+	{
 		test_timeout_millis: 3000
 	});
 
