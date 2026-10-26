@@ -2877,6 +2877,32 @@ function BasicStringTestSuite() : TestSuite() constructor {
 				assert_equals(_mul(_count, "Hi!"), string_repeat("Hi!", _count), $"number * string should match string_repeat for a count of {_count}");
 			}
 		});
+	
+		// string * number is illegal (only number * string repeats the string), it must throw and never repeat or convert the string
+		addFact("string_multiply_test #8", function() {
+			
+			// Check that string * number throws at runtime
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("ab", 3); }, "string * number, should throw and not repeat the string");
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("ab", -3); }, "string * negative number, should throw");
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("3", 2); }, "numeric string * number, should throw and not convert the string to a number");
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("2.5", 4); }, "decimal string * number, should throw and not convert the string to a number");
+		});
+	
+		addFact("string_multiply_test #9", function() {
+			
+			// Check that string * number throws for typed locals and constants (these take different code paths to the generic multiply)
+			assert_throw(function() { var _s = "3"; var _n = 2; return _s * _n; }, "string local * real local, should throw");
+			assert_throw(function() { var _n = 2; return "ab" * _n; }, "string const * real local, should throw");
+			assert_throw(function() { return "3" * 2; }, "string const * real const, should throw and not convert the string to a number");
+			assert_throw(function() { return "ab" * 3; }, "string const * real const, should throw and not repeat the string");
+		});
+	
+		addFact("string_multiply_test #10", function() {
+			
+			// Check that string * string throws
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("3", "2"); }, "string * string, should throw");
+			assert_throw(function() { var _s = "ab"; return _s * "cd"; }, "string local * string const, should throw");
+		});
 	}
 
 	// STRING_REPLACE_ALL TESTS
