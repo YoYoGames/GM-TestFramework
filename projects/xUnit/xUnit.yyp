@@ -258,6 +258,7 @@
     {"id":{"name":"BasicAudioTestSuite","path":"scripts/BasicAudioTestSuite/BasicAudioTestSuite.yy",},},
     {"id":{"name":"BasicBase64TestSuite","path":"scripts/BasicBase64TestSuite/BasicBase64TestSuite.yy",},},
     {"id":{"name":"BasicBufferTestSuite","path":"scripts/BasicBufferTestSuite/BasicBufferTestSuite.yy",},},
+    {"id":{"name":"BasicConstructorTestSuite","path":"scripts/BasicConstructorTestSuite/BasicConstructorTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresGridTestSuite","path":"scripts/BasicDataStructuresGridTestSuite/BasicDataStructuresGridTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresListTestSuite","path":"scripts/BasicDataStructuresListTestSuite/BasicDataStructuresListTestSuite.yy",},},
     {"id":{"name":"BasicDataStructuresMapTestSuite","path":"scripts/BasicDataStructuresMapTestSuite/BasicDataStructuresMapTestSuite.yy",},},
