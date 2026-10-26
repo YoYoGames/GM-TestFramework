@@ -1,6 +1,58 @@
 
 function BasicMathsTestSuite() : TestSuite() constructor {
 
+	// DIV AND MOD EXPRESSION TESTS (GameMaker-Bugs#16119, YYC emitted a C++ % on doubles which failed to build)
+	{
+		addFact("div_mod_expression_test #1", function() {
+			
+			// Check a mod of a real division of a div (the values are passed through a function so their type is only known at runtime)
+			var _value = function(_v) { return _v; };
+			var _t = _value(1234637);
+			assert_equals(((_t div 70) / 4) mod 1, 0.25, "((t div 70) / 4) mod 1 should give the fractional part");
+			assert_equals((_t div 70) mod 4, 1, "(t div 70) mod 4 should give the remainder");
+			assert_equals((_t / 4) mod 3, 1.25, "(t / 4) mod 3 should give the real remainder");
+			assert_equals((_t div 7) / 3, 58792, "(t div 7) / 3 should divide the div result");
+		});
+	
+		addFact("div_mod_expression_test #2", function() {
+			
+			// Check the expression from the bug report in a for loop initialiser
+			var _value = function(_v) { return _v; };
+			var _t = _value(1234637);
+			var _count = 0;
+			var _last = -1;
+			for ( var i = ( ( _t div 70 ) / 4 ) mod 1; i < 3; i++ ) {
+				_last = i;
+				++_count;
+			}
+			assert_equals(_count, 3, "for loop starting at ((t div 70) / 4) mod 1 should run 3 times");
+			assert_equals(_last, 2.25, "for loop starting at ((t div 70) / 4) mod 1 should end at 2.25");
+		});
+	
+		addFact("div_mod_expression_test #3", function() {
+			
+			// Check the same expression on a builtin variable (current_time is only known at runtime)
+			var _result = ((current_time div 70) / 4) mod 1;
+			assert_true((_result >= 0) && (_result < 1), "((current_time div 70) / 4) mod 1 should be in [0, 1)");
+			assert_equals(frac(_result * 4), 0, "((current_time div 70) / 4) mod 1 should be a multiple of 0.25");
+		});
+	
+		addFact("div_mod_expression_test #4", function() {
+			
+			// Check mod with real and int64 operands
+			var _value = function(_v) { return _v; };
+			var _r = _value(7.5);
+			var _l = _value(int64(91));
+			assert_equals((_r / 2) mod 1, 0.75, "(r / 2) mod 1 should give the fractional part");
+			assert_equals(_r mod 2, 1.5, "r mod 2 should give the real remainder");
+			assert_equals((_r mod 2) / 2, 0.75, "(r mod 2) / 2 should divide the remainder");
+			assert_equals((_l / 2) mod 3, 0.5, "(int64 / 2) mod 3 should give the real remainder");
+			assert_equals((_l div 2) mod 3, 0, "(int64 div 2) mod 3 should give the integer remainder");
+			assert_equals(((_l / 4) mod 2) div 1, 0, "((int64 / 4) mod 2) div 1 should truncate the remainder");
+			assert_equals((7 / 2) mod 2, 1.5, "(7 / 2) mod 2 should give the real remainder");
+		});
+	}
+
 	// ABS TESTS
 
 	addFact("abs_test #1", function() {
