@@ -2814,6 +2814,97 @@ function BasicStringTestSuite() : TestSuite() constructor {
 		});
 	}
 
+	// NUMBER * STRING OPERATOR TESTS (number * string repeats the string, GameMaker-Bugs#16192)
+	{
+		// the operands are passed through a function so the multiply is done at runtime and not folded by the compiler
+		addFact("string_multiply_test #1", function() {
+			var _mul = function(_a, _b) { return _a * _b; };
+			
+			// Check that a positive count repeats the string
+			assert_equals(_mul(3, "ab"), "ababab", "number * string, positive count should repeat the string");
+			assert_equals(_mul(1, "ab"), "ab", "number * string, count of 1 should leave the string unchanged");
+		});
+	
+		addFact("string_multiply_test #2", function() {
+			var _mul = function(_a, _b) { return _a * _b; };
+			
+			// Check that a zero count gives an empty string
+			assert_equals(_mul(0, "ab"), "", "number * string, zero count should give an empty string");
+		});
+	
+		addFact("string_multiply_test #3", function() {
+			var _mul = function(_a, _b) { return _a * _b; };
+			
+			// Check that a negative count gives an empty string (GameMaker-Bugs#16192, this used to crash the VM runner)
+			assert_equals(_mul(-3, "ab"), "", "number * string, negative count should give an empty string");
+			assert_equals(_mul(-1, "ab"), "", "number * string, count of -1 should give an empty string");
+			assert_equals(_mul(-0.5, "xy"), "", "number * string, negative fractional count should give an empty string");
+		});
+	
+		addFact("string_multiply_test #4", function() {
+			var _mul = function(_a, _b) { return _a * _b; };
+			
+			// Check that a fractional count is truncated
+			assert_equals(_mul(2.7, "xy"), "xyxy", "number * string, fractional count should be truncated");
+		});
+	
+		addFact("string_multiply_test #5", function() {
+			var _mul = function(_a, _b) { return _a * _b; };
+			
+			// Check that repeating an empty string gives an empty string for any count
+			assert_equals(_mul(3, ""), "", "number * string, empty string with a positive count should give an empty string");
+			assert_equals(_mul(-1, ""), "", "number * string, empty string with a negative count should give an empty string");
+		});
+	
+		addFact("string_multiply_test #6", function() {
+			
+			// Check typed locals and constants (these take different code paths to the generic multiply)
+			var _n = -3;
+			var _p = 2;
+			assert_equals(_n * "ab", "", "real local * string const, negative count should give an empty string");
+			assert_equals(_p * "ab", "abab", "real local * string const, positive count should repeat the string");
+			assert_equals(-3 * "ab", "", "real const * string const, negative count should give an empty string");
+			assert_equals(2 * "ab", "abab", "real const * string const, positive count should repeat the string");
+		});
+	
+		addFact("string_multiply_test #7", function() {
+			var _mul = function(_a, _b) { return _a * _b; };
+			
+			// Check that number * string gives the same result as string_repeat
+			var _counts = [-2, -1, 0, 1, 2, 3];
+			for (var _i = 0; _i < array_length(_counts); ++_i) {
+				var _count = _counts[_i];
+				assert_equals(_mul(_count, "Hi!"), string_repeat("Hi!", _count), $"number * string should match string_repeat for a count of {_count}");
+			}
+		});
+	
+		// string * number is illegal (only number * string repeats the string), it must throw and never repeat or convert the string
+		addFact("string_multiply_test #8", function() {
+			
+			// Check that string * number throws at runtime
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("ab", 3); }, "string * number, should throw and not repeat the string");
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("ab", -3); }, "string * negative number, should throw");
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("3", 2); }, "numeric string * number, should throw and not convert the string to a number");
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("2.5", 4); }, "decimal string * number, should throw and not convert the string to a number");
+		});
+	
+		addFact("string_multiply_test #9", function() {
+			
+			// Check that string * number throws for typed locals and constants (these take different code paths to the generic multiply)
+			assert_throw(function() { var _s = "3"; var _n = 2; return _s * _n; }, "string local * real local, should throw");
+			assert_throw(function() { var _n = 2; return "ab" * _n; }, "string const * real local, should throw");
+			assert_throw(function() { return "3" * 2; }, "string const * real const, should throw and not convert the string to a number");
+			assert_throw(function() { return "ab" * 3; }, "string const * real const, should throw and not repeat the string");
+		});
+	
+		addFact("string_multiply_test #10", function() {
+			
+			// Check that string * string throws
+			assert_throw(function() { var _mul = function(_a, _b) { return _a * _b; }; return _mul("3", "2"); }, "string * string, should throw");
+			assert_throw(function() { var _s = "ab"; return _s * "cd"; }, "string local * string const, should throw");
+		});
+	}
+
 	// STRING_REPLACE_ALL TESTS
 	{
 		addFact("string_replace_all_test #1", function() {
