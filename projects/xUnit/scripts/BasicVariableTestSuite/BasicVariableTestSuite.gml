@@ -21,6 +21,28 @@ function GetValueDetails() {
 	
 }
 
+function ReturnUnsetSelfVariable() {
+	return __unsetSelfVariable15991;
+}
+
+function ReturnUnsetGlobalVariable() {
+	return global.__unsetGlobalVariable15991;
+}
+
+function ReturnUnsetLocalVariable() {
+	var _value;
+	return _value;
+}
+
+function ReturnSetSelfVariable() {
+	__setSelfVariable15991 = 5;
+	return __setSelfVariable15991;
+}
+
+function ReturnNothing() {
+	return;
+}
+
 function BasicVariableTestSuite() : TestSuite() constructor {
 	
 	// PARAMETER TESTS
@@ -2626,6 +2648,39 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		}
 		
 	})
+
+	
+	// RETURN TESTS
+	
+	addFact("unset_return_test #1", function() {
+		
+		// Returning a variable that has not been set should throw even if the result is not used (GameMaker-Bugs#15991)
+		assert_throw(function() { ReturnUnsetSelfVariable(); }, "returning an unset self variable should throw");
+		assert_throw(function() { ReturnUnsetGlobalVariable(); }, "returning an unset global variable should throw");
+		assert_throw(function() { ReturnUnsetLocalVariable(); }, "returning an unset local variable should throw");
+		
+	});
+	
+	addFact("unset_return_test #2", function() {
+		
+		// Returning a variable that has not been set should throw in an instance context as well
+		var _inst = instance_create_depth(0, 0, 0, oEmpty);
+		var _threw = false;
+		with (_inst) {
+			try { ReturnUnsetSelfVariable(); } catch (_e) { _threw = true; }
+		}
+		instance_destroy(_inst);
+		assert_true(_threw, "returning an unset instance variable should throw");
+		
+	});
+	
+	addFact("unset_return_test #3", function() {
+		
+		// Returning set values should still work
+		assert_equals(ReturnSetSelfVariable(), 5, "returning a set variable should return its value");
+		assert_undefined(ReturnNothing(), "return with no value should return undefined");
+		
+	});
 
 }
 
