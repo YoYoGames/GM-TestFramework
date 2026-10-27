@@ -18,6 +18,7 @@ testFramework.addSuite(BasicArrayTestSuite);
 testFramework.addSuite(BasicAudioTestSuite);
 testFramework.addSuite(BasicBase64TestSuite);
 testFramework.addSuite(BasicBufferTestSuite);
+testFramework.addSuite(BasicConstantFoldingTestSuite);
 testFramework.addSuite(BasicConstructorTestSuite);
 testFramework.addSuite(BasicDataStructuresGridTestSuite);
 testFramework.addSuite(BasicDataStructuresListTestSuite);

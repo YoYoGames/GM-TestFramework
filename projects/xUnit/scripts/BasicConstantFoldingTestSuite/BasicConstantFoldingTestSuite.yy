@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"BasicConstantFoldingTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BasicConstantFoldingTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
