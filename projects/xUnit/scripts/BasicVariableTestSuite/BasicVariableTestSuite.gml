@@ -2682,5 +2682,62 @@ function BasicVariableTestSuite() : TestSuite() constructor {
 		
 	});
 
+	// VAR DECLARATION TESTS
+	// var x = x; is a compile error (GameMaker-Bugs#15631), these declarations are close to that but are valid
+	
+	addFact("var_declaration_test #1", function() {
+		
+		// Redeclaring an existing local can use its current value
+		var _a = 1;
+		var _a = _a + 1;
+		assert_equals(_a, 2, "redeclaring a local should be able to read its previous value");
+		
+		// A later declaration in the same var can use an earlier one
+		var _b = 2, _c = _b * 3;
+		assert_equals(_c, 6, "a declaration should be able to read an earlier one in the same var");
+		
+	});
+	
+	addFact("var_declaration_test #2", function() {
+		
+		// The right hand side of a . is a member not the local being declared
+		var _s = { _val : 5 };
+		var _val = _s._val;
+		assert_equals(_val, 5, "a member with the same name as the local should be read from the struct");
+		
+		var _inst = instance_create_depth(0, 0, 0, oEmpty);
+		_inst._ival = 7;
+		var _ival = _inst._ival;
+		instance_destroy(_inst);
+		assert_equals(_ival, 7, "a member with the same name as the local should be read from the instance");
+		
+	});
+	
+	addFact("var_declaration_test #3", function() {
+		
+		// A struct key with the same name as the local is not a reference to it
+		var _key = { _key : 1 };
+		assert_equals(_key._key, 1, "a struct key with the same name as the local should be set");
+		
+	});
+	
+	addFact("var_declaration_test #4", function() {
+		
+		// A function body has its own locals
+		var _f = function() { var _f = 3; return _f; };
+		assert_equals(_f(), 3, "a function should be able to declare a local with the same name");
+		
+		var _v = 1;
+		var _h = function() { var _v = 2; return _v; };
+		assert_equals(_h(), 2, "a function local should not be the outer local");
+		assert_equals(_v, 1, "the outer local should not be changed by the function local");
+		
+		// Inside the method the name is the member of the bound struct, not the local being declared
+		var _s = { _g : 10 };
+		var _g = method(_s, function() { return _g; });
+		assert_equals(_g(), 10, "a method should read the member with the same name as the local");
+		
+	});
+
 }
 
