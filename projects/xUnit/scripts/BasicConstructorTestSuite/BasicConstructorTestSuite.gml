@@ -1,3 +1,16 @@
+// Constructors held in statics or declared inside a constructor, the inherited one needs a name (GameMaker-Bugs#15656)
+function ConstructorNestedInheritanceProbe() constructor {
+	static Base = function Base(_x) constructor {
+		x = _x;
+		static kind = function() { return "base"; };
+	}
+	static Child = function Child(_x, _y) : Base(_x) constructor {
+		y = _y;
+	}
+	function NestedBase() constructor { a = 1; }
+	function NestedChild() : NestedBase() constructor { b = 2; }
+}
+
 // Members that only exist as statics until a method writes them (GameMaker-Bugs#16301)
 function ConstructorStaticShadowProbe() constructor {
 	static list = undefined;
@@ -146,6 +159,25 @@ function BasicConstructorTestSuite() : TestSuite() constructor {
 	addFact("struct_literal_script_ref_test #4", function() {
 		var _holder = new ConstructorScriptRefHolder();
 		assert_equals(_holder.take_value(constructor_script_ref_target), "ref", "#4.1 script function passed straight to a method should be a ref");
+	});
+
+	// INHERITING FROM CONSTRUCTORS HELD IN STATICS OR DECLARED INSIDE A CONSTRUCTOR (GameMaker-Bugs#15656)
+
+	addFact("constructor_inheritance_test #1", function() {
+		var _probe = new ConstructorNestedInheritanceProbe();
+		var _child = new _probe.Child(1, 2);
+		assert_equals(_child.x, 1, "#1.1 the inherited static constructor should run");
+		assert_equals(_child.y, 2, "#1.2 the static constructor should run");
+		assert_true(is_instanceof(_child, _probe.Base), "#1.3 the child should be an instance of the inherited static constructor");
+		assert_equals(_child.kind(), "base", "#1.4 the child should see the statics of the inherited static constructor");
+	});
+
+	addFact("constructor_inheritance_test #2", function() {
+		var _probe = new ConstructorNestedInheritanceProbe();
+		var _child = new _probe.NestedChild();
+		assert_equals(_child.a, 1, "#2.1 the inherited nested constructor should run");
+		assert_equals(_child.b, 2, "#2.2 the nested constructor should run");
+		assert_true(is_instanceof(_child, _probe.NestedBase), "#2.3 the child should be an instance of the inherited nested constructor");
 	});
 
 }
