@@ -180,7 +180,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsl);
+			test_shader = pick_shader_for_platform(sh_passthrough_glsl, sh_passthrough_hlsl, sh_passthrough_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -206,7 +206,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsl);
+			test_shader = pick_shader_for_platform(sh_passthrough_glsl, sh_passthrough_hlsl, sh_passthrough_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -240,7 +240,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_glsles, sh_uniform_f_hlsl, sh_uniform_f_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_f_glsl, sh_uniform_f_hlsl, sh_uniform_f_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -323,7 +323,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {	
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsl, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -398,7 +398,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsles, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_f_array_glsl, sh_uniform_f_array_hlsl, sh_uniform_f_array_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -486,7 +486,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_i_glsles, sh_uniform_i_hlsl, sh_uniform_i_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_i_glsl, sh_uniform_i_hlsl, sh_uniform_i_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -565,7 +565,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsles, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_i_array_glsl, sh_uniform_i_array_hlsl, sh_uniform_i_array_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -639,7 +639,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {			
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_sampler_glsles, sh_sampler_hlsl, sh_sampler_glsl);
+			test_shader = pick_shader_for_platform(sh_sampler_glsl, sh_sampler_hlsl, sh_sampler_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -708,7 +708,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsl, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -764,7 +764,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsles, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsl);
+			test_shader = pick_shader_for_platform(sh_uniform_matrix_glsl, sh_uniform_matrix_hlsl, sh_uniform_matrix_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -818,7 +818,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_enable_corner_id_glsles, sh_enable_corner_id_hlsl, sh_enable_corner_id_glsl);
+			test_shader = pick_shader_for_platform(sh_enable_corner_id_glsl, sh_enable_corner_id_hlsl, sh_enable_corner_id_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -859,7 +859,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_frag_coord_glsles, sh_sv_position_hlsl, sh_frag_coord_glsl);
+			test_shader = pick_shader_for_platform(sh_frag_coord_glsl, sh_sv_position_hlsl, sh_frag_coord_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -901,7 +901,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_max_draw_buffers_glsles, undefined, sh_max_draw_buffers_glsl);
+			test_shader = pick_shader_for_platform(sh_max_draw_buffers_glsl, undefined, sh_max_draw_buffers_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -942,7 +942,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_frag_data_glsles, sh_sv_target_hlsl, sh_frag_data_glsl);
+			test_shader = pick_shader_for_platform(sh_frag_data_glsl, sh_sv_target_hlsl, sh_frag_data_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -984,7 +984,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_passthrough_glsles, sh_passthrough_hlsl, sh_passthrough_glsl);
+			test_shader = pick_shader_for_platform(sh_passthrough_glsl, sh_passthrough_hlsl, sh_passthrough_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -1042,7 +1042,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_normals_glsles, sh_normals_hlsl, sh_normals_glsl);
+			test_shader = pick_shader_for_platform(sh_normals_glsl, sh_normals_hlsl, sh_normals_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			
@@ -1118,7 +1118,7 @@ function BasicShaderTestSuite() : TestSuite() constructor {
 		
 		ev_create: function() {
 			// Set shader to use depending on platform
-			test_shader = pick_shader_for_platform(sh_front_facing_glsles, sh_is_front_face_hlsl, sh_front_facing_glsl);
+			test_shader = pick_shader_for_platform(sh_front_facing_glsl, sh_is_front_face_hlsl, sh_front_facing_glsles);
 			// Check that the shader has been compiled
 			verify_shader_compiled(test_shader);
 			

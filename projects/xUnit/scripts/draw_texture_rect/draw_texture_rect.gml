@@ -8,10 +8,10 @@ function draw_texture_rect(_rect, _uvs, _colour = c_white, _alpha = 1.0) {
 	// Begin drawing primitive
 	draw_primitive_begin(pr_trianglestrip);
 	// Draw a vertex at each of the corners of the rect, with the specified colour and alpha values
-	draw_vertex_texture_color(rect.left, rect.top, _uvs[0], _uvs[1], c_white, 1);
-	draw_vertex_texture_color(rect.right, rect.top, _uvs[2], _uvs[1], c_white, 1);
-	draw_vertex_texture_color(rect.left, rect.bottom, _uvs[0], _uvs[3], c_white, 1);
-	draw_vertex_texture_color(rect.right, rect.bottom, _uvs[2], _uvs[3], c_white, 1);
+	draw_vertex_texture_color(_rect.left, _rect.top, _uvs[0], _uvs[1], _colour, _alpha);
+	draw_vertex_texture_color(_rect.right, _rect.top, _uvs[2], _uvs[1], _colour, _alpha);
+	draw_vertex_texture_color(_rect.left, _rect.bottom, _uvs[0], _uvs[3], _colour, _alpha);
+	draw_vertex_texture_color(_rect.right, _rect.bottom, _uvs[2], _uvs[3], _colour, _alpha);
 	// Finish drawing primitive
 	draw_primitive_end();
 }
