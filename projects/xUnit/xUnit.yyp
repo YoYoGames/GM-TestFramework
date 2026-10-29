@@ -244,6 +244,7 @@
     {"id":{"name":"oParent","path":"objects/oParent/oParent.yy",},},
     {"id":{"name":"oTest","path":"objects/oTest/oTest.yy",},},
     {"id":{"name":"oVarChild","path":"objects/oVarChild/oVarChild.yy",},},
+    {"id":{"name":"oVarChildPlain","path":"objects/oVarChildPlain/oVarChildPlain.yy",},},
     {"id":{"name":"oVarParent","path":"objects/oVarParent/oVarParent.yy",},},
     {"id":{"name":"handle_testParticleSystem","path":"particles/handle_testParticleSystem/handle_testParticleSystem.yy",},},
     {"id":{"name":"handle_testPath","path":"paths/handle_testPath/handle_testPath.yy",},},

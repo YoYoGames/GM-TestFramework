@@ -41,7 +41,7 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 		
 		var _info = room_get_info(rmVariables, false, true, false, false, false);
 		var _instances = _info.instances;
-		assert_equals(array_length(_instances), 4, "room_get_info should return every instance in the room");
+		assert_equals(array_length(_instances), 5, "room_get_info should return every instance in the room");
 		
 		// No overrides, variables should hold the object defaults
 		var _vars = _instances[0].variables;
@@ -58,9 +58,12 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 		assert_equals(_vars.label, "child", "variables should contain the child object override");
 		assert_equals(_vars.armour, 7, "variables should contain the instance override of the child variable");
 		
-		// Object without any variable definitions
-		_vars = _instances[3].variables;
-		assert_true(is_struct(_vars), "variables should always be a struct");
-		assert_equals(array_length(struct_get_names(_vars)), 0, "variables should be empty for an object without variable definitions");
+		// Object without any variable definitions or pre creation code
+		assert_true(struct_exists(_instances[3], "variables"), "variables should always be present");
+		assert_undefined(_instances[3].variables, "variables should be undefined for an object without variable definitions");
+		
+		// Child object with no definitions of its own, everything comes from the parent
+		_vars = _instances[4].variables;
+		assert_struct_equals(_vars, { hp : 10, label : "parent", ratio : 2.5 }, "variables should contain the defaults inherited from the parent");
 	});
 }
