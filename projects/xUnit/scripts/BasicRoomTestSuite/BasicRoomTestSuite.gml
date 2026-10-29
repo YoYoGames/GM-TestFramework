@@ -39,7 +39,8 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 	
 	addFact("room_get_info_variables_test", function() {
 		
-		var _info = room_get_info(rmVariables, false, true, false, false, false);
+		// views, instances, layers, layer_elements, tilemap_data, live, variables
+		var _info = room_get_info(rmVariables, false, true, false, false, false, false, true);
 		var _instances = _info.instances;
 		assert_equals(array_length(_instances), 5, "room_get_info should return every instance in the room");
 		
@@ -65,5 +66,22 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 		// Child object with no definitions of its own, everything comes from the parent
 		_vars = _instances[4].variables;
 		assert_struct_equals(_vars, { hp : 10, label : "parent", ratio : 2.5 }, "variables should contain the defaults inherited from the parent");
+	});
+	
+	addFact("room_get_info_variables_off_test", function() {
+		
+		// variables defaults to false, every instance gets an undefined variables (even the ones with definitions)
+		var _instances = room_get_info(rmVariables, false, true, false, false, false).instances;
+		assert_equals(array_length(_instances), 5, "room_get_info should return every instance in the room");
+		for (var _i = 0; _i < array_length(_instances); ++_i) {
+			assert_true(struct_exists(_instances[_i], "variables"), "variables should always be present");
+			assert_undefined(_instances[_i].variables, "variables should be undefined when it is not asked for");
+		}
+		
+		// the same when it is explicitly false
+		_instances = room_get_info(rmVariables, false, true, false, false, false, false, false).instances;
+		for (var _i = 0; _i < array_length(_instances); ++_i) {
+			assert_undefined(_instances[_i].variables, "variables should be undefined when it is false");
+		}
 	});
 }
