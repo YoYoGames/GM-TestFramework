@@ -977,7 +977,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		
 		var _arrayLength = 100;
 		var seed = 42;
-		var _output1, _output2;
+		var _output1 = [], _output2 = [];
 			
 		//#2 random_set_seed ( real local )
 		// Note: Since seed can be internally cast as an unsigned int, the value returned by random_get_seed may not be the same as the original value.
@@ -2104,7 +2104,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 42, _seed2 = 84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#1 random_set_seed - random consistency test (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2134,7 +2134,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 42, _seed2 = 84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 		
 		random_set_seed(_seed1);
 		for(var _i = 0; _i < _arrayLength; ++_i)
@@ -2168,7 +2168,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -42, _seed2 = -84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#2 random_set_seed - random consistency test - negative seed values (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2198,7 +2198,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -42, _seed2 = -84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
@@ -2233,7 +2233,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 99, _seed2 = 305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#3 random_set_seed - irandom consistency test (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2263,7 +2263,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 99, _seed2 = 305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
@@ -2298,7 +2298,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -99, _seed2 = -305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#4 random_set_seed - irandom consistency test - negative seed values (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2328,7 +2328,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -99, _seed2 = -305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
@@ -2363,7 +2363,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 42, _seed2 = 84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#5 random_set_seed - random_range consistency test (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2393,7 +2393,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 42, _seed2 = 84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
@@ -2428,7 +2428,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -42, _seed2 = -84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#6 random_set_seed - random_range consistency test - negative seed values (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2458,7 +2458,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -42, _seed2 = -84;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
@@ -2493,7 +2493,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 99, _seed2 = 305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#7 random_set_seed - irandom_range consistency test (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2523,7 +2523,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 99, _seed2 = 305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
@@ -2558,7 +2558,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = -99, _seed2 = -305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		//#8 random_set_seed - irandom_range consistency test - negative seed values (this could legitimitely fail but is unlikely to)
 		random_set_seed(_seed1);
@@ -2588,7 +2588,7 @@ function BasicRandomTestSuite()  : TestSuite() constructor {
 		var _arrayLength = 100;
 			
 		var _seed1 = 99, _seed2 = 305;
-		var _output1, _output2, _output3;
+		var _output1=[], _output2=[], _output3=[];
 			
 		var _passed = false;
 		
