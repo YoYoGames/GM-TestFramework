@@ -94,79 +94,139 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 	var _seed = randomise();
 	show_debug_message("Using seed: " + string(_seed));
 
-	addFact("Time Sources: Constant Values", function() {
-		
-		// Built-in time sources
-		assert_equals(time_source_global, 0, "#1 time_source_global, failed to match its built-in value");
-	    assert_equals(time_source_game, 1, "#2 time_source_game, failed to match its built-in value");
-			
-		// Units
-	    assert_equals(time_source_units_seconds, 0, "#3 time_source_units_seconds, failed to match its built-in value");
-	    assert_equals(time_source_units_frames, 1, "#4 time_source_units_frames, failed to match its built-in value");
-			
-		// Expiry Types
-	    assert_equals(time_source_expire_nearest, 0, "#5 time_source_expire_nearest, failed to match its built-in value");
-	    assert_equals(time_source_expire_after, 1, "#6 time_source_expire_after, failed to match its built-in value");
-			
-		// States
-	    assert_equals(time_source_state_initial, 0, "#7 time_source_state_initial, failed to match its built-in value");
-	    assert_equals(time_source_state_active, 1, "#8 time_source_state_active, failed to match its built-in value");
-	    assert_equals(time_source_state_paused, 2, "#9 time_source_state_paused, failed to match its built-in value");
-	    assert_equals(time_source_state_stopped, 3, "#10 time_source_state_stopped, failed to match its built-in value");
+	// SYNCHRONOUS TESTS
+
+	addFact("Time Sources: Constant Values #1", function() {
+		assert_equals(time_source_global, 0, "time_source_global, failed to match its built-in value");
 	});
-		
-	addFact("Time Sources: Existence", function() {
-		
-		var _output;
-		
-		// Built-in existence
-		_output = time_source_exists(time_source_global);
-		assert_true(_output, "#1 time_source_exists(), failed to detect built-in source: time_source_global");
-			
-		_output = time_source_exists(time_source_game);
-		assert_true(_output, "#2 time_source_exists(), failed to detect built-in source: time_source_game");
-			
-		// Built in safety
+
+	addFact("Time Sources: Constant Values #2", function() {
+		assert_equals(time_source_game, 1, "time_source_game, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #3", function() {
+		assert_equals(time_source_units_seconds, 0, "time_source_units_seconds, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #4", function() {
+		assert_equals(time_source_units_frames, 1, "time_source_units_frames, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #5", function() {
+		assert_equals(time_source_expire_nearest, 0, "time_source_expire_nearest, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #6", function() {
+		assert_equals(time_source_expire_after, 1, "time_source_expire_after, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #7", function() {
+		assert_equals(time_source_state_initial, 0, "time_source_state_initial, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #8", function() {
+		assert_equals(time_source_state_active, 1, "time_source_state_active, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #9", function() {
+		assert_equals(time_source_state_paused, 2, "time_source_state_paused, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Constant Values #10", function() {
+		assert_equals(time_source_state_stopped, 3, "time_source_state_stopped, failed to match its built-in value");
+	});
+
+	addFact("Time Sources: Existence #1", function() {
+		var _output = time_source_exists(time_source_global);
+		assert_true(_output, "time_source_exists(), failed to detect built-in source: time_source_global");
+	});
+
+	addFact("Time Sources: Existence #2", function() {
+		var _output = time_source_exists(time_source_game);
+		assert_true(_output, "time_source_exists(), failed to detect built-in source: time_source_game");
+	});
+
+	addFact("Time Sources: Existence #3", function() {
 		time_source_destroy(time_source_global);
-		_output = time_source_exists(time_source_global);
-		assert_true(_output, "#3 time_source_destroy(), destroyed built-in source: time_source_global (shouldn't)");
-			
+		var _output = time_source_exists(time_source_global);
+		assert_true(_output, "time_source_destroy(), destroyed built-in source: time_source_global (shouldn't)");
+	});
+
+	addFact("Time Sources: Existence #4", function() {
 		time_source_destroy(time_source_game);
-		_output = time_source_exists(time_source_game);
-		assert_true(_output, "#4 time_source_destroy(), destroyed built-in source: time_source_game (shouldn't)");
-			
-		// Invalid existence
-		_output = time_source_exists(2); // First valid entry
-		assert_false(_output, "#5 time_source_exists(), detected a non-existent time source");
-			
-		// Positive existence
+		var _output = time_source_exists(time_source_game);
+		assert_true(_output, "time_source_destroy(), destroyed built-in source: time_source_game (shouldn't)");
+	});
+
+	addFact("Time Sources: Existence #5", function() {
+		// First valid non-built-in entry, assuming no other source has been created yet
+		var _output = time_source_exists(2);
+		assert_false(_output, "time_source_exists(), detected a non-existent time source");
+	});
+
+	addFact("Time Sources: Existence #6", function() {
 		var _ts = generate_time_source();
-		_output = time_source_exists(_ts);
-		assert_true(_output, "#6 time_source_create(), failed to create time source");
-			
-		// Destruction
+		var _output = time_source_exists(_ts);
+		assert_true(_output, "time_source_create(), failed to create time source");
+
 		time_source_destroy(_ts);
-		_output = time_source_exists(_ts);
-		assert_false(_output, "#7 time_source_destroy(), failed to destroy time source");	
-			
-		// Parent safety
+	});
+
+	addFact("Time Sources: Existence #7", function() {
+		var _ts = generate_time_source();
+		time_source_destroy(_ts);
+		var _output = time_source_exists(_ts);
+		assert_false(_output, "time_source_destroy(), failed to destroy time source");
+	});
+
+	addFact("Time Sources: Existence #8", function() {
+		// Parent safety: creating a child of a parent should exist
 		var _ts1 = generate_time_source();
 		var _ts2 = generate_time_source(_ts1);
-			
-		_output = time_source_exists(_ts2);
-		assert_true(_output, "#8 time_source_create(), failed to create inherited time source");
-			
+
+		var _output = time_source_exists(_ts2);
+		assert_true(_output, "time_source_create(), failed to create inherited time source");
+
+		time_source_destroy(_ts2);
+		time_source_destroy(_ts1);
+	});
+
+	addFact("Time Sources: Existence #9", function() {
+		// Parent safety: a source with children can't be destroyed
+		var _ts1 = generate_time_source();
+		var _ts2 = generate_time_source(_ts1);
+
 		time_source_destroy(_ts1); // Can't destroy if it has children
-		_output = time_source_exists(_ts1);
-		assert_true(_output, "#9 time_source_destroy(), destroyed a source with children (shouldn't)");
+		var _output = time_source_exists(_ts1);
+		assert_true(_output, "time_source_destroy(), destroyed a source with children (shouldn't)");
+
+		time_source_destroy(_ts2);
+		time_source_destroy(_ts1);
+	});
+
+	addFact("Time Sources: Existence #10", function() {
+		// Parent safety: destroying the child allows it to be destroyed
+		var _ts1 = generate_time_source();
+		var _ts2 = generate_time_source(_ts1);
+		time_source_destroy(_ts1); // No-op, has children
 
 		time_source_destroy(_ts2); // Destroy the child
-		_output = time_source_exists(_ts2);
-		assert_false(_output, "#10 time_source_destroy(), failed to destroy a source with no children");
-			
+		var _output = time_source_exists(_ts2);
+		assert_false(_output, "time_source_destroy(), failed to destroy a source with no children");
+
+		time_source_destroy(_ts1);
+	});
+
+	addFact("Time Sources: Existence #11", function() {
+		// Parent safety: once childless, the former parent can now be destroyed
+		var _ts1 = generate_time_source();
+		var _ts2 = generate_time_source(_ts1);
+		time_source_destroy(_ts1); // No-op, has children
+		time_source_destroy(_ts2); // Remove the child
+
 		time_source_destroy(_ts1); // Can destroy it now
-		_output = time_source_exists(_ts1);
-		assert_false(_output, "#11 time_source_destroy(), failed to destroy a source with no children");
+		var _output = time_source_exists(_ts1);
+		assert_false(_output, "time_source_destroy(), failed to destroy a source with no children");
 	});
 
 	addFact("Time Sources: State Transitions", function() {				
@@ -234,64 +294,148 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				
 		clean_up_tree(_nodes);
 	});
-	
-	addFact("Time Sources: Parents and Children", function() {
-			
+
+	addFact("Time Sources: Parents and Children #1", function() {
 		var _numSources = 100;
-				
-		// Create a tree structure
 		var _nodes = generate_tree(_numSources);
-			
-		var _output;
-			
-		// Check that each source's parent and children are what we expect
+
+		// Check that each source's parent is what we expect
 		for (var _i = _numSources; _i >= 0; --_i)
 		{
 			var _ts = _nodes[_i].idx;
-
-			_output = time_source_get_parent(_ts)
+			var _output = time_source_get_parent(_ts);
 			assert_equals(_output, _nodes[_i].parent, "time_source_get_parent(), failed to retrieve the correct parent");
-				
-			_output = time_source_get_children(_ts);
-			assert_array_length(_output, array_length(_nodes[_i].children), "time_source_get_children(), failed to return the correct number of children");
-				
-			assert_array_equals(_output, _nodes[_i].children, "time_source_get_children(), failed to return the correct children data");
 		}
-				
+
 		clean_up_tree(_nodes);
 	});
-		
-	addFact("Time Sources: Reconfiguration", function() { 
+
+	addFact("Time Sources: Parents and Children #2", function() {
+		var _numSources = 100;
+		var _nodes = generate_tree(_numSources);
+
+		// Check that each source reports the correct number of children
+		for (var _i = _numSources; _i >= 0; --_i)
+		{
+			var _ts = _nodes[_i].idx;
+			var _output = time_source_get_children(_ts);
+			assert_array_length(_output, array_length(_nodes[_i].children), "time_source_get_children(), failed to return the correct number of children");
+		}
+
+		clean_up_tree(_nodes);
+	});
+
+	addFact("Time Sources: Parents and Children #3", function() {
+		var _numSources = 100;
+		var _nodes = generate_tree(_numSources);
+
+		// Check that each source reports the correct children data
+		for (var _i = _numSources; _i >= 0; --_i)
+		{
+			var _ts = _nodes[_i].idx;
+			var _output = time_source_get_children(_ts);
+			assert_array_equals(_output, _nodes[_i].children, "time_source_get_children(), failed to return the correct children data");
+		}
+
+		clean_up_tree(_nodes);
+	});
+
+	addFact("Time Sources: Reconfiguration #1", function() {
 		var _numConfigurations = 1000;
-								
 		var _output, _ts = generate_time_source();
-				
+
 		for (var _i = 0; _i < _numConfigurations; ++_i)
 		{
 			var _config = new GenerateRandomConfiguration();
 			time_source_reconfigure(_ts, _config.period, _config.units, _config.cb, [], _config.reps, _config.expiryType);
-				
+
 			_output = time_source_get_period(_ts);
 			assert_equals(_output, _config.period, "time_source_reconfigure(), failed to reset the period");
-				
-			_output = time_source_get_time_remaining(_ts);
-			assert_equals(_output, _config.period, "time_source_reconfigure(), failed to reset the time remaining");
-				
-			_output = time_source_get_reps_completed(_ts);
-			assert_equals(_output, 0, "time_source_reconfigure(), failed to reset the completed repetitions");
-				
-			_output = time_source_get_reps_remaining(_ts);
-			assert_equals(_output, _config.reps, "time_source_reconfigure(), failed to reset the remaining repetitions");
-				
-			_output = time_source_get_units(_ts);
-			assert_equals(_output, _config.units, "time_source_reconfigure(), failed to reset the units");
-					
+
 			delete _config;
 		}
-		
+
 		time_source_destroy(_ts);
 	});
-	
+
+	addFact("Time Sources: Reconfiguration #2", function() {
+		var _numConfigurations = 1000;
+		var _output, _ts = generate_time_source();
+
+		for (var _i = 0; _i < _numConfigurations; ++_i)
+		{
+			var _config = new GenerateRandomConfiguration();
+			time_source_reconfigure(_ts, _config.period, _config.units, _config.cb, [], _config.reps, _config.expiryType);
+
+			_output = time_source_get_time_remaining(_ts);
+			assert_equals(_output, _config.period, "time_source_reconfigure(), failed to reset the time remaining");
+
+			delete _config;
+		}
+
+		time_source_destroy(_ts);
+	});
+
+	addFact("Time Sources: Reconfiguration #3", function() {
+		var _numConfigurations = 1000;
+		var _output, _ts = generate_time_source();
+
+		for (var _i = 0; _i < _numConfigurations; ++_i)
+		{
+			var _config = new GenerateRandomConfiguration();
+			time_source_reconfigure(_ts, _config.period, _config.units, _config.cb, [], _config.reps, _config.expiryType);
+
+			_output = time_source_get_reps_completed(_ts);
+			assert_equals(_output, 0, "time_source_reconfigure(), failed to reset the completed repetitions");
+
+			delete _config;
+		}
+
+		time_source_destroy(_ts);
+	});
+
+	addFact("Time Sources: Reconfiguration #4", function() {
+		var _numConfigurations = 1000;
+		var _output, _ts = generate_time_source();
+
+		for (var _i = 0; _i < _numConfigurations; ++_i)
+		{
+			var _config = new GenerateRandomConfiguration();
+			time_source_reconfigure(_ts, _config.period, _config.units, _config.cb, [], _config.reps, _config.expiryType);
+
+			_output = time_source_get_reps_remaining(_ts);
+			assert_equals(_output, _config.reps, "time_source_reconfigure(), failed to reset the remaining repetitions");
+
+			delete _config;
+		}
+
+		time_source_destroy(_ts);
+	});
+
+	addFact("Time Sources: Reconfiguration #5", function() {
+		var _numConfigurations = 1000;
+		var _output, _ts = generate_time_source();
+
+		for (var _i = 0; _i < _numConfigurations; ++_i)
+		{
+			var _config = new GenerateRandomConfiguration();
+			time_source_reconfigure(_ts, _config.period, _config.units, _config.cb, [], _config.reps, _config.expiryType);
+
+			_output = time_source_get_units(_ts);
+			assert_equals(_output, _config.units, "time_source_reconfigure(), failed to reset the units");
+
+			delete _config;
+		}
+
+		time_source_destroy(_ts);
+	});
+
+	// ASYNC TESTS
+
+	// Each of the following four tests already represents a single, non-decomposable scenario, so none
+	// are split further. Splitting any of them would multiply suite wall-clock time (each runs its own
+	// multi-frame progression) for no extra coverage - see the issue/PR for the per-test reasoning.
+
 	addTestAsync("Time Sources: Expiry Frames", objTestAsync, {
 	
 		ev_create: function() {
@@ -483,7 +627,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				
 				// As soon as time_source_destroy is called successfully, it should be considered destroyed.
 				// (Though it does secretly continue to exist until the callback returns)
-				assert_equals(time_source_exists(ts), false, "Time source still appears to exist after its self-destruction");
+				assert_equals(time_source_exists(ts), false, "Time source still appears to exist immediately after time_source_destroy() was called within its own callback");
 
 				// Indicate that we should now independently check existence
 				callbackFinished = true;
@@ -504,7 +648,7 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 				assert_equals(expiryFrame, frameCounter, "Time source did not appear to be destroyed on the same frame as its self-destruction");
 				
 				// Check again that it doesn't exist
-				assert_not_equals(time_source_exists(ts), true, "Time source still appears to exist after its self-destruction");
+				assert_not_equals(time_source_exists(ts), true, "Time source still appears to exist on the frame after its self-destruction");
 								
 				test_end();
 			}
@@ -631,4 +775,5 @@ function ResourceTimeSourceTestSuite() : TestSuite() constructor {
 		}
 	
 	});
+
 }
