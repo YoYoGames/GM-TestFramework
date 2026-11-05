@@ -322,16 +322,20 @@ function BasicFileTestSuite() : TestSuite() constructor {
 
 	addFact("file_exists_not_sandboxed test #1", function() {
 
-		var _output = file_exists("c:\\windows\\explorer.exe");
+		// Use a file every Windows install has. explorer.exe isn't guaranteed to exist (e.g. Windows Server Core has no Explorer shell).
+		var _windir = environment_get_variable("WINDIR");
+		if (_windir == "") _windir = "C:\\Windows";
+		var _path = _windir + "\\System32\\kernel32.dll";
+		var _output = file_exists(_path);
 			
 		// Check if not running on HTML5 runner.
 		if (os_browser == browser_not_a_browser)
 		{
-			assert_true(_output, "file_exists( 'c:/windows/explorer.exe' ), failed to find a file outside of the sandbox");
+			assert_true(_output, $"file_exists( '{_path}' ), failed to find a file outside of the sandbox");
 		}
 		else
 		{
-			assert_false(_output, "file_exists( 'c:/windows/explorer.exe' ), should not find the file on HTML5");
+			assert_false(_output, $"file_exists( '{_path}' ), should not find the file on HTML5");
 		}			
 			
 	}, { test_filter: function() { return platform_windows() && !GM_is_sandboxed } });
