@@ -645,6 +645,191 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 			
 		});
 		
+		addTestAsync("sequenceInstance.activeTrack_textEffect_keyframes_async_test", objTestAsync, {
+
+			ev_create: function() {
+
+				testLayer = layer_create(100, "testLayer");
+
+				var _output = layer_exists(testLayer);
+				assert_true(_output, "#0 layer_create(), failed to create a layer (exiting)");
+
+				// We don't have a layer to work with
+				if (_output == false)
+				{
+					instance_destroy();
+					return;
+				}
+
+				// A text track with keyframed texteffect_* parameter tracks
+				testSequence = sequence_text_test_create([
+					sequence_text_test_real_track("texteffect_thickness", [3]),
+					sequence_text_test_real_track("texteffect_outlineDist", [2]),
+					sequence_text_test_real_track("textEffect_shadowOffset", [4, -5]),
+					sequence_text_test_colour_track("texteffect_outlineColour", [1, 1, 0, 0]),
+				]);
+				elmID = layer_sequence_create(testLayer, 0, 0, testSequence);
+				seqInst = layer_sequence_get_instance(elmID);
+				steps = 0;
+			},
+
+			ev_step: function() {
+
+				// Let the sequence update a couple of times
+				if (++steps < 3) return;
+
+				var _activeTrackArray = seqInst.activeTracks;
+				assert_array_length(_activeTrackArray, 1, "#0 array_length(sequenceInstance.activeTracks), failed to return correct value");
+
+				if (array_length(_activeTrackArray) == 1)
+				{
+					var _node = _activeTrackArray[0];
+
+					// #1 the keyframed values are evaluated into the text track's node
+					assert_equals(_node.thickness, 3, "#1 keyframed texteffect_thickness, failed to evaluate into activeTracks[0].thickness");
+					assert_equals(_node.outlineDist, 2, "#1 keyframed texteffect_outlineDist, failed to evaluate into activeTracks[0].outlineDist");
+					assert_equals(_node.shadowOffsetX, 4, "#1 keyframed textEffect_shadowOffset, failed to evaluate channel 0 into activeTracks[0].shadowOffsetX");
+					assert_equals(_node.shadowOffsetY, -5, "#1 keyframed textEffect_shadowOffset, failed to evaluate channel 1 into activeTracks[0].shadowOffsetY");
+					assert_array_equals(_node.outlineColour, [1, 1, 0, 0], "#1 keyframed texteffect_outlineColour, failed to evaluate into activeTracks[0].outlineColour");
+
+					// #2 the effects whose values are set are turned on, the others stay off
+					assert_true(_node.effectsEnabled, "#2 keyframed text effects, failed to turn on effectsEnabled");
+					assert_true(_node.outlineEnabled, "#2 keyframed outline distance, failed to turn on outlineEnabled");
+					assert_true(_node.dropShadowEnabled, "#2 keyframed shadow offset, failed to turn on dropShadowEnabled");
+					assert_false(_node.glowEnabled, "#2 no glow tracks, glowEnabled should stay off");
+				}
+
+				layer_sequence_destroy(elmID);
+				layer_destroy(testLayer);
+				sequence_destroy(testSequence);
+
+				test_end();
+			}
+
+		});
+
+		addTestAsync("sequenceInstance.activeTrack_textEffect_paused_async_test", objTestAsync, {
+
+			ev_create: function() {
+
+				testLayer = layer_create(100, "testLayer");
+
+				var _output = layer_exists(testLayer);
+				assert_true(_output, "#0 layer_create(), failed to create a layer (exiting)");
+
+				// We don't have a layer to work with
+				if (_output == false)
+				{
+					instance_destroy();
+					return;
+				}
+
+				// A text track with no texteffect_* tracks, paused, so it isn't evaluated again
+				testSequence = sequence_text_test_create([]);
+				elmID = layer_sequence_create(testLayer, 0, 0, testSequence);
+				layer_sequence_pause(elmID);
+				seqInst = layer_sequence_get_instance(elmID);
+				steps = 0;
+			},
+
+			ev_step: function() {
+
+				++steps;
+				var _activeTrackArray = seqInst.activeTracks;
+				if (array_length(_activeTrackArray) != 1)
+				{
+					if (steps < 3) return;
+					assert_array_length(_activeTrackArray, 1, "#0 array_length(sequenceInstance.activeTracks), failed to return correct value");
+				}
+				else if (!variable_instance_exists(id, "setStep"))
+				{
+					// #1 set the text effects from GML
+					var _node = _activeTrackArray[0];
+					_node.thickness = 2;
+					_node.outlineDist = 3;
+					_node.outlineColour = [1, 0, 0, 1];
+					_node.effectsEnabled = true;
+					_node.outlineEnabled = true;
+					setStep = steps;
+					return;
+				}
+				else
+				{
+					if (steps < setStep + 2) return;
+
+					// #2 a paused sequence keeps what was set, which is what its text is drawn with
+					var _node = _activeTrackArray[0];
+					assert_equals(_node.thickness, 2, "#2 set activeTracks[0].thickness on a paused sequence, failed to keep the value");
+					assert_equals(_node.outlineDist, 3, "#2 set activeTracks[0].outlineDist on a paused sequence, failed to keep the value");
+					assert_array_equals(_node.outlineColour, [1, 0, 0, 1], "#2 set activeTracks[0].outlineColour on a paused sequence, failed to keep the value");
+					assert_true(_node.effectsEnabled, "#2 set activeTracks[0].effectsEnabled on a paused sequence, failed to keep the value");
+					assert_true(_node.outlineEnabled, "#2 set activeTracks[0].outlineEnabled on a paused sequence, failed to keep the value");
+				}
+
+				layer_sequence_destroy(elmID);
+				layer_destroy(testLayer);
+				sequence_destroy(testSequence);
+
+				test_end();
+			}
+
+		});
+
+		addTestAsync("sequenceInstance.activeTrack_textEffect_enabled_async_test", objTestAsync, {
+
+			ev_create: function() {
+
+				testLayer = layer_create(100, "testLayer");
+
+				var _output = layer_exists(testLayer);
+				assert_true(_output, "#0 layer_create(), failed to create a layer (exiting)");
+
+				// We don't have a layer to work with
+				if (_output == false)
+				{
+					instance_destroy();
+					return;
+				}
+
+				// A playing text track with no texteffect_* tracks
+				testSequence = sequence_text_test_create([]);
+				elmID = layer_sequence_create(testLayer, 0, 0, testSequence);
+				seqInst = layer_sequence_get_instance(elmID);
+				steps = 0;
+			},
+
+			ev_step: function() {
+
+				++steps;
+				var _activeTrackArray = seqInst.activeTracks;
+				if (array_length(_activeTrackArray) != 1)
+				{
+					if (steps < 3) return;
+					assert_array_length(_activeTrackArray, 1, "#0 array_length(sequenceInstance.activeTracks), failed to return correct value");
+				}
+				else if (!variable_instance_exists(id, "setStep"))
+				{
+					// #1 turning effects on doesn't last while the sequence plays: each update works the flags out
+					// again from the texteffect_* tracks, and this text track has none
+					_activeTrackArray[0].effectsEnabled = true;
+					setStep = steps;
+					return;
+				}
+				else
+				{
+					if (steps < setStep + 2) return;
+					assert_false(_activeTrackArray[0].effectsEnabled, "#1 activeTracks[0].effectsEnabled on a playing sequence without text effect tracks, should be worked out again by the update");
+				}
+
+				layer_sequence_destroy(elmID);
+				layer_destroy(testLayer);
+				sequence_destroy(testSequence);
+
+				test_end();
+			}
+
+		});
+		
 		addFact("sequenceInstance.finished_test", function() {
 			
 			var _elmID, _seqInst, _output;
@@ -1527,3 +1712,55 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 	
 }
 
+/// @function sequence_text_test_create(effectTracks)
+/// @description A 60 frame sequence with one text track, which has the given parameter tracks.
+function sequence_text_test_create(_effectTracks) {
+	var _seq = sequence_create();
+	var _track = sequence_track_new(seqtracktype_text);
+	var _key = sequence_keyframe_new(seqtracktype_text);
+	var _data = sequence_keyframedata_new(seqtracktype_text);
+	_data.text = "Hello";
+	_key.frame = 0;
+	_key.length = 60;
+	_key.channels = [_data];
+	_track.keyframes = [_key];
+	_track.tracks = _effectTracks;
+	_seq.tracks = [_track];
+	_seq.length = 60;
+	return _seq;
+}
+
+/// @function sequence_text_test_real_track(name, values)
+/// @description A real track with one keyframe over the whole sequence, a channel for each value.
+function sequence_text_test_real_track(_name, _values) {
+	var _track = sequence_track_new(seqtracktype_real);
+	_track.name = _name;
+	var _key = sequence_keyframe_new(seqtracktype_real);
+	_key.frame = 0;
+	_key.length = 60;
+	var _channels = [];
+	for (var _i = 0; _i < array_length(_values); _i++) {
+		var _data = sequence_keyframedata_new(seqtracktype_real);
+		_data.channel = _i;
+		_data.value = _values[_i];
+		array_push(_channels, _data);
+	}
+	_key.channels = _channels;
+	_track.keyframes = [_key];
+	return _track;
+}
+
+/// @function sequence_text_test_colour_track(name, colour)
+/// @description A colour track with one keyframe over the whole sequence; colour is [alpha, r, g, b].
+function sequence_text_test_colour_track(_name, _colour) {
+	var _track = sequence_track_new(seqtracktype_colour);
+	_track.name = _name;
+	var _key = sequence_keyframe_new(seqtracktype_colour);
+	_key.frame = 0;
+	_key.length = 60;
+	var _data = sequence_keyframedata_new(seqtracktype_colour);
+	_data.colour = _colour;
+	_key.channels = [_data];
+	_track.keyframes = [_key];
+	return _track;
+}
