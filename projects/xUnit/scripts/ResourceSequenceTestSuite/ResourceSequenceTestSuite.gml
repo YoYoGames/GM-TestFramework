@@ -804,8 +804,70 @@ function ResourceSequenceTestSuite() : TestSuite() constructor {
 				_expected = clamp(real(_value), 0, _length);
 				
 				assert_equals(_output, _expected, "#1 get/set sequenceInstance.headPosition ["+_details+"], failed to set the correct value");
-			}	
-			
+			}
+
+			// Clean up
+			layer_sequence_destroy(_elmID);
+			layer_destroy(_testLayer);
+
+		})
+
+		// GameMaker-Bugs#1697 - setting headPosition (and other properties) through self (i.e. in a sequence event) was ignored on YYC
+		addFact("sequenceInstance.headPosition_self_test", function() {
+
+			math_set_epsilon(0.01);
+
+			var _elmID, _seqInst, _length, _output;
+
+			var _testLayer = layer_create(100, "testLayer");
+
+			_output = layer_exists(_testLayer);
+			assert_true(_output, "#0 layer_create(), failed to create a layer (exiting)");
+
+			if (_output == false) return; // We don't have a layer to work with
+
+			_elmID = layer_sequence_create(_testLayer, 0, 0, Sequence1);
+			_seqInst = layer_sequence_get_instance(_elmID);
+			_length = _seqInst.sequence.length;
+
+			//#1 set headPosition through self (with)
+			with (_seqInst) {
+				headPosition = 10;
+			}
+			assert_equals(layer_sequence_get_headpos(_elmID), 10, "#1 set sequenceInstance.headPosition through self (with), failed to set the sequence head position");
+			assert_equals(_seqInst.headPosition, 10, "#1 set sequenceInstance.headPosition through self (with), failed to read back the correct value");
+
+			//#2 set headPosition through self (method bound to the sequence instance)
+			var _setHeadPos = method(_seqInst, function(_value) {
+				headPosition = _value;
+				return headPosition;
+			});
+			_output = _setHeadPos(5);
+			assert_equals(layer_sequence_get_headpos(_elmID), 5, "#2 set sequenceInstance.headPosition through self (method), failed to set the sequence head position");
+			assert_equals(_output, 5, "#2 set sequenceInstance.headPosition through self (method), failed to read back the correct value");
+
+			//#3 the setter should still clamp the value
+			_output = _setHeadPos(_length + 100);
+			assert_equals(layer_sequence_get_headpos(_elmID), _length, "#3 set sequenceInstance.headPosition through self (method), failed to clamp the sequence head position");
+			assert_equals(_output, _length, "#3 set sequenceInstance.headPosition through self (method), failed to read back the clamped value");
+
+			//#4 the value set by the engine should be read through self after a store through self
+			with (_seqInst) {
+				headPosition = 2;
+			}
+			layer_sequence_headpos(_elmID, 7);
+			with (_seqInst) {
+				_output = headPosition;
+			}
+			assert_equals(_output, 7, "#4 get sequenceInstance.headPosition through self, failed to read the head position set by layer_sequence_headpos()");
+
+			//#5 compound assignment through self
+			with (_seqInst) {
+				speedScale = 1;
+				speedScale *= 2;
+			}
+			assert_equals(layer_sequence_get_speedscale(_elmID), 2, "#5 set sequenceInstance.speedScale through self (compound), failed to set the sequence speed scale");
+
 			// Clean up
 			layer_sequence_destroy(_elmID);
 			layer_destroy(_testLayer);
