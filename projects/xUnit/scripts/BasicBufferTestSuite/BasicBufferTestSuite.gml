@@ -173,7 +173,10 @@ function BasicBufferTestSuite() : TestSuite() constructor {
             var input = irandom_range(-iSize/2, iSize/2);
             buffer_seek(testBuffer, buffer_seek_relative, input);
             var output = buffer_tell(testBuffer);
-            assert_equals(output, (iSize/2) + input, string("buffer_seek(buffer_seek_relative), failed to return correct value (size: {0}, offset-middle: {1})", iSize, input));
+            var expected = (iSize/2) + input;
+            // A relative seek on a wrapping buffer wraps: landing exactly on the end (input == iSize/2) is position 0
+            if (iType == buffer_wrap) expected = expected mod iSize;
+            assert_equals(output, expected, string("buffer_seek(buffer_seek_relative), failed to return correct value (type: {0}, size: {1}, offset-middle: {2})", iTypeString, iSize, input));
             
         })
     });
