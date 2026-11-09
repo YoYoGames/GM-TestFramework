@@ -546,9 +546,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 	
 	addFact("date_span_test #1", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);
@@ -560,9 +557,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 	
 	addFact("date_span_test #2", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);
@@ -574,9 +568,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 	
 	addFact("date_span_test #3", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);
@@ -588,9 +579,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 	
 	addFact("date_span_test #4", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);
@@ -602,9 +590,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 	
 	addFact("date_span_test #5", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);
@@ -616,9 +601,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 
 	addFact("date_span_test #6", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);
@@ -630,9 +612,6 @@ function BasicDateTimeTestSuite() : TestSuite() constructor {
 
 	addFact("date_span_test #7", function() {
 
-		// Set an explicit epsilon to account for different default epsilons in YYC and VM.
-		math_set_epsilon(0.00001);
-			
 		var output;
 		var firstDateTime = date_create_datetime(2011, 9, 15, 9, 43, 44);	
 		var secondDateTime = date_create_datetime(2015, 7, 1, 17, 31, 56);

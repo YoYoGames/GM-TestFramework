@@ -429,9 +429,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
             var output = buffer_tell(testBuffer);
             assert_equals(output, 0, "buffer_poke(), moved the buffer cursor (type: "+typeString+")");
         })
-        
-        // Reset to default epsilon value
-        math_set_epsilon(0.00001);
     });
     
 	addFact("buffer_write_test #1", function() {
@@ -445,9 +442,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
             var output = buffer_peek(testBuffer, 0, type);
             assert_equals(output, value, "buffer_write/peek(), failed to write/peek the correct value (type: "+typeString+")");
         });
-        
-        // Reset to default epsilon value
-        math_set_epsilon(0.00001);
     });
     
     addFact("buffer_write_test #2", function() {
@@ -473,9 +467,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
             assert_equals(output, pos, "buffer_write(), failed to move buffer cursor after write (type: "+typeString+")");
             
         });
-        
-        // Reset to default epsilon value
-        math_set_epsilon(0.00001);
     });
     
     addFact("buffer_read_test #1", function() {
@@ -490,9 +481,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
             var output = buffer_read(testBuffer, type);
             assert_equals(output, value, "buffer_read(), failed to read the correct value (type: "+typeString+")");
         });
-        
-        // Reset to default epsilon value
-        math_set_epsilon(0.00001);
     });
     
     addFact("buffer_read_test #2", function() {
@@ -520,9 +508,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
             assert_equals(output, pos, "buffer_read(), failed to move buffer cursor after read (type: "+typeString+")");
             
         });
-        
-        // Reset to default epsilon value
-        math_set_epsilon(0.00001);
     });
 
 	addFact("buffer_sizeof_test", function() {
@@ -535,9 +520,6 @@ function BasicBufferTestSuite() : TestSuite() constructor {
 			var output = buffer_sizeof(type);
 			assert_equals(output, typeSize, "buffer_sizeof(), failed to detect the correct size for type (type: "+typeString+")");
 		});
-        
-        // Reset to default epsilon value
-        math_set_epsilon(0.00001);
 	})
 
 	addFact("buffer_get_surface_test", function() {
