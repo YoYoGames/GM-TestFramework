@@ -165,6 +165,9 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 			}
 			if (stage != 2) return;
 
+			// move on first, so if anything below throws the test fails once and times out instead of repeating every step
+			stage = 3;
+
 			var _live = room_get_info(room, false, true, false, false, false, true).instances;
 
 			var _moved = RoomGetInfoFindInstance(_live, inst_moved);
@@ -212,7 +215,6 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 			assert_equals(array_length(room_get_info(rmVariables, false, true, false, false, false, true).instances), 5,
 				"live room_get_info of a room that isn't running should return the placed instances");
 
-			stage = 3;
 			room_goto(room1);
 		},
 	}, {
@@ -227,6 +229,9 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 		tilemap_set(_tilemap, 5, 1, 1);
 		var _sprite = layer_sprite_create(_layer, 10, 20, sprSquare);
 		layer_sprite_xscale(_sprite, 3);
+		layer_sprite_blend(_sprite, c_red);
+		var _background = layer_background_create(_layer, sprSquare);
+		layer_background_blend(_background, c_orange);
 
 		// views, instances, layers, layer_elements, tilemap_data, live
 		var _info = room_get_info(room, true, false, true, true, true, true);
@@ -241,11 +246,12 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 		if (!is_undefined(_found)) {
 			assert_equals(_found.xoffset, 7, "live room_get_info should report the layer's current x offset");
 
-			var _tm = undefined, _spr = undefined;
+			var _tm = undefined, _spr = undefined, _back = undefined;
 			for (var _i = 0; _i < array_length(_found.elements); ++_i) {
 				var _el = _found.elements[_i];
 				if (_el.type == layerelementtype_tilemap) _tm = _el;
 				if (_el.type == layerelementtype_sprite) _spr = _el;
+				if (_el.type == layerelementtype_background) _back = _el;
 			}
 
 			assert_not_undefined(_tm, "live room_get_info should have the tilemap element");
@@ -267,6 +273,13 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 				assert_equals(_spr.y, 20, "live room_get_info should report the sprite element y");
 				assert_equals(_spr.image_xscale, 3, "live room_get_info should report the sprite element's current x scale");
 				assert_equals(_spr.sprite_index, sprSquare, "live room_get_info should report the sprite element's sprite");
+				assert_equals(_spr.image_blend, c_red, "live room_get_info should report the sprite element's blend colour");
+			}
+
+			// c_orange has different red and blue, so a swapped colour would not match
+			assert_not_undefined(_back, "live room_get_info should have the background element");
+			if (!is_undefined(_back)) {
+				assert_equals(_back.blendColour, c_orange, "live room_get_info should report the background element's blend colour");
 			}
 		}
 
