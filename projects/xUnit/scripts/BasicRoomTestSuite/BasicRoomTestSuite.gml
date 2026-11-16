@@ -128,7 +128,7 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 				inst_destroyed = _static[1].id;
 				inst_var = _static[2].id;
 				placed_creation_code = _static[0].creation_code;
-				assert_false(RoomGetInfoNoCode(placed_creation_code), "the first placed instance should have creation code");
+				assert_false(RoomGetInfoNoCode(placed_creation_code), "the first placed instance should have creation code (got " + string(placed_creation_code) + ")");
 
 				// change the room: move one (and change how it is drawn), destroy one, create one, create and deactivate one
 				with (inst_moved) {
@@ -195,8 +195,8 @@ function BasicRoomTestSuite() : TestSuite() constructor {
 			assert_not_undefined(_created, "live room_get_info should have an instance created at runtime");
 			if (!is_undefined(_created)) {
 				assert_equals(_created.x, 300, "live room_get_info should report the created instance's x");
-				assert_true(RoomGetInfoNoCode(_created.creation_code), "an instance created at runtime has no creation code");
-				assert_true(RoomGetInfoNoCode(_created.pre_creation_code), "an instance created at runtime has no pre creation code");
+				assert_true(RoomGetInfoNoCode(_created.creation_code), "an instance created at runtime has no creation code (got " + string(_created.creation_code) + ")");
+				assert_true(RoomGetInfoNoCode(_created.pre_creation_code), "an instance created at runtime has no pre creation code (got " + string(_created.pre_creation_code) + ")");
 			}
 
 			assert_not_undefined(RoomGetInfoFindInstance(_live, inst_deactivated), "live room_get_info should have a deactivated instance");
