@@ -308,6 +308,82 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 			
 	});
 	
+	// Facts #3 to #6: a struct key of "" from JSON can be read, but GML can't set one (GameMaker-Bugs#16400)
+	addFact("json_parse_test #3", function() {
+
+		var _output, _input;
+
+		// ========== EMPTY KEY ==========
+		// GML can't make an empty name, but JSON can hold one and it can be read (GameMaker-Bugs#16400)
+
+		_input = "{\"\":3,\"a\":1}";
+		_output = json_parse(_input);
+
+		assert_equals(_output[$ ""], 3, "json_parse( string:local ), failed to read an empty key with the accessor");
+		assert_equals(struct_get(_output, ""), 3, "json_parse( string:local ), failed to read an empty key with struct_get");
+		assert_true(struct_exists(_output, ""), "json_parse( string:local ), struct_exists failed to find an empty key");
+		assert_equals(_output.a, 1, "json_parse( string:local ), an empty key changed the other keys");
+		assert_equals(struct_names_count(_output), 2, "json_parse( string:local ), failed to count an empty key");
+		assert_equals(struct_get(json_parse(json_stringify(_output)), ""), 3, "json_stringify( struct:local ), failed to write an empty key back");
+
+	});
+
+	addFact("json_parse_test #4", function() {
+
+		var _output, _input;
+
+		// ========== EMPTY KEY: REMOVE ==========
+
+		_input = "{\"\":3,\"a\":1}";
+		_output = json_parse(_input);
+		struct_remove(_output, "");
+
+		assert_false(struct_exists(_output, ""), "json_parse( string:local ), struct_remove failed to remove an empty key");
+		assert_equals(struct_names_count(_output), 1, "json_parse( string:local ), struct_remove failed to remove an empty key");
+		assert_equals(_output.a, 1, "json_parse( string:local ), removing an empty key changed the other keys");
+
+	});
+
+	addFact("json_parse_test #5", function() {
+
+		var _output, _input;
+
+		// ========== EMPTY KEY: BY HASH ==========
+
+		_input = "{\"\":3}";
+		_output = json_parse(_input);
+		var _hash = variable_get_hash("");
+
+		assert_equals(struct_get_from_hash(_output, _hash), 3, "struct_get_from_hash( struct:local, real:local ), failed to read an empty key");
+		_output = json_parse("{\"\":4}");
+		assert_equals(struct_get_from_hash(_output, _hash), 4, "struct_get_from_hash( struct:local, real:local ), failed to read an empty key from a second parse");
+
+	});
+
+	addFact("json_parse_test #6", function() {
+
+		// ========== EMPTY KEY: GML CAN'T SET ONE ==========
+
+		assert_throw(function() {
+			var _struct = {};
+			_struct[$ ""] = 1;
+		}, "struct accessor, setting an empty name should throw");
+
+		assert_throw(function() {
+			struct_set({}, "", 1);
+		}, "struct_set( struct:local, string:local, real:local ), setting an empty name should throw");
+
+		assert_throw(function() {
+			var _struct = json_parse("{\"\":3}");
+			_struct[$ ""] = 1;
+		}, "struct accessor, setting an empty key from JSON should throw");
+
+		assert_throw(function() {
+			struct_set_from_hash({}, variable_get_hash(""), 1);
+		}, "struct_set_from_hash( struct:local, real:local, real:local ), setting an empty name should throw");
+
+	});
+
 	// JSON STRINGIFY TESTS
 	
 	addFact("json_stringify_test #1", function() {
