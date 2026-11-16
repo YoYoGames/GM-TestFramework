@@ -308,8 +308,7 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 			
 	});
 	
-	// Facts #3 to #6: a struct key of "" (GameMaker-Bugs#16400). Not checked on HTML5 yet, where #6 can't pass: its
-	// setters don't refuse an empty name.
+	// Facts #3 to #6: a struct key of "" from JSON can be read, but GML can't set one (GameMaker-Bugs#16400)
 	addFact("json_parse_test #3", function() {
 
 		var _output, _input;
@@ -327,7 +326,7 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 		assert_equals(struct_names_count(_output), 2, "json_parse( string:local ), failed to count an empty key");
 		assert_equals(struct_get(json_parse(json_stringify(_output)), ""), 3, "json_stringify( struct:local ), failed to write an empty key back");
 
-	}, { test_filter: platform_not_browser });
+	});
 
 	addFact("json_parse_test #4", function() {
 
@@ -343,7 +342,7 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 		assert_equals(struct_names_count(_output), 1, "json_parse( string:local ), struct_remove failed to remove an empty key");
 		assert_equals(_output.a, 1, "json_parse( string:local ), removing an empty key changed the other keys");
 
-	}, { test_filter: platform_not_browser });
+	});
 
 	addFact("json_parse_test #5", function() {
 
@@ -359,7 +358,7 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 		_output = json_parse("{\"\":4}");
 		assert_equals(struct_get_from_hash(_output, _hash), 4, "struct_get_from_hash( struct:local, real:local ), failed to read an empty key from a second parse");
 
-	}, { test_filter: platform_not_browser });
+	});
 
 	addFact("json_parse_test #6", function() {
 
@@ -383,7 +382,7 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 			struct_set_from_hash({}, variable_get_hash(""), 1);
 		}, "struct_set_from_hash( struct:local, real:local, real:local ), setting an empty name should throw");
 
-	}, { test_filter: platform_not_browser });
+	});
 
 	// JSON STRINGIFY TESTS
 	
