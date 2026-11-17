@@ -23,12 +23,31 @@ parser = argparse.ArgumentParser(description="GitHub Artifact Processor")
 parser.add_argument('--github-token', type=str, required=True, help="GitHub token for authentication")
 parser.add_argument('--workflow', type=str, required=True, help="Workflow file name")
 parser.add_argument('--rt', type=str, required=False, help="Current Runtime Version")
+parser.add_argument('--run-id', type=str, required=False,
+                    help="The workflow run to report on (github.run_id). Without it, the newest run of the workflow is used, "
+                         "which can be another run that happens to be in progress at the same time")
+parser.add_argument('--pr', type=int, required=False,
+                    help="Pull request number: report this run's failures without filing bug reports, and fail on any "
+                         "test the pull request adds or changes that fails")
+parser.add_argument('--head-sha', type=str, required=False,
+                    help="The pull request's head commit, where its tests' code is read from (required with --pr)")
 args = parser.parse_args()
+if args.pr and not args.head_sha:
+    parser.error("--head-sha is required with --pr: the pull request's tests are read from its head commit")
 
 # Get GitHub token from arguments
 github_token = args.github_token
 workflow = args.workflow
 RTVersion = args.rt
+RunID = args.run_id
+PRNumber = args.pr
+HeadSHA = args.head_sha
+# set when a pull request run finds a failing test it adds or changes; the script then exits 1
+pr_touched_fails = []
+# why a pull request run couldn't work out which tests it adds or changes; the script then exits 1
+pr_tests_incomplete = []
+# set once compare_artifacts has read this run's results
+compared = False
 
 # Set to True to bypass the workflow/branch allow-list (for testing)
 FILTER_RUNS = False
@@ -61,6 +80,102 @@ for dir in saveLocation:
     directory = Path(f"{baseSaveLocation}/{dir}")
     directory.mkdir(parents=True, exist_ok=True)
 
+def auth_headers():
+    headers = {}
+    if github_token:
+        headers['Authorization'] = f'Bearer {github_token}'
+        headers['Accept'] = 'application/vnd.github.v3+json'
+    return headers
+
+
+# A test is declared as addFact("name", ...), addTestAsync("name", ...) or addTheory("name", ...)
+TEST_DECLARATION = re.compile(r'\badd(?:Fact|TestAsync|Theory)\(\s*"([^"]+)"')
+
+
+def changed_lines(patch):
+    """The line numbers (in the new file) that a unified diff patch adds, or next to which it removes lines."""
+    changed = set()
+    new_line = 0
+    for line in patch.split("\n"):
+        hunk = re.match(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@', line)
+        if hunk:
+            new_line = int(hunk.group(1))
+        elif line.startswith("+"):
+            changed.add(new_line)
+            new_line += 1
+        elif line.startswith("-"):
+            # a removal changes the test it was in: count the line that now follows it
+            changed.add(new_line)
+        elif not line.startswith("\\"):
+            new_line += 1
+    return changed
+
+
+def declared_tests(lines):
+    """Each test declared in a file, with the 1-based first and last line of its block.
+
+    A block runs to the line before the next declaration (or the end of the file). Counting braces doesn't work:
+    a multi-line addTheory's first data row closes its braces, and strings can hold braces. This can only take in
+    more lines than the test's own, never fewer.
+    """
+    starts = [(i + 1, m.group(1)) for i, line in enumerate(lines) if (m := TEST_DECLARATION.search(line))]
+    return [(name, first, starts[n + 1][0] - 1 if n + 1 < len(starts) else len(lines))
+            for n, (first, name) in enumerate(starts)]
+
+
+def get_pr_tests():
+    """The names of the tests the pull request adds or changes: those whose block has a line it adds or removes.
+
+    Anything that stops this from being worked out is added to pr_tests_incomplete, so the run fails rather than
+    passing without checking the pull request's tests.
+    """
+    tests = set()
+    page = 1
+    while True:
+        response = requests.get(f"https://api.github.com/repos/{repos[1]}/pulls/{PRNumber}/files?per_page=100&page={page}",
+                                headers=auth_headers())
+        if response.status_code != 200:
+            pr_tests_incomplete.append(f"Failed to read the files of pull request #{PRNumber}. HTTP Status: {response.status_code}")
+            return tests
+        files = response.json()
+        for changed in files:
+            path = changed.get("filename", "")
+            if not path.endswith(".gml") or changed.get("status") == "removed":
+                continue
+            source = get_file(path, HeadSHA)
+            if source is None:
+                pr_tests_incomplete.append(f"Failed to read {path} at {HeadSHA}")
+                continue
+            blocks = declared_tests(source.split("\n"))
+            if changed.get("patch"):
+                lines = changed_lines(changed["patch"])
+                tests.update(name for name, first, last in blocks if any(first <= n <= last for n in lines))
+            else:
+                # GitHub leaves the patch out of large diffs: count every test in the file as changed
+                LOGGER.warning(f"No diff for {path} (too large): counting all its tests as changed")
+                tests.update(name for name, first, last in blocks)
+        if len(files) < 100:
+            break
+        page += 1
+    LOGGER.info(f"Tests pull request #{PRNumber} adds or changes: {sorted(tests)}")
+    return tests
+
+
+def get_file(path, ref):
+    """A file's text at a commit, or None."""
+    response = requests.get(f"https://api.github.com/repos/{repos[1]}/contents/{urllib.parse.quote(path)}?ref={ref}",
+                            headers={**auth_headers(), 'Accept': 'application/vnd.github.raw'})
+    if response.status_code != 200:
+        LOGGER.warning(f"Failed to read {path} at {ref}. HTTP Status: {response.status_code}")
+        return None
+    return response.text
+
+
+def is_pr_test(testName, pr_tests):
+    # a theory's results may add its arguments to the declared name
+    return any(testName == name or testName.startswith(name + " ") for name in pr_tests)
+
+
 # FUNCTION LIST:
 # 1. get_workflow_runs
 # 2. get_artifact_URL
@@ -73,6 +188,8 @@ for dir in saveLocation:
                                     
 # Get the workflow run for a given runtime version (or the latest), plus the previous one
 def get_workflow_runs():
+
+    global run_start_time
 
     headers = {}
     if github_token:
@@ -105,6 +222,26 @@ def get_workflow_runs():
         return
 
     # Decide which run is the "current" one
+    if RunID:
+        # the run that called the script - never another run that happens to be newer
+        response = requests.get(f"https://api.github.com/repos/{repos[1]}/actions/runs/{RunID}", headers=headers)
+        if response.status_code != 200:
+            LOGGER.error(f"Failed to get workflow run {RunID}. HTTP Status: {response.status_code}")
+            sys.exit(1)
+        current_run = response.json()
+        _artifactRunID.append(current_run['id'])
+        if not PRNumber:
+            # the previous valid run is the newest one older than this
+            older = [run for run in valid_runs if run['id'] != current_run['id']
+                     and run['created_at'] < current_run['created_at']]
+            if older:
+                _artifactRunID.append(older[0]['id'])
+        # a pull request run isn't compared with another run: CI.yml only runs on pull requests, so the
+        # "previous" run would be some other pull request's
+        run_start_time = datetime.strptime(current_run['run_started_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+        get_artifact_URL()
+        return
+
     if RTVersion:
         # find the run whose summary_file artifact matches the requested runtime version
         target_index = next(
@@ -130,7 +267,6 @@ def get_workflow_runs():
         _artifactRunID.append(valid_runs[target_index + 1]['id'])
 
     # set the run start time from the current run
-    global run_start_time
     run_start_time = datetime.strptime(current_run['run_started_at'], '%Y-%m-%dT%H:%M:%SZ')
     run_start_time = run_start_time.replace(tzinfo=timezone.utc)  # make it timezone-aware
 
@@ -168,7 +304,7 @@ def get_artifact_URL():
 
         artifact_url = f"https://api.github.com/repos/{repos[1]}/actions/runs/{runid}/artifacts"
 
-        response = requests.get(artifact_url)
+        response = requests.get(artifact_url, headers=auth_headers())
 
         if response.status_code == 200:
             # Parse the JSON response
@@ -192,6 +328,9 @@ def get_artifact_URL():
         download_github_artifact(_download_artifacts_url)
     else:
         LOGGER.error(f"No artifact files available in the current workflow run!\nTF Compare script will not continue")
+        if RunID:
+            # this run's own results are missing, so nothing was checked: that mustn't pass
+            sys.exit(1)
 
 
 def download_github_artifact(_download_artifacts_url):
@@ -266,6 +405,8 @@ def compare_artifacts(artifact_files):
     global run_start_time
     global run_time_taken
 
+    global compared
+
     allTestFiles = {}
     fileCount = 1
 
@@ -290,6 +431,8 @@ def compare_artifacts(artifact_files):
             else:
                 LOGGER.warning(f"File in {file_path} does not exist.")
         fileCount +=1
+
+    compared = any(key.endswith("_1") for key in allTestFiles)
 
     if len(allTestFiles) > 0:
         # define variable to hold failed data
@@ -318,8 +461,17 @@ def compare_artifacts(artifact_files):
                         if failsIndex not in testFails:
                             testFails[failsIndex] = {}
 
-                        if testResult.lower() == "failed":
-                            
+                        # an async test that times out is "Expired": it failed too
+                        if testResult.lower() in ("failed", "expired"):
+
+                            if testResult.lower() == "expired" and not test['errors'] and not test['exceptions']:
+                                testFails[failsIndex].setdefault(testName, {
+                                    "testname": testName,
+                                    "testSuite": testSuiteName,
+                                    "errorDetails": {"message": "Test execution expired", "longMessage": "", "script": ""},
+                                    "testTime" : testTime,
+                                    "errorType" : "exception"
+                                })
                             for errorDetails in test['errors']:
                                 testFails[failsIndex].setdefault(testName, {
                                     "testname": testName,
@@ -346,7 +498,10 @@ def compare_artifacts(artifact_files):
     f2_Fails = []
     prev_fails_map = {}
 
-    newFilesToCompare = int(len(allTestFiles) / 2)
+    # the current run's files (VM, YYC): the previous run's may be missing
+    newFilesToCompare = sum(1 for key in allTestFiles if key.endswith("_1"))
+    testFails.setdefault("f1", {})
+    testFails.setdefault("f2", {})
 
     # Only compare fails if there are more than 1 file to compare
     if newFilesToCompare > 1:
@@ -407,6 +562,9 @@ def compare_artifacts(artifact_files):
         file.write(f"Total Failed Tests: ({totalFails}) = ({round((totalFails / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
         file.write(f"Total Skipped Tests: ({first_fail_dict['tallies']["skipped"]}) = ({round((first_fail_dict['tallies']["skipped"] / first_fail_dict['tallies']["tests"]) * 100, 2)})%\n")
 
+        # the tests a pull request adds or changes
+        pr_tests = get_pr_tests() if PRNumber else set()
+
         # iterate through each test suite
         new_fails_map = {}
         compiler = ["VM and YYC", "VM", "YYC"]
@@ -423,11 +581,17 @@ def compare_artifacts(artifact_files):
             
                 for failTest in fArray:
 
-                    # get code
-                    test_code_details = get_code(failTest["testname"], failTest["testSuite"])
+                    if PRNumber:
+                        # a pull request run files no reports: its tests may be waiting for a runtime fix
+                        bug_report_url = "not filed (pull request run)"
+                        if is_pr_test(failTest["testname"], pr_tests):
+                            pr_touched_fails.append(f"[{compiler[cIndex]}] {failTest['testname']} in {failTest['testSuite']}")
+                    else:
+                        # get code
+                        test_code_details = get_code(failTest["testname"], failTest["testSuite"])
 
-                    # log fail as an issue on GitHub - return report URL
-                    bug_report_url = log_fail(failTest["testname"], failTest, compiler[cIndex], test_code_details)
+                        # log fail as an issue on GitHub - return report URL
+                        bug_report_url = log_fail(failTest["testname"], failTest, compiler[cIndex], test_code_details)
 
                     file.write("\n----------------------------------------------------------------------------------------\n")
                     
@@ -576,7 +740,7 @@ def get_code(testname, testsuite):
         headers['Accept'] = 'application/vnd.github+json'
 
      # Define repo and file info
-    BRANCH = "develop"
+    BRANCH = HeadSHA or "develop"
     FILE_PATH = f"projects/xUnit/scripts/{testsuite}/{testsuite}.gml"
 
     # Construct raw file URL
@@ -615,9 +779,10 @@ def get_code(testname, testsuite):
             
             return [function_code, permalink]
         else:
-            LOGGER.warning("Function not found in file.")
+            LOGGER.warning(f"Function not found in file: {testname} in {FILE_PATH} at {BRANCH}")
     else:
         LOGGER.error(f"Failed to fetch file. HTTP Status: {response.status_code}")
+    return ["(the test's code could not be found)", f"https://github.com/{repos[1]}/blob/{BRANCH}/{FILE_PATH}"]
 
 
 # create new bug report / comment on existing report
@@ -830,8 +995,9 @@ def log_fail(testName, failDetails, compiler, test_code_details):
             # add 1 to the new report created count
             total_new_reports += 1
             return f"{issue_data['html_url']}"
-        
-    return f"{report['html_url']}"
+        LOGGER.warning(f"Creating a report for {testName} failed. HTTP Status: {response.status_code}")
+
+    return "not filed (creating the report failed)"
 
 
 # search for current issue
@@ -857,3 +1023,41 @@ def get_issues(repo, testName, compiler):
 
 # start the comparison run
 get_workflow_runs()
+
+if PRNumber:
+    if not compared:
+        LOGGER.error("This run's results weren't compared, so nothing was checked")
+        sys.exit(1)
+
+    if pr_tests_incomplete:
+        verdict = (f"Couldn't work out which tests pull request #{PRNumber} adds or changes, so its failures can't be "
+                   "told apart from others. Re-run the job; see the log for why.")
+    elif pr_touched_fails:
+        verdict = (f"{len(pr_touched_fails)} failing test(s) that pull request #{PRNumber} adds or changes. "
+                   "If they wait for a runtime fix, they pass once a runtime with the fix is on the feed.")
+    else:
+        verdict = f"No test that pull request #{PRNumber} adds or changes fails. Any other failures are listed in TF_Output.txt."
+
+    with open("TF_Output.txt", "a") as file:
+        file.write(f"\n******************************** PULL REQUEST #{PRNumber} *********************************\n")
+        file.write(f"\n{verdict}\n")
+        for problem in pr_tests_incomplete:
+            file.write(f"\n{problem}\n")
+        for fail in pr_touched_fails:
+            file.write(f"\n{fail}\n")
+
+    step_summary = os.getenv("GITHUB_STEP_SUMMARY")
+    if step_summary:
+        with open(step_summary, "a", encoding="utf-8") as summary:
+            summary.write(f"### TF Compare\n\n{verdict}\n\n")
+            for problem in pr_tests_incomplete:
+                summary.write(f"- {problem}\n")
+            for fail in pr_touched_fails:
+                summary.write(f"- {fail}\n")
+
+    if pr_tests_incomplete or pr_touched_fails:
+        LOGGER.error(verdict)
+        for problem in pr_tests_incomplete + pr_touched_fails:
+            LOGGER.error(problem)
+        sys.exit(1)
+    LOGGER.info(verdict)

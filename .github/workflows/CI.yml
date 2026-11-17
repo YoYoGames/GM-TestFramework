@@ -26,7 +26,7 @@ jobs:
           name: summary_file
           path: ${{ github.workspace }}\GM-TF\results         
       - name: Running TF Compare Script
-        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml
+        run: python .\tf_compare.py --github-token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} --workflow  ${{ github.workflow }}.yml --run-id ${{ github.run_id }} --pr ${{ github.event.pull_request.number }} --head-sha ${{ github.event.pull_request.head.sha }}
         working-directory: GM-TF
       - name: Upload TF Compare Output
         if: always()
