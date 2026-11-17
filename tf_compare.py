@@ -30,8 +30,10 @@ parser.add_argument('--pr', type=int, required=False,
                     help="Pull request number: report this run's failures without filing bug reports, and fail on any "
                          "test the pull request adds or changes that fails")
 parser.add_argument('--head-sha', type=str, required=False,
-                    help="The pull request's head commit, where its tests' code is read from (default: develop)")
+                    help="The pull request's head commit, where its tests' code is read from (required with --pr)")
 args = parser.parse_args()
+if args.pr and not args.head_sha:
+    parser.error("--head-sha is required with --pr: the pull request's tests are read from its head commit")
 
 # Get GitHub token from arguments
 github_token = args.github_token
@@ -42,6 +44,8 @@ PRNumber = args.pr
 HeadSHA = args.head_sha
 # set when a pull request run finds a failing test it adds or changes; the script then exits 1
 pr_touched_fails = []
+# why a pull request run couldn't work out which tests it adds or changes; the script then exits 1
+pr_tests_incomplete = []
 # set once compare_artifacts has read this run's results
 compared = False
 
@@ -88,58 +92,68 @@ def auth_headers():
 TEST_DECLARATION = re.compile(r'\badd(?:Fact|TestAsync|Theory)\(\s*"([^"]+)"')
 
 
-def block_end(lines, start):
-    """The 0-based index of the line where the block starting on lines[start] closes its braces."""
-    depth = 0
-    opened = False
-    for i in range(start, len(lines)):
-        depth += lines[i].count("{") - lines[i].count("}")
-        opened = opened or "{" in lines[i]
-        if opened and depth <= 0:
-            return i
-    return len(lines) - 1
-
-
-def added_lines(patch):
-    """The line numbers (in the new file) that a unified diff patch adds."""
-    added = set()
+def changed_lines(patch):
+    """The line numbers (in the new file) that a unified diff patch adds, or next to which it removes lines."""
+    changed = set()
     new_line = 0
     for line in patch.split("\n"):
         hunk = re.match(r'^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@', line)
         if hunk:
             new_line = int(hunk.group(1))
         elif line.startswith("+"):
-            added.add(new_line)
+            changed.add(new_line)
             new_line += 1
-        elif not line.startswith("-") and not line.startswith("\\"):
+        elif line.startswith("-"):
+            # a removal changes the test it was in: count the line that now follows it
+            changed.add(new_line)
+        elif not line.startswith("\\"):
             new_line += 1
-    return added
+    return changed
+
+
+def declared_tests(lines):
+    """Each test declared in a file, with the 1-based first and last line of its block.
+
+    A block runs to the line before the next declaration (or the end of the file). Counting braces doesn't work:
+    a multi-line addTheory's first data row closes its braces, and strings can hold braces. This can only take in
+    more lines than the test's own, never fewer.
+    """
+    starts = [(i + 1, m.group(1)) for i, line in enumerate(lines) if (m := TEST_DECLARATION.search(line))]
+    return [(name, first, starts[n + 1][0] - 1 if n + 1 < len(starts) else len(lines))
+            for n, (first, name) in enumerate(starts)]
 
 
 def get_pr_tests():
-    """The names of the tests the pull request adds or changes: those whose declaration or body has a line it adds."""
+    """The names of the tests the pull request adds or changes: those whose block has a line it adds or removes.
+
+    Anything that stops this from being worked out is added to pr_tests_incomplete, so the run fails rather than
+    passing without checking the pull request's tests.
+    """
     tests = set()
     page = 1
     while True:
         response = requests.get(f"https://api.github.com/repos/{repos[1]}/pulls/{PRNumber}/files?per_page=100&page={page}",
                                 headers=auth_headers())
         if response.status_code != 200:
-            LOGGER.error(f"Failed to read the files of pull request #{PRNumber}. HTTP Status: {response.status_code}")
+            pr_tests_incomplete.append(f"Failed to read the files of pull request #{PRNumber}. HTTP Status: {response.status_code}")
             return tests
         files = response.json()
         for changed in files:
             path = changed.get("filename", "")
-            if not path.endswith(".gml") or changed.get("status") == "removed" or not changed.get("patch"):
+            if not path.endswith(".gml") or changed.get("status") == "removed":
                 continue
-            added = added_lines(changed["patch"])
-            source = get_file(path, HeadSHA or changed.get("sha"))
+            source = get_file(path, HeadSHA)
             if source is None:
+                pr_tests_incomplete.append(f"Failed to read {path} at {HeadSHA}")
                 continue
-            lines = source.split("\n")
-            for i, line in enumerate(lines):
-                declared = TEST_DECLARATION.search(line)
-                if declared and any(i + 1 <= n <= block_end(lines, i) + 1 for n in added):
-                    tests.add(declared.group(1))
+            blocks = declared_tests(source.split("\n"))
+            if changed.get("patch"):
+                lines = changed_lines(changed["patch"])
+                tests.update(name for name, first, last in blocks if any(first <= n <= last for n in lines))
+            else:
+                # GitHub leaves the patch out of large diffs: count every test in the file as changed
+                LOGGER.warning(f"No diff for {path} (too large): counting all its tests as changed")
+                tests.update(name for name, first, last in blocks)
         if len(files) < 100:
             break
         page += 1
@@ -1015,7 +1029,10 @@ if PRNumber:
         LOGGER.error("This run's results weren't compared, so nothing was checked")
         sys.exit(1)
 
-    if pr_touched_fails:
+    if pr_tests_incomplete:
+        verdict = (f"Couldn't work out which tests pull request #{PRNumber} adds or changes, so its failures can't be "
+                   "told apart from others. Re-run the job; see the log for why.")
+    elif pr_touched_fails:
         verdict = (f"{len(pr_touched_fails)} failing test(s) that pull request #{PRNumber} adds or changes. "
                    "If they wait for a runtime fix, they pass once a runtime with the fix is on the feed.")
     else:
@@ -1024,6 +1041,8 @@ if PRNumber:
     with open("TF_Output.txt", "a") as file:
         file.write(f"\n******************************** PULL REQUEST #{PRNumber} *********************************\n")
         file.write(f"\n{verdict}\n")
+        for problem in pr_tests_incomplete:
+            file.write(f"\n{problem}\n")
         for fail in pr_touched_fails:
             file.write(f"\n{fail}\n")
 
@@ -1031,12 +1050,14 @@ if PRNumber:
     if step_summary:
         with open(step_summary, "a", encoding="utf-8") as summary:
             summary.write(f"### TF Compare\n\n{verdict}\n\n")
+            for problem in pr_tests_incomplete:
+                summary.write(f"- {problem}\n")
             for fail in pr_touched_fails:
                 summary.write(f"- {fail}\n")
 
-    if pr_touched_fails:
+    if pr_tests_incomplete or pr_touched_fails:
         LOGGER.error(verdict)
-        for fail in pr_touched_fails:
-            LOGGER.error(fail)
+        for problem in pr_tests_incomplete + pr_touched_fails:
+            LOGGER.error(problem)
         sys.exit(1)
     LOGGER.info(verdict)
