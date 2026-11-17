@@ -465,23 +465,12 @@ function BasicJsonTestSuite() : TestSuite() constructor {
 		
 		_output = json_parse(_jsonStr);
 		
-        if(runtime_gmrt())
-        {
-        
-     		var _test = {
-     			version: 2,
-     			myArray: "array",
-     			myFunction: "func",
-     		}
-        }
-        else {
-            //In current runtime 2 could be a script index so is_callable returns true
-        	var _test = {
-     			version: "func",
-     			myArray: "array",
-     			myFunction: "func",
-     		}
-        }
+		// 2 is a valid script index (a built-in function), so is_callable returns true for it
+		var _test = {
+			version: "func",
+			myArray: "array",
+			myFunction: "func",
+		}
 		
 		assert_struct_equals(_test, _output, "json_stringify ( struct:local, ..., replacer ), use custom replace funnction (structs are not equal)")			
 	});
