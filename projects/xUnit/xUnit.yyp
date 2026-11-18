@@ -205,6 +205,8 @@
     {"$GMIncludedFile":"","%Name":"SetExpectedBuffer","CopyToMask":-1,"filePath":"datafiles/ShaderUniformTests/VSFogEnabled","name":"SetExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"UnsetExpected.png","CopyToMask":-1,"filePath":"datafiles/ShaderUniformTests/VSFogEnabled","name":"UnsetExpected.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"UnsetExpectedBuffer","CopyToMask":-1,"filePath":"datafiles/ShaderUniformTests/VSFogEnabled","name":"UnsetExpectedBuffer","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"textureGroupBlue.png","CopyToMask":-1,"filePath":"datafiles","name":"textureGroupBlue.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"textureGroupRed.png","CopyToMask":-1,"filePath":"datafiles","name":"textureGroupRed.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"spriteAdd.png","CopyToMask":-1,"filePath":"datafiles","name":"spriteAdd.png","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"StreamedSound.ogg","CopyToMask":-1,"filePath":"datafiles","name":"StreamedSound.ogg","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"testList.csv","CopyToMask":3035426170322551022,"filePath":"datafiles","name":"testList.csv","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
