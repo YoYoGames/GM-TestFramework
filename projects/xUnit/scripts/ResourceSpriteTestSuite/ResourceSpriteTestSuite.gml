@@ -43,8 +43,7 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 
 			sprite = _sprites[0];
 			assert_equals(sprite_get_width(sprite), 64, "#sprite_get_width(), should be the width given to texturegroup_add");
-			// The return value differs between runners (0 or -1 on the current runner), so only the outcome is checked
-			texturegroup_load("xunit_tg_image");
+			assert_equals(texturegroup_load("xunit_tg_image"), 0, "#texturegroup_load(), should return 0 when the load starts");
 			frames = 0;
 		},
 		ev_step: function() {
