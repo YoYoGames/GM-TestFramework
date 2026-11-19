@@ -174,10 +174,14 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 			var _override = asset_get_index("sprAlphaTest");
 			assert_equals(sprite_get_width(_override), _overrideWidth, "#asset_get_index(), should find the texture group's sprite once it overrides the game's one");
 
-			sprite_delete(_override);
-			assert_equals(asset_get_index("sprAlphaTest"), _held, "#asset_get_index(), should find the game's sprite again once the override is deleted");
-			assert_true(sprite_exists(_held), "#sprite_exists(), the game's sprite should still exist");
-			assert_equals(sprite_get_width(_held), _width, "#sprite_get_width(), the game's sprite should have its own width back");
+			// Asserts don't stop the test, so if the override didn't happen, don't go on to delete the game's own sprite. The
+			// width tells, not the ref: on GMRT the override takes the game sprite's slot, so the two refs are the same
+			if (sprite_get_width(_override) == _overrideWidth) {
+				sprite_delete(_override);
+				assert_equals(asset_get_index("sprAlphaTest"), _held, "#asset_get_index(), should find the game's sprite again once the override is deleted");
+				assert_true(sprite_exists(_held), "#sprite_exists(), the game's sprite should still exist");
+				assert_equals(sprite_get_width(_held), _width, "#sprite_get_width(), the game's sprite should have its own width back");
+			}
 		} finally {
 			texturegroup_delete("xunit_tg_override_delete");
 		}
@@ -218,7 +222,9 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 			sprite_delete(asset_get_index("xunit_tg_get_sprites_deleted_a"));
 			var _sprites = texturegroup_get_sprites("xunit_tg_get_sprites_deleted");
 			assert_equals(array_length(_sprites), 1, "#texturegroup_get_sprites(), should list only the sprite that still exists");
-			assert_equals(_sprites[0], asset_get_index("xunit_tg_get_sprites_deleted_b"), "#texturegroup_get_sprites(), should list the sprite that wasn't deleted");
+			if (array_length(_sprites) == 1) {
+				assert_equals(_sprites[0], asset_get_index("xunit_tg_get_sprites_deleted_b"), "#texturegroup_get_sprites(), should list the sprite that wasn't deleted");
+			}
 		} finally {
 			texturegroup_delete("xunit_tg_get_sprites_deleted");
 		}
