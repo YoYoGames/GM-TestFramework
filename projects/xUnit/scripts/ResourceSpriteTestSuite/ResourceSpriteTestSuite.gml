@@ -163,4 +163,71 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 		}
 	}, { test_timeout_millis: 5000 });
 
+	// GameMaker-Bugs#16449: deleting the sprite a texture group added over one of the game's own sprites used to leave the
+	// game's sprite pointing at the freed one, and texturegroup_delete then crashed
+	addFact("sprite_delete on a texturegroup_add override restores the game's sprite", function() {
+		var _held = sprAlphaTest;
+		var _width = sprite_get_width(sprAlphaTest);
+		var _overrideWidth = (_width == 17) ? 19 : 17;
+		texturegroup_add("xunit_tg_override_delete", "spriteAdd.png", {sprites: {sprAlphaTest: {width: _overrideWidth, height: _overrideWidth, frames: [{x: 0, y: 0}]}}});
+		try {
+			var _override = asset_get_index("sprAlphaTest");
+			assert_equals(sprite_get_width(_override), _overrideWidth, "#asset_get_index(), should find the texture group's sprite once it overrides the game's one");
+
+			// Asserts don't stop the test, so if the override didn't happen, don't go on to delete the game's own sprite. The
+			// width tells, not the ref: on GMRT the override takes the game sprite's slot, so the two refs are the same
+			if (sprite_get_width(_override) == _overrideWidth) {
+				sprite_delete(_override);
+				assert_equals(asset_get_index("sprAlphaTest"), _held, "#asset_get_index(), should find the game's sprite again once the override is deleted");
+				assert_true(sprite_exists(_held), "#sprite_exists(), the game's sprite should still exist");
+				assert_equals(sprite_get_width(_held), _width, "#sprite_get_width(), the game's sprite should have its own width back");
+			}
+		} finally {
+			texturegroup_delete("xunit_tg_override_delete");
+		}
+		assert_equals(asset_get_index("sprAlphaTest"), _held, "#texturegroup_delete(), the game's sprite should keep its name");
+		assert_equals(sprite_get_width(_held), _width, "#texturegroup_delete(), should leave the game's sprite as it is");
+	});
+
+	// A later group's override replaces an earlier group's one, so deleting the earlier group afterwards leaves the later
+	// group's override in place, and deleting that brings back the game's sprite
+	addFact("texturegroup_delete leaves a later group's override of the same sprite in place", function() {
+		var _held = sprAlphaTest;
+		var _width = sprite_get_width(sprAlphaTest);
+		var _widthA = (_width == 17) ? 19 : 17;
+		var _widthB = (_width == 21) ? 23 : 21;
+		texturegroup_add("xunit_tg_override_a", "spriteAdd.png", {sprites: {sprAlphaTest: {width: _widthA, height: _widthA, frames: [{x: 0, y: 0}]}}});
+		try {
+			texturegroup_add("xunit_tg_override_b", "spriteAdd.png", {sprites: {sprAlphaTest: {width: _widthB, height: _widthB, frames: [{x: 0, y: 0}]}}});
+			try {
+				texturegroup_delete("xunit_tg_override_a");
+				assert_equals(sprite_get_width(asset_get_index("sprAlphaTest")), _widthB, "#texturegroup_delete(), the later group's override should still be found by name");
+				assert_equals(sprite_get_width(_held), _widthB, "#texturegroup_delete(), the game's handle should still give the later group's override");
+			} finally {
+				texturegroup_delete("xunit_tg_override_b");
+			}
+		} finally {
+			if (texturegroup_exists("xunit_tg_override_a")) texturegroup_delete("xunit_tg_override_a");
+		}
+		assert_equals(asset_get_index("sprAlphaTest"), _held, "#texturegroup_delete(), the game's sprite should keep its name");
+		assert_equals(sprite_get_width(_held), _width, "#texturegroup_delete(), should bring back the game's sprite");
+	});
+
+	addFact("texturegroup_get_sprites leaves out a sprite deleted with sprite_delete", function() {
+		texturegroup_add("xunit_tg_get_sprites_deleted", "spriteAdd.png", {sprites: {
+			xunit_tg_get_sprites_deleted_a: {width: 16, height: 16, frames: [{x: 0, y: 0}]},
+			xunit_tg_get_sprites_deleted_b: {width: 16, height: 16, frames: [{x: 16, y: 0}]}
+		}});
+		try {
+			sprite_delete(asset_get_index("xunit_tg_get_sprites_deleted_a"));
+			var _sprites = texturegroup_get_sprites("xunit_tg_get_sprites_deleted");
+			assert_equals(array_length(_sprites), 1, "#texturegroup_get_sprites(), should list only the sprite that still exists");
+			if (array_length(_sprites) == 1) {
+				assert_equals(_sprites[0], asset_get_index("xunit_tg_get_sprites_deleted_b"), "#texturegroup_get_sprites(), should list the sprite that wasn't deleted");
+			}
+		} finally {
+			texturegroup_delete("xunit_tg_get_sprites_deleted");
+		}
+	});
+
 }
