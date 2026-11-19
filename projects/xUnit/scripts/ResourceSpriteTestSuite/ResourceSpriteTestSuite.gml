@@ -185,6 +185,30 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 		assert_equals(sprite_get_width(_held), _width, "#texturegroup_delete(), should leave the game's sprite as it is");
 	});
 
+	// A later group's override replaces an earlier group's one, so deleting the earlier group afterwards leaves the later
+	// group's override in place, and deleting that brings back the game's sprite
+	addFact("texturegroup_delete leaves a later group's override of the same sprite in place", function() {
+		var _held = sprAlphaTest;
+		var _width = sprite_get_width(sprAlphaTest);
+		var _widthA = (_width == 17) ? 19 : 17;
+		var _widthB = (_width == 21) ? 23 : 21;
+		texturegroup_add("xunit_tg_override_a", "spriteAdd.png", {sprites: {sprAlphaTest: {width: _widthA, height: _widthA, frames: [{x: 0, y: 0}]}}});
+		try {
+			texturegroup_add("xunit_tg_override_b", "spriteAdd.png", {sprites: {sprAlphaTest: {width: _widthB, height: _widthB, frames: [{x: 0, y: 0}]}}});
+			try {
+				texturegroup_delete("xunit_tg_override_a");
+				assert_equals(sprite_get_width(asset_get_index("sprAlphaTest")), _widthB, "#texturegroup_delete(), the later group's override should still be found by name");
+				assert_equals(sprite_get_width(_held), _widthB, "#texturegroup_delete(), the game's handle should still give the later group's override");
+			} finally {
+				texturegroup_delete("xunit_tg_override_b");
+			}
+		} finally {
+			if (texturegroup_exists("xunit_tg_override_a")) texturegroup_delete("xunit_tg_override_a");
+		}
+		assert_equals(asset_get_index("sprAlphaTest"), _held, "#texturegroup_delete(), the game's sprite should keep its name");
+		assert_equals(sprite_get_width(_held), _width, "#texturegroup_delete(), should bring back the game's sprite");
+	});
+
 	addFact("texturegroup_get_sprites leaves out a sprite deleted with sprite_delete", function() {
 		texturegroup_add("xunit_tg_get_sprites_deleted", "spriteAdd.png", {sprites: {
 			xunit_tg_get_sprites_deleted_a: {width: 16, height: 16, frames: [{x: 0, y: 0}]},
