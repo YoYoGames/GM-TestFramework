@@ -260,6 +260,10 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 			view_set_viewport([ { polygons: [0,80, 0,90, 30,90, 70,20, 90,80] } ]);
 		}, "view_set_viewport(), didn't throw for a polygon it can't split into triangles");
 
+		assert_throw(function() {
+			view_set_viewport([ { polygons: [0,0, 32,32, 32,0, 0,32] } ]);
+		}, "view_set_viewport(), didn't throw for a polygon that crosses itself");
+
 		// turning off a polygon that was never set does nothing
 		view_set_viewport([ { polygons: [] } ]);
 		assert_equals(view_get_surface_id(0), -1, "view_set_viewport(), polygons : [] gave view 0 a surface");
