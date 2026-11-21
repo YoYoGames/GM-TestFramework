@@ -143,6 +143,17 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 			assert_equals(view_get_xport(1), 16, "view_set_viewport(), screenX didn't move the port");
 			assert_equals(view_get_yport(1), 8, "view_set_viewport(), screenY didn't move the port");
 			assert_equals(view_get_surface_id(1), surface, "view_set_viewport(), moving the port changed the view's surface");
+
+			// a call without roomRect fields leaves the camera where the game put it
+			var _camera = view_get_camera(1);
+			camera_set_view_pos(_camera, 4, 6);
+			view_set_viewport([ {}, { polygons: VSV_POLYGON } ]);
+			assert_equals(camera_get_view_x(_camera), 4, "view_set_viewport(), a call without roomRectX moved the camera");
+			assert_equals(camera_get_view_y(_camera), 6, "view_set_viewport(), a call without roomRectY moved the camera");
+			view_set_viewport([ {}, { roomRectX: 2 } ]);
+			assert_equals(camera_get_view_x(_camera), 2, "view_set_viewport(), roomRectX didn't move the camera");
+			assert_equals(camera_get_view_y(_camera), 6, "view_set_viewport(), roomRectX on its own moved the camera's y");
+			camera_set_view_pos(_camera, 0, 0);
 		},
 
 		ev_draw: function() {
@@ -223,6 +234,47 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 5000,
 	});
 
+	addTestAsync("view_set_viewport can turn a polygon off from a Draw event", objTestAsyncViewport, {
+
+		ev_create: function() {
+			frames = 0;
+			turnedOff = false;
+			width = surface_get_width(application_surface);
+			height = surface_get_height(application_surface);
+			vsv_setup(self, width, height);
+			view_set_viewport([ {
+				polygons: VSV_POLYGON,
+				screenX: 0, screenY: 0, screenW: width, screenH: height,
+				roomRectX: 0, roomRectY: 0, roomRectW: width, roomRectH: height,
+			} ]);
+		},
+
+		ev_draw: function() {
+			if (view_current != 0) return;
+			draw_clear(c_red);
+			// the view's surface is the draw target here, so the runner mustn't free it under the draw
+			if (frames >= 2 && !turnedOff) {
+				view_set_viewport([ { polygons: [] } ]);
+				turnedOff = true;
+			}
+		},
+
+		ev_step: function() {
+			if (++frames < 5) return;
+			assert_true(turnedOff, "view_set_viewport(), the Draw event never ran for view 0");
+			assert_equals(view_get_surface_id(0), -1, "view_set_viewport(), polygons : [] from a Draw event didn't free the view's surface");
+			test_end();
+		},
+
+		ev_cleanup: function() {
+			vsv_restore(self);
+		}
+
+	}, {
+		test_filter: platform_view_set_viewport,
+		test_timeout_millis: 5000,
+	});
+
 	addFact("view_set_viewport errors", function() {
 
 		assert_throw(function() {
@@ -268,6 +320,18 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 		assert_throw(function() {
 			view_set_viewport([ { startFunc: "not a function" } ]);
 		}, "view_set_viewport(), didn't throw for a startFunc that isn't a function");
+
+		assert_throw(function() {
+			view_set_viewport([ { polygons: [0,0, 32,0, 0,32, 16] } ]);
+		}, "view_set_viewport(), didn't throw for polygons with an odd number of values");
+
+		assert_throw(function() {
+			view_set_viewport([ { polygons: [0,0, 32,0, NaN,32] } ]);
+		}, "view_set_viewport(), didn't throw for a polygon point that isn't a finite number");
+
+		assert_throw(function() {
+			view_set_viewport([ { screenW: infinity } ]);
+		}, "view_set_viewport(), didn't throw for a screenW that isn't finite");
 
 		// turning off a polygon that was never set does nothing
 		view_set_viewport([ { polygons: [] } ]);
