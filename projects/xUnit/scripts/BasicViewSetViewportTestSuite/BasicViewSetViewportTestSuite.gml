@@ -144,9 +144,9 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 }
 
 /// @function platform_view_set_viewport()
-/// @description view_set_viewport is in the C++ runner (VM and YYC) and GMRT, not in HTML5.
+/// @description view_set_viewport is in the C++ runner (VM and YYC), GMRT and HTML5.
 function platform_view_set_viewport() {
-	return platform_not_browser();
+	return true;
 }
 
 /// @function vsv_setup(state, width, height)
