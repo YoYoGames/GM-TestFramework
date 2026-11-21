@@ -1,10 +1,10 @@
 // feather ignore GM1041
 // Tests for view_set_viewport, the experimental non-rectangular viewports (GMS2-Runner-Main#1076).
 //
-// Each drawing test gives a view its own camera and an L-shaped polygon,
-// fills the view with red in its Draw event, and then reads back pixels inside the L, in the corner cut out of
-// it, and outside it. The view's port covers the whole application surface, so the polygon's points are
-// pixels on the application surface (or the screen).
+// Each drawing test gives a view its own camera and an L-shaped polygon, fills the view with red in its Draw
+// event, and then reads back pixels inside the L, in the corner cut out of it, and outside it. The polygon's
+// points are relative to the view's port, and each port is drawn 1:1 onto the application surface (or the
+// screen), so a point's pixel is the port's position plus the point.
 
 // L-shaped (concave) polygon: a 64x64 square at (100,80) with its top-right 32x32 quarter cut out
 #macro VSV_POLYGON [100,80, 132,80, 132,112, 164,112, 164,144, 100,144]
@@ -258,7 +258,7 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 
 		assert_throw(function() {
 			view_set_viewport([ { polygons: [0,80, 0,90, 30,90, 70,20, 90,80] } ]);
-		}, "view_set_viewport(), didn't throw for a polygon it can't split into triangles");
+		}, "view_set_viewport(), didn't throw for a polygon whose closing edge crosses another edge");
 
 		assert_throw(function() {
 			view_set_viewport([ { polygons: [0,0, 32,32, 32,0, 0,32] } ]);
