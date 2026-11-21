@@ -193,6 +193,14 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 			view_set_viewport([ { polygons: 5 } ]);
 		}, "view_set_viewport(), didn't throw for polygons that isn't an array");
 
+		assert_throw(function() {
+			view_set_viewport([ { screenW: 0 } ]);
+		}, "view_set_viewport(), didn't throw for a screenW that isn't positive");
+
+		assert_throw(function() {
+			view_set_viewport([ { roomRectH: -1 } ]);
+		}, "view_set_viewport(), didn't throw for a roomRectH that isn't positive");
+
 		// turning off a polygon that was never set does nothing
 		view_set_viewport([ { polygons: [] } ]);
 		assert_equals(view_get_surface_id(0), -1, "view_set_viewport(), polygons : [] gave view 0 a surface");
