@@ -10,9 +10,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0, 1, 0, 0,
                                       0, 0, 1, 0, 
                                       0, 0, 0, 1], "matrix_build_identity(), failed to build matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_build_test", function() {
@@ -25,9 +22,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0, 0, -1.50, 0,
                                       -0.50, 0, 0, 0,
                                       1, 1, 1, 1], "matrix_build(), failed to build matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_build_lookat_test", function() {
@@ -40,9 +34,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0, 0.82, 0.58, 0, 
                                       -0.71, -0.41, 0.58, 0,
                                       0, 0, 1.73, 1 ], "matrix_build_lookat(), failed to build matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_build_projection_ortho", function() {
@@ -55,9 +46,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0, 0.00, 0, 0,
                                       0, 0, 0.50, 0, 
                                       0, 0, 0.50, 1], "matrix_build_projection_ortho(), failed to build matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_build_projection_perspective", function() {
@@ -70,9 +58,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0, 1, 0, 0,
                                       0, 0, 1, 0,
                                       0, 0, 0, 1], "matrix_build_projection_perspective(), failed to build matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_build_projection_perspective_fov", function() {
@@ -85,9 +70,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0, -1, 0, 0,
                                       0, 0, 1.00, 1,
                                       0, 0, -1.00, 0], "matrix_build_projection_perspective_fov(), failed to build matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
 
 	addFact("matrix_multiply_test", function() {
@@ -110,9 +92,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
                                       0.20, 2.20, 4.20, 6.20,
 								      0.20, 2.20, 4.20, 6.20,
 								      0.20, 2.20, 4.20, 6.20 ], "matrix_multiply (...), failed to multiply matrices");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
 	});
 		
 	addFact("matrix_transform_vertex_test", function() {
@@ -127,9 +106,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         // Check that matrix_transform_vertex() returns the expected value when given standard inputs
 		var _output = matrix_transform_vertex(_input, 10, 20, 30);
 		assert_array_equals(_output, [61, 61, 61], "matrix_transform_vertex(...), failed to transform matrix correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
 	})
     
     addFact("matrix_get_set_test #1", function() {
@@ -146,8 +122,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         
         // Reset the projection matrix back to its default value
         matrix_set(matrix_projection, _defaultProjection);
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_get_set_test #2", function() {
@@ -164,8 +138,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         
         // Reset the world matrix back to its default value
         matrix_set(matrix_world, _defaultWorld);
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_get_set_test #3", function() {
@@ -182,8 +154,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         
         // Reset the view matrix back to its default value
         matrix_set(matrix_view, _defaultView);
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_stack_test", function() {
@@ -195,9 +165,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         matrix_stack_push(_input);
         var _output = matrix_stack_top();
         assert_array_equals(_output, _input, "matrix_stack_push( matrix:local ), failed to push to stack correctly.");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_stack_pop_test", function() {
@@ -214,9 +181,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         matrix_stack_set(_input);
         var _output = matrix_stack_pop();
         assert_array_equals(_output, _input, "matrix_stack_pop(), failed to correctly set/pop from the stack");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
     
     addFact("matrix_stack_clear_test", function() {
@@ -227,9 +191,6 @@ function BasicMatrixTestSuite() : TestSuite() constructor {
         matrix_stack_clear();
         var _output = matrix_stack_is_empty();
         assert_true(_output, "matrix_stack_clear(), failed to clear the stack correctly");
-        
-        // Reset epsilon back to its default value
-        math_set_epsilon(0.00001);
     });
 	
 }
