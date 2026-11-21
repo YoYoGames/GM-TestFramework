@@ -167,6 +167,61 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 		test_timeout_millis: 5000,
 	});
 
+	addTestAsync("view_set_viewport keeps its surface the port's size", objTestAsyncViewport, {
+
+		ev_create: function() {
+			frames = 0;
+			width = surface_get_width(application_surface);
+			height = surface_get_height(application_surface);
+			vsv_setup(self, width, height);
+
+			view_set_viewport([ {
+				polygons: VSV_POLYGON,
+				screenX: 0, screenY: 0, screenW: width, screenH: height,
+				roomRectX: 0, roomRectY: 0, roomRectW: width, roomRectH: height,
+			} ]);
+
+			// resizing the port another way resizes the surface view_set_viewport created, before the view is next drawn
+			view_set_wport(0, width div 2);
+			view_set_hport(0, height div 2);
+		},
+
+		ev_draw: function() {
+			if (view_current == 0) draw_clear(c_red);
+		},
+
+		ev_step: function() {
+			++frames;
+			if (frames == 2) {
+				var _surface = view_get_surface_id(0);
+				assert_true(_surface != -1 && surface_exists(_surface), "view_set_viewport(), the view lost its surface when the port was resized");
+				if (_surface != -1 && surface_exists(_surface)) {
+					assert_equals(surface_get_width(_surface), width div 2, "view_set_viewport(), the surface wasn't resized with view_set_wport");
+					assert_equals(surface_get_height(_surface), height div 2, "view_set_viewport(), the surface wasn't resized with view_set_hport");
+
+					// a lost surface (as after a device reset) is recreated
+					surface_free(_surface);
+				}
+			}
+			else if (frames == 4) {
+				var _surface = view_get_surface_id(0);
+				assert_true(_surface != -1 && surface_exists(_surface), "view_set_viewport(), the surface wasn't recreated after it was lost");
+				if (_surface != -1 && surface_exists(_surface)) {
+					assert_equals(surface_get_width(_surface), width div 2, "view_set_viewport(), the recreated surface isn't the port's width");
+				}
+				test_end();
+			}
+		},
+
+		ev_cleanup: function() {
+			vsv_restore(self);
+		}
+
+	}, {
+		test_filter: platform_view_set_viewport,
+		test_timeout_millis: 5000,
+	});
+
 	addFact("view_set_viewport errors", function() {
 
 		assert_throw(function() {
@@ -200,6 +255,10 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 		assert_throw(function() {
 			view_set_viewport([ { roomRectH: -1 } ]);
 		}, "view_set_viewport(), didn't throw for a roomRectH that isn't positive");
+
+		assert_throw(function() {
+			view_set_viewport([ { polygons: [0,80, 0,90, 30,90, 70,20, 90,80] } ]);
+		}, "view_set_viewport(), didn't throw for a polygon it can't split into triangles");
 
 		// turning off a polygon that was never set does nothing
 		view_set_viewport([ { polygons: [] } ]);
