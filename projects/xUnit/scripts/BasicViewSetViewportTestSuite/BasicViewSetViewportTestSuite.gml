@@ -264,19 +264,26 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 			view_set_viewport([ { polygons: [0,0, 32,32, 32,0, 0,32] } ]);
 		}, "view_set_viewport(), didn't throw for a polygon that crosses itself");
 
-		// a small polygon far from the origin is accepted (the area check mustn't lose precision there)
-		var _error = undefined;
-		try {
-			view_set_viewport([ { polygons: [3000.3,2000.7, 3020.3,2000.7, 3020.3,2020.7, 3000.3,2020.7] } ]);
-		} catch (_e) {
-			_error = _e;
-		}
-		view_set_viewport([ { polygons: [] } ]);
-		assert_true(is_undefined(_error), "view_set_viewport(), rejected a 20x20 square far from the origin");
-
 		// turning off a polygon that was never set does nothing
 		view_set_viewport([ { polygons: [] } ]);
 		assert_equals(view_get_surface_id(0), -1, "view_set_viewport(), polygons : [] gave view 0 a surface");
+
+		// valid polygons the triangulation must accept: one far from the origin (the area check mustn't lose
+		// precision there), and one with a reflex corner lying exactly on the diagonal a wrong ear would cut
+		var _accepted = [
+			{ what: "a 20x20 square far from the origin", polygons: [3000.3,2000.7, 3020.3,2000.7, 3020.3,2020.7, 3000.3,2020.7] },
+			{ what: "a square with a notch down to its centre", polygons: [0,0, 10,0, 10,10, 5,5, 0,10] },
+		];
+		for (var _i = 0; _i < array_length(_accepted); ++_i) {
+			var _error = undefined;
+			try {
+				view_set_viewport([ { polygons: _accepted[_i].polygons } ]);
+			} catch (_e) {
+				_error = _e;
+			}
+			view_set_viewport([ { polygons: [] } ]);
+			assert_true(is_undefined(_error), "view_set_viewport(), rejected " + _accepted[_i].what);
+		}
 
 	}, {
 		test_filter: platform_view_set_viewport,
