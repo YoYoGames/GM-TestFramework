@@ -48,6 +48,7 @@ testFramework.addSuite(BasicSurfaceTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);
 testFramework.addSuite(BasicUnaryUpdateExpressionsTestSuite);
 testFramework.addSuite(BasicVariableTestSuite);
+testFramework.addSuite(BasicViewSetViewportTestSuite);
 testFramework.addSuite(BasicWeakRefsTestSuite);
 testFramework.addSuite(ResourceAudioBuffersTestSuite);
 testFramework.addSuite(ResourceAudioEffectsTestSuite);
