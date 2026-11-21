@@ -16,7 +16,7 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 		ev_create: function() {
 			frames = 0;
 			startCalls = 0;
-			endCalls = 0;
+			global.vsvEndCalls = 0;
 			width = surface_get_width(application_surface);
 			height = surface_get_height(application_surface);
 			vsv_setup(self, width, height);
@@ -26,7 +26,8 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 				screenX: 0, screenY: 0, screenW: width, screenH: height,
 				roomRectX: 0, roomRectY: 0, roomRectW: width, roomRectH: height,
 				startFunc: method(self, function() { startCalls++; }),
-				endFunc: method(self, function() { endCalls++; }),
+				// a script function works as well as a method
+				endFunc: vsv_count_end_call,
 			} ]);
 
 			// the view had no surface, so one is created for it
@@ -43,8 +44,8 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 
 			vsv_assert_pixels(function(_x, _y) { return surface_getpixel(application_surface, _x, _y); }, "application surface");
 			assert_true(startCalls > 0, "view_set_viewport(), startFunc wasn't called");
-			assert_true(endCalls > 0, "view_set_viewport(), endFunc wasn't called");
-			assert_equals(startCalls, endCalls, "view_set_viewport(), startFunc and endFunc weren't called the same number of times");
+			assert_true(global.vsvEndCalls > 0, "view_set_viewport(), endFunc (a script function) wasn't called");
+			assert_equals(startCalls, global.vsvEndCalls, "view_set_viewport(), startFunc and endFunc weren't called the same number of times");
 
 			// an empty polygons array turns the polygon off and frees the surface that was created for it
 			view_set_viewport([ { polygons: [] } ]);
@@ -264,6 +265,10 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 			view_set_viewport([ { polygons: [0,0, 32,32, 32,0, 0,32] } ]);
 		}, "view_set_viewport(), didn't throw for a polygon that crosses itself");
 
+		assert_throw(function() {
+			view_set_viewport([ { startFunc: "not a function" } ]);
+		}, "view_set_viewport(), didn't throw for a startFunc that isn't a function");
+
 		// turning off a polygon that was never set does nothing
 		view_set_viewport([ { polygons: [] } ]);
 		assert_equals(view_get_surface_id(0), -1, "view_set_viewport(), polygons : [] gave view 0 a surface");
@@ -341,6 +346,12 @@ function vsv_restore(_state) {
 		camera_destroy(_saved.newCamera);
 	}
 	view_enabled = _state.savedEnabled;
+}
+
+/// @function vsv_count_end_call()
+/// @description A script function used as an endFunc: counts its calls in global.vsvEndCalls.
+function vsv_count_end_call() {
+	global.vsvEndCalls++;
 }
 
 /// @function vsv_assert_pixels(getPixel, where, [dx], [dy])
