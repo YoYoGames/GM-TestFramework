@@ -45,6 +45,7 @@ testFramework.addSuite(BasicShaderUniformsTestSuite);
 testFramework.addSuite(BasicStatementExpressionsTestSuite);
 testFramework.addSuite(BasicStringTestSuite);
 testFramework.addSuite(BasicSurfaceTestSuite);
+testFramework.addSuite(BasicViewSetViewportTestSuite);
 testFramework.addSuite(BasicTilemapTestSuite);
 testFramework.addSuite(BasicUnaryUpdateExpressionsTestSuite);
 testFramework.addSuite(BasicVariableTestSuite);
