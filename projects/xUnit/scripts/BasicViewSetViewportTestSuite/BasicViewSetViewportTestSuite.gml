@@ -153,6 +153,9 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 			view_set_viewport([ {}, { roomRectX: 2 } ]);
 			assert_equals(camera_get_view_x(_camera), 2, "view_set_viewport(), roomRectX didn't move the camera");
 			assert_equals(camera_get_view_y(_camera), 6, "view_set_viewport(), roomRectX on its own moved the camera's y");
+			// the room rectangle keeps fractions, as camera_set_view_pos does (ports are whole pixels, cameras aren't)
+			view_set_viewport([ {}, { roomRectX: 10.5 } ]);
+			assert_equals(camera_get_view_x(_camera), 10.5, "view_set_viewport(), roomRectX: 10.5 didn't keep its fraction");
 			camera_set_view_pos(_camera, 0, 0);
 		},
 
