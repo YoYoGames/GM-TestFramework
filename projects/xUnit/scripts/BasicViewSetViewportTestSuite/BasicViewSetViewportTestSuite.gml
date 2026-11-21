@@ -271,7 +271,7 @@ function BasicViewSetViewportTestSuite() : TestSuite() constructor {
 		// valid polygons the triangulation must accept: one far from the origin (the area check mustn't lose
 		// precision there), and one with a reflex corner lying exactly on the diagonal a wrong ear would cut
 		var _accepted = [
-			{ what: "a 20x20 square far from the origin", polygons: [3000.3,2000.7, 3020.3,2000.7, 3020.3,2020.7, 3000.3,2020.7] },
+			{ what: "a 20x20 square far from the origin", polygons: [30000.3,20000.7, 30020.3,20000.7, 30020.3,20020.7, 30000.3,20020.7] },
 			{ what: "a square with a notch down to its centre", polygons: [0,0, 10,0, 10,10, 5,5, 0,10] },
 		];
 		for (var _i = 0; _i < array_length(_accepted); ++_i) {
