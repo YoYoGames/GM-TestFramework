@@ -49,6 +49,10 @@ enum ConstantFoldingEnum {
 	Log = floor(log2(1024)),
 	AfterLog,
 	Sin = round(sin(0)),
+	Shift = 3,
+	FromRef = power(2, ConstantFoldingEnum.Shift),
+	FromRefOr = power(2, ConstantFoldingEnum.Shift) | ConstantFoldingEnum.Shift,
+	MaxBool = max(true, 4),
 }
 
 function BasicConstantFoldingTestSuite() : TestSuite() constructor {
@@ -876,6 +880,10 @@ function BasicConstantFoldingTestSuite() : TestSuite() constructor {
 		assert_true(ConstantFoldingEnum.AfterLog == 11, "ConstantFoldingEnum.AfterLog should follow Log, got " + string(ConstantFoldingEnum.AfterLog));
 		assert_true(ConstantFoldingEnum.Sin == 0, "ConstantFoldingEnum.Sin = round(sin(0)) should be 0, got " + string(ConstantFoldingEnum.Sin));
 		assert_true(ConstantFoldingEnum.Bit10 == power(constant_folding_rt(2), constant_folding_rt(10)), "ConstantFoldingEnum.Bit10 should match power(2, 10) at runtime, got " + string(ConstantFoldingEnum.Bit10));
+		// an enum reference argument is an int64 constant on most targets, a bool is a bool, neither may stop the folding
+		assert_true(ConstantFoldingEnum.FromRef == 8, "ConstantFoldingEnum.FromRef = power(2, ConstantFoldingEnum.Shift) should be 8, got " + string(ConstantFoldingEnum.FromRef));
+		assert_true(ConstantFoldingEnum.FromRefOr == 11, "ConstantFoldingEnum.FromRefOr = power(2, ConstantFoldingEnum.Shift) | ConstantFoldingEnum.Shift should be 11, got " + string(ConstantFoldingEnum.FromRefOr));
+		assert_true(ConstantFoldingEnum.MaxBool == 4, "ConstantFoldingEnum.MaxBool = max(true, 4) should be 4, got " + string(ConstantFoldingEnum.MaxBool));
 	});
 
 }
