@@ -63,6 +63,37 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 		}
 	}, { test_timeout_millis: 5000 });
 
+	addTestAsync("texturegroup_load while the group is already loading", objTestAsync, {
+
+		ev_create: function() {
+			// A second texturegroup_load while the first is still loading should also succeed (GMS2-Runner-Main#1235)
+			texturegroup_add("xunit_tg_load_twice", "spriteAdd.png", {sprites: {xunit_tg_load_twice_sprite: {width: 64, height: 64, frames: [{x: 0, y: 0}]}}});
+			assert_equals(texturegroup_load("xunit_tg_load_twice"), 0, "#texturegroup_load(), should return 0 when the load starts");
+			if (texturegroup_get_status("xunit_tg_load_twice") == texturegroup_status_loading) {
+				assert_equals(texturegroup_load("xunit_tg_load_twice"), 0, "#texturegroup_load(), should return 0 for a group that is already loading");
+			}
+			else {
+				assert_equals(texturegroup_get_status("xunit_tg_load_twice"), texturegroup_status_loading, "#texturegroup_load(), should leave the group loading so the second call happens during the load");
+			}
+			frames = 0;
+		},
+		ev_step: function() {
+			// The second call mustn't stop the first load: the group still ends up fetched
+			frames += 1;
+			var _status = texturegroup_get_status("xunit_tg_load_twice");
+			if (_status == texturegroup_status_fetched) {
+				return test_end();
+			}
+			if ((frames > 2) && (_status == texturegroup_status_unloaded)) {
+				assert_equals(_status, texturegroup_status_fetched, "#texturegroup_get_status(), the group should load, not drop back to unloaded");
+				return test_end();
+			}
+		},
+		ev_cleanup: function() {
+			texturegroup_delete("xunit_tg_load_twice");
+		}
+	}, { test_timeout_millis: 5000 });
+
 	addTestAsync("texturegroup_add with a file that isn't an image", objTestAsync, {
 
 		ev_create: function() {
