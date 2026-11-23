@@ -158,6 +158,17 @@ function BasicBufferUtf8TestSuite() : TestSuite() constructor {
 		buffer_delete(_buff);
 	});
 
+	addFact("buffer_read with a size of 0 at the end of the buffer reads an empty string", function() {
+		// A length-prefixed string whose length is 0, as the last thing in the buffer
+		var _buff = buffer_utf8_test_bytes([0x00, 0x00]);
+		var _len = buffer_read(_buff, buffer_u16);
+		assert_equals(buffer_tell(_buff), 2, "#buffer_read(buffer_u16), should leave the buffer at its end");
+		assert_equals(buffer_read(_buff, buffer_text, _len), "", "#buffer_read(buffer_text, 0), should read an empty string at the end of the buffer");
+		assert_equals(buffer_tell(_buff), 2, "#buffer_read(buffer_text, 0), should not move the buffer");
+		assert_equals(buffer_peek(_buff, 2, buffer_text, 0), "", "#buffer_peek(buffer_text, 0), should read an empty string at the end of the buffer");
+		buffer_delete(_buff);
+	});
+
 	addFact("buffer_read with a size stops at the end of the buffer", function() {
 		var _buff = buffer_utf8_test_bytes([0x61, 0x62, 0x63, 0x64]);
 		buffer_seek(_buff, buffer_seek_start, 1);
