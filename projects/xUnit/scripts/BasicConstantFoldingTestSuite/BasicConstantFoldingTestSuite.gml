@@ -866,16 +866,16 @@ function BasicConstantFoldingTestSuite() : TestSuite() constructor {
 	addFact("constant_folding_test #29", function() {
 		
 		// Check enum values that use functions only folded for enums (GameMaker#5585)
-		assert_true(ConstantFoldingEnum.None == 0, "ConstantFoldingEnum.None should be 0");
-		assert_true(ConstantFoldingEnum.Bit0 == 1, "ConstantFoldingEnum.Bit0 = power(2, 0) should be 1");
-		assert_true(ConstantFoldingEnum.Bit1 == 2, "ConstantFoldingEnum.Bit1 = power(2, 1) should be 2");
-		assert_true(ConstantFoldingEnum.Bit10 == 1024, "ConstantFoldingEnum.Bit10 = power(2, 10) should be 1024");
-		assert_true(ConstantFoldingEnum.Bit30 == 1073741824, "ConstantFoldingEnum.Bit30 = power(2, 30) should be 1073741824");
-		assert_true(ConstantFoldingEnum.Bits01 == 3, "ConstantFoldingEnum.Bits01 = power(2, 0) | power(2, 1) should be 3");
-		assert_true(ConstantFoldingEnum.Log == 10, "ConstantFoldingEnum.Log = floor(log2(1024)) should be 10");
-		assert_true(ConstantFoldingEnum.AfterLog == 11, "ConstantFoldingEnum.AfterLog should follow Log");
-		assert_true(ConstantFoldingEnum.Sin == 0, "ConstantFoldingEnum.Sin = round(sin(0)) should be 0");
-		assert_true(ConstantFoldingEnum.Bit10 == power(constant_folding_rt(2), constant_folding_rt(10)), "ConstantFoldingEnum.Bit10 should match power(2, 10) at runtime");
+		assert_true(ConstantFoldingEnum.None == 0, "ConstantFoldingEnum.None should be 0, got " + string(ConstantFoldingEnum.None));
+		assert_true(ConstantFoldingEnum.Bit0 == 1, "ConstantFoldingEnum.Bit0 = power(2, 0) should be 1, got " + string(ConstantFoldingEnum.Bit0));
+		assert_true(ConstantFoldingEnum.Bit1 == 2, "ConstantFoldingEnum.Bit1 = power(2, 1) should be 2, got " + string(ConstantFoldingEnum.Bit1));
+		assert_true(ConstantFoldingEnum.Bit10 == 1024, "ConstantFoldingEnum.Bit10 = power(2, 10) should be 1024, got " + string(ConstantFoldingEnum.Bit10));
+		assert_true(ConstantFoldingEnum.Bit30 == 1073741824, "ConstantFoldingEnum.Bit30 = power(2, 30) should be 1073741824, got " + string(ConstantFoldingEnum.Bit30));
+		assert_true(ConstantFoldingEnum.Bits01 == 3, "ConstantFoldingEnum.Bits01 = power(2, 0) | power(2, 1) should be 3, got " + string(ConstantFoldingEnum.Bits01));
+		assert_true(ConstantFoldingEnum.Log == 10, "ConstantFoldingEnum.Log = floor(log2(1024)) should be 10, got " + string(ConstantFoldingEnum.Log));
+		assert_true(ConstantFoldingEnum.AfterLog == 11, "ConstantFoldingEnum.AfterLog should follow Log, got " + string(ConstantFoldingEnum.AfterLog));
+		assert_true(ConstantFoldingEnum.Sin == 0, "ConstantFoldingEnum.Sin = round(sin(0)) should be 0, got " + string(ConstantFoldingEnum.Sin));
+		assert_true(ConstantFoldingEnum.Bit10 == power(constant_folding_rt(2), constant_folding_rt(10)), "ConstantFoldingEnum.Bit10 should match power(2, 10) at runtime, got " + string(ConstantFoldingEnum.Bit10));
 	});
 
 }
