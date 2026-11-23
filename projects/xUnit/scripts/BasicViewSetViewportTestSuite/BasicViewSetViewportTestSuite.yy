@@ -1,0 +1,16 @@
+{
+  "$GMScript":"v1",
+  "%Name":"BasicViewSetViewportTestSuite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"BasicViewSetViewportTestSuite",
+  "parent":{
+    "name":"TestSuites",
+    "path":"folders/Tests/TestSuites.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+  "tags":[
+    "runtime_tests",
+  ],
+}
