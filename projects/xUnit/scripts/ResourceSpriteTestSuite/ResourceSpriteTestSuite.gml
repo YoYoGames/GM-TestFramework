@@ -101,6 +101,7 @@ function ResourceSpriteTestSuite() : TestSuite() constructor {
 			// loading again straight away should queue a new load, not count the aborted one (GMS2-Runner-Main#1235)
 			texturegroup_add("xunit_tg_unload_load", "spriteAdd.png", {sprites: {xunit_tg_unload_load_sprite: {width: 64, height: 64, frames: [{x: 0, y: 0}]}}});
 			assert_equals(texturegroup_load("xunit_tg_unload_load"), 0, "#texturegroup_load(), should return 0 when the load starts");
+			assert_equals(texturegroup_get_status("xunit_tg_unload_load"), texturegroup_status_loading, "#texturegroup_load(), should leave the group loading so the unload aborts a request in flight");
 			texturegroup_unload("xunit_tg_unload_load");
 			assert_equals(texturegroup_load("xunit_tg_unload_load"), 0, "#texturegroup_load(), should return 0 when it loads the group again after an unload");
 			frames = 0;
