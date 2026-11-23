@@ -37,6 +37,24 @@ function constant_folding_check(_name, _folded, _runtime) {
 	assert_equals(_folded_desc, _runtime_desc, _name + " folded at compile time should give the same type and value as at runtime");
 }
 
+// Enum values must be compile time constants, so they are folded even with the functions the compiler
+// otherwise leaves to the runtime (GameMaker#5585)
+enum ConstantFoldingEnum {
+	None = 0,
+	Bit0 = power(2, 0),
+	Bit1 = power(2, 1),
+	Bit10 = power(2, 10),
+	Bit30 = power(2, 30),
+	Bits01 = power(2, 0) | power(2, 1),
+	Log = floor(log2(1024)),
+	AfterLog,
+	Sin = round(sin(0)),
+	Shift = 3,
+	FromRef = power(2, ConstantFoldingEnum.Shift),
+	FromRefOr = power(2, ConstantFoldingEnum.Shift) | ConstantFoldingEnum.Shift,
+	MaxBool = max(true, 4),
+}
+
 function BasicConstantFoldingTestSuite() : TestSuite() constructor {
 
 	addFact("constant_folding_test #1", function() {
@@ -847,6 +865,25 @@ function BasicConstantFoldingTestSuite() : TestSuite() constructor {
 		constant_folding_check("real(\"  7\")", function() { return real("  7"); }, function() { return real(constant_folding_rt("  7")); });
 		constant_folding_check("is_method(5)", function() { return is_method(5); }, function() { return is_method(constant_folding_rt(5)); });
 		constant_folding_check("is_method(undefined)", function() { return is_method(undefined); }, function() { return is_method(constant_folding_rt(undefined)); });
+	});
+
+	addFact("constant_folding_test #29", function() {
+		
+		// Check enum values that use functions only folded for enums (GameMaker#5585)
+		assert_true(ConstantFoldingEnum.None == 0, "ConstantFoldingEnum.None should be 0, got " + string(ConstantFoldingEnum.None));
+		assert_true(ConstantFoldingEnum.Bit0 == 1, "ConstantFoldingEnum.Bit0 = power(2, 0) should be 1, got " + string(ConstantFoldingEnum.Bit0));
+		assert_true(ConstantFoldingEnum.Bit1 == 2, "ConstantFoldingEnum.Bit1 = power(2, 1) should be 2, got " + string(ConstantFoldingEnum.Bit1));
+		assert_true(ConstantFoldingEnum.Bit10 == 1024, "ConstantFoldingEnum.Bit10 = power(2, 10) should be 1024, got " + string(ConstantFoldingEnum.Bit10));
+		assert_true(ConstantFoldingEnum.Bit30 == 1073741824, "ConstantFoldingEnum.Bit30 = power(2, 30) should be 1073741824, got " + string(ConstantFoldingEnum.Bit30));
+		assert_true(ConstantFoldingEnum.Bits01 == 3, "ConstantFoldingEnum.Bits01 = power(2, 0) | power(2, 1) should be 3, got " + string(ConstantFoldingEnum.Bits01));
+		assert_true(ConstantFoldingEnum.Log == 10, "ConstantFoldingEnum.Log = floor(log2(1024)) should be 10, got " + string(ConstantFoldingEnum.Log));
+		assert_true(ConstantFoldingEnum.AfterLog == 11, "ConstantFoldingEnum.AfterLog should follow Log, got " + string(ConstantFoldingEnum.AfterLog));
+		assert_true(ConstantFoldingEnum.Sin == 0, "ConstantFoldingEnum.Sin = round(sin(0)) should be 0, got " + string(ConstantFoldingEnum.Sin));
+		assert_true(ConstantFoldingEnum.Bit10 == power(constant_folding_rt(2), constant_folding_rt(10)), "ConstantFoldingEnum.Bit10 should match power(2, 10) at runtime, got " + string(ConstantFoldingEnum.Bit10));
+		// an enum reference argument is an int64 constant on most targets, a bool is a bool, neither may stop the folding
+		assert_true(ConstantFoldingEnum.FromRef == 8, "ConstantFoldingEnum.FromRef = power(2, ConstantFoldingEnum.Shift) should be 8, got " + string(ConstantFoldingEnum.FromRef));
+		assert_true(ConstantFoldingEnum.FromRefOr == 11, "ConstantFoldingEnum.FromRefOr = power(2, ConstantFoldingEnum.Shift) | ConstantFoldingEnum.Shift should be 11, got " + string(ConstantFoldingEnum.FromRefOr));
+		assert_true(ConstantFoldingEnum.MaxBool == 4, "ConstantFoldingEnum.MaxBool = max(true, 4) should be 4, got " + string(ConstantFoldingEnum.MaxBool));
 	});
 
 }
