@@ -1789,5 +1789,41 @@ function BasicArrayTestSuite() : TestSuite() constructor {
 	
 	});
 
-}
+	// CAUGHT OUT-OF-RANGE ERROR TESTS
 
+	addFact("array functions after a caught out-of-range read (GameMaker-Bugs#16504)", function() {
+
+		// On YYC a caught out-of-range read of a struct member's array used to leave an error flag set, so
+		// every later array_get threw the same error again
+		var _holder = { definition: { table: [1, 2, 3, 4] } };
+		_holder.read = method(_holder, function(_index) { return definition.table[_index]; });
+
+		var _threw = false;
+		try { _holder.read(-9); } catch (_e) { _threw = true; }
+		assert_true(_threw, "reading index -9 of a 4 element array should throw");
+
+		var _keys = ["a", "b"];
+		var _struct = { a: 1, b: 2 };
+		var _results = [];
+		try { array_push(_results, array_get(_keys, 1)); } catch (_e) { array_push(_results, "array_get threw: " + _e.message); }
+		try { array_push(_results, _struct[$ _keys[0]]); } catch (_e) { array_push(_results, "struct[$ array[i]] threw: " + _e.message); }
+		try { array_set(_keys, 0, "c"); array_push(_results, _keys[0]); } catch (_e) { array_push(_results, "array_set threw: " + _e.message); }
+		try { array_push(_results, array_get(_keys, 0)); } catch (_e) { array_push(_results, "second array_get threw: " + _e.message); }
+		assert_array_equals(_results, ["b", 1, "c", "c"], "array functions after a caught out-of-range read should not throw");
+
+	});
+
+	addFact("array_get after a caught out-of-range read of a local array (GameMaker-Bugs#16504)", function() {
+
+		var _table = [1, 2, 3, 4];
+		var _threw = false;
+		try { var _value = _table[-9]; } catch (_e) { _threw = true; }
+		assert_true(_threw, "reading index -9 of a 4 element array should throw");
+
+		var _result;
+		try { _result = array_get(["a", "b"], 1); } catch (_e) { _result = "array_get threw: " + _e.message; }
+		assert_equals(_result, "b", "array_get after a caught out-of-range read should not throw");
+
+	});
+
+}
